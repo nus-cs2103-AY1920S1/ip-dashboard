@@ -1,0 +1,6439 @@
+[
+  {
+    "path": "src/main/java/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.commands.ByeCommand;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.commands.Command;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.MissingInformationException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.UnknownCommandException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.UnknownFormatException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.CommandParser;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.DukePrinter;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.Input;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private List\u003cTask\u003e userHistory;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private Input input;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private CommandParser parser;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public Duke() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        userHistory \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter \u003d new DukePrinter();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        input \u003d Input.getInstance();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        parser \u003d new CommandParser(userHistory, dukePrinter);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void init() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter.printWelcome();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        Command command \u003d null;"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        while(true) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            String userInput \u003d input.readInput();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                command \u003d parser.parse(userInput);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                if(command instanceof ByeCommand) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    command.execute();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                command.execute();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            } catch (MissingInformationException | UnknownCommandException |UnknownFormatException e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                dukePrinter.printError(e.getMessage());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        input.close();"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        Duke duke \u003d new Duke();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        duke.init();"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 47,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/commands/AddCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.DukePrinter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Deadline;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Event;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.ToDo;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class AddCommand implements Command {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private Task taskToAdd;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public AddCommand(String commandType, List\u003cTask\u003e taskList,"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                      DukePrinter dukePrinter, String... extras) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.taskList \u003d taskList;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.dukePrinter \u003d dukePrinter;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        switch(commandType) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                taskToAdd \u003d new ToDo(extras[0]);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                taskToAdd \u003d new Deadline(extras[0], extras[1]);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                taskToAdd \u003d new Event(extras[0], extras[1]);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        taskList.add(taskToAdd);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter.printAdd(taskToAdd, taskList.size());"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 39
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/commands/ByeCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.DukePrinter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class ByeCommand implements Command {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public ByeCommand(DukePrinter dukePrinter) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.dukePrinter \u003d dukePrinter;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter.printBye();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 17
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/commands/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public interface Command {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    void execute();"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 6
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/commands/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.DukePrinter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class DeleteCommand implements Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private int toDelete;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public DeleteCommand(List\u003cTask\u003e taskList, int toDelete, DukePrinter dukePrinter) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.taskList \u003d taskList;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.toDelete \u003d toDelete;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.dukePrinter \u003d dukePrinter;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        Task removedTask \u003d taskList.remove(toDelete - 1);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter.printDelete(removedTask, taskList.size());"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 25
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/commands/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.DukePrinter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class DoneCommand implements Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private int taskNum;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public DoneCommand(List\u003cTask\u003e taskList, int taskNum, DukePrinter dukePrinter) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.taskList \u003d taskList;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.taskNum \u003d taskNum;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.dukePrinter \u003d dukePrinter;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        taskList.get(taskNum - 1).setDone(true);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter.printDone(taskList.get(taskNum - 1));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 25
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/commands/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.io.DukePrinter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class ListCommand implements Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public ListCommand(List\u003cTask\u003e taskList, DukePrinter dukePrinter) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.taskList \u003d taskList;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.dukePrinter \u003d dukePrinter;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        dukePrinter.printList(taskList);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 22
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/error/MissingInformationException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.error;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class MissingInformationException extends RuntimeException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public MissingInformationException() {}"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public MissingInformationException(String message) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        super(message);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 10
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/error/UnknownCommandException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.error;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class UnknownCommandException extends RuntimeException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public UnknownCommandException() { }"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public UnknownCommandException(String message) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        super(message);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 10
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/error/UnknownFormatException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.error;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class UnknownFormatException extends RuntimeException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public UnknownFormatException(String message) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        super(message);"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 8
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/io/CommandParser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.io;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.commands.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.MissingInformationException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.UnknownCommandException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class CommandParser {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private Verifier verifier;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private DukePrinter dukePrinter;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public CommandParser(List\u003cTask\u003e taskList, DukePrinter dukePrinter) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        verifier \u003d new Verifier();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.taskList \u003d taskList;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.dukePrinter \u003d dukePrinter;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public Command parse(String command)"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throws UnknownCommandException, MissingInformationException {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        verifier.verify(command);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        String[] splitWhitesapce \u003d command.split(\" \");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        Command result \u003d null;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        switch(splitWhitesapce[0]) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"bye\":"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new ByeCommand(dukePrinter);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"list\":"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new ListCommand(taskList, dukePrinter);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"done\":"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new DoneCommand("
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        taskList,"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        Integer.parseInt(splitWhitesapce[1]),"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        dukePrinter);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                String[] splitByFlag \u003d command.split(\"/by\");"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new AddCommand("
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitWhitesapce[0],"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        taskList,"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        dukePrinter,"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitByFlag[0].substring(9).trim(),"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitByFlag[1].trim());"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                splitByFlag \u003d command.split(\"/at\");"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new AddCommand("
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitWhitesapce[0],"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        taskList,"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        dukePrinter,"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitByFlag[0].substring(6).trim(),"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitByFlag[1].trim());"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new AddCommand("
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        splitWhitesapce[0],"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        taskList,"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        dukePrinter,"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        command.substring(4).trim());"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                result \u003d new DeleteCommand("
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        taskList,"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        Integer.parseInt(splitWhitesapce[1]),"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                        dukePrinter);"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return result;"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 74
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/io/DukePrinter.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.io;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.model.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class DukePrinter {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String INDENTATION \u003d \"     \";"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String SEPARATOR_LINE \u003d"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"    ____________________________________________________________\";"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String WELCOME_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            SEPARATOR_LINE +"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    \"\\n     Hello! I\u0027m Duke\\n\" +"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    \"     What can I do for you?\\n\" +"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    SEPARATOR_LINE + \"\\n\";"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String LIST_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"Here are the tasks in your list:\\n\";"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String DONE_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"Nice! I\u0027ve marked this task as done:\\n\";"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String ADD_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"Got it. I\u0027ve added this task:\\n\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String NUMBER_OF_TASK_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"Now you have %d tasks in the list.\\n\";"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String DELETE_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"Noted. I\u0027ve removed this task:\\n\";"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String BYE_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            SEPARATOR_LINE +"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    \"\\n     Bye. Hope to see you again soon!\\n\" +"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    SEPARATOR_LINE + \"\\n\";"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String DUKE_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printWelcome() {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        System.out.println(\"Hello from\\n\" + DUKE_MESSAGE);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        System.out.println(WELCOME_MESSAGE);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printBye() {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        System.out.println(BYE_MESSAGE);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printWithSeparator(String message) {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        System.out.println(SEPARATOR_LINE);"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        System.out.print(message);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        System.out.println(SEPARATOR_LINE);"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printList(List\u003cTask\u003e items) {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        StringBuilder message \u003d new StringBuilder(LIST_MESSAGE);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        for(int i \u003d 0; i \u003c items.size(); i++) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            Task task \u003d items.get(i);"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            message.append(i + 1);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            message.append(\".\");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            message.append(task);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            message.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        printWithSeparator(beautify(message.toString()));"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printDone(Task doneItem) {"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        StringBuilder builder \u003d new StringBuilder(DONE_MESSAGE);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(\"  \");"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(doneItem);"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        printWithSeparator(beautify(builder.toString()));"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printAdd(Task addedTask, int numOfTasks) {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        StringBuilder builder \u003d new StringBuilder(ADD_MESSAGE);"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(\"  \");"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(addedTask);"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(String.format(NUMBER_OF_TASK_MESSAGE, numOfTasks));"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        printWithSeparator(beautify(builder.toString()));"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printDelete(Task deletedTask, int numOfTask) {"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        StringBuilder builder \u003d new StringBuilder(DELETE_MESSAGE);"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(\"  \");"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(deletedTask);"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        builder.append(String.format(NUMBER_OF_TASK_MESSAGE, numOfTask));"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        printWithSeparator(beautify(builder.toString()));"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void printError(String errorMessage) {"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        printWithSeparator(beautify(errorMessage));"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public static String beautify(String ugly) {"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        String[] splitByLine \u003d ugly.split(\"\\n\");"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        StringBuilder beauty \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        for(String s : splitByLine) {"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            beauty.append(INDENTATION);"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            beauty.append(s);"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            beauty.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return beauty.toString();"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 103
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/io/Input.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.io;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class Input {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static Scanner scanner;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private Input() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(scanner \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            scanner \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public static Input getInstance() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return new Input();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public String readInput() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return scanner.nextLine();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void close() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        scanner.close();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 26
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/io/Verifier.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.io;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.MissingInformationException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.UnknownCommandException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "import com.chee.error.UnknownFormatException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class Verifier {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String MISSING_INFO_ERROR_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"☹ OOPS!!! The %s of a %s cannot be empty.\";"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String UNKNOWN_COMMAND_ERROR_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\";"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private static final String UNKNOWN_FORMAT_MESSAGE \u003d"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            \"☹ OOPS!!! It seems you have entered an invalid format for %s\";"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private String[] split;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private String command;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void verify(String command)"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throws UnknownCommandException, MissingInformationException {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.command \u003d command;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        split \u003d command.split(\" \");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(!isKnownCommand(split[0])) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new UnknownCommandException(UNKNOWN_COMMAND_ERROR_MESSAGE);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        switch(split[0]) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                checkForTodo();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                checkForDeadline();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                checkForEvent();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"done\":"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                checkForDone();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                checkForDelete();"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private boolean isKnownCommand(String firstWord) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return firstWord.equals(\"todo\") ||"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                firstWord.equals(\"list\") ||"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                firstWord.equals(\"deadline\") ||"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                firstWord.equals(\"event\") ||"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                firstWord.equals(\"done\") ||"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                firstWord.equals(\"bye\") ||"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                firstWord.equals(\"delete\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForTodo() {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(split.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, \"description\", split[0]));"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForDelete() {"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        checkForSingleNumberCommand();"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForDone() {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        checkForSingleNumberCommand();"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForDeadline() {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        checkForFlagExistence(\"by\", \"/by\");"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        String[] splitByFlag \u003d command.split(\"/by\");"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(splitByFlag.length \u003c 2 || splitByFlag[1].trim().equals(\"\")) {"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, \"by\", split[0]));"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        //deadline is 8 characters long. If no string exists after deleting deadline,"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        //the description is missing"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(splitByFlag[0].substring(8).trim().equals(\"\")) {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, \"description\", split[0]));"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForEvent() {"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        checkForFlagExistence(\"at\", \"/at\");"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        String[] splitByFlag \u003d command.split(\"/at\");"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(splitByFlag.length \u003c 2 || splitByFlag[1].trim().equals(\"\")) {"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, \"at\", split[0]));"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(splitByFlag[0].substring(5).trim().equals(\"\")) {"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, \"description\", split[0]));"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForFlagExistence(String infoMissing, String flag) {"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(!command.contains(flag)) {"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, infoMissing, split[0]));"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private void checkForSingleNumberCommand() {"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        if(split.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new MissingInformationException("
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(MISSING_INFO_ERROR_MESSAGE, \"number\", split[0]));"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            Integer.parseInt(split[1]);"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        } catch(NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "            throw new UnknownFormatException("
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                    String.format(UNKNOWN_FORMAT_MESSAGE, split[0]));"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 118
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/model/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.model;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private String deadline;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public Deadline(String description, String deadline) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.deadline \u003d deadline;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return \"[D]\" + \"[\" + getStatusIcon() + \"] \" + description"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                + \" (by: \" + deadline + \")\";"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 16
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/model/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.model;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class Event extends Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    private String eventTime;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public Event(String description, String eventTime) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.eventTime \u003d eventTime;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return \"[E]\" + \"[\" + getStatusIcon() + \"] \" + description"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "                + \" (at: \" + eventTime + \")\";"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 16
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/model/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.model;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public abstract class Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    protected String description;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public Task(String description) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        isDone \u003d false;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public String getDescription() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return description;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void setDescription(String description) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public boolean isDone() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return isDone;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public void setDone(boolean done) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        isDone \u003d done;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public String getStatusIcon() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 31
+    }
+  },
+  {
+    "path": "src/main/java/com/chee/model/ToDo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "package com.chee.model;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "public class ToDo extends Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public ToDo(String description) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "        return \"[T]\" + \"[\" + getStatusIcon() + \"] \" + description;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 12
+    }
+  },
+  {
+    "path": "text-ui-test/EXPECTED.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "Hello from"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": " ____        _"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "|  _ \\ _   _| | _____"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "| | | | | | | |/ / _ \\"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "| |_| | |_| |   \u003c  __/"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "|____/ \\__,_|_|\\_\\___|"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "     Hello! I\u0027m Duke"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "     What can I do for you?"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "       [T][?] borrow book"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "     Now you have 1 tasks in the list."
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    ____________________________________________________________"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 17
+    }
+  },
+  {
+    "path": "text-ui-test/input.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "todo borrow book"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 1
+    }
+  },
+  {
+    "path": "text-ui-test/runtest.bat",
+    "fileType": "bat",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "@ECHO OFF"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "REM create bin directory if it doesn\u0027t exist"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "if not exist ..\\bin mkdir ..\\bin"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "REM delete output from previous run"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "del ACTUAL.TXT"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "REM compile the code into the bin folder"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "javac -cp ..\\src -Xlint:none -d ..\\bin  ..\\src\\main\\java\\com\\chee\\io\\*.java ..\\src\\main\\java\\com\\chee\\model\\*.java ..\\src\\main\\java\\Duke.java"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "IF ERRORLEVEL 1 ("
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    echo ********** BUILD FAILURE **********"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "    exit /b 1"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ")"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "REM no error here, errorlevel \u003d\u003d 0"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "java -classpath ..\\bin Duke \u003c input.txt \u003e ACTUAL.TXT"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "REM compare the output to the expected output"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "t-cheepeng"
+        },
+        "content": "FC ACTUAL.TXT EXPECTED.TXT"
+      }
+    ],
+    "authorContributionMap": {
+      "t-cheepeng": 21
+    }
+  },
+  {
+    "path": "tutorials/javaFxTutorialPart3.md",
+    "fileType": "md",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "# JavaFX Tutorial 3 – Interacting with the user"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Picking up from where we left off last tutorial, we have successfully achieved the desired layout. Now let’s make the application respond to user input. "
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Rather than to do everything in one try, let’s iterate and build up towards our final goal. "
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Iteration 1 – Echoing the User"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "JavaFX has an _event-driven architecture style_. As such, we programmatically define _handler_ methods to execute as a response to certain _events_. When an event is detected, JavaFX will call the respective handlers."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "For Duke, there are two events that we want to respond to, namely the user pressing `Enter` in the `TextField` and left-clicking the `Button`. These are the `onAction` event for the `TextField` and the `onMouseClicked` event for the `Button`."
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "For now, let’s have the application add a new `Label` with the text from the `TextField`. Update the `Main` class as follows. You\u0027ll need to add an `import javafx.scene.control.Label;` too."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "@Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // Step 1 code here"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Step 2 code here"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Step 3. Add functionality to handle user input."
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    sendButton.setOnMouseClicked((event) -\u003e {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        dialogContainer.getChildren().add(getDialogLabel(userInput.getText()));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        userInput.clear();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.setOnAction((event) -\u003e {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        dialogContainer.getChildren().add(getDialogLabel(userInput.getText()));"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        userInput.clear();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Iteration 1:"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Creates a label with the specified text and adds it to the dialog container."
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * @param text String containing text to add"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * @return a label with the specified text that has word wrap enabled."
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private Label getDialogLabel(String text) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // You will need to import `javafx.scene.control.Label`."
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    Label textToAdd \u003d new Label(text);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    textToAdd.setWrapText(true);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return textToAdd;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Run the program and give it a whirl!"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![Echo not scrolling as intended](assets/EchoNotScrolling.png)"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "At first glance everything appears to work perfectly. However, when the `VBox` stretches beyond the confines of the `ScrollPane`, the `ScrollPane` does not scroll down automatically as expected. We can remedy this by attaching a handler on the `VBox` to react to its own size changing and scrolling the `ScrollPane` down."
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Update the `start` method as shown below."
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // current code ..."
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " "
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Scroll down to the end every time dialogContainer\u0027s height changes."
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    dialogContainer.heightProperty().addListener((observable) -\u003e scrollPane.setVvalue(1.0));"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Verify that the `ScrollPane` scrolls as intended."
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Iteration 2 – Adding Dialog Boxes"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "In the mockup of the UI, notice that the dialog boxes are composed of two different controls (`ImageView` and `Label`) and reused multiple times. In situations like this, it is often beneficial to create our own custom control."
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Let’s create our custom control `DialogBox`:"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.geometry.Pos;"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.control.Label;"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.ImageView;"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.layout.HBox;"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class DialogBox extends HBox {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private Label text;"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private ImageView displayPicture;"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public DialogBox(Label l, ImageView iv) {"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        text \u003d l;"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        displayPicture \u003d iv;"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        text.setWrapText(true);"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        displayPicture.setFitWidth(100.0);"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        displayPicture.setFitHeight(100.0);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        this.setAlignment(Pos.TOP_RIGHT);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        this.getChildren().addAll(text, displayPicture);"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "We use the code in our main class just like any other control. Here are the steps to update the code to use the custom control in `Main.java`."
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "First, add these imports:"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.Image;"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.ImageView;"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Next, add two images to the `main/resources/images` folder."
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "For this tutorial, we have two images `DaUser.png` and `DaDuke.png` to represent the user avatar and Duke\u0027s avatar respectively but you can use any image you want."
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Image|Filename"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "---|---"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DaDuke](assets/DaUser.png) | `DaUser.png`"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DaUser](assets/DaDuke.png) | `DaDuke.png`"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke extends Application {"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // ..."
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private Image user \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private Image duke \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // ..."
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Add a new method to handle user input:"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Iteration 2:"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * the dialog container. Clears the user input after processing."
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private void handleUserInput() {"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    Label userText \u003d new Label(userInput.getText());"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "Jeffry Lum"
+        },
+        "content": "    Label dukeText \u003d new Label(getResponse(userInput.getText()));"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    dialogContainer.getChildren().addAll("
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            new DialogBox(userText, new ImageView(user)),"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            new DialogBox(dukeText, new ImageView(duke))"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    );"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.clear();"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * You should have your own function to generate a response to user input."
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Replace this stub with your completed method."
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private String getResponse(String input) {"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return \"Duke heard: \" + input;"
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Update the event handler code in the `start` method to use the new `handleUserInput` method:"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "@Override"
+      },
+      {
+        "lineNumber": 153,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //..."
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 156,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Part 3. Add functionality to handle user input."
+      },
+      {
+        "lineNumber": 157,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    sendButton.setOnMouseClicked((event) -\u003e {"
+      },
+      {
+        "lineNumber": 158,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        handleUserInput();"
+      },
+      {
+        "lineNumber": 159,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 160,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 161,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.setOnAction((event) -\u003e {"
+      },
+      {
+        "lineNumber": 162,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        handleUserInput();"
+      },
+      {
+        "lineNumber": 163,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 164,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 165,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 166,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 167,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Run the program and see how it works."
+      },
+      {
+        "lineNumber": 168,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 169,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DialogBoxes Iteration 2](assets/DialogBoxesIteration2.png) "
+      },
+      {
+        "lineNumber": 170,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 171,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Iteration 3 – Adding custom behavior to DialogBox"
+      },
+      {
+        "lineNumber": 172,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 173,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "One additional benefit of defining a custom control is that we can add behavior specific to our `DialogBox`. Let’s add a method to flip a dialog box such that the image on the left to differentiate between user input and Duke’s output."
+      },
+      {
+        "lineNumber": 174,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 175,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 176,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 177,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Flips the dialog box such that the ImageView is on the left and text on the right."
+      },
+      {
+        "lineNumber": 178,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 179,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private void flip() {"
+      },
+      {
+        "lineNumber": 180,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    this.setAlignment(Pos.TOP_LEFT);"
+      },
+      {
+        "lineNumber": 181,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    ObservableList\u003cNode\u003e tmp \u003d FXCollections.observableArrayList(this.getChildren());"
+      },
+      {
+        "lineNumber": 182,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    FXCollections.reverse(tmp);"
+      },
+      {
+        "lineNumber": 183,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    this.getChildren().setAll(tmp);"
+      },
+      {
+        "lineNumber": 184,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 185,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 186,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public static DialogBox getUserDialog(Label l, ImageView iv) {"
+      },
+      {
+        "lineNumber": 187,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return new DialogBox(l, iv);"
+      },
+      {
+        "lineNumber": 188,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 189,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 190,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public static DialogBox getDukeDialog(Label l, ImageView iv) {"
+      },
+      {
+        "lineNumber": 191,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    var db \u003d new DialogBox(l, iv);"
+      },
+      {
+        "lineNumber": 192,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    db.flip();"
+      },
+      {
+        "lineNumber": 193,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return db;"
+      },
+      {
+        "lineNumber": 194,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 195,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 196,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 197,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "You\u0027ll need to update the imports as follows:"
+      },
+      {
+        "lineNumber": 198,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 199,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.collections.FXCollections;"
+      },
+      {
+        "lineNumber": 200,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.collections.ObservableList;"
+      },
+      {
+        "lineNumber": 201,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.geometry.Pos;"
+      },
+      {
+        "lineNumber": 202,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.Node;"
+      },
+      {
+        "lineNumber": 203,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.control.Label;"
+      },
+      {
+        "lineNumber": 204,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.ImageView;"
+      },
+      {
+        "lineNumber": 205,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.layout.HBox;"
+      },
+      {
+        "lineNumber": 206,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 207,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 208,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Now, we can go back to the `Main` class and change the event handler to use our new `DialogBox`. "
+      },
+      {
+        "lineNumber": 209,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 210,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 211,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private void handleUserInput() {"
+      },
+      {
+        "lineNumber": 212,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    Label userText \u003d new Label(userInput.getText());"
+      },
+      {
+        "lineNumber": 213,
+        "author": {
+          "gitId": "Jeffry Lum"
+        },
+        "content": "    Label dukeText \u003d new Label(getResponse(userInput.getText()));"
+      },
+      {
+        "lineNumber": 214,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    dialogContainer.getChildren().addAll("
+      },
+      {
+        "lineNumber": 215,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            DialogBox.getUserDialog(userText, new ImageView(user)),"
+      },
+      {
+        "lineNumber": 216,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            DialogBox.getDukeDialog(dukeText, new ImageView(duke))"
+      },
+      {
+        "lineNumber": 217,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    );"
+      },
+      {
+        "lineNumber": 218,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.clear();"
+      },
+      {
+        "lineNumber": 219,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 220,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 221,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 222,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Run the application and play around with it. "
+      },
+      {
+        "lineNumber": 223,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 224,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DialogBoxes Iteration 3](assets/DialogBoxesIteration3.png)"
+      },
+      {
+        "lineNumber": 225,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 226,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Congratulations! "
+      },
+      {
+        "lineNumber": 227,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "You have successfully implemented a fully functional GUI for Duke!  "
+      },
+      {
+        "lineNumber": 228,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 229,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Exercises"
+      },
+      {
+        "lineNumber": 230,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 231,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "1. While the GUI looks similar to the mockup, there are still parts that need to be refined. Try your hand at some of these tasks:"
+      },
+      {
+        "lineNumber": 232,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Add padding between each DialogBox"
+      },
+      {
+        "lineNumber": 233,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Add padding between each ImageView and its Label"
+      },
+      {
+        "lineNumber": 234,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Clip the ImageView into a circle"
+      },
+      {
+        "lineNumber": 235,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Add background color to each dialog box"
+      },
+      {
+        "lineNumber": 236,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 237,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "1. After attempting the changes, reflect critically on the following:"
+      },
+      {
+        "lineNumber": 238,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * What was the development workflow like?"
+      },
+      {
+        "lineNumber": 239,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Is the code base well-organized?"
+      },
+      {
+        "lineNumber": 240,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 241,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "--------------------------------------------------------------------------------"
+      },
+      {
+        "lineNumber": 242,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "**Authors:**"
+      },
+      {
+        "lineNumber": 243,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "* Initial Version: Jeffry Lum"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeffry Lum": 2,
+      "-": 241
+    }
+  }
+]

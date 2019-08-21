@@ -1,0 +1,4719 @@
+[
+  {
+    "path": "src/main/java/Client.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "import java.util.Arrays;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "import java.util.stream.Collectors;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class Client {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private static Client client \u003d null;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private Echoer echoer;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private ExceptionHandler exceptionHandler;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private Client() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.storage \u003d new Storage();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer \u003d new Echoer();"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.exceptionHandler \u003d new ExceptionHandler(this.echoer);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer.greet();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    static Client initialise() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        if (client !\u003d null) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            System.err.println(\"Client has already been initialised\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            client \u003d new Client();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return client;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    boolean read(String command, String description) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        boolean shouldContinue \u003d true;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            switch (command) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                this.addTask(command, description);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"list\":"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                this.listTasks();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"bye\":"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                this.echoer.exit();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                shouldContinue \u003d false;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"done\":"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                this.completeTask(Integer.parseInt(description));"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                this.deleteTask(Integer.parseInt(description));"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                throw new InvalidCommandException();"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        } catch (InvalidCommandException | EmptyDescriptionException e) {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            this.exceptionHandler.handleKnownException(e);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            this.exceptionHandler.handleUnknownException(e);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            return shouldContinue;"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private String[] getActivityAndDatetime(String description) {"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        if (description.isEmpty()) {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            return new String[]{\"\", \"\"};"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        String[] toEdit \u003d description.split(\"/\");"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        String activity \u003d toEdit[0].trim();"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        toEdit \u003d toEdit[1].split(\" \");"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        toEdit[0] \u003d \"\";"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        String datetime \u003d Arrays.stream(toEdit).reduce(\"\", (x, y) -\u003e x + \" \" + y).trim();"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return new String[]{activity, datetime};"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private void addTask(String command, String description) throws EmptyDescriptionException {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        Task task;"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        if (command.equals(\"todo\")) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            task \u003d new ToDo(description);"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            String[] activityAndDatetime \u003d this.getActivityAndDatetime(description);"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            String activity \u003d activityAndDatetime[0];"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            String datetime \u003d activityAndDatetime[1];"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            if (command.equals(\"deadline\")) {"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                task \u003d new Deadline(activity, datetime);"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                task \u003d new Event(activity, datetime);"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.storage.add(task);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        int numOfTasks \u003d this.storage.getSize();"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer.echo(\"Got it. I\u0027ve added this task:\""
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                , \"  \" + task"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                , String.format(\"Now you have %d task%s in the list.\", numOfTasks, numOfTasks \u003d\u003d 1 ? \"\" : \"s\"));"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private void listTasks() {"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        List\u003cString\u003e tasks \u003d this.storage"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                .getList()"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                .stream()"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                .map(Task::toString)"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                .collect(Collectors.toList());"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        for (int ordering \u003d 1; ordering \u003c\u003d tasks.size(); ordering++) {"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            tasks.set(ordering - 1, ordering + \".\" + tasks.get(ordering - 1));"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        tasks.add(0, \"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer.echo(tasks.toArray(new String[0]));"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private void completeTask(int ordering) {"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        Task task \u003d this.storage.getList().get(ordering - 1);"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        task.markAsDone();"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer.echo(\"Nice! I\u0027ve marked this task as done:\", \"  \" + task);"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private void deleteTask(int ordering) {"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        List\u003cTask\u003e taskList \u003d this.storage.getList();"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        Task task \u003d taskList.get(ordering - 1);"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        taskList.remove(ordering - 1);"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        int numOfTasks \u003d this.storage.getSize();"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer.echo(\"Noted. I\u0027ve removed this task:\""
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                , \"  \" + task"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "                , String.format(\"Now you have %d task%s in the list.\", numOfTasks, numOfTasks \u003d\u003d 1 ? \"\" : \"s\"));"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 126
+    }
+  },
+  {
+    "path": "src/main/java/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private String deadline;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    Deadline(String description, String deadline) throws EmptyDescriptionException {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        if (description.isEmpty()) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            throw new EmptyDescriptionException(\"a deadline\");"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.deadline \u003d deadline;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return String.format(\"[D]%s (by: %s)\", super.toString(), this.deadline);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 16
+    }
+  },
+  {
+    "path": "src/main/java/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        Scanner scanner \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        Client client \u003d Client.initialise();"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        while (client.read(scanner.next(), scanner.nextLine().trim()));"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 7,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public abstract class DukeException extends Exception {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    DukeException(String message) {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        super(\"\\u2639 OOPS! \" + message);"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 6
+    }
+  },
+  {
+    "path": "src/main/java/Echoer.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class Echoer {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private String formatMessage(String message) {"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return \"     \" + message + \"\\n\";"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void echo(String... messages) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        String border \u003d \"    ____________________________________________________________\\n\";"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        String toEcho \u003d border;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        for (String message : messages) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            toEcho +\u003d this.formatMessage(message);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        toEcho +\u003d border;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        System.out.println(toEcho);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void greet() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echo(\"Hello! I\u0027m Duke\", \"What can I do for you?\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void exit() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echo(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 23
+    }
+  },
+  {
+    "path": "src/main/java/EmptyDescriptionException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class EmptyDescriptionException extends DukeException {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    EmptyDescriptionException(String message) {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        super(String.format(\"The description of %s cannot be empty.\", message));"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 6
+    }
+  },
+  {
+    "path": "src/main/java/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class Event extends Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private String datetime;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    Event(String description, String datetime) throws EmptyDescriptionException{"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        if (description.isEmpty()) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            throw new EmptyDescriptionException(\"an event\");"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.datetime \u003d datetime;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return String.format(\"[E]%s (at: %s)\", super.toString(), this.datetime);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 16
+    }
+  },
+  {
+    "path": "src/main/java/ExceptionHandler.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class ExceptionHandler {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private Echoer echoer;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ExceptionHandler(Echoer echoer) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer \u003d echoer;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void handleKnownException(DukeException e) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.echoer.echo(e.getMessage());"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void handleUnknownException(Exception e) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        e.printStackTrace();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 15
+    }
+  },
+  {
+    "path": "src/main/java/InvalidCommandException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class InvalidCommandException extends DukeException {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    InvalidCommandException() {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        super(\"I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 6
+    }
+  },
+  {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private List\u003cTask\u003e list;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    Storage() {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.list \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    List\u003cTask\u003e getList() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return this.list;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void add(Task task) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.list.add(task);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    int getSize() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return this.list.size();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 22
+    }
+  },
+  {
+    "path": "src/main/java/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public abstract class Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private boolean isDone;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    Task(String description) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    private String getStatusIcon() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return this.isDone ? \"\\u2713\" : \"\\u2718\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    void markAsDone() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    String getDescription() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return this.description;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return String.format(\"[%s] %s\", this.getStatusIcon(), this.description);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 26
+    }
+  },
+  {
+    "path": "src/main/java/ToDo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "public class ToDo extends Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ToDo(String description) throws EmptyDescriptionException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        if (description.isEmpty()) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "            throw new EmptyDescriptionException(\"a todo\");"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 14
+    }
+  },
+  {
+    "path": "text-ui-test/EXPECTED.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Hello! I\u0027m Duke"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     What can I do for you?"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [T][✘] read book"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 1 task in the list."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [D][✘] return book (by: June 6th)"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 2 tasks in the list."
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [E][✘] project meeting (at: Aug 6th 2-4pm)"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 3 tasks in the list."
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Here are the tasks in your list:"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     1.[T][✘] read book"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     2.[D][✘] return book (by: June 6th)"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     3.[E][✘] project meeting (at: Aug 6th 2-4pm)"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Nice! I\u0027ve marked this task as done:"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [T][✓] read book"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [T][✘] join sports club"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 4 tasks in the list."
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Nice! I\u0027ve marked this task as done:"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [T][✓] join sports club"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [T][✘] borrow book"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 5 tasks in the list."
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Here are the tasks in your list:"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     1.[T][✓] read book"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     2.[D][✘] return book (by: June 6th)"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     3.[E][✘] project meeting (at: Aug 6th 2-4pm)"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     4.[T][✓] join sports club"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     5.[T][✘] borrow book"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [D][✘] return book (by: Sunday)"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 6 tasks in the list."
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Got it. I\u0027ve added this task:"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "       [E][✘] project meeting (at: Mon 2-4pm)"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Now you have 7 tasks in the list."
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "     Bye. Hope to see you again soon!"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "    ____________________________________________________________"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 77
+    }
+  },
+  {
+    "path": "text-ui-test/input.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "todo read book"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "deadline return book /by June 6th"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "event project meeting /at Aug 6th 2-4pm"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "list"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "done 1"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "todo join sports club"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "done 4"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "todo borrow book"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "list"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "deadline return book /by Sunday"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "event project meeting /at Mon 2-4pm"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "bye"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 12
+    }
+  },
+  {
+    "path": "text-ui-test/runtest.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "#!/usr/bin/env bash"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "# create bin directory if it doesn\u0027t exist"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "if [ ! -d \"../bin\" ]"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "then"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "mkdir ../bin"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "# delete output from previous run"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "if [ -e \"./ACTUAL.TXT\" ]"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "then"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "rm ACTUAL.TXT"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "# compile the code into the bin folder, terminates if error occurred"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "if ! javac -cp ../src -Xlint:none -d ../bin ../src/main/java/*.java"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "then"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "echo \"********** BUILD FAILURE **********\""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "exit 1"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "# run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "java -classpath ../bin Duke \u003c input.txt \u003e ACTUAL.TXT"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "# compare the output to the expected output"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "diff ACTUAL.TXT EXPECTED.TXT"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "if [ $? -eq 0 ]"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "then"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "echo \"Test result: PASSED\""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "exit 0"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "else"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "echo \"Test result: FAILED\""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "exit 1"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Jeremy"
+        },
+        "content": "fi"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeremy": 34
+    }
+  },
+  {
+    "path": "tutorials/javaFxTutorialPart3.md",
+    "fileType": "md",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "# JavaFX Tutorial 3 – Interacting with the user"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Picking up from where we left off last tutorial, we have successfully achieved the desired layout. Now let’s make the application respond to user input. "
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Rather than to do everything in one try, let’s iterate and build up towards our final goal. "
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Iteration 1 – Echoing the User"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "JavaFX has an _event-driven architecture style_. As such, we programmatically define _handler_ methods to execute as a response to certain _events_. When an event is detected, JavaFX will call the respective handlers."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "For Duke, there are two events that we want to respond to, namely the user pressing `Enter` in the `TextField` and left-clicking the `Button`. These are the `onAction` event for the `TextField` and the `onMouseClicked` event for the `Button`."
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "For now, let’s have the application add a new `Label` with the text from the `TextField`. Update the `Main` class as follows. You\u0027ll need to add an `import javafx.scene.control.Label;` too."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "@Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // Step 1 code here"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Step 2 code here"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Step 3. Add functionality to handle user input."
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    sendButton.setOnMouseClicked((event) -\u003e {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        dialogContainer.getChildren().add(getDialogLabel(userInput.getText()));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        userInput.clear();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.setOnAction((event) -\u003e {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        dialogContainer.getChildren().add(getDialogLabel(userInput.getText()));"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        userInput.clear();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Iteration 1:"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Creates a label with the specified text and adds it to the dialog container."
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * @param text String containing text to add"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * @return a label with the specified text that has word wrap enabled."
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private Label getDialogLabel(String text) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // You will need to import `javafx.scene.control.Label`."
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    Label textToAdd \u003d new Label(text);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    textToAdd.setWrapText(true);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return textToAdd;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Run the program and give it a whirl!"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![Echo not scrolling as intended](assets/EchoNotScrolling.png)"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "At first glance everything appears to work perfectly. However, when the `VBox` stretches beyond the confines of the `ScrollPane`, the `ScrollPane` does not scroll down automatically as expected. We can remedy this by attaching a handler on the `VBox` to react to its own size changing and scrolling the `ScrollPane` down."
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Update the `start` method as shown below."
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // current code ..."
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " "
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Scroll down to the end every time dialogContainer\u0027s height changes."
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    dialogContainer.heightProperty().addListener((observable) -\u003e scrollPane.setVvalue(1.0));"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Verify that the `ScrollPane` scrolls as intended."
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Iteration 2 – Adding Dialog Boxes"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "In the mockup of the UI, notice that the dialog boxes are composed of two different controls (`ImageView` and `Label`) and reused multiple times. In situations like this, it is often beneficial to create our own custom control."
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Let’s create our custom control `DialogBox`:"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.geometry.Pos;"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.control.Label;"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.ImageView;"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.layout.HBox;"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class DialogBox extends HBox {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private Label text;"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private ImageView displayPicture;"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public DialogBox(Label l, ImageView iv) {"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        text \u003d l;"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        displayPicture \u003d iv;"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        text.setWrapText(true);"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        displayPicture.setFitWidth(100.0);"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        displayPicture.setFitHeight(100.0);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        this.setAlignment(Pos.TOP_RIGHT);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        this.getChildren().addAll(text, displayPicture);"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "We use the code in our main class just like any other control. Here are the steps to update the code to use the custom control in `Main.java`."
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "First, add these imports:"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.Image;"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.ImageView;"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Next, add two images to the `main/resources/images` folder."
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "For this tutorial, we have two images `DaUser.png` and `DaDuke.png` to represent the user avatar and Duke\u0027s avatar respectively but you can use any image you want."
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Image|Filename"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "---|---"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DaDuke](assets/DaUser.png) | `DaUser.png`"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DaUser](assets/DaDuke.png) | `DaDuke.png`"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke extends Application {"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // ..."
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private Image user \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    private Image duke \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    // ..."
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Add a new method to handle user input:"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Iteration 2:"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * the dialog container. Clears the user input after processing."
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private void handleUserInput() {"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    Label userText \u003d new Label(userInput.getText());"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "Jeffry Lum"
+        },
+        "content": "    Label dukeText \u003d new Label(getResponse(userInput.getText()));"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    dialogContainer.getChildren().addAll("
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            new DialogBox(userText, new ImageView(user)),"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            new DialogBox(dukeText, new ImageView(duke))"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    );"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.clear();"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * You should have your own function to generate a response to user input."
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Replace this stub with your completed method."
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private String getResponse(String input) {"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return \"Duke heard: \" + input;"
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Update the event handler code in the `start` method to use the new `handleUserInput` method:"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "@Override"
+      },
+      {
+        "lineNumber": 153,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //..."
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 156,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    //Part 3. Add functionality to handle user input."
+      },
+      {
+        "lineNumber": 157,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    sendButton.setOnMouseClicked((event) -\u003e {"
+      },
+      {
+        "lineNumber": 158,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        handleUserInput();"
+      },
+      {
+        "lineNumber": 159,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 160,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 161,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.setOnAction((event) -\u003e {"
+      },
+      {
+        "lineNumber": 162,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        handleUserInput();"
+      },
+      {
+        "lineNumber": 163,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    });"
+      },
+      {
+        "lineNumber": 164,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 165,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 166,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 167,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Run the program and see how it works."
+      },
+      {
+        "lineNumber": 168,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 169,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DialogBoxes Iteration 2](assets/DialogBoxesIteration2.png) "
+      },
+      {
+        "lineNumber": 170,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 171,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Iteration 3 – Adding custom behavior to DialogBox"
+      },
+      {
+        "lineNumber": 172,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 173,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "One additional benefit of defining a custom control is that we can add behavior specific to our `DialogBox`. Let’s add a method to flip a dialog box such that the image on the left to differentiate between user input and Duke’s output."
+      },
+      {
+        "lineNumber": 174,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 175,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 176,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 177,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " * Flips the dialog box such that the ImageView is on the left and text on the right."
+      },
+      {
+        "lineNumber": 178,
+        "author": {
+          "gitId": "-"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 179,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private void flip() {"
+      },
+      {
+        "lineNumber": 180,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    this.setAlignment(Pos.TOP_LEFT);"
+      },
+      {
+        "lineNumber": 181,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    ObservableList\u003cNode\u003e tmp \u003d FXCollections.observableArrayList(this.getChildren());"
+      },
+      {
+        "lineNumber": 182,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    FXCollections.reverse(tmp);"
+      },
+      {
+        "lineNumber": 183,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    this.getChildren().setAll(tmp);"
+      },
+      {
+        "lineNumber": 184,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 185,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 186,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public static DialogBox getUserDialog(Label l, ImageView iv) {"
+      },
+      {
+        "lineNumber": 187,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return new DialogBox(l, iv);"
+      },
+      {
+        "lineNumber": 188,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 189,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 190,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public static DialogBox getDukeDialog(Label l, ImageView iv) {"
+      },
+      {
+        "lineNumber": 191,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    var db \u003d new DialogBox(l, iv);"
+      },
+      {
+        "lineNumber": 192,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    db.flip();"
+      },
+      {
+        "lineNumber": 193,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    return db;"
+      },
+      {
+        "lineNumber": 194,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 195,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 196,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 197,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "You\u0027ll need to update the imports as follows:"
+      },
+      {
+        "lineNumber": 198,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 199,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.collections.FXCollections;"
+      },
+      {
+        "lineNumber": 200,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.collections.ObservableList;"
+      },
+      {
+        "lineNumber": 201,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.geometry.Pos;"
+      },
+      {
+        "lineNumber": 202,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.Node;"
+      },
+      {
+        "lineNumber": 203,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.control.Label;"
+      },
+      {
+        "lineNumber": 204,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.image.ImageView;"
+      },
+      {
+        "lineNumber": 205,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import javafx.scene.layout.HBox;"
+      },
+      {
+        "lineNumber": 206,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 207,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 208,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Now, we can go back to the `Main` class and change the event handler to use our new `DialogBox`. "
+      },
+      {
+        "lineNumber": 209,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 210,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```java"
+      },
+      {
+        "lineNumber": 211,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "private void handleUserInput() {"
+      },
+      {
+        "lineNumber": 212,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    Label userText \u003d new Label(userInput.getText());"
+      },
+      {
+        "lineNumber": 213,
+        "author": {
+          "gitId": "Jeffry Lum"
+        },
+        "content": "    Label dukeText \u003d new Label(getResponse(userInput.getText()));"
+      },
+      {
+        "lineNumber": 214,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    dialogContainer.getChildren().addAll("
+      },
+      {
+        "lineNumber": 215,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            DialogBox.getUserDialog(userText, new ImageView(user)),"
+      },
+      {
+        "lineNumber": 216,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            DialogBox.getDukeDialog(dukeText, new ImageView(duke))"
+      },
+      {
+        "lineNumber": 217,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    );"
+      },
+      {
+        "lineNumber": 218,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    userInput.clear();"
+      },
+      {
+        "lineNumber": 219,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 220,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "```"
+      },
+      {
+        "lineNumber": 221,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 222,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Run the application and play around with it. "
+      },
+      {
+        "lineNumber": 223,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 224,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "![DialogBoxes Iteration 3](assets/DialogBoxesIteration3.png)"
+      },
+      {
+        "lineNumber": 225,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 226,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Congratulations! "
+      },
+      {
+        "lineNumber": 227,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "You have successfully implemented a fully functional GUI for Duke!  "
+      },
+      {
+        "lineNumber": 228,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 229,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Exercises"
+      },
+      {
+        "lineNumber": 230,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 231,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "1. While the GUI looks similar to the mockup, there are still parts that need to be refined. Try your hand at some of these tasks:"
+      },
+      {
+        "lineNumber": 232,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Add padding between each DialogBox"
+      },
+      {
+        "lineNumber": 233,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Add padding between each ImageView and its Label"
+      },
+      {
+        "lineNumber": 234,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Clip the ImageView into a circle"
+      },
+      {
+        "lineNumber": 235,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Add background color to each dialog box"
+      },
+      {
+        "lineNumber": 236,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 237,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "1. After attempting the changes, reflect critically on the following:"
+      },
+      {
+        "lineNumber": 238,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * What was the development workflow like?"
+      },
+      {
+        "lineNumber": 239,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "   * Is the code base well-organized?"
+      },
+      {
+        "lineNumber": 240,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 241,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "--------------------------------------------------------------------------------"
+      },
+      {
+        "lineNumber": 242,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "**Authors:**"
+      },
+      {
+        "lineNumber": 243,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "* Initial Version: Jeffry Lum"
+      }
+    ],
+    "authorContributionMap": {
+      "Jeffry Lum": 2,
+      "-": 241
+    }
+  }
+]

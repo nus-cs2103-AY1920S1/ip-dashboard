@@ -85,7 +85,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        return String.format(\"%s (by: %s)\", task, time);"
+        "content": "        return String.format(\"[D][%s] %s (by: %s)\", done ? \"✓\" : \"✗\",task, time);"
       },
       {
         "lineNumber": 13,
@@ -106,46 +106,11 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    public String addTask() {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "        return String.format(\"     Got it. I\u0027ve added this task:\\n       [D][✗] \");"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "liawsy"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "liawsy": 20
+      "liawsy": 15
     }
   },
   {
@@ -213,7 +178,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        Greeter greeter \u003d new Greeter();"
+        "content": "        MessageGenerator greeter \u003d new MessageGenerator();"
       },
       {
         "lineNumber": 10,
@@ -381,7 +346,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                        String[] words \u003d line.split(\" \");"
+        "content": "                        String[] description \u003d line.split(\" \");"
       },
       {
         "lineNumber": 34,
@@ -395,35 +360,35 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                            storage.addTask(parser.createNewTask(count, first, words));"
+        "content": "                            if (description.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                            count++;"
+        "content": "                                throw new DukeException(ErrorType.MISSING, first);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                            if (words.length \u003c\u003d 1) {"
+        "content": "                            }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                                throw new DukeException(ErrorType.MISSING, first);"
+        "content": "                            storage.addTask(parser.createNewTask(count, first, description));"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                            }"
+        "content": "                            count++;"
       },
       {
         "lineNumber": 40,
@@ -458,74 +423,109 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                    default:"
+        "content": "                    case \"delete\":"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                        throw new DukeException(ErrorType.COMMAND);"
+        "content": "                        int listNo \u003d sc.nextInt();"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                }"
+        "content": "                        storage.deleteTask(listNo);"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "                        break;"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                e.printError();"
+        "content": "                    default:"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            }"
+        "content": "                        throw new DukeException(ErrorType.COMMAND);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        }"
+        "content": "                }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 52,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "                e.printError();"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
         "author": {
           "gitId": "Jeffry Lum"
         },
         "content": "        }"
       },
       {
-        "lineNumber": 53,
+        "lineNumber": 57,
         "author": {
           "gitId": "-"
         },
         "content": "}"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
       }
     ],
     "authorContributionMap": {
-      "liawsy": 49,
+      "liawsy": 54,
       "Jeffry Lum": 1,
       "-": 3
     }
@@ -833,31 +833,17 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "        formatter.printFormat(errorMessage());"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        System.out.println(formatter.format(errorMessage()));"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "        formatter.printLine();"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "liawsy"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 47,
+        "lineNumber": 45,
         "author": {
           "gitId": "liawsy"
         },
@@ -865,7 +851,7 @@
       }
     ],
     "authorContributionMap": {
-      "liawsy": 47
+      "liawsy": 45
     }
   },
   {
@@ -984,7 +970,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        return String.format(\"%s (at: %s)\", task, time);"
+        "content": "        return String.format(\"[E][%s] %s (at: %s)\", done ? \"✓\" : \"✗\",task, time);"
       },
       {
         "lineNumber": 13,
@@ -998,46 +984,11 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    public String addTask() {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "        return \"    Got it. I\u0027ve added this task:\\n       [E][✗] \";"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "liawsy"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "liawsy": 19
+      "liawsy": 14
     }
   },
   {
@@ -1049,7 +1000,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "public class Formatter {"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 2,
@@ -1063,7 +1014,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public Formatter() {}"
+        "content": "public class Formatter {"
       },
       {
         "lineNumber": 4,
@@ -1077,101 +1028,290 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public String format(String s) {"
+        "content": "    public Formatter() {}"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        return \"     \" + s;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "    public String format(String s) {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "        return \"     \" + s;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void printLine() {"
+        "content": "    }"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        System.out.println(format(\"____________________________________________________________\"));"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "    public void printLine() {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "        System.out.println(\"    ____________________________________________________________\");"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void printFormat(String s) {"
+        "content": "    }"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        String[] lines \u003d s.split(\"\\n\");"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        for (String line: lines) {"
+        "content": "    public void printFormat(String s) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            System.out.println(format(line));"
+        "content": "        printLine();"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        }"
+        "content": "        String[] lines \u003d s.split(\"\\n\");"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "        for (String line: lines) {"
       },
       {
         "lineNumber": 19,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            System.out.println(format(line));"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        printLine();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printFormat(String...strings) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        printLine();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        for (String string: strings) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            System.out.println(format(string));"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        printLine();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printFormat(List\u003cString\u003e strings) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        int count \u003d 1;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        for (String string: strings) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            System.out.println(format(String.format(\"%d. %s\", count, string)));"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            count++;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printFormat(String s, List\u003cString\u003e list) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        printLine();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        System.out.println(format(s));"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        printFormat(list);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        printLine();"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
         "author": {
           "gitId": "liawsy"
         },
@@ -1179,11 +1319,11 @@
       }
     ],
     "authorContributionMap": {
-      "liawsy": 19
+      "liawsy": 46
     }
   },
   {
-    "path": "src/main/java/Greeter.java",
+    "path": "src/main/java/MessageGenerator.java",
     "fileType": "java",
     "lines": [
       {
@@ -1191,7 +1331,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "public class Greeter {"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 2,
@@ -1205,7 +1345,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    Formatter formatter \u003d new Formatter();"
+        "content": "public class MessageGenerator {"
       },
       {
         "lineNumber": 4,
@@ -1219,150 +1359,423 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public Greeter() {}"
+        "content": "    Formatter formatter \u003d new Formatter();"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public String greeting() {"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        return \"Hello I\u0027m Duke\\n\" + \"What can I do for you?\";"
+        "content": "    public MessageGenerator() {}"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "    public String listTasks() {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public String byeString() {"
+        "content": "        return \"Here are the tasks in your list: \";"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        return \"Bye. Hope to see you again soon!\";"
+        "content": "    }"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "    public String removeTask() {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void greet() {"
+        "content": "        return \"Noted. I\u0027ve removed this task: \";"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    }"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printFormat(greeting());"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    public String addTask() {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "        return \"Got it. I\u0027ve added this task: \";"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void bye() {"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    public String markDone() {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printFormat(byeString());"
+        "content": "        return \"Nice! I\u0027ve marked this task as done:\";"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "    public String numTask(int n) {"
       },
       {
         "lineNumber": 26,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        return \"Now you have \" + n + \" task(s) in the list.\";"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public String greeting() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        return \"Hello I\u0027m Duke\\n\" + \"What can I do for you?\";"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public String byeString() {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        return \"Bye. Hope to see you again soon!\";"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public String formatTask(Task task) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        return  \"  \" + task.toString();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printRemove(Task task, int n) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        formatter.printFormat(removeTask(), formatTask(task), numTask(n));"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printAdd(Task task, int n) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        formatter.printFormat(addTask(), formatTask(task), numTask(n));"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printDone(Task task) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        formatter.printFormat(markDone(), formatTask(task));"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void printList(List\u003cString\u003e list) {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        formatter.printFormat(listTasks(), list);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void greet() {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        formatter.printFormat(greeting());"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void bye() {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        formatter.printFormat(byeString());"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 65,
         "author": {
           "gitId": "liawsy"
         },
@@ -1370,7 +1783,7 @@
       }
     ],
     "authorContributionMap": {
-      "liawsy": 26
+      "liawsy": 65
     }
   },
   {
@@ -1783,269 +2196,437 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "    MessageGenerator msgGenerator \u003d new MessageGenerator();"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public Storage() {"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        taskList.add(null);"
+        "content": "    public Storage() {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "        //placeholder value in task"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "        taskList.add(null);"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void addTask(Task task) {"
+        "content": "    }"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        taskList.add(task);"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    public int noTasks() {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        System.out.println(task.addTask() + task);"
+        "content": "        return taskList.size() - 1;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printFormat(\"Now you have \" + (taskList.size()-1) + \" task(s) in the list.\");"
+        "content": "    }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "    public void addTask(Task task) {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "        taskList.add(task);"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void printList() {"
+        "content": "        msgGenerator.printAdd(task, noTasks());"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printFormat(\"Here are the tasks in your list:\");"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        for (Task task : taskList) {"
+        "content": "    public void removeTask(int taskNo) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            if (task !\u003d null) {"
+        "content": "        msgGenerator.printRemove(taskList.get(taskNo), noTasks()-1);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                System.out.println(formatter.format(task.listify() + task));"
+        "content": "        taskList.remove(taskNo);"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            }"
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        formatter.printLine();"
+        "content": "    public List\u003cString\u003e listify() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "        List\u003cString\u003e list \u003d new ArrayList\u003cString\u003e();"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "        for (Task task: taskList) {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public void setDone(int taskNo) {"
+        "content": "            if (task !\u003d null) {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        try {"
+        "content": "                list.add(task.toString());"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            if (taskList.size() - 1 \u003c taskNo) {"
+        "content": "            }"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "                throw new DukeException(ErrorType.INVALIDITEM);"
+        "content": "        }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            }"
+        "content": "        return list;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            taskList.get(taskNo).setDone();"
+        "content": "    }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            formatter.printLine();"
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            System.out.println(taskList.get(taskNo).doneify());"
+        "content": "    public void printList() {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            formatter.printLine();"
+        "content": "        msgGenerator.printList(listify());"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "            e.printError();"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        }"
+        "content": "    public boolean invalidTaskNo(int taskNo) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    }"
+        "content": "        return taskNo \u003e taskList.size();"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 46,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void setDone(int taskNo) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            if (invalidTaskNo(taskNo)) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "                throw new DukeException(ErrorType.INVALIDITEM);"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            taskList.get(taskNo).setDone();"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            msgGenerator.printDone(taskList.get(taskNo));"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            e.printError();"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    public void deleteTask(int taskNo) {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            if (invalidTaskNo(taskNo)) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "                throw new DukeException(ErrorType.INVALIDITEM);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            removeTask(taskNo);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "            e.printError();"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "liawsy"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 70,
         "author": {
           "gitId": "liawsy"
         },
@@ -2053,7 +2634,7 @@
       }
     ],
     "authorContributionMap": {
-      "liawsy": 46
+      "liawsy": 70
     }
   },
   {
@@ -2184,88 +2765,11 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "    public String listify() {"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "        return String.format(\"    %d.  [%s][%s] \", no, type, (done ? \"✓\" : \"✗\"));"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    public String doneify()  {"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "        return  \"     Nice! I\u0027ve marked this task as done: \\n\" +"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "                \"       [✓] \" + task;"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    public abstract String addTask();"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "liawsy"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "liawsy": 29
+      "liawsy": 18
     }
   },
   {
@@ -2340,7 +2844,7 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": "        return task;"
+        "content": "        return String.format(\"[T][%s] %s\", done ? \"✓\" : \"✗\",task);"
       },
       {
         "lineNumber": 11,
@@ -2354,46 +2858,11 @@
         "author": {
           "gitId": "liawsy"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    public String addTask() {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "        return \"     Got it. I\u0027ve added this task: \\n       [T][✗] \";"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "liawsy"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "liawsy"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "liawsy": 17
+      "liawsy": 12
     }
   }
 ]

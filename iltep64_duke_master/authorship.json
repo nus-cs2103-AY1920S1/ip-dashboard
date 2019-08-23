@@ -1,1 +1,2565 @@
-[]
+[
+  {
+    "path": "src/main/java/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.Map;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.HashMap;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.regex.Pattern;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "public class Command {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic final String type;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic final String arguments;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic final Map\u003cString,String\u003e namedArguments;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic Command(String type, String arguments, Map\u003cString, String\u003e namedArguments) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.type \u003d type;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.arguments \u003d arguments;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.namedArguments \u003d namedArguments;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate static final Pattern switchBoundary \u003d Pattern.compile(\"\\\\s+/\");"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate static final Pattern cmdBoundary \u003d Pattern.compile(\"\\\\s+\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic static Command parse(String input) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tinput \u003d input.trim();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//Split on the presence of any switches"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString[] splits \u003d switchBoundary.split(input);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//First split value is \"cmd-type args...\""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString[] mainArgs \u003d cmdBoundary.split(splits[0], 2);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tif(mainArgs[0].isEmpty()) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\treturn null;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString type \u003d mainArgs[0];"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//If no arguments, leave as empty string"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString arguments \u003d mainArgs.length \u003e 1 ? mainArgs[1] : \"\";"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tMap\u003cString, String\u003e namedArguments \u003d new HashMap\u003c\u003e();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tif(splits.length \u003e 1) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t//Each split value is \"switch-name args...\""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t//with no preceding slash"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tfor(int i\u003d1;i\u003csplits.length;i++) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tif(splits[i].isEmpty()) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\tcontinue;"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t}"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t//Split at first whitespace"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tString[] switchArgs \u003d cmdBoundary.split(splits[i], 2);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tString switchName \u003d switchArgs[0];"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t//If no arguments, leave as empty string"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tString switchArguments \u003d switchArgs.length \u003e 1 ? switchArgs[1] : \"\";"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tnamedArguments.put(switchName, switchArguments);"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t}"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn new Command(type, arguments, namedArguments);"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 52
+    }
+  },
+  {
+    "path": "src/main/java/CounterDecorator.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.function.Function;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "class CounterDecorator implements Function\u003cString, String\u003e {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate int counter;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic CounterDecorator(int start) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.counter \u003d start;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic String apply(String str) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString ret \u003d String.format(\"%d: %s\", this.counter, str);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.counter++;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn ret;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 13
+    }
+  },
+  {
+    "path": "src/main/java/DeadlineTask.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "public class DeadlineTask extends Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate final String deadline;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic DeadlineTask(String task, String deadline) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tsuper(task);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.deadline \u003d deadline;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t@Override"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprotected String getTypeMarker() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn \"[D]\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t@Override"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic String toString() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString baseDescription \u003d super.toString();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn String.format(\"%s (by: %s)\", baseDescription, deadline);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 19
+    }
+  },
+  {
+    "path": "src/main/java/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.HashMap;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.Map;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.function.Consumer;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.function.Function;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.function.Predicate;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate static final String[] initialGreeting \u003d new String[]{"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\"Hello! I\u0027m Duke\","
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\"What can I do for you?\""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t};"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate DukeIO io;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate final List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate void addTask(Task t) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.taskList.add(t);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.say("
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\"Got it. I\u0027ve added this task:\","
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\"  \" + t,"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tString.format(\"Now you have %d task%s in the list.\","
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\tthis.taskList.size(),"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\tthis.taskList.size() \u003d\u003d 1 ? \"\" : \"s\")"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean handleBye(Command input) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.say(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn true;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean displayList(Command input) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.say(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.say(this.taskList.stream()"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t.map(Object::toString)"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t.map(new CounterDecorator(1))"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t.iterator());"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn false;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean makeDeadlineTask(Command input) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString description \u003d input.arguments;"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString deadline \u003d input.namedArguments.get(\"by\");"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tif(deadline \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tdeadline \u003d \"unknown\";"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tDeadlineTask task \u003d new DeadlineTask(description, deadline);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.addTask(task);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn false;"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean makeEventTask(Command input) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString description \u003d input.arguments;"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString timing \u003d input.namedArguments.get(\"at\");"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tif(timing \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\ttiming \u003d \"unknown\";"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tEventTask task \u003d new EventTask(description, timing);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.addTask(task);"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn false;"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean makeToDoTask(Command input) {"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.addTask(new Task(input.arguments));"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn false;"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean markAsDone(Command input) {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tint index;"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\ttry {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tindex \u003d Integer.parseInt(input.arguments);"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t} catch(NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tthis.io.say(\"Index provided was not an integer!\");"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\treturn false;"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tif(index \u003c 0 || index \u003e this.taskList.size()) {"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tthis.io.say(\"There\u0027s no task with that index!\");"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\treturn false;"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tTask selectedTask \u003d this.taskList.get(index-1);"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tselectedTask.markComplete();"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.say(\"Nice! I\u0027ve marked this task as done:\","
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\"  \" + selectedTask);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn false;"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate Duke() {"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io \u003d new DukeIO();"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//Bind command handlers"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.bindCommand(\"list\", this::displayList);"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.bindCommand(\"done\", this::markAsDone);"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.bindCommand(\"bye\", this::handleBye);"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.bindCommand(\"deadline\", this::makeDeadlineTask);"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.bindCommand(\"event\", this::makeEventTask);"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.bindCommand(\"todo\", this::makeToDoTask);"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.taskList \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate void run() {"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//Start off greeting the user."
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.withDialogBlock(() -\u003e this.io.say(initialGreeting));"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//Start listen loop."
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.io.listen();"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tDuke duke \u003d new Duke();"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tduke.run();"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 116,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/DukeIO.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.Arrays;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.Iterator;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.HashMap;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.Map;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.function.Predicate;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "import java.util.function.Supplier;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "public class DukeIO {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate static final String lineRule \u003d"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\"____________________________________________________________\";"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate final Map\u003cString, Predicate\u003cCommand\u003e\u003e commandMap"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\u003d new HashMap\u003c\u003e();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate Predicate\u003cCommand\u003e defaultHandler \u003d null;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean printingDialogBlock;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate final Scanner scanner;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic DukeIO() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.scanner \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void say(String... lines) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tsay(Arrays.asList(lines).iterator());"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void say(Iterator\u003cString\u003e lines) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tif(!this.printingDialogBlock) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t//Print start of reply line"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tSystem.out.println(lineRule);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tthis.printingDialogBlock \u003d true;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//Print each given line"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\twhile(lines.hasNext()) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tSystem.out.println(lines.next());"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void bindCommand(String command, Predicate\u003cCommand\u003e handler) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.commandMap.put(command, handler);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void setUnknownCommandHandler(Predicate\u003cCommand\u003e handler) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.defaultHandler \u003d handler;"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void withDialogBlock(Runnable action) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.printingDialogBlock \u003d false;"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\ttry {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\taction.run();"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t} finally {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tif(this.printingDialogBlock) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t//Print end of reply line, and extra empty line"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tSystem.out.println(lineRule);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tSystem.out.println();"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t}"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic \u003cT\u003e T withDialogBlock(Supplier\u003cT\u003e action) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.printingDialogBlock \u003d false;"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\ttry {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\treturn action.get();"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t} finally {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tif(this.printingDialogBlock) {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t//Print end of reply line, and extra empty line"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tSystem.out.println(lineRule);"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tSystem.out.println();"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t}"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void listen() {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t//While there is still input from user"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\twhile(scanner.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t//Read single line of user input, and remove extra spaces"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tString userInput \u003d scanner.nextLine();"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tCommand command \u003d Command.parse(userInput);"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tPredicate\u003cCommand\u003e cmdHandler \u003d commandMap.get(command.type);"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tboolean shouldExit;"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tif(cmdHandler !\u003d null) {"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tshouldExit \u003d this.withDialogBlock(() -\u003e cmdHandler.test(command));"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t} else if(defaultHandler !\u003d null) {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tshouldExit \u003d this.withDialogBlock(() -\u003e defaultHandler.test(command));"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t} else {"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tthis.withDialogBlock("
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\t\t() -\u003e say(String.format(\"Unknown command %s\", command.type))"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\t\t\t);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tshouldExit \u003d false;"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t}"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\tif(shouldExit) {"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t\tbreak;"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t\t}"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\t}"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 101
+    }
+  },
+  {
+    "path": "src/main/java/EventTask.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "public class EventTask extends Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate final String timing;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic EventTask(String task, String timing) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tsuper(task);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.timing \u003d timing;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t@Override"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprotected String getTypeMarker() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn \"[E]\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t@Override"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic String toString() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tString baseDescription \u003d super.toString();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn String.format(\"%s (at: %s)\", baseDescription, timing);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 19
+    }
+  },
+  {
+    "path": "src/main/java/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "public class Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate final String description;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate boolean completed;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic Task(String description) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.description \u003d description;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.completed \u003d false;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic void markComplete() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\tthis.completed \u003d true;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic boolean isCompleted() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn this.completed;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate static final String completedMarker \u003d \"[✓]\";"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate static final String incompleteMarker \u003d \"[✗]\";"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprotected String getTypeMarker() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn \"[T]\";"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tprivate String getCompleteMarker() {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn this.completed ? completedMarker : incompleteMarker;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t@Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\tpublic String toString() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t\treturn this.getTypeMarker() + this.getCompleteMarker() + \u0027 \u0027 + this.description;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "\t}"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Ryan Chew"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Ryan Chew": 33
+    }
+  }
+]

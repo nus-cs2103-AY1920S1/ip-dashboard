@@ -1,5 +1,35 @@
 [
   {
+    "path": "data/tasks.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "[T] | ✓ | play"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "[D] | ✘ | submission | 20/8/2019 03:00"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "[E] | ✓ | dota | 20/1/2019 03:00"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 3
+    }
+  },
+  {
     "path": "src/main/java/Duke.java",
     "fileType": "java",
     "lines": [
@@ -8,77 +38,77 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import exceptionpackage.DukeException;"
+        "content": "import command.Command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import exceptionpackage.DoneException;"
+        "content": "import exception.DukeException;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import exceptionpackage.ToDoException;"
+        "content": "import storage.Storage;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import exceptionpackage.DeadlineException;"
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import exceptionpackage.EventException;"
+        "content": "import ui.Ui;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import exceptionpackage.DeleteException;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "honhaochen"
+          "gitId": "-"
         },
-        "content": "import exceptionpackage.InvalidInstructionException;"
+        "content": "public class Duke {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import taskpackage.Deadline;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import taskpackage.Event;"
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import taskpackage.Task;"
+        "content": "    private TaskList tasks;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import taskpackage.ToDo;"
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 12,
@@ -92,21 +122,765 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "    public Duke(String filePath) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import java.util.List;"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "import java.util.Scanner;"
+        "content": "        storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            tasks \u003d new TaskList(storage.load());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            ui.showLoadingError();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            tasks \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        ui.showWelcome();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        boolean isExit \u003d false;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        while (!isExit) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                String fullCommand \u003d ui.readCommand();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                ui.showLine(); // show the divider line (\"_______\")"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                Command c \u003d Parser.parse(fullCommand);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                c.execute(tasks, ui, storage);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                isExit \u003d c.isExit();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                ui.showError(e.getMessage());"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } finally {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                ui.showLine();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        new Duke(\"../../../data/tasks.txt\").run();"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 41,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import command.*;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public static Command parse(String userInput) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        String[] input \u003d userInput.split(\" \");"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (input[0].equals(\"list\")) { //list out"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new ListCommand();"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input[0].equals(\"done\")) { //done"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new DoneCommand(input);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input[0].equals(\"todo\")) { //todo task"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new ToDoCommand(input);"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input[0].equals(\"deadline\")) { //deadline task"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new DeadlineCommand(input);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input[0].equals(\"event\")) { //event task"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new EventCommand(input);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input[0].equals(\"delete\")) { //delete"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new DeleteCommand(input);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input[0].equals(\"bye\")){ //bye"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new ByeCommand();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return new InvalidCommand();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 25
+    }
+  },
+  {
+    "path": "src/main/java/command/ByeCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class ByeCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(\"     Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        storage.save(tasks);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 16
+    }
+  },
+  {
+    "path": "src/main/java/command/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DeadlineException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DukeParseException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.EventException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public abstract class Command {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws DukeParseException, DeadlineException, EventException;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public abstract boolean isExit();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 15
+    }
+  },
+  {
+    "path": "src/main/java/command/DeadlineCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DeadlineException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DukeParseException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Deadline;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class DeadlineCommand extends Command {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected String[] input;"
       },
       {
         "lineNumber": 16,
@@ -118,23 +892,23 @@
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "-"
+          "gitId": "honhaochen"
         },
-        "content": "public class Duke {"
+        "content": "    public DeadlineCommand(String[] input) {"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "-"
+          "gitId": "honhaochen"
         },
-        "content": "    public static void main(String[] args) {"
+        "content": "        this.input \u003d input;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        String horizontalLine \u003d \"    ____________________________________________________________\";"
+        "content": "    }"
       },
       {
         "lineNumber": 20,
@@ -148,84 +922,1650 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        //Greetings message"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeParseException, DeadlineException {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        System.out.println(horizontalLine);"
+        "content": "        if (input.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        System.out.println(\"     Hello from! I\u0027m Duke\\n\" + \"     What can I do for you?\");"
+        "content": "            throw new DeadlineException();"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        System.out.println(horizontalLine + \"\\n\");"
+        "content": "        } else if (input.length \u003c\u003d4 ) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "            throw new DeadlineException(\"OOPS!!! Did you type something wrong?\\n\""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        //Setup Scanner and List"
+        "content": "                    + \"     Make sure to type \u003c/by\u003e and state the datetime in \u0027dd/M/yyyy hh:mm\u0027 format!\");"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "        } else {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        List\u003cTask\u003e store \u003d new ArrayList\u003cTask\u003e();"
+        "content": "            try {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "                Task newDeadlineTask \u003d new Deadline(input[1].strip(), input[4].strip());"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        //Scanner reading"
+        "content": "                tasks.getTaskList().add(newDeadlineTask);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        String userInput \u003d sc.next();"
+        "content": "                System.out.println(\"     Got it. I\u0027ve added this task:\");"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        while (!userInput.equals(\"bye\")) {"
+        "content": "                System.out.println(\"       \" + newDeadlineTask);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                if (tasks.getTaskList().size() \u003e 1) {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" task in the list.\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                throw new DukeParseException();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 47
+    }
+  },
+  {
+    "path": "src/main/java/command/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DeleteException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DoneException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class DeleteCommand extends Command {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected String[] input;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public DeleteCommand(String[] input) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.input \u003d input;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (input.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.err.println(\"     \" + new DeleteException());"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            int taskToDelete \u003d Integer.parseInt(input[1]);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            if (tasks.getTaskList().size() \u003c taskToDelete) { //check if it\u0027s a valid delete"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.err.println(\"     \" + new DeleteException(\"OOPS!!! There is no such task in your list!\"));"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"     \" + \"Current number of tasks \u003d \" + tasks.getTaskList().size());"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                Task task \u003d tasks.getTaskList().get(taskToDelete - 1);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                tasks.getTaskList().remove(taskToDelete - 1);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"     Noted I\u0027ve removed this task:\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"       \" + task);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                if (tasks.getTaskList().size() \u003e 1) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" task in the list.\");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 43
+    }
+  },
+  {
+    "path": "src/main/java/command/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DoneException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class DoneCommand extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected String[] input;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public DoneCommand(String[] input) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.input \u003d input;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (input.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.err.println(\"     \" + new DoneException());"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            int taskToBeDone \u003d Integer.parseInt(input[1]);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            if (tasks.getTaskList().size() \u003c taskToBeDone) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.err.println(\"     \" + new DoneException(\"OOPS!!! There is no such task in your list!\"));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"     \" + \"Current number of tasks \u003d \" + tasks.getTaskList().size());"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                Task task \u003d tasks.getTaskList().get(taskToBeDone - 1);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                if (task.isDone()) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Hey! I\u0027ve already marked this task as done :)\");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"       \" + task);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    task.markAsDone();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"       \" + task);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 42
+    }
+  },
+  {
+    "path": "src/main/java/command/EventCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DukeParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.EventException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Event;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class EventCommand extends Command {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected String[] input;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public EventCommand(String[] input) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.input \u003d input;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeParseException, EventException {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (input.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            throw new EventException();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else if (input.length \u003c\u003d4 ) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            throw new EventException(\"OOPS!!! Did you type something wrong?\\n\""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    + \"     Make sure to type \u003c/at\u003e and state the datetime in \u0027dd/M/yyyy hh:mm\u0027 format!\");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                Task newEventTask \u003d new Event(input[1].strip(), input[4].strip());"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                tasks.getTaskList().add(newEventTask);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"     Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"       \" + newEventTask);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                if (tasks.getTaskList().size() \u003e 1) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" task in the list.\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                throw new DukeParseException();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 45
+    }
+  },
+  {
+    "path": "src/main/java/command/InvalidCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.InvalidInstructionException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class InvalidCommand extends Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.err.println(\"     \" + new InvalidInstructionException());"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 16
+    }
+  },
+  {
+    "path": "src/main/java/command/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(\"     Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        int i \u003d 1;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        for (Task task : tasks.getTaskList()) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.out.println(\"     \" + i + \". \" + task);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            i++;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 23
+    }
+  },
+  {
+    "path": "src/main/java/command/ToDoCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.ToDoException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.ToDo;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class ToDoCommand extends Command {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected String[] input;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public ToDoCommand(String[] input) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.input \u003d input;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (input.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.err.println(\"      \" + new ToDoException());"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            Task newToDoTask \u003d new ToDo(input[1]);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            tasks.getTaskList().add(newToDoTask);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.out.println(\"     Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.out.println(\"       \" + newToDoTask);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            if (tasks.getTaskList().size() \u003e 1) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                System.out.println(\"     Now you have \" + tasks.getTaskList().size() + \" task in the list.\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
       },
       {
         "lineNumber": 33,
@@ -239,1080 +2579,36 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "            if (userInput.equals(\"list\")) { //list out"
+        "content": "    public boolean isExit() {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "                System.out.println(horizontalLine);"
+        "content": "        return false;"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "                System.out.println(\"     Here are the tasks in your list:\");"
+        "content": "    }"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "                int i \u003d 1;"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                for (Task task : store) {"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(\"     \" + i + \". \" + task);"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    i++;"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            } else if (userInput.equals(\"done\")) { //done"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                String argument \u003d sc.nextLine().strip();"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                if (argument.isEmpty()) {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.err.println(\"     \" + new DoneException());"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    int taskToBeDone \u003d Integer.parseInt(argument);"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    if (store.size() \u003c taskToBeDone) {"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.err.println(\"     \" + new DoneException(\"OOPS!!! There is no such task in your list!\"));"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     \" + \"Current number of tasks \u003d \" + store.size());"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        Task task \u003d store.get(taskToBeDone - 1);"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        if (task.isDone()) {"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Hey! I\u0027ve already marked this task as done :)\");"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"       \" + task);"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            task.markAsDone();"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Nice! I\u0027ve marked this task as done:\");"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"       \" + task);"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            } else if (userInput.equals(\"todo\")) { //todo task"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                String argument \u003d sc.nextLine().strip();"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                if (argument.isEmpty()) {"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.err.println(\"      \" + new ToDoException());"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    Task newToDoTask \u003d new ToDo(argument);"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    store.add(newToDoTask);"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(\"     Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(\"       \" + newToDoTask);"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    if (store.size() \u003e 1) {"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     Now you have \" + store.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     Now you have \" + store.size() + \" task in the list.\");"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            } else if (userInput.equals(\"deadline\")) { //deadline task"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                String argument \u003d sc.nextLine().strip();"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                if (argument.isEmpty()) {"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.err.println(\"     \" + new DeadlineException());"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    String[] splitResult \u003d argument.split(\"/by\");"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    if (splitResult.length !\u003d 2) { //there might be a typo"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.err.println(\"     \" + new DeadlineException(\"OOPS!!! Did you type anything wrongly?\"));"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     \" + \"Make sure to use \u0027/\u0027 to indicate timing!\");"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        Task newDeadlineTask \u003d new Deadline(splitResult[0].strip(), splitResult[1].strip());"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        store.add(newDeadlineTask);"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"       \" + newDeadlineTask);"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        if (store.size() \u003e 1) {"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Now you have \" + store.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Now you have \" + store.size() + \" task in the list.\");"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            } else if (userInput.equals(\"event\")) { //event task"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                String argument \u003d sc.nextLine().strip();"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                if (argument.isEmpty()) {"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.err.println(\"     \" + new EventException());"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    String[] splitResult \u003d argument.split(\"/at\");"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    if (splitResult.length !\u003d 2) { //there might be a typo"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.err.println(\"     \" + new EventException(\"OOPS!!! Did you type anything wrongly?\"));"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     \" + \"Make sure to use \u0027/\u0027 to indicate timing!\");"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        Task newEventTask \u003d new Event(splitResult[0].strip(), splitResult[1].strip());"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        store.add(newEventTask);"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"       \" + newEventTask);"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        if (store.size() \u003e 1) {"
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Now you have \" + store.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Now you have \" + store.size() + \" task in the list.\");"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            } else if (userInput.equals(\"delete\")) {"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                String argument \u003d sc.nextLine().strip();"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                if (argument.isEmpty()) {"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.err.println(\"     \" + new DeleteException());"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    int taskToDelete \u003d Integer.parseInt(argument);"
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    if (store.size() \u003c taskToDelete) { //check if it\u0027s a valid delete"
-      },
-      {
-        "lineNumber": 154,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 155,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.err.println(\"     \" + new DeleteException(\"OOPS!!! There is no such task in your list!\"));"
-      },
-      {
-        "lineNumber": 156,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     \" + \"Current number of tasks \u003d \" + store.size());"
-      },
-      {
-        "lineNumber": 157,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 158,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 159,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        Task task \u003d store.get(taskToDelete - 1);"
-      },
-      {
-        "lineNumber": 160,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        store.remove(taskToDelete - 1);"
-      },
-      {
-        "lineNumber": 161,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 162,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"     Noted I\u0027ve removed this task:\");"
-      },
-      {
-        "lineNumber": 163,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(\"       \" + task);"
-      },
-      {
-        "lineNumber": 164,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        if (store.size() \u003e 1) {"
-      },
-      {
-        "lineNumber": 165,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Now you have \" + store.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 166,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 167,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                            System.out.println(\"     Now you have \" + store.size() + \" task in the list.\");"
-      },
-      {
-        "lineNumber": 168,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 169,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                        System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 170,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 171,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 172,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 173,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 174,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                System.err.println(\"     \" + new InvalidInstructionException());"
-      },
-      {
-        "lineNumber": 175,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "                System.out.println(horizontalLine + \"\\n\");"
-      },
-      {
-        "lineNumber": 176,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 177,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "            userInput \u003d sc.next();"
-      },
-      {
-        "lineNumber": 178,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 179,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 180,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "        //Bye message"
-      },
-      {
-        "lineNumber": 181,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 182,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "        System.out.println(\"     Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 183,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "        System.out.println(horizontalLine);"
-      },
-      {
-        "lineNumber": 184,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 185,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 186,
-        "author": {
-          "gitId": "-"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "honhaochen": 182,
-      "-": 4
+      "honhaochen": 37
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/DeadlineException.java",
+    "path": "src/main/java/exception/DeadlineException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1320,7 +2616,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1412,7 +2708,7 @@
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/DeleteException.java",
+    "path": "src/main/java/exception/DeleteException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1420,7 +2716,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1512,7 +2808,7 @@
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/DoneException.java",
+    "path": "src/main/java/exception/DoneException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1520,7 +2816,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1612,7 +2908,7 @@
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/DukeException.java",
+    "path": "src/main/java/exception/DukeException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1620,7 +2916,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1684,7 +2980,7 @@
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/EventException.java",
+    "path": "src/main/java/exception/DukeParseException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1692,7 +2988,65 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class DukeParseException extends DukeException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public DukeParseException() {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        super(\"OOPS!!! Please key in date and time in the format of \u003cdd/M/yyyy hh:mm\u003e\");"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 7
+    }
+  },
+  {
+    "path": "src/main/java/exception/EventException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1784,7 +3138,7 @@
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/InvalidInstructionException.java",
+    "path": "src/main/java/exception/InvalidInstructionException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1792,7 +3146,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1856,7 +3210,7 @@
     }
   },
   {
-    "path": "src/main/java/exceptionpackage/ToDoException.java",
+    "path": "src/main/java/exception/ToDoException.java",
     "fileType": "java",
     "lines": [
       {
@@ -1864,7 +3218,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package exceptionpackage;"
+        "content": "package exception;"
       },
       {
         "lineNumber": 2,
@@ -1928,7 +3282,7 @@
     }
   },
   {
-    "path": "src/main/java/taskpackage/Deadline.java",
+    "path": "src/main/java/storage/Storage.java",
     "fileType": "java",
     "lines": [
       {
@@ -1936,7 +3290,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package taskpackage;"
+        "content": "package storage;"
       },
       {
         "lineNumber": 2,
@@ -1947,59 +3301,523 @@
       },
       {
         "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.*;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.io.PrintWriter;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    private Scanner sc;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    private String filepath;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public Storage(String filepath) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.filepath \u003d filepath;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            this.sc \u003d new Scanner(new File(this.filepath));"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.err.println(e);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            while (sc.hasNext()) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                String[] input \u003d sc.nextLine().split(\"\\\\|\");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                //strip any leading spaces"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                for (int i \u003d 0; i \u003c input.length; i++) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    input[i] \u003d input[i].strip();"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                if (input[0].equals(\"[T]\")) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    tasks.add(new ToDo(input[1], input[2]));"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                } else if (input[0].equals(\"[D]\")) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    tasks.add(new Deadline(input[1], input[2], input[3]));"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                } else { //Event task"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                    tasks.add(new Event(input[1], input[2], input[3]));"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            return tasks;"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            throw new DukeException(\"Load fails\");"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void save(TaskList tasks) {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            PrintWriter pw \u003d new PrintWriter(filepath);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            pw.close();"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            PrintWriter pw2 \u003d new PrintWriter(filepath);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            for (Task task : tasks.getTaskList()) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "                pw2.println(task.toDataBase());"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            pw2.close();"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        } catch (FileNotFoundException e){"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            System.err.println(e);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 65
+    }
+  },
+  {
+    "path": "src/main/java/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
         "author": {
           "gitId": "honhaochen"
         },
         "content": "public class Deadline extends Task {"
       },
       {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "    protected String date;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "honhaochen"
-        },
-        "content": "    public Deadline(String description, String date) {"
-      },
-      {
         "lineNumber": 8,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        this.date \u003d date;"
+        "content": "    protected Date date;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "    protected SimpleDateFormat formatter;"
       },
       {
         "lineNumber": 11,
@@ -2013,31 +3831,164 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    @Override"
+        "content": "    public Deadline(String description, String date) throws ParseException {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public String toString() {"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + date + \")\";"
+        "content": "        formatter \u003d new SimpleDateFormat(\"dd/M/yyyy hh:mm\");"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "        this.date \u003d formatter.parse(date);"
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public Deadline(String isDone, String description, String date) throws ParseException {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        formatter \u003d new SimpleDateFormat(\"dd/M/yyyy hh:mm\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.date \u003d formatter.parse(date);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (isDone.equals(\"\\u2713\")) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String toDataBase() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[D] | \" + getStatusIcon() + \" | \" + description + \" | \" + formatter.format(date);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + formatter.format(date) + \")\";"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
         "author": {
           "gitId": "honhaochen"
         },
@@ -2045,11 +3996,11 @@
       }
     ],
     "authorContributionMap": {
-      "honhaochen": 16
+      "honhaochen": 35
     }
   },
   {
-    "path": "src/main/java/taskpackage/Event.java",
+    "path": "src/main/java/task/Event.java",
     "fileType": "java",
     "lines": [
       {
@@ -2057,7 +4008,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package taskpackage;"
+        "content": "package task;"
       },
       {
         "lineNumber": 2,
@@ -2071,21 +4022,21 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "public class Event extends Task {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    protected String date;"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 6,
@@ -2099,28 +4050,28 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public Event(String description, String date) {"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        this.date \u003d date;"
+        "content": "    protected Date date;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "    protected SimpleDateFormat formatter;"
       },
       {
         "lineNumber": 11,
@@ -2134,31 +4085,171 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public String toString() {"
+        "content": "    public Event(String description, String date) throws ParseException {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + date + \")\";"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "        formatter \u003d new SimpleDateFormat(\"dd/M/yyyy hh:mm\");"
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.date \u003d formatter.parse(date);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public Event(String isDone, String description, String date) throws ParseException {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        formatter \u003d new SimpleDateFormat(\"dd/M/yyyy hh:mm\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.date \u003d formatter.parse(date);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        if (isDone.equals(\"\\u2713\")) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "            this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String toDataBase() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[E] | \" + getStatusIcon() + \" | \" + description + \" | \" + formatter.format(date);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + formatter.format(date) + \")\";"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
         "author": {
           "gitId": "honhaochen"
         },
@@ -2166,11 +4257,11 @@
       }
     ],
     "authorContributionMap": {
-      "honhaochen": 16
+      "honhaochen": 36
     }
   },
   {
-    "path": "src/main/java/taskpackage/Task.java",
+    "path": "src/main/java/task/Task.java",
     "fileType": "java",
     "lines": [
       {
@@ -2178,7 +4269,7 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package taskpackage;"
+        "content": "package task;"
       },
       {
         "lineNumber": 2,
@@ -2255,105 +4346,105 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    //Will be Overridden in child class"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "    public String toDataBase() {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "        return \"\";"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public void markAsDone() {"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        isDone \u003d true;"
+        "content": "    public String getStatusIcon() {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public boolean isDone() {"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        return isDone;"
+        "content": "    public void markAsDone() {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "        isDone \u003d true;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public String toString() {"
+        "content": "    public boolean isDone() {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
+        "content": "        return isDone;"
       },
       {
         "lineNumber": 27,
@@ -2374,15 +4465,50 @@
         "author": {
           "gitId": "honhaochen"
         },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "honhaochen": 29
+      "honhaochen": 34
     }
   },
   {
-    "path": "src/main/java/taskpackage/ToDo.java",
+    "path": "src/main/java/task/TaskList.java",
     "fileType": "java",
     "lines": [
       {
@@ -2390,7 +4516,177 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "package taskpackage;"
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.tasks \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e tasks) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.tasks \u003d tasks;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public ArrayList\u003cTask\u003e getTaskList() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return this.tasks;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 23
+    }
+  },
+  {
+    "path": "src/main/java/task/ToDo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package task;"
       },
       {
         "lineNumber": 2,
@@ -2418,63 +4714,63 @@
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    protected String date;"
+        "content": "    public ToDo(String description) {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "        super(description);"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public ToDo(String description) {"
+        "content": "    }"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    }"
+        "content": "    public ToDo(String isDone, String description) {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": ""
+        "content": "        super(description);"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    @Override"
+        "content": "        if (isDone.equals(\"\\u2713\")) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "    public String toString() {"
+        "content": "            this.isDone \u003d true;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "honhaochen"
         },
-        "content": "        return \"[T]\" + super.toString();"
+        "content": "        }"
       },
       {
         "lineNumber": 14,
@@ -2488,11 +4784,349 @@
         "author": {
           "gitId": "honhaochen"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "   public String toDataBase() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[T] | \" + getStatusIcon() + \" | \" + description;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "honhaochen": 15
+      "honhaochen": 24
+    }
+  },
+  {
+    "path": "src/main/java/ui/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "package ui;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected String horizontalLine;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    protected Scanner sc;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public Ui() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        this.horizontalLine \u003d \"    ____________________________________________________________\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void showLine() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(horizontalLine);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(horizontalLine);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(\"     Hello from! I\u0027m Duke\\n\" + \"     What can I do for you?\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(horizontalLine + \"\\n\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public String readCommand() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        return sc.nextLine();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void showError(String e) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(\"     \" + e);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    public void showLoadingError() {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(horizontalLine);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(\"     Note: task.TaskList storage is initially empty / the file is corrupted\");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(\"     New empty file will be created.\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "        System.out.println(horizontalLine + \"\\n\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "honhaochen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "honhaochen": 38
     }
   },
   {

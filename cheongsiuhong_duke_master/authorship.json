@@ -141,7 +141,7 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        tasks \u003d new TaskList(NUMBER_TASKS);"
+        "content": "        tasks \u003d TaskList.create(NUMBER_TASKS);"
       },
       {
         "lineNumber": 21,
@@ -553,381 +553,1074 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "import duke.tasks.Task;"
+        "content": "import duke.tasks.DeadlineTask;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "import duke.tasks.EventTask;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import duke.tasks.Task;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "import duke.tasks.TodoTask;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "public class TaskList {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private ArrayList\u003cTask\u003e tasks;"
+        "content": "import java.io.File;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "import java.io.FileNotFoundException;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public TaskList(int num) {"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        this.tasks \u003d new ArrayList\u003c\u003e(num);"
+        "content": "import java.nio.file.Files;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "import java.nio.file.Path;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "import java.nio.file.Paths;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public void addTask(Task task) {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        tasks.add(task);"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public void deleteTask(int index) {"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        tasks.remove(index - 1);"
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "    private static final String FILE_PATH \u003d \"data/duke.txt\";"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "    private static final SimpleDateFormat DATE_FORMAT \u003d new SimpleDateFormat(\"d/M/yyyy HHmm\");"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public Task getTask(int index) {"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        return tasks.get(index - 1);"
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "    public static TaskList create(int num) {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public int numTasks() {"
+        "content": "        try {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        return tasks.size();"
+        "content": "            ArrayList\u003cString\u003e storage \u003d read();"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "            return new TaskList(num, storage);"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "        } catch (FileNotFoundException e) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public void markDone(int index) {"
+        "content": "            return new TaskList(num);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        Task doneTask \u003d tasks.get(index - 1);"
+        "content": "        }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        doneTask.markDone();"
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "    private TaskList(int num) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    @Override"
+        "content": "        this.tasks \u003d new ArrayList\u003c\u003e(num);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        int size \u003d tasks.size();"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        if(size \u003d\u003d 0) {"
+        "content": "    private TaskList(int num, ArrayList\u003cString\u003e storage) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            return \"Empty list: no tasks added\";"
+        "content": "        this.tasks \u003d new ArrayList\u003c\u003e(num);"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        } else {"
+        "content": "        for (String s : storage) {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            int index \u003d 1;"
+        "content": "            try {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            StringBuilder listOfTasks \u003d new StringBuilder();"
+        "content": "                String[] args \u003d s.split(\"\\\\|\");"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            for(Task task : tasks) {"
+        "content": "                switch (args[0]) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                if(index \u003d\u003d 1) {"
+        "content": "                    case \"T\":"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                    listOfTasks.append("
+        "content": "                        Task todo \u003d new TodoTask(args[2]);"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                            String.format(\"%d.%s\", index, task));"
+        "content": "                        if (args[1].equals(\"1\"))"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                    index++;"
+        "content": "                            todo.markDone();"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                } else {"
+        "content": "                        tasks.add(todo);"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                    listOfTasks.append("
+        "content": "                        break;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                            String.format(\"\\n%d.%s\", index, task));"
+        "content": "                    case \"E\":"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                    index++;"
+        "content": "                        Task event \u003d new EventTask(args[2], args[3]);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                }"
+        "content": "                        if (args[1].equals(\"1\"))"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            }"
+        "content": "                            event.markDone();"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            return listOfTasks.toString();"
+        "content": "                        tasks.add(event);"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        }"
+        "content": "                        break;"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "                    case \"D\":"
       },
       {
         "lineNumber": 57,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                        Task deadline \u003d new DeadlineTask(args[2],"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                                DATE_FORMAT.parse(args[3]));"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                        if (args[1].equals(\"1\"))"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                            deadline.markDone();"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                        tasks.add(deadline);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                    default:"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            } catch(ParseException e) {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                this.tasks \u003d new ArrayList\u003c\u003e(num);"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public void addTask(Task task) {"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        tasks.add(task);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            write();"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public void deleteTask(int index) {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        tasks.remove(index - 1);"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            write();"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public Task getTask(int index) {"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return tasks.get(index - 1);"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public int numTasks() {"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return tasks.size();"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public void markDone(int index) {"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        Task doneTask \u003d tasks.get(index - 1);"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        doneTask.markDone();"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            write();"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        int size \u003d tasks.size();"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        if(size \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            return \"Empty list: no tasks added\";"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            int index \u003d 1;"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            StringBuilder listOfTasks \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            for(Task task : tasks) {"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                if(index \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                    listOfTasks.append("
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                            String.format(\"%d.%s\", index, task));"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                    index++;"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                    listOfTasks.append("
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                            String.format(\"\\n%d.%s\", index, task));"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                    index++;"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            return listOfTasks.toString();"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    private ArrayList\u003cString\u003e formatStrings() {"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        ArrayList\u003cString\u003e al \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        for (Task task : tasks) {"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            al.add(task.formatString());"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return al;"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    private void write() throws IOException {"
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        Path path \u003d Paths.get(FILE_PATH);"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        Files.write(path, formatStrings());"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    private static ArrayList\u003cString\u003e read() throws FileNotFoundException {"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        File f \u003d new File(FILE_PATH);"
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        Scanner sc \u003d new Scanner(f);"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        ArrayList\u003cString\u003e input \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        while(sc.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            input.add(sc.nextLine());"
+      },
+      {
+        "lineNumber": 153,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return input;"
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 156,
         "author": {
           "gitId": "cheongsiuhong"
         },
@@ -935,7 +1628,7 @@
       }
     ],
     "authorContributionMap": {
-      "cheongsiuhong": 57
+      "cheongsiuhong": 156
     }
   },
   {
@@ -1003,325 +1696,395 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "public class AddCommand extends Command {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private static final String AT_DELIMITER \u003d \"/at\";"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private static final String BY_DELIMITER \u003d \"/by\";"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private static final String TODO_COMMAND \u003d \"todo\";"
+        "content": "public class AddCommand extends Command {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private static final String EVENT_COMMAND \u003d \"event\";"
+        "content": "    private static final String AT_DELIMITER \u003d \"/at\";"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private static final String DEADLINE_COMMAND \u003d \"deadline\";"
+        "content": "    private static final String BY_DELIMITER \u003d \"/by\";"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private static final String ADDED_TASK_STRING \u003d \"Got it. I\u0027ve added this task:\";"
+        "content": "    private static final String TODO_COMMAND \u003d \"todo\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "    private static final String EVENT_COMMAND \u003d \"event\";"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private String taskType;"
+        "content": "    private static final String DEADLINE_COMMAND \u003d \"deadline\";"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "    private static final String ADDED_TASK_STRING \u003d \"Got it. I\u0027ve added this task:\";"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public AddCommand(Duke duke, String input) {"
+        "content": "    private static final SimpleDateFormat DATE_FORMAT \u003d new SimpleDateFormat(\"d/M/yyyy HHmm\");"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        super(duke, input);"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        String[] args \u003d input.split(\" \");"
+        "content": "    private String taskType;"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        this.taskType \u003d args[0];"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "    public AddCommand(Duke duke, String input) {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": ""
+        "content": "        super(duke, input);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public void execute() {"
+        "content": "        String[] args \u003d input.split(\" \");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        Task newTask;"
+        "content": "        this.taskType \u003d args[0];"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        switch (taskType) {"
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            case TODO_COMMAND:"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                newTask \u003d new TodoTask("
+        "content": "    public void execute() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                        input.split(TODO_COMMAND)[1]);"
+        "content": "        Task newTask;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                break;"
+        "content": "        try {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            case \"event\":"
+        "content": "            switch (taskType) {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                String[] eventArgs \u003d"
+        "content": "                case TODO_COMMAND:"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                        input.split(EVENT_COMMAND)[1]"
+        "content": "                    newTask \u003d new TodoTask("
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                             .split(AT_DELIMITER);"
+        "content": "                            input.split(TODO_COMMAND)[1]);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                newTask \u003d new EventTask("
+        "content": "                    break;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                        eventArgs[0], eventArgs[1]);"
+        "content": "                case \"event\":"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                break;"
+        "content": "                    String[] eventArgs \u003d"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            case \"deadline\":"
+        "content": "                            input.split(EVENT_COMMAND)[1]"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                String[] deadlineArgs \u003d"
+        "content": "                                    .split(AT_DELIMITER);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                        input.split(DEADLINE_COMMAND)[1]"
+        "content": "                    newTask \u003d new EventTask("
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                                .split(BY_DELIMITER);"
+        "content": "                            eventArgs[0], eventArgs[1]);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                newTask \u003d new DeadlineTask("
+        "content": "                    break;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                        deadlineArgs[0], deadlineArgs[1]);"
+        "content": "                case \"deadline\":"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                break;"
+        "content": "                    String[] deadlineArgs \u003d"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "            default:"
+        "content": "                            input.split(DEADLINE_COMMAND)[1]"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                return;"
+        "content": "                                    .split(BY_DELIMITER);"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        }"
+        "content": "                    newTask \u003d new DeadlineTask("
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        duke.getTasks().addTask(newTask);"
+        "content": "                            deadlineArgs[0],"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        duke.say("
+        "content": "                            DATE_FORMAT.parse(deadlineArgs[1]));"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                String.format(\"%s\\n\\t%s\\nNow you have %d tasks in the list.\","
+        "content": "                    break;"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "                        ADDED_TASK_STRING, newTask, duke.getTasks().numTasks())"
+        "content": "                default:"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        );"
+        "content": "                    return;"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "            }"
       },
       {
         "lineNumber": 55,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            duke.getTasks().addTask(newTask);"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            duke.say("
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                    String.format(\"%s\\n\\t%s\\nNow you have %d tasks in the list.\","
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                            ADDED_TASK_STRING, newTask, duke.getTasks().numTasks())"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            );"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 65,
         "author": {
           "gitId": "cheongsiuhong"
         },
@@ -1329,7 +2092,7 @@
       }
     ],
     "authorContributionMap": {
-      "cheongsiuhong": 55
+      "cheongsiuhong": 65
     }
   },
   {
@@ -2891,14 +3654,14 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "public class DeadlineTask extends Task {"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    private String date;"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 5,
@@ -2912,28 +3675,28 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public DeadlineTask(String description, String date) {"
+        "content": "public class DeadlineTask extends Task {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        super(description);"
+        "content": "    private static final SimpleDateFormat DATE_FORMAT \u003d new SimpleDateFormat(\"d/M/yyyy HHmm\");"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        this.date \u003d date;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    }"
+        "content": "    private Date dateTime;"
       },
       {
         "lineNumber": 10,
@@ -2947,21 +3710,21 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    @Override"
+        "content": "    public DeadlineTask(String description, Date dateTime) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "    public String toString() {"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "cheongsiuhong"
         },
-        "content": "        return String.format(\"[D]%s(at:%s)\", super.toString(), date);"
+        "content": "        this.dateTime \u003d dateTime;"
       },
       {
         "lineNumber": 14,
@@ -2982,11 +3745,95 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return String.format(\"[D]%s(at: %s)\", super.toString(), DATE_FORMAT.format(dateTime));"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public String formatString() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return String.format("
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                \"D|%s|%s\", super.formatString(), DATE_FORMAT.format(dateTime));"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "cheongsiuhong": 16
+      "cheongsiuhong": 28
     }
   },
   {
@@ -3103,11 +3950,46 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public String formatString() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return String.format("
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                \"E|%s|%s\", super.formatString(), location);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "cheongsiuhong": 16
+      "cheongsiuhong": 21
     }
   },
   {
@@ -3294,11 +4176,53 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public String formatString() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return String.format("
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                \"%d|%s\", isDone ? 1 : 0, description"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        );"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "cheongsiuhong": 26
+      "cheongsiuhong": 32
     }
   },
   {
@@ -3394,11 +4318,53 @@
         "author": {
           "gitId": "cheongsiuhong"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    public String formatString() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "        return String.format("
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "                \"T|%s\", super.formatString());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cheongsiuhong"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "cheongsiuhong": 13
+      "cheongsiuhong": 19
     }
   },
   {

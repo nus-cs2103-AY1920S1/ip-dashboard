@@ -78,7 +78,7 @@
         "author": {
           "gitId": "lumos309"
         },
-        "content": "    public Deadline(String description, boolean isDone, String by) {"
+        "content": "    public Deadline(String description, boolean isDone, Date by) {"
       },
       {
         "lineNumber": 12,
@@ -162,7 +162,7 @@
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        return \"D`\" + super.toStorageString() + \u0027`\u0027 + by;"
+        "content": "        return \"D`\" + super.toStorageString() + \u0027`\u0027 + by.toString();"
       },
       {
         "lineNumber": 24,
@@ -276,997 +276,164 @@
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+        "content": "        TaskList taskList;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        SimpleDateFormat dateFormatter \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
+        "content": "        Scanner sc;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "lumos309"
         },
-        "content": ""
+        "content": "        Boolean exit \u003d false;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        Scanner sc;"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        Boolean exit \u003d false;"
+        "content": "        // Retrieve existing tasks"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "lumos309"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        // Retrieve existing tasks"
+        "content": "            Storage storage \u003d new Storage(\"tasks.txt\");"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        File file \u003d new File(\"tasks.txt\");"
+        "content": "            taskList \u003d new TaskList(storage.loadTasks());"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        Scanner fileSc;"
+        "content": "        } catch (FileNotFoundException e) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        try {"
+        "content": "            Ui.showLoadingError();"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "            fileSc \u003d new Scanner(file);"
+        "content": "            taskList \u003d new TaskList();"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "            while (fileSc.hasNextLine()) {"
+        "content": "        }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                String[] nextLine \u003d fileSc.nextLine().strip().split(\"`\");"
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                Task newTask;"
+        "content": "        Ui.showWelcomeMessage();"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                boolean isDone \u003d nextLine[1].equals(\"1\");"
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                switch (nextLine[0]) {"
+        "content": "        String nextAction \u003d Parser.parseInput(Ui.getNextLine(), taskList);"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                case (\"T\"):"
+        "content": "        while (!nextAction.equals(\"exit\")) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                    newTask \u003d new ToDo(nextLine[2], isDone);"
+        "content": "            nextAction \u003d Parser.parseInput(Ui.getNextLine(), taskList);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                    break;"
+        "content": "        }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                case (\"D\"):"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                    newTask \u003d new Deadline(nextLine[2], isDone, nextLine[3]);"
+        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "lumos309"
         },
-        "content": "                    break;"
+        "content": ""
       },
       {
         "lineNumber": 35,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"E\"):"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    newTask \u003d new Event(nextLine[2], isDone, nextLine[3]);"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    newTask \u003d new ToDo(\"Unknown task\");"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            fileSc.close();"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        } catch (FileNotFoundException e) {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            System.out.println(e.toString());"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "        String logo \u003d \" ____        _        \\n\""
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        // System.out.println(\"Hello from\\n\" + logo);"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        System.out.println(\"Hello! I\u0027m Duke\");"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        System.out.println(\"What can I do for you?\");"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        String response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        while (!exit) {"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                switch (response) {"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"bye\"):"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    exit \u003d true;"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"list\"):"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    Iterator\u003cTask\u003e iter \u003d tasks.iterator();"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    int i \u003d 1;"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    while (iter.hasNext()) {"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        Task task \u003d iter.next();"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        System.out.println(task.toString());"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        i++;"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"done\"):"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    int taskNo \u003d Integer.parseInt(sc.next());"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    Task task \u003d tasks.get(taskNo - 1);"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    task.markAsDone();"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"[\" + task.getStatusIcon() + \"] \" + task.description);"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"todo\"):"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    try {"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        String description \u003d sc.nextLine().trim();"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        if (description.equals(\"\")) throw new EmptyDescriptionException("
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                                \"☹ OOPS!!! The description of a todo cannot be empty.\");"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        ToDo newToDo \u003d new ToDo(description);"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        tasks.add(newToDo);"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        System.out.println(newToDo.toString());"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        System.out.println(\"Now you have \" + tasks.size() + \" task in the list.\");"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    } catch (EmptyDescriptionException e) {"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                        System.out.println(e.toString());"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"deadline\"):"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.nextLine().trim();"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    Deadline newDeadline \u003d new Deadline(response.split(\" /by \")[0],"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                            dateFormatter.parse(response.split(\" /by \")[1]));"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    tasks.add(newDeadline);"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(newDeadline.toString());"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Now you have \" + tasks.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"event\"):"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.nextLine().trim();"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    Event newEvent \u003d new Event(response.split(\" /at \")[0],"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                            dateFormatter.parse(response.split(\" /by \")[1]));"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    tasks.add(newEvent);"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(newEvent.toString());"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Now you have \" + tasks.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                case (\"delete\"):"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    int index \u003d Integer.parseInt(sc.nextLine().trim()) - 1;"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    Task removedTask \u003d tasks.remove(index);"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Got it. I\u0027ve removed this task:\");"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(removedTask.toString());"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    System.out.println(\"Now you have \" + tasks.size() + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    throw new InvalidCommandException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            } catch (InvalidCommandException | ParseException e) {"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                System.out.println(e.toString());"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                response \u003d sc.next();"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            // write all tasks to file"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            FileWriter fw;"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                fw \u003d new FileWriter(\"tasks.txt\");"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                String dataStr \u003d \"\";"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                for (Task task : tasks) {"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    String isDone \u003d task.isDone"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                            ? \"1\""
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                            : \"0\";"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                    dataStr +\u003d task.toStorageString() + System.lineSeparator();"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                fw.write(dataStr);"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                fw.close();"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "                System.out.println(e.toString());"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "lumos309"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 154,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 155,
+        "lineNumber": 36,
         "author": {
           "gitId": "-"
         },
@@ -1274,8 +441,8 @@
       }
     ],
     "authorContributionMap": {
-      "lumos309": 146,
-      "-": 9
+      "lumos309": 32,
+      "-": 4
     }
   },
   {
@@ -1457,7 +624,7 @@
         "author": {
           "gitId": "lumos309"
         },
-        "content": "    public Event(String description, boolean isDone, String at) {"
+        "content": "    public Event(String description, boolean isDone, Date at) {"
       },
       {
         "lineNumber": 12,
@@ -1541,7 +708,7 @@
         "author": {
           "gitId": "lumos309"
         },
-        "content": "        return \"E`\" + super.toStorageString() + \u0027`\u0027 + at;"
+        "content": "        return \"E`\" + super.toStorageString() + \u0027`\u0027 + at.toString();"
       },
       {
         "lineNumber": 24,
@@ -1660,6 +827,969 @@
     ],
     "authorContributionMap": {
       "lumos309": 13
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    private static Scanner sc;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public Parser() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static String parseInput(String inputString, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        sc \u003d new Scanner(inputString);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        String command \u003d sc.next();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        SimpleDateFormat dateFormatter \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            switch (command) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"bye\"):"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                return \"exit\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"list\"):"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                taskList.displayAllTasks();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"done\"):"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                int taskNo \u003d Integer.parseInt(sc.next());"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                taskList.markTaskAsDone(taskNo);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"todo\"):"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                try {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    String description \u003d sc.nextLine().trim();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    if (description.equals(\"\")) throw new EmptyDescriptionException("
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                            \"☹ OOPS!!! The description of a todo cannot be empty.\");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    ToDo newToDo \u003d new ToDo(description);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    taskList.addTask(newToDo);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                } catch (EmptyDescriptionException e) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    System.out.println(e.toString());"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"deadline\"):"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                String deadlineDesc \u003d sc.nextLine().trim();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                Deadline newDeadline \u003d new Deadline(deadlineDesc.split(\" /by \")[0],"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                        dateFormatter.parse(deadlineDesc.split(\" /by \")[1]));"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                taskList.addTask(newDeadline);"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"event\"):"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                String eventDesc \u003d sc.nextLine().trim();"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                Event newEvent \u003d new Event(eventDesc.split(\" /at \")[0],"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                        dateFormatter.parse(eventDesc.split(\" /by \")[1]));"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                taskList.addTask(newEvent);"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            case (\"delete\"):"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                int index \u003d Integer.parseInt(sc.nextLine().trim());"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                taskList.deleteTask(index);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                throw new InvalidCommandException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            // write all tasks to file"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            FileWriter fw;"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                fw \u003d new FileWriter(\"tasks.txt\");"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                String dataStr \u003d \"\";"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                for (Task task : taskList.tasks) {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    String isDone \u003d task.isDone"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                            ? \"1\""
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                            : \"0\";"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    dataStr +\u003d task.toStorageString() + System.lineSeparator();"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                fw.write(dataStr);"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                fw.close();"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                System.out.println(e.toString());"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            return \"continue\";"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        } catch (InvalidCommandException | ParseException e) {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            System.out.println(e.toString());"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            return \"continue\";"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "lumos309": 84
+    }
+  },
+  {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    SimpleDateFormat dateFormatter \u003d new SimpleDateFormat(\"EEE MMM dd hh:mm:ss zzz yyyy\");"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    String filePath;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public Storage(String filePath) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        this.filePath \u003d filePath;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public ArrayList\u003cTask\u003e loadTasks() throws FileNotFoundException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        File file \u003d new File(filePath);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Scanner fileSc;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        if (!file.canRead()) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            throw new FileNotFoundException();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        fileSc \u003d new Scanner(file);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        while (fileSc.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                String[] nextLine \u003d fileSc.nextLine().strip().split(\"`\");"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                Task newTask;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                boolean isDone \u003d nextLine[1].equals(\"1\");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                switch (nextLine[0]) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                case (\"T\"):"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    newTask \u003d new ToDo(nextLine[2], isDone);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                case (\"D\"):"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    newTask \u003d new Deadline(nextLine[2], isDone, dateFormatter.parse(nextLine[3]));"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                case (\"E\"):"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    newTask \u003d new Event(nextLine[2], isDone, dateFormatter.parse(nextLine[3]));"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                default:"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    newTask \u003d new ToDo(\"Unknown task\");"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                tasks.add(newTask);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                System.out.println(e.toString());"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        fileSc.close();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        return tasks;"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "lumos309": 51
     }
   },
   {
@@ -1896,6 +2026,323 @@
     }
   },
   {
+    "path": "src/main/java/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.util.Iterator;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e tasks) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        this.tasks \u003d tasks;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        this.tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public int getSize() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        return tasks.size();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public void displayAllTasks() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Iterator\u003cTask\u003e iter \u003d tasks.iterator();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        int i \u003d 1;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        while (iter.hasNext()) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            Task task \u003d iter.next();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            System.out.println(task.toString());"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            i++;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public void addTask(Task task) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        tasks.add(task);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Ui.outputTaskAdded(task, this);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public void deleteTask(int index) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Task removedTask \u003d tasks.remove(index - 1);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Ui.outputTaskRemoved(removedTask, this);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public void markTaskAsDone(int index) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Task task \u003d tasks.get(index - 1);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        task.markAsDone();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Ui.outputTaskDone(task);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "lumos309": 44
+    }
+  },
+  {
     "path": "src/main/java/ToDo.java",
     "fileType": "java",
     "lines": [
@@ -2035,6 +2482,656 @@
     ],
     "authorContributionMap": {
       "lumos309": 19
+    }
+  },
+  {
+    "path": "src/main/java/UI.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    private static Scanner sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public Ui() {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static void showWelcomeMessage() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        String logo \u003d \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Hello! I\u0027m Duke\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"What can I do for you?\");"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static void showLoadingError() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Unable to open file. Initialising empty file list.\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static String getNextLine() {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        return sc.nextLine();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static void outputTaskAdded(Task task, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(task.toString());"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Now you have \" + taskList.getSize() + \" task in the list.\");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static void outputTaskRemoved(Task task, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Got it. I\u0027ve removed this task:\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(task.toString());"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Now you have \" + taskList.getSize() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public static void outputTaskDone(Task task) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        System.out.println(\"[\" + task.getStatusIcon() + \"] \" + task.description);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "lumos309": 45
+    }
+  },
+  {
+    "path": "src/test/java/DeadlineTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": " * Test class for Deadline."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "public class DeadlineTest {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "     * Creates a new Deadline task, and checks whether its toString() method gives the correct output."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public void createTaskTest() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            SimpleDateFormat dateFormatter \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            Deadline newDeadline \u003d new Deadline(\"Sample Deadline\","
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    true,"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    dateFormatter.parse(\"2/12/2019 1800\"));"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "            assertEquals(\"[D][\\u2713] Sample Deadline (by: Mon Dec 02 18:00:00 SGT 2019)\","
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "                    newDeadline.toString());"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "lumos309": 27
+    }
+  },
+  {
+    "path": "src/test/java/TaskTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": " * Test class for Task."
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "public class TaskTest {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "     * Creates a new task, and checks whether its toString() method gives the correct output."
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    public void createTaskTest() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        Task newTask \u003d new Task(\"Sample Task\", true);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "        assertEquals(\"[\\u2713] Sample Task\", newTask.toString());"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "lumos309"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "lumos309": 17
     }
   },
   {

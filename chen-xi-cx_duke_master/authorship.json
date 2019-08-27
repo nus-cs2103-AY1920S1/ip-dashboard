@@ -1,6 +1,6 @@
 [
   {
-    "path": "src/main/java/Deadline.java",
+    "path": "src/main/java/command/Command.java",
     "fileType": "java",
     "lines": [
       {
@@ -8,7 +8,7 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Date;"
+        "content": "package command;"
       },
       {
         "lineNumber": 2,
@@ -22,21 +22,21 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "import parser.Storage;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    protected Date by;"
+        "content": "import ui.Ui;"
       },
       {
         "lineNumber": 6,
@@ -50,21 +50,21 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Deadline(String description, Date by) {"
+        "content": "public abstract class Command {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        super(description);"
+        "content": "    public boolean canEnd() {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this.by \u003d by;"
+        "content": "        return false;"
       },
       {
         "lineNumber": 10,
@@ -85,94 +85,10 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Deadline(String description, Date by, boolean isDone) {"
+        "content": "    public abstract void execute(TaskList tasks, Ui ui, Storage storage);"
       },
       {
         "lineNumber": 13,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        super(description, isDone);"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        this.by \u003d by;"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public Date getBy() {"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        return by;"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public String toString() {"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        return \"[D]\" + super.toString() + \"(by: \" + by + \")\";"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 25,
         "author": {
           "gitId": "chen-xi-cx"
         },
@@ -180,11 +96,11 @@
       }
     ],
     "authorContributionMap": {
-      "chen-xi-cx": 25
+      "chen-xi-cx": 13
     }
   },
   {
-    "path": "src/main/java/Duke.java",
+    "path": "src/main/java/command/DeadlineCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -192,63 +108,63 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.io.FileNotFoundException;"
+        "content": "package command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.io.IOException;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.text.ParseException;"
+        "content": "import converter.StringDateConverter;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import parser.Storage;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Date;"
+        "content": "import task.Deadline;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "import ui.Ui;"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "-"
+          "gitId": "chen-xi-cx"
         },
-        "content": "public class Duke {"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    private ArrayList\u003cTask\u003e myList;"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 10,
@@ -262,42 +178,42 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Duke() {"
+        "content": "public class DeadlineCommand extends Command {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        myList \u003d new ArrayList\u003cTask\u003e();"
+        "content": "    private String[] arguments;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "    public DeadlineCommand(String[] arguments) {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    private void run() {"
+        "content": "        this.arguments \u003d arguments;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        boolean canEnd;"
+        "content": "    }"
       },
       {
         "lineNumber": 17,
@@ -311,1003 +227,113 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        try {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            TaskFileReader reader \u003d new TaskFileReader();"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            reader.loadTaskContents(\"data/duke.txt\", myList);"
+        "content": "        try {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        } catch (FileNotFoundException e) {"
+        "content": "            StringDateConverter converter \u003d new StringDateConverter();"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        }"
+        "content": "            Date by \u003d converter.convertStringToDate(arguments[1].trim());"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        Scanner myScanner \u003d new Scanner(System.in);"
+        "content": "            tasks.getTasks().add(new Deadline(arguments[0], by));"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        System.out.println(\"Hello! I\u0027m Duke\\nWhat can I do for you?\");"
+        "content": "            System.out.println(\"Got it. I\u0027ve added this task:\");"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        canEnd \u003d false;"
+        "content": "            System.out.println(tasks.getTasks().get(tasks.getTasks().size() - 1));"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        while (!canEnd) {"
+        "content": "            System.out.println(\"Now you have \" + tasks.getTasks().size()"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            String input;"
+        "content": "                    + \" tasks in the list.\");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            input \u003d myScanner.nextLine();"
+        "content": "        } catch (Exception e) {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            if (isDone(input) || isRemove(input)) {"
+        "content": "            System.out.println(e.getMessage());"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                continue;"
+        "content": "        }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            }"
+        "content": "    }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            switch (input) {"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            case \"bye\":"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                System.out.println(\"Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                canEnd \u003d true;"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            case \"list\":"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                System.out.println(\"Here are the tasks in your list\");"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                for (int i \u003d 0; i \u003c myList.size(); i \u003d i + 1) {"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    int number \u003d i + 1;"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(number + \".\" + myList.get(i));"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            default:"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                try {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    processCommandType(input);"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"\\u2639 OOPS!!! \" + e.getMessage());"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        TaskFileWriter writer \u003d new TaskFileWriter();"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            writer.writeToFile(\"data/duke.txt\", myList);"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "     * Returns true if input is of the form \"delete \u003cint\u003e\""
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "     * @param input"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    private boolean isRemove(String input) {"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        String[] keywords \u003d input.split(\" \");"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        if (keywords[0].equals(\"delete\") \u0026\u0026 keywords.length \u003d\u003d 2) {"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            Scanner s \u003d new Scanner(keywords[1]);"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if (s.hasNextInt()) {"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                int index \u003d s.nextInt() - 1;"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                if (index \u003e\u003d0 \u0026\u0026 index \u003c myList.size()) {"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"Noted. I\u0027ve removed this task:\");"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(myList.get(index));"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    myList.remove(index);"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"Now you have \" + myList.size());"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                else {"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"Please enter a valid number\");"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                return true;"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        return false;"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "     * Returns true if input is of the form \"done \u003cint\u003e\""
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "     * @param input"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    private boolean isDone(String input) {"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        String[] keywords \u003d input.split(\" \");"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        if (keywords[0].equals(\"done\") \u0026\u0026 keywords.length \u003d\u003d 2) {"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            Scanner s \u003d new Scanner(keywords[1]);"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if (s.hasNextInt()) {"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                int index \u003d s.nextInt() - 1;"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                if (index \u003e\u003d0 \u0026\u0026 index \u003c myList.size()) {"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    myList.get(index).setStatus(true);"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"[\" + myList.get(index).getStatusIcon()"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                            + \"]\" + myList.get(index).getDescription());"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                else {"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    System.out.println(\"Please enter a valid number\");"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                return true;"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        return false;"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    private void processCommandType(String input) throws DukeException {"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        String[] type \u003d new String[]{\"todo\", \"deadline\", \"event\"};"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        String[] date \u003d new String[]{\"\", \"/by\", \"/at\"};"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        boolean enterLoop \u003d false;"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        for (int i \u003d 0; i \u003c type.length; i++) {"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            int startIdx \u003d input.indexOf(type[i]);"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            int endIdx \u003d input.indexOf(date[i]);"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if (input.trim().equals(\"todo\")"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    || (input.split(\" \")[0].equals(\"deadline\") \u0026\u0026 endIdx \u003d\u003d -1 \u0026\u0026 i \u003d\u003d 1)"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    || (input.split(\" \")[0].equals(\"event\") \u0026\u0026 endIdx \u003d\u003d -1 \u0026\u0026 i \u003d\u003d 2)) {"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                throw new DukeException(input);"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if ((startIdx !\u003d -1 \u0026\u0026 i \u003d\u003d 1)"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    || (startIdx !\u003d -1 \u0026\u0026 endIdx !\u003d -1)) {"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                enterLoop \u003d true;"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            } else if (i \u003d\u003d 2 \u0026\u0026 endIdx \u003d\u003d -1) {"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                throw new DukeException(input);"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if (!enterLoop) {"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                continue;"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                if (i \u003d\u003d 0) {"
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    myList.add(new ToDo(input.substring(type[i].length())));"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                } else if (i \u003d\u003d 1) {"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    StringDateConverter converter \u003d new StringDateConverter();"
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    Date by \u003d converter.convertStringToDate(input.substring(endIdx + date[i].length() + 1));"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    myList.add(new Deadline(input.substring(type[i].length(), endIdx), by));"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    StringDateConverter converter \u003d new StringDateConverter();"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    Date at \u003d converter.convertStringToDate(input.substring(endIdx + date[i].length() + 1));"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                    myList.add(new Event(input.substring(type[i].length(), endIdx), at));"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                System.out.println(myList.get(myList.size() - 1));"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                System.out.println(\"Now you have \" + myList.size()"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                        + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            } catch (Exception e) {"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 154,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 155,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    public static void main(String[] args) {"
-      },
-      {
-        "lineNumber": 156,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        Duke duke \u003d new Duke();"
-      },
-      {
-        "lineNumber": 157,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        duke.run();"
-      },
-      {
-        "lineNumber": 158,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 159,
-        "author": {
-          "gitId": "-"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "-": 5,
-      "chen-xi-cx": 154
+      "chen-xi-cx": 32
     }
   },
   {
-    "path": "src/main/java/DukeException.java",
+    "path": "src/main/java/command/DeleteCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -1315,7 +341,7 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class DukeException extends Exception{"
+        "content": "package command;"
       },
       {
         "lineNumber": 2,
@@ -1329,313 +355,164 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    protected String type;"
+        "content": "import parser.Storage;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public DukeException(String input) {"
+        "content": "import ui.Ui;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this.type \u003d input.split(\" \")[0];"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": "public class DeleteCommand extends Command {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "    private int index;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public String getMessage() {"
+        "content": "    public DeleteCommand(int index) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        if (this.type.equals(\"todo\")) {"
+        "content": "        this.index \u003d index;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            return \"The description of a todo cannot be empty.\";"
+        "content": "    }"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        } else if (this.type.equals(\"deadline\")) {"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            return \"The description of a deadline cannot be empty.\";"
+        "content": "    @Override"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        } else if (this.type.equals(\"event\")) {"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            return \"The description of a event cannot be empty.\";"
+        "content": "        if (this.index \u003c 0 || this.index \u003e\u003d tasks.getTasks().size()) {"
       },
       {
         "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            Command incorrectCommand \u003d new IncorrectCommand();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            incorrectCommand.execute(tasks, ui, storage);"
+      },
+      {
+        "lineNumber": 19,
         "author": {
           "gitId": "chen-xi-cx"
         },
         "content": "        } else {"
       },
       {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            return \"I\u0027m sorry, but I don\u0027t know what that means :-(\";"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        }"
-      },
-      {
         "lineNumber": 20,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": "            System.out.println(\"Noted. I\u0027ve removed this task:\");"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "chen-xi-cx": 21
-    }
-  },
-  {
-    "path": "src/main/java/Event.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "import java.util.Date;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "public class Event extends Task {"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    protected Date at;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public Event(String description, Date at) {"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        super(description);"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        this.at \u003d at;"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public Event(String description, Date at, boolean isDone) {"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        super(description, isDone);"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        this.at \u003d at;"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public Date getAt() {"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        return at;"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    @Override"
+        "content": "            System.out.println(tasks.getTasks().get(this.index));"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public String toString() {"
+        "content": "            tasks.getTasks().remove(this.index);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        return \"[E]\" + super.toString() + \"(at: \" + at + \")\";"
+        "content": "            System.out.println(\"Now you have \" + tasks.getTasks().size() + \" in the list.\");"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
         "author": {
           "gitId": "chen-xi-cx"
         },
@@ -1643,11 +520,11 @@
       }
     ],
     "authorContributionMap": {
-      "chen-xi-cx": 25
+      "chen-xi-cx": 26
     }
   },
   {
-    "path": "src/main/java/StringDateConverter.java",
+    "path": "src/main/java/command/DoneCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -1655,63 +532,254 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.text.SimpleDateFormat;"
+        "content": "package command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Date;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "import parser.Storage;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class StringDateConverter {"
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Date convertStringToDate(String strDate) throws Exception {"
+        "content": "import ui.Ui;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        SimpleDateFormat dateWithTime \u003d new SimpleDateFormat(\"dd/MM/yyy HHmm\");"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        Date date \u003d dateWithTime.parse(strDate);"
+        "content": "public class DoneCommand extends Command {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        return date;"
+        "content": "    private int index;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public DoneCommand(int index) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.index \u003d index;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
         "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        if (this.index \u003c 0 || this.index \u003e\u003d tasks.getTasks().size()) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            Command incorrectCommand \u003d new IncorrectCommand();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            incorrectCommand.execute(tasks, ui, storage);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            tasks.getTasks().get(this.index).setDone(true);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(\"[\" + tasks.getTasks().get(this.index).getDoneIcon()"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                    + \"]\" + tasks.getTasks().get(this.index).getDescription());"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 26
+    }
+  },
+  {
+    "path": "src/main/java/command/EventCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import converter.StringDateConverter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import parser.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.Event;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 10,
@@ -1725,28 +793,482 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Date convertLongStringToDate(String strDate) throws Exception {"
+        "content": "public class EventCommand extends Command {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        SimpleDateFormat dateWithTime \u003d new SimpleDateFormat(\"EEE MMM dd HH:mm:ss zzz yyyy\");"
+        "content": "    private String[] arguments;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        Date date \u003d dateWithTime.parse(strDate);"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        return date;"
+        "content": "    public EventCommand(String[] arguments) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.arguments \u003d arguments;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            StringDateConverter converter \u003d new StringDateConverter();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            Date at \u003d converter.convertStringToDate(arguments[1]);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            tasks.getTasks().add(new Event(arguments[0], at));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(tasks.getTasks().get(tasks.getTasks().size() - 1));"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(\"Now you have \" + tasks.getTasks().size()"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                    + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 32
+    }
+  },
+  {
+    "path": "src/main/java/command/ExitCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import parser.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class ExitCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public boolean canEnd() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 17
+    }
+  },
+  {
+    "path": "src/main/java/command/IncorrectCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import parser.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class IncorrectCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(\"You have entered an invalid command\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 12
+    }
+  },
+  {
+    "path": "src/main/java/command/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import parser.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(\"Here are the tasks in your list\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        for (int i \u003d 0; i \u003c tasks.getTasks().size(); i \u003d i + 1) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            int number \u003d i + 1;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(number + \".\" + tasks.getTasks().get(i));"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
       },
       {
         "lineNumber": 15,
@@ -1768,7 +1290,7 @@
     }
   },
   {
-    "path": "src/main/java/Task.java",
+    "path": "src/main/java/command/ToDoCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -1776,84 +1298,84 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class Task {"
+        "content": "package command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    protected String description;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    protected boolean isDone;"
+        "content": "import parser.Storage;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Task(String description) {"
+        "content": "import task.ToDo;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this.description \u003d description;"
+        "content": "import ui.Ui;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": "public class ToDoCommand extends Command {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "    private String description;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public Task(String description, boolean isDone) {"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this(description);"
+        "content": "    public ToDoCommand(String description) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this.isDone \u003d isDone;"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 13,
@@ -1874,14 +1396,184 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        tasks.getTasks().add(new ToDo(this.description));"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(tasks.getTasks().get(tasks.getTasks().size() - 1));"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(\"Now you have \" + tasks.getTasks().size()"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 23
+    }
+  },
+  {
+    "path": "src/main/java/converter/StringDateConverter.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package converter;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class StringDateConverter {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Date convertStringToDate(String strDate) throws Exception {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        SimpleDateFormat dateWithTime \u003d new SimpleDateFormat(\"dd/MM/yyy HHmm\");"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        Date date \u003d dateWithTime.parse(strDate);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return date;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Date convertLongStringToDate(String strDate) throws Exception {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        SimpleDateFormat dateWithTime \u003d new SimpleDateFormat(\"EEE MMM dd HH:mm:ss zzz yyyy\");"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        Date date \u003d dateWithTime.parse(strDate);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return date;"
       },
       {
         "lineNumber": 17,
@@ -1895,49 +1587,184 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 18
+    }
+  },
+  {
+    "path": "src/main/java/exception/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
         "content": ""
       },
       {
-        "lineNumber": 19,
+        "lineNumber": 3,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public String getDescription() {"
+        "content": "public class DukeException extends Exception{"
       },
       {
-        "lineNumber": 20,
+        "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        return description;"
+        "content": ""
       },
       {
-        "lineNumber": 21,
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    protected String type;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public DukeException(String input) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.type \u003d input;"
+      },
+      {
+        "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 22,
+        "lineNumber": 10,
         "author": {
           "gitId": "chen-xi-cx"
         },
         "content": ""
       },
       {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        switch(this.type) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        case \"invalid number\":"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            return \"Please enter a valid number.\";"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        case \"empty todo\":"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            return \"The description of a todo cannot be empty.\";"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        case \"empty deadline date\":"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            return \"Please enter a date for your deadline in the form \u0027/by \u003cyour date here\u003e\u0027 without \u003c\u003e.\";"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        case \"empty event date\":"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            return \"Please enter a date for your event in the form \u0027/at \u003cyour date here\u003e\u0027 without \u003c\u003e.\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        default:"
+      },
+      {
         "lineNumber": 23,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public void setStatus(boolean isDone) {"
+        "content": "            return \"I\u0027m sorry, but I don\u0027t know what that means :-(\";"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        this.isDone \u003d isDone;"
+        "content": "        }"
       },
       {
         "lineNumber": 25,
@@ -1951,50 +1778,15 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public String toString() {"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        return \"[\" + getStatusIcon() + \"]\" + description;"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "chen-xi-cx": 31
+      "chen-xi-cx": 26
     }
   },
   {
-    "path": "src/main/java/TaskFileReader.java",
+    "path": "src/main/java/main/Duke.java",
     "fileType": "java",
     "lines": [
       {
@@ -2002,35 +1794,416 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.io.File;"
+        "content": "package main;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.io.FileNotFoundException;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import command.Command;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Arrays;"
+        "content": "import exception.DukeException;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Date;"
+        "content": "import parser.Parser;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import parser.Storage;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.TaskList;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    private TaskList tasks;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Duke(String filePath) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            tasks \u003d new TaskList(storage.load());"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            ui.showLoadingError();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            tasks \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    private void run() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        ui.showWelcome();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        boolean canEnd \u003d false;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        while (!canEnd) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                String fullCommand \u003d ui.readCommand();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                Command command \u003d new Parser().parse(fullCommand);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                command.execute(tasks, ui, storage);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                canEnd \u003d command.canEnd();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            storage.save(tasks);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        Duke duke \u003d new Duke(\"data/duke.txt\");"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        duke.run();"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "-": 2,
+      "chen-xi-cx": 51
+    }
+  },
+  {
+    "path": "src/main/java/parser/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package parser;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import command.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import exception.DukeException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
       },
       {
         "lineNumber": 6,
@@ -2051,262 +2224,325 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class TaskFileReader {"
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public void loadTaskContents(String filePath, ArrayList\u003cTask\u003e myList)"
+        "content": "    public Command parse(String userInput) throws DukeException {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            throws FileNotFoundException {"
+        "content": "        String[] separatedInputs \u003d userInput.trim().split(\"\\\\s+\");"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        File f \u003d new File(filePath); // create a File for the given file path"
+        "content": "        switch (separatedInputs[0].toLowerCase()) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        Scanner s \u003d new Scanner(f); // create a Scanner using the File as the source"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        while (s.hasNext()) {"
+        "content": "            return new ExitCommand();"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            String[] output \u003d s.nextLine().split(\" \\\\| \");"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            boolean isDone;"
+        "content": "            return new ListCommand();"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            if (output[1].equals(\"Done\")) {"
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                isDone \u003d true;"
+        "content": "            //fallthrough"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            }"
+        "content": "        case \"delete\":"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            else {"
+        "content": "            Scanner s \u003d new Scanner(separatedInputs[1]);"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                isDone \u003d false;"
+        "content": "            if (separatedInputs.length \u003e 2 || !s.hasNextInt()) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            }"
+        "content": "                throw new DukeException(\"invalid number\");"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            Date date \u003d null;"
+        "content": "            }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            String description \u003d output[2];"
+        "content": "            if (separatedInputs[0].toLowerCase().equals(\"done\")) {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            if (output.length \u003e 3) {"
+        "content": "                return new DoneCommand(s.nextInt() - 1);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                try {"
+        "content": "            } else {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                    StringDateConverter converter \u003d new StringDateConverter();"
+        "content": "                return new DeleteCommand(s.nextInt() - 1);"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                    date \u003d converter.convertLongStringToDate(output[3]);"
+        "content": "            }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                } catch (Exception e) {"
+        "content": "        case \"todo\":"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                    System.out.println(e.getMessage());"
+        "content": "            String description \u003d userInput.trim().substring(separatedInputs[0].length()).trim();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                }"
+        "content": "            if (description.equals(\"\")) {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            }"
+        "content": "                throw new DukeException(\"empty todo\");"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            switch (output[0]) {"
+        "content": "            }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            case \"T\":"
+        "content": "            return new ToDoCommand(description);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                myList.add(new ToDo(description));"
+        "content": "        case \"deadline\":"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                break;"
+        "content": "            if (userInput.indexOf(\"/by\") \u003d\u003d -1) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            case \"D\":"
+        "content": "                throw new DukeException(\"empty deadline date\");"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                myList.add(new Deadline(description, date, isDone));"
+        "content": "            } else {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                break;"
+        "content": "                String[] arguments \u003d userInput.trim().substring(separatedInputs[0].length()).trim()."
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            case \"E\":"
+        "content": "                        split(\"/by\");"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                myList.add(new Event(description, date, isDone));"
+        "content": "                return new DeadlineCommand(arguments);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                break;"
+        "content": "            }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            }"
+        "content": "        case \"event\":"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        }"
+        "content": "            if (userInput.indexOf(\"/at\") \u003d\u003d -1) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": "                throw new DukeException(\"empty event date\");"
       },
       {
         "lineNumber": 45,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                String[] arguments \u003d userInput.trim().substring(separatedInputs[0].length()).trim()."
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                        split(\"/at\");"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                return new EventCommand(arguments);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            throw new DukeException(\"invalid input\");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
         "author": {
           "gitId": "chen-xi-cx"
         },
@@ -2314,11 +2550,11 @@
       }
     ],
     "authorContributionMap": {
-      "chen-xi-cx": 45
+      "chen-xi-cx": 54
     }
   },
   {
-    "path": "src/main/java/TaskFileWriter.java",
+    "path": "src/main/java/storage/Storage.java",
     "fileType": "java",
     "lines": [
       {
@@ -2326,14 +2562,1296 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.io.FileWriter;"
+        "content": "package parser;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "chen-xi-cx"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import converter.StringDateConverter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import task.*;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
         "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    private String filePath;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Storage(String filePath) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.filePath \u003d filePath;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public ArrayList\u003cTask\u003e load() throws FileNotFoundException {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        File f \u003d new File(this.filePath);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        Scanner s \u003d new Scanner(f);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        while (s.hasNext()) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            String[] output \u003d s.nextLine().split(\" \\\\| \");"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            boolean isDone;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            if (output[1].equals(\"Done\")) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                isDone \u003d true;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            else {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                isDone \u003d false;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            Date date \u003d null;"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            String description \u003d output[2].trim();"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            if (output.length \u003e 3) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                try {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                    StringDateConverter converter \u003d new StringDateConverter();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                    date \u003d converter.convertLongStringToDate(output[3]);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                    System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            switch (output[0].trim()) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            case \"T\":"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                tasks.add(new ToDo(description, isDone));"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            case \"D\":"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                tasks.add(new Deadline(description, date, isDone));"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            case \"E\":"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                tasks.add(new Event(description, date, isDone));"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return tasks;"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void save(TaskList tasks) throws IOException {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        FileWriter fw \u003d new FileWriter(this.filePath);"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        for (Task task : tasks.getTasks()) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            String description, textToAdd;"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            Date date \u003d null;"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            textToAdd \u003d \"\";"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            description \u003d task.getDescription();"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            if (task instanceof Deadline) {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                textToAdd +\u003d \"D\";"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                Deadline deadline \u003d (Deadline) task;"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                date \u003d deadline.getBy();"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            } else if (task instanceof Event) {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                textToAdd +\u003d \"E\";"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                Event event \u003d (Event) task;"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                date \u003d event.getAt();"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                textToAdd +\u003d \"T\";"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            if (task.getDoneIcon().equals(\"\\u2713\")) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                textToAdd +\u003d \" | Done\";"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                textToAdd +\u003d \" | Not done\";"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            textToAdd +\u003d \" | \" + description.trim();"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            if (date !\u003d null) {"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "                textToAdd +\u003d \" | \" + date;"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "            fw.write(textToAdd + \"\\r\\n\");"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        fw.close();"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 91
+    }
+  },
+  {
+    "path": "src/main/java/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    protected Date by;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Deadline(String description, Date by) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.by \u003d by;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Deadline(String description, Date by, boolean isDone) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        super(description, isDone);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.by \u003d by;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Date getBy() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return by;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return \"[D]\" + super.toString() + \"(by: \" + by + \")\";"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 27
+    }
+  },
+  {
+    "path": "src/main/java/task/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class Event extends Task {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    protected Date at;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Event(String description, Date at) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.at \u003d at;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Event(String description, Date at, boolean isDone) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        super(description, isDone);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.at \u003d at;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Date getAt() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return at;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return \"[E]\" + super.toString() + \"(at: \" + at + \")\";"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 27
+    }
+  },
+  {
+    "path": "src/main/java/task/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    protected String description;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Task(String description) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Task(String description, boolean isDone) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this(description);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.isDone \u003d isDone;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String getDoneIcon() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String getDescription() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return description;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void setDone(boolean isDone) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        this.isDone \u003d isDone;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return \"[\" + getDoneIcon() + \"] \" + description;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 33
+    }
+  },
+  {
+    "path": "src/main/java/task/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
       },
       {
         "lineNumber": 3,
@@ -2347,297 +3865,108 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "import java.util.Date;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class TaskFileWriter {"
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public void writeToFile(String filePath, ArrayList\u003cTask\u003e myList) throws IOException {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        FileWriter fw \u003d new FileWriter(filePath);"
+        "content": "    public TaskList() {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        for (Task task : myList) {"
+        "content": "        this.tasks \u003d new ArrayList\u003cTask\u003e();"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            String description, textToAdd;"
+        "content": "    }"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            Date date \u003d null;"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            textToAdd \u003d \"\";"
+        "content": "    public TaskList(ArrayList\u003cTask\u003e tasks) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            description \u003d task.getDescription();"
+        "content": "        this.tasks \u003d tasks;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            if (task instanceof Deadline) {"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                textToAdd +\u003d \"D\";"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                Deadline deadline \u003d (Deadline) task;"
+        "content": "    public ArrayList\u003cTask\u003e getTasks() {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "                date \u003d deadline.getBy();"
+        "content": "        return this.tasks;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "            } else if (task instanceof Event) {"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                textToAdd +\u003d \"E\";"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                Event event \u003d (Event) task;"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                date \u003d event.getAt();"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                textToAdd +\u003d \"T\";"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if (task.getStatusIcon().equals(\"\\u2713\")) {"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                textToAdd +\u003d \" | Done\";"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                textToAdd +\u003d \" | Not done\";"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            textToAdd +\u003d \" | \" + description;"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            if (date !\u003d null) {"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "                textToAdd +\u003d \" | \" + date;"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "//            textToAdd +\u003d \"\\n\";"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "            fw.write(textToAdd + \"\\r\\n\");"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        fw.close();"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    public void appendToFile(String filePath, String textToAppend) throws IOException {"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        FileWriter fw \u003d new FileWriter(filePath, true);"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        fw.write(textToAppend);"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "        fw.close();"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "chen-xi-cx"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 46,
         "author": {
           "gitId": "chen-xi-cx"
         },
@@ -2645,11 +3974,11 @@
       }
     ],
     "authorContributionMap": {
-      "chen-xi-cx": 46
+      "chen-xi-cx": 19
     }
   },
   {
-    "path": "src/main/java/ToDo.java",
+    "path": "src/main/java/task/ToDo.java",
     "fileType": "java",
     "lines": [
       {
@@ -2657,7 +3986,7 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "public class ToDo extends Task {"
+        "content": "package task;"
       },
       {
         "lineNumber": 2,
@@ -2671,49 +4000,177 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public ToDo(String description) {"
+        "content": "public class ToDo extends Task {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    }"
+        "content": "    public ToDo(String description) {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": ""
+        "content": "        super(description);"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "chen-xi-cx"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "chen-xi-cx"
         },
+        "content": "    public ToDo(String description, boolean isDone) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        super(description, isDone);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
         "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "chen-xi-cx": 17
+    }
+  },
+  {
+    "path": "src/main/java/ui/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "package ui;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    Scanner myScanner;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public Ui() {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        myScanner \u003d new Scanner(System.in);"
       },
       {
         "lineNumber": 10,
@@ -2727,11 +4184,95 @@
         "author": {
           "gitId": "chen-xi-cx"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void showLoadingError() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        System.out.println(\"Hello! I\u0027m Duke\\nWhat can I do for you?\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    public String readCommand() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "        return myScanner.nextLine();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "chen-xi-cx"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "chen-xi-cx": 11
+      "chen-xi-cx": 23
     }
   }
 ]

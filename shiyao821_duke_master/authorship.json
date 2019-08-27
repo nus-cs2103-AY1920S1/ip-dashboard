@@ -269,43 +269,6 @@
     }
   },
   {
-    "path": "listSaveData.txt",
-    "fileType": "txt",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "T1 123 1"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "E0 123 1 /12 / 123"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "D1 123 /bye 123"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "E0 123 1 /12 / 123"
-      }
-    ],
-    "authorContributionMap": {
-      "shiyao821": 4
-    }
-  },
-  {
     "path": "src/main/java/Duke.java",
     "fileType": "java",
     "lines": [
@@ -314,7 +277,7 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "import java.io.*;"
+        "content": "import java.io.PrintStream;"
       },
       {
         "lineNumber": 2,
@@ -328,49 +291,49 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "shiyao821"
-        },
         "content": ""
       },
       {
-        "lineNumber": 6,
+        "lineNumber": 5,
         "author": {
           "gitId": "-"
         },
         "content": "public class Duke {"
       },
       {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
         "lineNumber": 7,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private static final String saveLoadFilePath \u003d \"listSaveData.txt\";"
+        "content": "    private TaskList tasks;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private static ArrayList\u003cTask\u003e list \u003d new ArrayList\u003c\u003e();"
+        "content": "    private Parser parser;"
       },
       {
         "lineNumber": 10,
@@ -384,1452 +347,241 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private static void showList() {"
+        "content": "    private static final String saveLoadFilePath \u003d \"listSaveData.txt\";"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        int counter \u003d 0;"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        for (Task item : list) {"
+        "content": "    private Duke(String filepath) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            System.out.println(++counter + \".\" + item.getStatus());"
+        "content": "        // initialise variables"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        }"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "        parser \u003d new Parser();"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private static void countList() {"
+        "content": "        storage \u003d new Storage(filepath);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        System.out.println(\"Now you have \" + list.size() + \" tasks in the list.\");"
+        "content": "        try {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "            tasks \u003d storage.load();"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "        } catch (Exception e) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private static int getPrepositionPos(String[] input_split) {"
+        "content": "            ui.print(e.getMessage());"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        for (int i \u003d 0; i \u003c input_split.length; i++) {"
+        "content": "            tasks \u003d new TaskList();"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            if (input_split[i].charAt(0) \u003d\u003d \u0027/\u0027) {"
+        "content": "        }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "                return i;"
+        "content": "    }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        }"
+        "content": "    private void run() {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return 0;"
+        "content": "        try (Scanner scanner \u003d new Scanner(System.in);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "             PrintStream out \u003d new PrintStream(System.out, true, StandardCharsets.UTF_8)"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "        ) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private static Task construct(String[] input_split)"
+        "content": "            System.setOut(out);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        throws EmptyDescriptionException, EmptyTimeDueException {"
+        "content": "            boolean active \u003d true;"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        if (input_split.length \u003c 2) {"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            // System.out.println(\"what\u0027s the \" + type);"
+        "content": "            ui.printLogo();"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            throw new EmptyDescriptionException();"
+        "content": "            ui.printHello();"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        Task task;"
+        "content": "            while (active \u0026\u0026 scanner.hasNextLine()) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        int prepAt \u003d getPrepositionPos(input_split);"
+        "content": "                active \u003d parser.parse(scanner.nextLine(), tasks, ui, storage);"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        StringBuilder description \u003d new StringBuilder();"
+        "content": "            }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        String preposition \u003d input_split[prepAt].substring(1);"
+        "content": "        }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        StringBuilder memo \u003d new StringBuilder();"
+        "content": "    }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        boolean prepRequired \u003d input_split[0].equals(\"deadline\") || input_split[0].equals(\"event\");"
+        "content": ""
       },
       {
         "lineNumber": 42,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        if (prepRequired \u0026\u0026 prepAt \u003d\u003d 0) {"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            // System.out.println(\"what\u0027s the date due?\");"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            throw new EmptyTimeDueException();"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        if (prepRequired) {"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            for (int k \u003d 1; k \u003c prepAt; k++) {"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                description.append(\" \").append(input_split[k]);"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        } else {"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            for (int k \u003d 1; k \u003c input_split.length; k++) {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                description.append(\" \").append(input_split[k]);"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        for (int i \u003d prepAt + 1; i \u003c input_split.length; i++) {"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            memo.append(\" \").append(input_split[i]);"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        switch (input_split[0]) {"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        case \"todo\":"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            task \u003d new ToDo(description.deleteCharAt(0).toString());"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        case \"deadline\":"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            task \u003d new Deadline(description.deleteCharAt(0).toString(), preposition, memo.deleteCharAt(0).toString());"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        case \"event\":"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            task \u003d new Event(description.deleteCharAt(0).toString(), preposition, memo.deleteCharAt(0).toString());"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        default:"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            task \u003d null;"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        return task;"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    private static Task construct(String[] input_string, boolean completed)"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            throws EmptyDescriptionException, EmptyTimeDueException{"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        Task task \u003d construct(input_string);"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        task.isDone \u003d completed;"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        return task;"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    private static void saveList() throws IOException {"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        File f \u003d new File(saveLoadFilePath);"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        // how do you work around this? it always still exists"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        if (f.exists()) {"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            System.out.println(f.delete() ? \"Previous File deleted\" : \"Previous File still exists\");"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        System.out.println(f.createNewFile() ? \"New file created\" : \"New file not created\");"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        FileWriter fw \u003d new FileWriter(f,   false);"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        for (Task item : list) {"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            fw.write(item.saveFormat() + \"\\n\");"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        fw.close();"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        System.out.println(\"Finished Saving\");"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    private static void loadList() throws FileNotFoundException, EmptyDescriptionException, EmptyTimeDueException {"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        File f \u003d new File(saveLoadFilePath);"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        Scanner s \u003d new Scanner(f);"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        while (s.hasNextLine()) {"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            String[] task \u003d s.nextLine().split(\" \");"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            boolean completed \u003d task[0].charAt(1) \u003d\u003d \u00271\u0027;"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            switch(task[0].charAt(0)) {"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            case \u0027T\u0027:"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                // construct todo"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                task[0] \u003d \"todo\";"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            case \u0027D\u0027:"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                // construct deadline"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                task[0] \u003d \"deadline\";"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            case \u0027E\u0027:"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                // construct event"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                task[0] \u003d \"event\";"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            list.add(construct(task, completed));"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 122,
         "author": {
           "gitId": "-"
         },
         "content": "    public static void main(String[] args) {"
       },
       {
-        "lineNumber": 123,
+        "lineNumber": 43,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        "
+        "content": "        new Duke(saveLoadFilePath).run();"
       },
       {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        try(Scanner scanner \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            PrintStream out \u003d new PrintStream(System.out, true, StandardCharsets.UTF_8)"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            ) {"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            System.setOut(out);"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            boolean active \u003d true;"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "            String logo \u003d \" ____        _        \\n\""
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                    + \"|  _ \\\\ _   _| | _____ \\n\""
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                    + \"| | | | | | | |/ / _ \\\\\\n\""
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                    + \"| |_| | |_| |   \u003c  __/\\n\""
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                    + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "            System.out.println(\"Hello from\\n\" + logo);"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                loadList();"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            } catch (FileNotFoundException e) {"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            } catch (EmptyTimeDueException | EmptyDescriptionException e) {"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                System.out.println(\"Error with loading: \" + e.getMessage());"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            String intro \u003d \"Hello! I\u0027m Duke What can I do for you?\";"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            System.out.println(intro);"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            "
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            while (active \u0026\u0026 scanner.hasNextLine()) {"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                String input \u003d scanner.nextLine();"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                String[] input_split \u003d input.split(\" \");"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                String command \u003d input_split[0];"
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 154,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                try {"
-      },
-      {
-        "lineNumber": 155,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    switch (command) {"
-      },
-      {
-        "lineNumber": 156,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"exit\":"
-      },
-      {
-        "lineNumber": 157,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        active \u003d false;"
-      },
-      {
-        "lineNumber": 158,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 159,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 160,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"bye\":"
-      },
-      {
-        "lineNumber": 161,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        active \u003d false;"
-      },
-      {
-        "lineNumber": 162,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        System.out.println(\"Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 163,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        saveList();"
-      },
-      {
-        "lineNumber": 164,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 165,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 166,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"list\":"
-      },
-      {
-        "lineNumber": 167,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        System.out.println(\"Here are the tasks in your list:\");"
-      },
-      {
-        "lineNumber": 168,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        showList();"
-      },
-      {
-        "lineNumber": 169,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 170,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 171,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"done\":"
-      },
-      {
-        "lineNumber": 172,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    if (input_split.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 173,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        throw new EmptyListIndexException();"
-      },
-      {
-        "lineNumber": 174,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 175,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    Task theTask \u003d list.get(Integer.parseInt(input_split[1]) - 1);"
-      },
-      {
-        "lineNumber": 176,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    theTask.isDone \u003d true;"
-      },
-      {
-        "lineNumber": 177,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    System.out.println(\"Nice! I\u0027ve marked this task as done: \\n\" +"
-      },
-      {
-        "lineNumber": 178,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        \"  \" + theTask.getStatus());"
-      },
-      {
-        "lineNumber": 179,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 180,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 181,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"todo\":"
-      },
-      {
-        "lineNumber": 182,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"deadline\":"
-      },
-      {
-        "lineNumber": 183,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"event\":"
-      },
-      {
-        "lineNumber": 184,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        Task task \u003d construct(input_split);"
-      },
-      {
-        "lineNumber": 185,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        if (task !\u003d null) {"
-      },
-      {
-        "lineNumber": 186,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                            System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 187,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                            System.out.println(\"  \" + task.getStatus());"
-      },
-      {
-        "lineNumber": 188,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                            list.add(task);"
-      },
-      {
-        "lineNumber": 189,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                            countList();"
-      },
-      {
-        "lineNumber": 190,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 191,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 192,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 193,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    case \"delete\":"
-      },
-      {
-        "lineNumber": 194,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        if (input_split.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 195,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                            throw new EmptyListIndexException();"
-      },
-      {
-        "lineNumber": 196,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 197,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        int i \u003d Integer.parseInt(input_split[1]);"
-      },
-      {
-        "lineNumber": 198,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        if (i \u003e list.size()) throw new ListItemEmptyException();"
-      },
-      {
-        "lineNumber": 199,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        Task removedTask \u003d list.remove( i - 1);"
-      },
-      {
-        "lineNumber": 200,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        System.out.println(\"Noted. I\u0027ve removed this task: \");"
-      },
-      {
-        "lineNumber": 201,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        System.out.println(\"  \" + removedTask.getStatus());"
-      },
-      {
-        "lineNumber": 202,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        countList();"
-      },
-      {
-        "lineNumber": 203,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 204,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 205,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    default:"
-      },
-      {
-        "lineNumber": 206,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                        throw new InputUnknownException();"
-      },
-      {
-        "lineNumber": 207,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 208,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 209,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 210,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 211,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                    System.out.println(\"unable to save \" + e.getMessage());"
-      },
-      {
-        "lineNumber": 212,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 213,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 214,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 215,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 216,
-        "author": {
-          "gitId": "shiyao821"
-        },
-        "content": "        "
-      },
-      {
-        "lineNumber": 217,
+        "lineNumber": 44,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 218,
+        "lineNumber": 45,
         "author": {
           "gitId": "-"
         },
@@ -1837,8 +589,8 @@
       }
     ],
     "authorContributionMap": {
-      "-": 10,
-      "shiyao821": 208
+      "-": 4,
+      "shiyao821": 41
     }
   },
   {
@@ -1850,7 +602,177 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class DukeException extends Exception {}"
+        "content": "class DukeException extends Exception {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "class InputUnknownException extends DukeException {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return \"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\";"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "class InvalidInputFormatException extends DukeException {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return \"The format for this command is wrong. Type \u0027formats\u0027 to check\";"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "class ListItemEmptyException extends DukeException {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return \"No such item in list!\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "shiyao821": 23
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 2,
@@ -1864,206 +786,1053 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class InputUnknownException extends DukeException {"
+        "content": "class Parser {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "    /**"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMessage() {"
+        "content": "     * Returns the index of the preposition in the String array"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\";"
+        "content": "     * If preposition is not found, return 0"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "     * @param inputSplit given String array"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "     * @return index position or 0"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class EmptyDescriptionException extends DukeException {"
+        "content": "     */"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "    private int getPrepositionPos(String[] inputSplit) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMessage() {"
+        "content": "        for (int i \u003d 0; i \u003c inputSplit.length; i++) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"What\u0027s the description of the item?\";"
+        "content": "            if (inputSplit[i].charAt(0) \u003d\u003d \u0027/\u0027) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "                return i;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "            }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class EmptyListIndexException extends DukeException {"
+        "content": "        }"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "        return 0;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMessage() {"
+        "content": "    }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \" which one? (input an integer)\";"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "     * Returns the Task constructed from the input String array"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class ListItemEmptyException extends DukeException {"
+        "content": "     * @param inputSplit given String array"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "     * @return Task generated"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMessage() {"
+        "content": "     * @throws InvalidInputFormatException If the input is not in the required format"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"No such item in list!\";"
+        "content": "     */"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "    private Task construct(String[] inputSplit) throws InvalidInputFormatException {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "        if (inputSplit.length \u003c 2) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class EmptyTimeDueException extends DukeException {"
+        "content": "            throw new InvalidInputFormatException();"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMessage() {"
+        "content": "        checkValidSpacing(inputSplit);"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"When is it due? eg. /by 2359 sunday\";"
+        "content": "        Task task;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "        int prepAt \u003d getPrepositionPos(inputSplit);"
       },
       {
         "lineNumber": 32,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder description \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        String preposition \u003d inputSplit[prepAt].substring(1);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder memo \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        boolean prepRequired \u003d inputSplit[0].equals(\"deadline\") || inputSplit[0].equals(\"event\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (prepRequired \u0026\u0026 prepAt \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            // System.out.println(\"what\u0027s the date due?\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throw new InvalidInputFormatException();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (prepRequired) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            for (int k \u003d 1; k \u003c prepAt; k++) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                description.append(\" \").append(inputSplit[k]);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            for (int k \u003d 1; k \u003c inputSplit.length; k++) {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                description.append(\" \").append(inputSplit[k]);"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (int i \u003d prepAt + 1; i \u003c inputSplit.length; i++) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            memo.append(\" \").append(inputSplit[i]);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        switch (inputSplit[0]) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d new ToDo(description.deleteCharAt(0).toString());"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d new Deadline(description.deleteCharAt(0).toString(), preposition, memo.deleteCharAt(0).toString());"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d new Event(description.deleteCharAt(0).toString(), preposition, memo.deleteCharAt(0).toString());"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d null;"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return task;"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void checkValidTaskIndex(String[] inputSplit) throws InvalidInputFormatException {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (inputSplit.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throw new InvalidInputFormatException();"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            Integer.parseInt(inputSplit[1]);"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        } catch (NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throw new InvalidInputFormatException();"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void checkValidSpacing(String[] inputSplit) throws InvalidInputFormatException {"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (String s : inputSplit) {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            if (s.length() \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                throw new InvalidInputFormatException();"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    boolean parse(String input, TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        String[] inputSplit \u003d input.split(\" \");"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        String command \u003d inputSplit[0];"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            switch (command) {"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"exit\":"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return false;"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"bye\":"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                storage.save(tasks.saveFormat());"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                ui.printBye();"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return false;"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"list\":"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                ui.printList(tasks);"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"done\":"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                checkValidTaskIndex(inputSplit);"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                Task theTask \u003d tasks.get(Integer.parseInt(inputSplit[1]) - 1);"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                theTask.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                ui.printDone(theTask);"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                Task task \u003d construct(inputSplit);"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                if (task !\u003d null) {"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                    tasks.add(task);"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                    ui.printCreated(task, tasks);"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                checkValidTaskIndex(inputSplit);"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                Task removedTask \u003d tasks.remove(Integer.parseInt(inputSplit[1]) - 1);"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                ui.printRemoved(removedTask, tasks);"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"formats\":"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                ui.printFormatHelp();"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \"find\":"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                checkValidSpacing(inputSplit);"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                for (String s : inputSplit) {"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                    sb.append(s).append(\" \");"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                ui.printFind(sb.substring(5).trim(), tasks);"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                throw new InputUnknownException();"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            System.out.println(\"unable to save \" + e.getMessage());"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 153,
         "author": {
           "gitId": "shiyao821"
         },
@@ -2071,7 +1840,891 @@
       }
     ],
     "authorContributionMap": {
-      "shiyao821": 32
+      "shiyao821": 153
+    }
+  },
+  {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "class Storage {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private File saveFile;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    Storage(String saveLoadFilePath) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        saveFile \u003d new File(saveLoadFilePath);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static int getPrepositionPos(String[] inputSplit) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (int i \u003d 0; i \u003c inputSplit.length; i++) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            if (inputSplit[i].charAt(0) \u003d\u003d \u0027/\u0027) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                return i;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return 0;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static Task construct(String[] inputSplit) throws InvalidInputFormatException {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (inputSplit.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            // System.out.println(\"what\u0027s the \" + type);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throw new InvalidInputFormatException();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        Task task;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        int prepAt \u003d getPrepositionPos(inputSplit);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder description \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        String preposition \u003d inputSplit[prepAt].substring(1);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder memo \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        boolean prepRequired \u003d inputSplit[0].equals(\"deadline\") || inputSplit[0].equals(\"event\");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (prepRequired \u0026\u0026 prepAt \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            // System.out.println(\"what\u0027s the date due?\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throw new InvalidInputFormatException();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (prepRequired) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            for (int k \u003d 1; k \u003c prepAt; k++) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                description.append(\" \").append(inputSplit[k]);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            for (int k \u003d 1; k \u003c inputSplit.length; k++) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                description.append(\" \").append(inputSplit[k]);"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (int i \u003d prepAt + 1; i \u003c inputSplit.length; i++) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            memo.append(\" \").append(inputSplit[i]);"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        switch (inputSplit[0]) {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d new ToDo(description.deleteCharAt(0).toString());"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d new Deadline(description.deleteCharAt(0).toString(), preposition, memo.deleteCharAt(0).toString());"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d new Event(description.deleteCharAt(0).toString(), preposition, memo.deleteCharAt(0).toString());"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            task \u003d null;"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return task;"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static Task construct(String[] inputSplit, boolean completed)"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throws InvalidInputFormatException {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        Task task \u003d construct(inputSplit);"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        task.isDone \u003d completed;"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return task;"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * Writes to saveFile the given text"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * Given text should have been formatted to make loading correct"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * @param saveText Text to be written on the file"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * @throws IOException If the file cannot be written"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void save(String saveText) throws IOException {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        //        how do you work around this? it always still exists"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        //        if (f.exists()) {"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        //            System.out.println(f.delete() ? \"Previous File deleted\" : \"Previous File still exists\");"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        //        }"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        //        System.out.println(f.createNewFile() ? \"New file created\" : \"New file not created\");"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        FileWriter fw \u003d new FileWriter(saveFile, false);"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        fw.write(saveText);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        fw.close();"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        //        System.out.println(\"Finished Saving\");"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * Returns a TaskList filled with Tasks generated from the saveFile"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * @return TaskList"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * @throws FileNotFoundException If the File is not found"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     * @throws InvalidInputFormatException If the File is corrupted / not parsed correctly"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    TaskList load() throws FileNotFoundException, InvalidInputFormatException {"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        Scanner s \u003d new Scanner(saveFile);"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        TaskList tasks \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        while (s.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            String[] task \u003d s.nextLine().split(\" \");"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            boolean completed \u003d task[0].charAt(1) \u003d\u003d \u00271\u0027;"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            switch (task[0].charAt(0)) {"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \u0027T\u0027:"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                // construct todo"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                task[0] \u003d \"todo\";"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \u0027D\u0027:"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                // construct deadline"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                task[0] \u003d \"deadline\";"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            case \u0027E\u0027:"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                // construct event"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                task[0] \u003d \"event\";"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            tasks.add(construct(task, completed));"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return tasks;"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "shiyao821": 125
     }
   },
   {
@@ -2202,42 +2855,42 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getStatus() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
+        "content": "     * Returns a printable String that represents the state of this Task"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "     * @return String for display"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String saveFormat() {"
+        "content": "    public String getStatus() {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return (isDone ? \"1\" : \"0\") + \" \" + description;"
+        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
       },
       {
         "lineNumber": 24,
@@ -2258,301 +2911,301 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "    /**"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "     * Returns a formatted String that represents the state of this Task"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class ToDo extends Task {"
+        "content": "     * @return String for saving"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    ToDo(String description) {"
+        "content": "     */"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        super(description);"
+        "content": "    public String saveFormat() {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "        return (isDone ? \"1\" : \"0\") + \" \" + description;"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getStatus() {"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"[T][\" + getStatusIcon() + \"] \" + description;"
+        "content": "}"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "class ToDo extends Task {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "    ToDo(String description) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String saveFormat() {"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"T\" + (isDone ? \"1\" : \"0\") + \" \" + description;"
+        "content": "    }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "    @Override"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    public String getStatus() {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class Deadline extends Task {"
+        "content": "        return \"[T][\" + getStatusIcon() + \"] \" + description;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private String memo;"
+        "content": "    }"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private String preposition;"
+        "content": ""
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private LocalDate date;"
+        "content": "    @Override"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    public String saveFormat() {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    Deadline(String description, String preposition, String memo) {"
+        "content": "        return \"T\" + (isDone ? \"1\" : \"0\") + \" \" + description;"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        super(description);"
+        "content": "    }"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        this.memo \u003d memo;"
+        "content": "}"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        this.preposition \u003d preposition;"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        try {"
+        "content": "class Deadline extends Task {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            // deadline 12 /by 12/12/2012 2359"
+        "content": "    private String memo;"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
+        "content": "    private String preposition;"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            date \u003d LocalDate.parse(memo, formatter);"
+        "content": "    private LocalDate date;"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        } catch (DateTimeParseException e){"
+        "content": ""
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            System.out.println(\"parse failed\");"
+        "content": "    Deadline(String description, String preposition, String memo) {"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            // do nothing"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        }"
+        "content": "        this.memo \u003d memo;"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "        this.preposition \u003d preposition;"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMemo() {"
+        "content": "            // deadline 12 /by 12/12/2012 2359"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return date !\u003d null ? date.toString() : memo;"
+        "content": "            DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "            date \u003d LocalDate.parse(memo, formatter);"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "        } catch (DateTimeParseException e) {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "            System.out.println(\"parse failed\");"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getStatus() {"
+        "content": "            // do nothing"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"[D][\" + getStatusIcon() + \"] \" + description + \" (\" + preposition + \": \" + memo + \")\";"
+        "content": "        }"
       },
       {
         "lineNumber": 69,
@@ -2566,21 +3219,21 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String saveFormat() {"
+        "content": "    public String getMemo() {"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"D\" + (isDone ? \"1\" : \"0\") + \" \" + description + \" /\" + preposition + \" \" + memo;"
+        "content": "        return date !\u003d null ? date.toString() : memo;"
       },
       {
         "lineNumber": 73,
@@ -2594,234 +3247,318 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": ""
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    @Override"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "class Event extends Task {"
+        "content": "    public String getStatus() {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private String memo;"
+        "content": "        return \"[D][\" + getStatusIcon() + \"] \" + description + \" (\" + preposition + \": \" + memo + \")\";"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private String preposition;"
+        "content": "    }"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    private LocalDate date;"
+        "content": ""
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    @Override"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    Event(String description, String preposition, String memo) {"
+        "content": "    public String saveFormat() {"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        super(description);"
+        "content": "        return \"D\" + (isDone ? \"1\" : \"0\") + \" \" + description + \" /\" + preposition + \" \" + memo;"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        this.memo \u003d memo;"
+        "content": "    }"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        this.preposition \u003d preposition;"
+        "content": "}"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            // deadline 12 /by 12/12/2012 2359"
+        "content": "class Event extends Task {"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
+        "content": "    private String memo;"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            date \u003d LocalDate.parse(memo, formatter);"
+        "content": "    private String preposition;"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        } catch (DateTimeParseException e){"
+        "content": "    private LocalDate date;"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            System.out.println(\"parse failed\");"
+        "content": ""
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "            // do nothing"
+        "content": "    Event(String description, String preposition, String memo) {"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        }"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "        this.memo \u003d memo;"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getMemo() {"
+        "content": "        this.preposition \u003d preposition;"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return date !\u003d null ? date.toString() : memo;"
+        "content": "        try {"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "            // deadline 12 /by 12/12/2012 2359"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "            DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "            date \u003d LocalDate.parse(memo, formatter);"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String getStatus() {"
+        "content": "        } catch (DateTimeParseException e) {"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"[E][\" + getStatusIcon() + \"] \" + description + \" (\" + preposition + \": \" + memo + \")\";"
+        "content": "            System.out.println(\"parse failed\");"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "            // do nothing"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Override"
+        "content": "        }"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public String saveFormat() {"
+        "content": "    }"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"E\" + (isDone ? \"1\" : \"0\") + \" \" + description + \" /\" + preposition + \" \" + memo;"
+        "content": ""
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "    public String getMemo() {"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "}"
+        "content": "        return date !\u003d null ? date.toString() : memo;"
       },
       {
         "lineNumber": 107,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    public String getStatus() {"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return \"[E][\" + getStatusIcon() + \"] \" + description + \" (\" + preposition + \": \" + memo + \")\";"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    public String saveFormat() {"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return \"E\" + (isDone ? \"1\" : \"0\") + \" \" + description + \" /\" + preposition + \" \" + memo;"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 119,
         "author": {
           "gitId": "shiyao821"
         },
@@ -2829,11 +3566,11 @@
       }
     ],
     "authorContributionMap": {
-      "shiyao821": 107
+      "shiyao821": 119
     }
   },
   {
-    "path": "src/main/java/UnicodeTest.java",
+    "path": "src/main/java/TaskList.java",
     "fileType": "java",
     "lines": [
       {
@@ -2841,7 +3578,7 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "package main.java;"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 2,
@@ -2855,119 +3592,534 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "import java.io.*;"
+        "content": "class TaskList {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    private static ArrayList\u003cTask\u003e list \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "public class UnicodeTest {"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    TaskList() {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    static String cross() {"
+        "content": "    }"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"\\u2718\";"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "    Task get(int i) throws ListItemEmptyException {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "        if (i \u003e size() - 1) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    static String check() {"
+        "content": "            throw new ListItemEmptyException();"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        return \"\\u2713\";"
+        "content": "        }"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "        return list.get(i);"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public static void main(String[] args) throws UnsupportedEncodingException {"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        PrintStream out \u003d new PrintStream(System.out, true, \"UTF-8\");"
+        "content": "    void add(Task task) {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        out.println(\"how is this?\");"
+        "content": "        list.add(task);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        out.println(cross());"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        out.println(check());"
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    Task remove(int i) throws ListItemEmptyException {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        if (i \u003e size() - 1) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            throw new ListItemEmptyException();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return list.remove(i);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    int size() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return list.size();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    String printFormat() {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        int counter \u003d 0;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (Task item : list) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            sb.append(++counter).append(\".\").append(item.getStatus()).append(\"\\n\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return sb.toString();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    String find(String s) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        int counter \u003d 0;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (Task item : list) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            if (item.description.contains(s)) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                sb.append(++counter).append(\".\").append(item.getStatus()).append(\"\\n\");"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return sb.toString();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    String saveFormat() {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        for (Task item : list) {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            sb.append(item.saveFormat()).append(\"\\n\");"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        return sb.toString();"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "shiyao821": 58
+    }
+  },
+  {
+    "path": "src/main/java/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "class Ui {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static final String logo \u003d \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "            + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static final String intro \u003d \"Hello! I\u0027m Duke What can I do for you?\";"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printLogo() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printHello() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(intro);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void print(String s) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(s);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
       },
       {
         "lineNumber": 20,
@@ -2981,10 +4133,360 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "    void printBye() {"
       },
       {
         "lineNumber": 22,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printList(TaskList tasks) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(tasks.printFormat());"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printDone(Task task) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Nice! I\u0027ve marked this task as done: \\n\" +"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"  \" + task.getStatus());"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printCount(TaskList tasks) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Now you have \" + tasks.size() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printCreated(Task t, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"  \" + t.getStatus());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        printCount(tasks);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printRemoved(Task removedTask, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Noted. I\u0027ve removed this task: \");"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"  \" + removedTask.getStatus());"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        printCount(tasks);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printFormatHelp() {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Here are the valid formats of the inputs:\\n\" +"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"todo\u003cspace\u003edescription\\n\" +"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   eg. todo sweep the floor\\n\" +"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   (creates a \u0027todo\u0027 with description \u0027sweep the floor\u0027\\n\" +"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"deadline\u003cspace\u003edescription\u003cspace\u003e/preposition\u003cspace\u003etime\\n\" +"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   eg. deadline assignment submission /at exam venue\\n\" +"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   (creates an \u0027assignment submission\u0027 deadline that is (at: exam venue)\\n\" +"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"event\u003cspace\u003edescription\u003cspace\u003e/preposition\u003cspace\u003etime\\n\" +"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   eg. event happy new year /on 31/12/2019 2359\\n\" +"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   (creates a \u0027happy new year\u0027 event that is (on: 31 Dec 2019 2359)\\n\" +"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"done\u003cspace\u003elist_index\\n\" +"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   eg. done 6 (deletes Task number 6)\\n\" +"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"delete\u003cspace\u003elist_index\\n\" +"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "                \"   eg. delete 3 (deletes Task number 3)\");"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void printFind(String input, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(\"Here are the matching tasks in your list:\");"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.out.println(tasks.find(input));"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 72,
         "author": {
           "gitId": "shiyao821"
         },
@@ -2992,7 +4494,7 @@
       }
     ],
     "authorContributionMap": {
-      "shiyao821": 22
+      "shiyao821": 72
     }
   },
   {
@@ -3004,21 +4506,21 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "import org.junit.jupiter.api.Test;"
+        "content": "import org.junit.jupiter.api.AfterAll;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": ""
+        "content": "import org.junit.jupiter.api.BeforeAll;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+        "content": "import org.junit.jupiter.api.Test;"
       },
       {
         "lineNumber": 4,
@@ -3032,66 +4534,402 @@
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "public class DukeTest {"
+        "content": "import java.io.ByteArrayOutputStream;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Test"
+        "content": "import java.io.PrintStream;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public void dummyFailTest() {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        assertEquals(\"lalala\", \"placeholder\");"
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    @Test"
+        "content": "public class DukeTest {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    public void dummyPassTest() {"
+        "content": "    // @Test"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "        assertEquals(\"lalala\", \"lalala\");"
+        "content": "    // public void dummyFailTest() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shiyao821"
         },
-        "content": "    }"
+        "content": "    //    assertEquals(\"lalala\", \"placeholder\");"
       },
       {
         "lineNumber": 14,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    // }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static final ByteArrayOutputStream outContent \u003d new ByteArrayOutputStream();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static final ByteArrayOutputStream errContent \u003d new ByteArrayOutputStream();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static final PrintStream originalOut \u003d System.out;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    private static final PrintStream originalErr \u003d System.err;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @BeforeAll"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    static void setUpStreams() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.setOut(new PrintStream(outContent));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.setErr(new PrintStream(errContent));"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @AfterAll"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    static void restoreStreams() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.setOut(originalOut);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        System.setErr(originalErr);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void dummyPassTest() {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        assertEquals(\"lalala\", \"lalala\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void uiHelloTest() {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        new Ui().printHello();"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        assertEquals(\"Hello! I\u0027m Duke What can I do for you?\\r\\n\", outContent.toString());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void deadlineGetStatusTest() {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        Deadline d \u003d new Deadline(\"123\", \"2\", \"14 2 2\");"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        assertEquals(\"[D][\\u2718] 123 (2: 14 2 2)\", d.getStatus());"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void todoGetStatusTest() {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        ToDo t \u003d new ToDo(\"12n2nl2\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        assertEquals(\"[T][\\u2718] 12n2nl2\", t.getStatus());"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    void taskIsDoneTest() {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        Task t \u003d new Task(\"desc\");"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        t.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "        assertEquals(\"[\\u2713] desc\", t.getStatus());"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "shiyao821"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 62,
         "author": {
           "gitId": "shiyao821"
         },
@@ -3099,7 +4937,7 @@
       }
     ],
     "authorContributionMap": {
-      "shiyao821": 14
+      "shiyao821": 62
     }
   }
 ]

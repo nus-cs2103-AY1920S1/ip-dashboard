@@ -745,7 +745,7 @@
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    private String markTask(int taskNum) { //mark as done"
+        "content": "    private String markTask(int taskNum) throws DukeException { //mark as done. Need to check if already done, and if so throw exception"
       },
       {
         "lineNumber": 86,
@@ -808,231 +808,231 @@
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    void executeCommand(String command, String[] inputSplit) throws DukeException {"
+        "content": "    private int parseTaskInt(String str) throws DukeException {"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        if (command.equals(\"list\")) {"
+        "content": "        int taskInt;"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            System.out.println(lineWrap(getList()));"
+        "content": "        try {"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        } else if (command.equals(\"done\")) {"
+        "content": "            taskInt \u003d Integer.parseInt(str);"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            int taskNumber \u003d Integer.parseInt(inputSplit[1]);"
+        "content": "            if (taskInt \u003e taskList.size() || taskInt \u003c 0) {"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            System.out.println(lineWrap(markTask(taskNumber)));"
+        "content": "                throw new DukeException(\"That task number does not exist, please try again\");"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        } else if (command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\")) {"
+        "content": "            }"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            if (inputSplit.length \u003d\u003d 1) {"
+        "content": "        } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a \" + command + \" cannot be empty.\");"
+        "content": "            throw new DukeException(\"Please state a valid task number\");"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            Task task \u003d createTask(inputSplit[1], command);"
+        "content": ""
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            System.out.println(lineWrap(addTask(task)));"
+        "content": "        return taskInt;"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        } else if (command.equals(\"delete\")) {"
+        "content": "    }"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            if (inputSplit.length \u003d\u003d 1) {"
+        "content": ""
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                throw new DukeException(\"Invalid format, please state a number\");"
+        "content": "    void executeCommand(String command, String[] inputSplit) throws DukeException {"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            }"
+        "content": "        if (command.equals(\"list\")) {"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            try {"
+        "content": "            System.out.println(lineWrap(getList()));"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                int taskNum \u003d Integer.parseInt(inputSplit[1]);"
+        "content": "        } else if (command.equals(\"done\")) {"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                System.out.println(lineWrap(deleteTask(taskNum)));"
+        "content": "            int taskInt \u003d parseTaskInt(inputSplit[1]);"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            } catch (NumberFormatException e) {"
+        "content": "            System.out.println(lineWrap(markTask(taskInt)));"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                throw new DukeException(\"Please state a valid task number (integer).\");"
+        "content": "        } else if (command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\")) {"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            }"
+        "content": "            if (inputSplit.length \u003d\u003d 1) {"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        } else {"
+        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a \" + command + \" cannot be empty.\");"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "            }"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        }"
+        "content": "            Task task \u003d createTask(inputSplit[1], command);"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    }"
+        "content": "            System.out.println(lineWrap(addTask(task)));"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": ""
+        "content": "        } else if (command.equals(\"delete\")) {"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    void start() {"
+        "content": "            int taskInt \u003d parseTaskInt(inputSplit[1]);"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        System.out.println(greet());"
+        "content": "            System.out.println(lineWrap(deleteTask(taskInt)));"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        while (sc.hasNextLine()) {"
+        "content": "        } else {"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            String input \u003d sc.nextLine();"
+        "content": "            throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            String[] inputSplit \u003d input.split(\" \", 2); //split into command and remaining sentence"
+        "content": "        }"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            String command \u003d inputSplit[0];"
+        "content": "    }"
       },
       {
         "lineNumber": 127,
@@ -1046,87 +1046,136 @@
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            try {"
+        "content": "    void start() {"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                if (command.equals(\"bye\")) {"
+        "content": "        System.out.println(greet());"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                    System.out.println(bye());"
+        "content": "        while (sc.hasNextLine()) {"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                    break;"
+        "content": "            String input \u003d sc.nextLine();"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                } else {"
+        "content": "            String[] inputSplit \u003d input.split(\" \", 2); //split into command and remaining sentence"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                    executeCommand(command, inputSplit);"
+        "content": "            String command \u003d inputSplit[0];"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                }"
+        "content": ""
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "            try {"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "                System.out.println(lineWrap(e.getMessage()));"
+        "content": "                if (command.equals(\"bye\")) {"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "            }"
+        "content": "                    System.out.println(bye());"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        }"
+        "content": "                    break;"
       },
       {
         "lineNumber": 139,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "                    executeCommand(command, inputSplit);"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "                System.out.println(lineWrap(e.getMessage()));"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 146,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 140,
+        "lineNumber": 147,
         "author": {
           "gitId": "-"
         },
@@ -1134,7 +1183,7 @@
       }
     ],
     "authorContributionMap": {
-      "DivineDX": 132,
+      "DivineDX": 139,
       "-": 8
     }
   },
@@ -1461,38 +1510,66 @@
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    public void markDone() {"
+        "content": "    public void markDone() throws DukeException {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "        if(isDone) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    }"
+        "content": "            throw new DukeException(\"Task is already done!\");"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": ""
+        "content": "        } else {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "DivineDX"
         },
-        "content": "    public abstract String toString();"
+        "content": "            this.isDone \u003d true;"
       },
       {
         "lineNumber": 15,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "DivineDX"
+        },
+        "content": "    public abstract String toString();"
+      },
+      {
+        "lineNumber": 19,
         "author": {
           "gitId": "DivineDX"
         },
@@ -1500,7 +1577,7 @@
       }
     ],
     "authorContributionMap": {
-      "DivineDX": 15
+      "DivineDX": 19
     }
   },
   {

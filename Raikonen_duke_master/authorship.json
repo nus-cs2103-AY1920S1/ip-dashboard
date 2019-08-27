@@ -346,6 +346,29 @@
     }
   },
   {
+    "path": "data/tasks.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "D | 0 | asdasd | 1985-11-21T14:00"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "D | 0 | asdad | 1944-10-21T15:25"
+      }
+    ],
+    "authorContributionMap": {
+      "Raikonen": 2
+    }
+  },
+  {
     "path": "src/main/java/Deadline.java",
     "fileType": "java",
     "lines": [
@@ -354,7 +377,7 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 2,
@@ -368,7 +391,7 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    protected String by;"
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 4,
@@ -382,66 +405,150 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public Deadline(String description, String by) {"
+        "content": "    protected LocalDateTime parsedBy;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        this.by \u003d by;"
+        "content": "    public Deadline(String description, String by) {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "        super(description, TaskType.DEADLINE);"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "        this.parsedBy \u003d parseDateTime(by);"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        return \"[D]\" + \"[\" + super.getStatusIcon() + \"]\" + super.toString() + \" (by: \" + by + \")\";"
+        "content": "    public Deadline(String description, boolean isDone, String by) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "        super(description, TaskType.DEADLINE, isDone);"
       },
       {
         "lineNumber": 14,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        this.parsedBy \u003d parseDateTime(by);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public String serialise() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return String.format(\"D | %d | %s | %s\\n\", isDone ? 1 : 0, description, parsedBy.toString());"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return \"[D]\" + \"[\" + super.getStatusIcon() + \"]\" + super.toString() + \" (by: \" + parsedBy.toString() + \")\";"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
         "author": {
           "gitId": "Raikonen"
         },
@@ -449,7 +556,7 @@
       }
     ],
     "authorContributionMap": {
-      "Raikonen": 14
+      "Raikonen": 26
     }
   },
   {
@@ -538,7 +645,7 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        new LevelSix().run();"
+        "content": "        new DukeCLI().run();"
       },
       {
         "lineNumber": 13,
@@ -558,6 +665,624 @@
     "authorContributionMap": {
       "-": 4,
       "Raikonen": 10
+    }
+  },
+  {
+    "path": "src/main/java/DukeCLI.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.InputMismatchException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "public class DukeCLI {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private TaskList taskList;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    // Main function"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        greet();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Check whether file exists, else create file"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Try to load data"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList.loadData();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // User input"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        Scanner sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        String input \u003d sc.next(); // Initial Input"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Try is inside while loop so that user can continue to enter commands despite invalid commands"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        while (!input.equals(\"bye\")) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                switch (input) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    case \"list\":"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        taskList.printList();"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        sc.nextLine();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    case \"done\":"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        taskList.completeTask(sc.nextInt());"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    case \"delete\":"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        taskList.deleteTask(sc.nextInt());"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    case \"todo\":"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        taskList.createTodo(sc.nextLine().trim());"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    case \"deadline\":"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        taskList.createDeadline(sc.nextLine().trim());"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    case \"event\":"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        taskList.createEvent(sc.nextLine().trim());"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        break;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    default:"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        sc.nextLine();"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        handleDefault();"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            catch (InputMismatchException e) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                System.out.println(\"Input Mismatch Exception caught\");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                sc.nextLine();"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                System.out.println(String.format(\"Index Out of Bounds Exception: %s\", e.getMessage()));"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            catch(DukeException e) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            catch(Exception e) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            finally {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                input \u003d sc.next();"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        exit();"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    // Helper Functions"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private void greet() {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"     What can I do for you?\\n\" +"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private void handleDefault() {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(new DukeException().getMessage());"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private void exit() {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Raikonen": 87
     }
   },
   {
@@ -662,7 +1387,7 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "public class Event extends Task {"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 2,
@@ -676,7 +1401,7 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    protected String at;"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 4,
@@ -687,1808 +1412,108 @@
       },
       {
         "lineNumber": 5,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    protected LocalDateTime parsedAt;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
         "author": {
           "gitId": "Raikonen"
         },
         "content": "    public Event(String description, String at) {"
       },
       {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        super(description);"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        this.at \u003d at;"
-      },
-      {
         "lineNumber": 8,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "        super(description, TaskType.EVENT);"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "        this.parsedAt \u003d parseDateTime(at);"
       },
       {
         "lineNumber": 10,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public Event(String description, boolean isDone, String at) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        super(description, TaskType.EVENT, isDone);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        this.parsedAt \u003d parseDateTime(at);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
         "author": {
           "gitId": "Raikonen"
         },
         "content": "    @Override"
       },
       {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public String toString() {"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        return \"[E]\" + \"[\" + super.getStatusIcon() + \"]\" + super.toString() + \" (at: \" + at + \")\";"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 15
-    }
-  },
-  {
-    "path": "src/main/java/LevelFive.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.List;"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class LevelFive {"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private List\u003cTask\u003e list;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Main function"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public void run() {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        greet();"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list \u003d new ArrayList\u003c\u003e();"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String input \u003d sc.next(); // Initial Input"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        while (!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            switch (input) {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"list\":"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoList(list);"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
         "lineNumber": 18,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "                case \"done\":"
+        "content": "    public String serialise() {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "                    completeTask(sc.nextInt());"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"todo\":"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    createTodo(sc.nextLine());"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"deadline\":"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    createDeadline(sc.nextLine());"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"event\":"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    createEvent(sc.nextLine());"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    sc.nextLine();"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    handleDefault();"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            input \u003d sc.next();"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        exit();"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Helper Functions"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void createTodo(String input) {"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            if (input.isEmpty())"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                throw new DukeException(\"The description of a todo cannot be empty.\");"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            Task newTodo \u003d new Todo(input);"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            list.add(newTodo);"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            echoEntry(newTodo.toString());"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void greet() {"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     What can I do for you?\\n\" +"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoEntry(String input) {"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Got it. I\u0027ve added this task: \\n\" +"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"       %s \\n\", input) +"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"     Now you have %d tasks in the list. \\n\", list.size()) +"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoList(List\u003cTask\u003e list) {"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"     Here are the tasks in your list: \");"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        for (int i \u003d 0; i \u003c list.size(); i++) {"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(String.format(\"     %d.%s\","
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    i+1, list.get(i).toString()));"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void completeTask(int entryNumber) {"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.get(entryNumber - 1).setDone();"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"      Nice! I\u0027ve marked this task as done: \");"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(String.format(\"      %s\","
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                list.get(entryNumber - 1).toString()));"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void createDeadline(String input) {"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            String[] parsedDeadline \u003d input.split(\" \\\\/by \");"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            if (input.isEmpty())"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                throw new DukeException(\"The description of a deadline cannot be empty.\");"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            if (parsedDeadline.length \u003d\u003d 1)"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                throw new DukeException(\"Deadline is missing a deadline\");"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            Task newDeadline \u003d new Deadline(parsedDeadline[0], parsedDeadline[1]);"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            list.add(newDeadline);"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            echoEntry(newDeadline.toString());"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void createEvent(String input) {"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            String[] parsedEvent \u003d input.split(\" \\\\/at \");"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            if (input.isEmpty())"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                throw new DukeException(\"The description of an event cannot be empty.\");"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            if (parsedEvent.length \u003d\u003d 1)"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                throw new DukeException(\"Event is missing a location\");"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            Task newEvent \u003d new Event(parsedEvent[0], parsedEvent[1]);"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            list.add(newEvent);"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            echoEntry(newEvent.toString());"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void handleDefault() {"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(new DukeException().getMessage());"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void exit() {"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 133
-    }
-  },
-  {
-    "path": "src/main/java/LevelFour.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.List;"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class LevelFour {"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private List\u003cTask\u003e list;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Main function"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public void run() {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        greet();"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list \u003d new ArrayList\u003c\u003e();"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String input \u003d sc.next(); // Initial Input"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        while(!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            switch (input) {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"list\":"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoList(list);"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"done\":"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    completeTask(sc.nextInt());"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"todo\":"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    Task newTodo \u003d new Todo(sc.nextLine());"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    list.add(newTodo);"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoEntry(newTodo.toString());"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"deadline\":"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    // Parse deadline"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    String[] parsedDeadline \u003d sc.nextLine().split(\" \\\\/by \");"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    Task newDeadline \u003d new Deadline(parsedDeadline[0], parsedDeadline[1]);"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    list.add(newDeadline);"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoEntry(newDeadline.toString());"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"event\":"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    String[] parsedEvent \u003d sc.nextLine().split(\" \\\\/at \");"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    Task newEvent \u003d new Event(parsedEvent[0], parsedEvent[1]);"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    list.add(newEvent);"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoEntry(newEvent.toString());"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    input +\u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    Task newPlainTask \u003d new PlainTask(input);"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    list.add(newPlainTask);"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoEntry(newPlainTask.toString());"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            input \u003d sc.next();"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        exit();"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Helper Functions"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void greet() {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     What can I do for you?\\n\" +"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoEntry(String input) {"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Got it. I\u0027ve added this task: \\n\" +"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"       %s \\n\", input) +"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"     Now you have %d tasks in the list. \\n\", list.size()) +"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoList(List\u003cTask\u003e list) {"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"     Here are the tasks in your list: \");"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        for (int i \u003d 0; i \u003c list.size(); i++) {"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(String.format(\"     %d.%s\","
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    i+1, list.get(i).toString()));"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void completeTask(int entryNumber) {"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.get(entryNumber - 1).setDone();"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"      Nice! I\u0027ve marked this task as done: \");"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(String.format(\"      %s\","
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                list.get(entryNumber - 1).toString()));"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void exit() {"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 91
-    }
-  },
-  {
-    "path": "src/main/java/LevelOne.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class LevelOne {"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public void run() {"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        greet(); // Initial Greeting"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String input \u003d sc.nextLine(); // Initial Input"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        while(!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            echo(input);"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            input \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        exit();"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void greet() {"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     What can I do for you?\\n\" +"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
+        "content": "        return String.format(\"E | %d | %s | %s\\n\", isDone ? 1 : 0, description, parsedAt.toString());"
       },
       {
         "lineNumber": 20,
@@ -2506,2051 +1531,41 @@
       },
       {
         "lineNumber": 22,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void echo(String input) {"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"     %s\\n\", input) +"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void exit() {"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 33
-    }
-  },
-  {
-    "path": "src/main/java/LevelSix.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.InputMismatchException;"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.List;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class LevelSix {"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private List\u003cTask\u003e list;"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Main function"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public void run() {"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        greet();"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list \u003d new ArrayList\u003c\u003e();"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String input \u003d sc.next(); // Initial Input"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        while (!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                switch (input) {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    case \"list\":"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        echoList(list);"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        sc.nextLine();"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    case \"done\":"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        completeTask(sc.nextInt());"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    case \"delete\":"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        deleteTask(sc.nextInt());"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    case \"todo\":"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        createTodo(sc.nextLine());"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    case \"deadline\":"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        createDeadline(sc.nextLine());"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    case \"event\":"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        createEvent(sc.nextLine());"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    default:"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        System.out.println(input);"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        sc.nextLine();"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        handleDefault();"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            catch (InputMismatchException e) {"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                System.out.println(\"Input Mismatch Exception caught\");"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                sc.nextLine();"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            catch (IndexOutOfBoundsException e) {"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                System.out.println(String.format(\"Index Out of Bounds Exception: %s\", e.getMessage()));"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            catch(DukeException e) {"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            catch(Exception e) {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            finally {"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                input \u003d sc.next();"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        exit();"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Helper Functions"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void createTodo(String input) throws DukeException{"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        if (input.isEmpty())"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            throw new DukeException(\"The description of a todo cannot be empty.\");"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Task newTodo \u003d new Todo(input);"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.add(newTodo);"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        echoEntry(newTodo.toString());"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void greet() {"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     What can I do for you?\\n\" +"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoEntry(String input) {"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Got it. I\u0027ve added this task: \\n\" +"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"       %s \\n\", input) +"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"     Now you have %d tasks in the list. \\n\", list.size()) +"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoList(List\u003cTask\u003e list) {"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"     Here are the tasks in your list: \");"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        for (int i \u003d 0; i \u003c list.size(); i++) {"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(String.format(\"     %d.%s\","
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    i+1, list.get(i).toString()));"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void completeTask(int entryNumber) throws IndexOutOfBoundsException{"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.get(entryNumber - 1).setDone();"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(String.format(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"     Nice! I\u0027ve marked this task as done: \\n\" +"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"       %s\\n\" +"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"    ____________________________________________________________\","
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                list.get(entryNumber - 1).toString()));"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void deleteTask(int entryNumber) throws IndexOutOfBoundsException{"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(String.format(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"     Noted. I\u0027ve removed this task: \\n\" +"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"       %s\\n\" +"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"     Now you have %d tasks in the list.\\n\" +"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                        \"    ____________________________________________________________\","
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                list.remove(entryNumber - 1).toString(), list.size()));"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void createDeadline(String input) throws DukeException {"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String[] parsedDeadline \u003d input.split(\" \\\\/by \");"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        if (input.isEmpty())"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            throw new DukeException(\"The description of a deadline cannot be empty.\");"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        if (parsedDeadline.length \u003d\u003d 1)"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            throw new DukeException(\"Deadline is missing a deadline\");"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Task newDeadline \u003d new Deadline(parsedDeadline[0], parsedDeadline[1]);"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.add(newDeadline);"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        echoEntry(newDeadline.toString());"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void createEvent(String input) throws DukeException{"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String[] parsedEvent \u003d input.split(\" \\\\/at \");"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        if (input.isEmpty())"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            throw new DukeException(\"The description of an event cannot be empty.\");"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        if (parsedEvent.length \u003d\u003d 1)"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            throw new DukeException(\"Event is missing a location\");"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Task newEvent \u003d new Event(parsedEvent[0], parsedEvent[1]);"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.add(newEvent);"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        echoEntry(newEvent.toString());"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void handleDefault() {"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(new DukeException().getMessage());"
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void exit() {"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 145
-    }
-  },
-  {
-    "path": "src/main/java/LevelThree.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.List;"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class LevelThree {"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private List\u003cTask\u003e list;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Main function"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public void run() {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        greet();"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list \u003d new ArrayList\u003c\u003e();"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String input \u003d sc.next(); // Initial Input"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        while(!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            switch (input) {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"list\":"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoList(list);"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"done\":"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    completeTask(sc.nextInt());"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    input +\u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    Task newTask \u003d new Task(input);"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    list.add(newTask);"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoEntry(input);"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            input \u003d sc.next();"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        exit();"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    // Helper Functions"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void greet() {"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     What can I do for you?\\n\" +"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoEntry(String input) {"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"     added: %s\\n\", input) +"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void echoList(List\u003cTask\u003e list) {"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"     Here are the tasks in your list: \");"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        for (int i \u003d 0; i \u003c list.size(); i++) {"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(String.format(\"     %d.[%s] %s\","
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    i+1, list.get(i).getStatusIcon(), list.get(i).toString()));"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void completeTask(int entryNumber) {"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        list.get(entryNumber - 1).setDone();"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"      Nice! I\u0027ve marked this task as done: \");"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(String.format(\"      [%s] %s\","
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                list.get(entryNumber - 1).getStatusIcon(), list.get(entryNumber - 1).toString()));"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private void exit() {"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 70
-    }
-  },
-  {
-    "path": "src/main/java/LevelTwo.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.List;"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class LevelTwo {"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public static void run() {"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        greet();"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        List\u003cString\u003e list \u003d new ArrayList\u003cString\u003e();"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        String input \u003d sc.nextLine(); // Initial Input"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        while(!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            switch (input) {"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                case \"list\":"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoList(list);"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    list.add(input);"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                    echoEntry(input);"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            input \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        exit();"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void greet() {"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Hello! I\u0027m Duke\\n\" +"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     What can I do for you?\\n\" +"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void echoEntry(String input) {"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                String.format(\"     added: %s\\n\", input) +"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void echoList(List\u003cString\u003e list) {"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        for (int i \u003d 0; i \u003c list.size(); i++) {"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "            System.out.println(String.format(\"     %d. %s\", i+1, list.get(i)));"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    private static void exit() {"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"     Bye. Hope to see you again soon!\\n\" +"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "                \"    ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "Raikonen": 51
-    }
-  },
-  {
-    "path": "src/main/java/PlainTask.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "public class PlainTask extends Task {"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    public PlainTask(String description) {"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "        super(description);"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "Raikonen"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 6,
         "author": {
           "gitId": "Raikonen"
         },
         "content": "    @Override"
       },
       {
-        "lineNumber": 7,
+        "lineNumber": 23,
         "author": {
           "gitId": "Raikonen"
         },
         "content": "    public String toString() {"
       },
       {
-        "lineNumber": 8,
+        "lineNumber": 24,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        return \"[\" + super.getStatusIcon() + \"] \" + super.toString();"
+        "content": "        return \"[E]\" + \"[\" + super.getStatusIcon() + \"]\" + super.toString() + \" (at: \" + parsedAt.toString() + \")\";"
       },
       {
-        "lineNumber": 9,
+        "lineNumber": 25,
         "author": {
           "gitId": "Raikonen"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 10,
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
         "author": {
           "gitId": "Raikonen"
         },
@@ -4558,7 +1573,7 @@
       }
     ],
     "authorContributionMap": {
-      "Raikonen": 10
+      "Raikonen": 27
     }
   },
   {
@@ -4570,56 +1585,56 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "public class Task {"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    protected String description;"
+        "content": "import java.time.format.DateTimeParseException;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    protected boolean isDone;"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "public abstract class Task {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public Task(String description) {"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        this.description \u003d description;"
+        "content": "    protected String description;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "    protected boolean isDone;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "    protected TaskType type;"
       },
       {
         "lineNumber": 9,
@@ -4633,94 +1648,416 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    public Task(String description, TaskType type) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        return (isDone ? \"✓\" : \"✘\"); //return tick or X symbols"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "        this.type \u003d type;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "        this.isDone \u003d false;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public void setDone() {"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        isDone \u003d true;"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "    public Task(String description, TaskType type, boolean isDone) {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    @Override"
+        "content": "        this.type \u003d type;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public String toString() {"
+        "content": "        this.isDone \u003d isDone;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        return description;"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "    // Serialise"
       },
       {
         "lineNumber": 23,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public abstract String serialise();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    // Deserialize"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    static public Task deserialize(String s) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        String[] parsedLine \u003d s.split(\" \\\\| \");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        switch (parsedLine[0]) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            case \"T\":"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                return new Todo(parsedLine[2], Integer.parseInt(parsedLine[1]) \u003d\u003d 1);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            case \"D\":"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                return new Deadline(parsedLine[2], Integer.parseInt(parsedLine[1]) \u003d\u003d 1, parsedLine[3]);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            case \"E\":"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                return new Event(parsedLine[2], Integer.parseInt(parsedLine[1]) \u003d\u003d 1, parsedLine[3]);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                return null;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    protected String getStatusIcon() {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return (isDone ? \"✓\" : \"✘\"); //return tick or X symbols"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    protected void setDone() {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        isDone \u003d true;"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    protected LocalDateTime parseDateTime(String dateTime) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Check whether already in the right format"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            return LocalDateTime.parse(dateTime);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        catch (DateTimeParseException e) {}"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        String[] parsedDateTime \u003d dateTime.split(\" \");"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        String[] parsedDate \u003d parsedDateTime[0].split(\"\\\\/\");"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return LocalDateTime.of("
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                Integer.parseInt(parsedDate[2]),"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                Integer.parseInt(parsedDate[1]),"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                Integer.parseInt(parsedDate[0]),"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                Integer.parseInt(parsedDateTime[1]) / 100,"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                Integer.parseInt(parsedDateTime[1]) % 100);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return description;"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
         "author": {
           "gitId": "Raikonen"
         },
@@ -4728,7 +2065,1159 @@
       }
     ],
     "authorContributionMap": {
-      "Raikonen": 23
+      "Raikonen": 69
+    }
+  },
+  {
+    "path": "src/main/java/TaskFileManager.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "public class TaskFileManager {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private File taskFile;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public TaskFileManager(File file) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        this.taskFile \u003d file;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void writeListToFile(List\u003cTask\u003e list) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            String textToAdd \u003d \"\";"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            FileWriter fw \u003d new FileWriter(taskFile.getPath());"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            for (Task t : list) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                textToAdd +\u003d t.serialise();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            fw.write(textToAdd);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            fw.close();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        catch (IOException e) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void appendToFile(String textToAppend) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            FileWriter fw \u003d new FileWriter(taskFile.getPath(), true); // create a FileWriter in append mode"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            fw.write(textToAppend);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            fw.close();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }catch (IOException e) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public List\u003cTask\u003e getTaskList() {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        List\u003cTask\u003e taskList \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            Scanner s \u003d new Scanner(taskFile); // create a Scanner using the File as the source"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            while (s.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                Task t \u003d Task.deserialize(s.nextLine());"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                taskList.add(t);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            // If no file, create the file"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            System.out.println(\"List is currently empty\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return taskList;"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Raikonen": 57
+    }
+  },
+  {
+    "path": "src/main/java/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private List\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    private TaskFileManager taskFileManager \u003d new TaskFileManager(new File(\"data/tasks.txt\"));"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    // Overloaded method for existing task lists"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public TaskList(List l) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList \u003d new ArrayList\u003cTask\u003e(l);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void loadData() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        List\u003cTask\u003e loadedTaskList \u003d taskFileManager.getTaskList();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        if (loadedTaskList \u003d\u003d null)"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            taskList \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        else"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            taskList \u003d loadedTaskList;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void printList() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(\"     Here are the tasks in your list: \");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        for (int i \u003d 0; i \u003c taskList.size(); i++) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            System.out.println(String.format(\"     %d.%s\","
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                    i+1, taskList.get(i).toString()));"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void echoEntry(String input) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\\n\" +"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"     Got it. I\u0027ve added this task: \\n\" +"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                String.format(\"       %s \\n\", input) +"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                String.format(\"     Now you have %d tasks in the list. \\n\", taskList.size()) +"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                \"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void completeTask(int entryNumber) throws IndexOutOfBoundsException{"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList.get(entryNumber - 1).setDone();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(String.format(\"    ____________________________________________________________\\n\" +"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"     Nice! I\u0027ve marked this task as done: \\n\" +"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"       %s\\n\" +"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"    ____________________________________________________________\","
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                taskList.get(entryNumber - 1).toString()));"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskFileManager.writeListToFile(taskList);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void deleteTask(int entryNumber) throws IndexOutOfBoundsException{"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        System.out.println(String.format(\"    ____________________________________________________________\\n\" +"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"     Noted. I\u0027ve removed this task: \\n\" +"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"       %s\\n\" +"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"     Now you have %d tasks in the list.\\n\" +"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                        \"    ____________________________________________________________\","
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "                taskList.remove(entryNumber - 1).toString(), taskList.size()));"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskFileManager.writeListToFile(taskList);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void createDeadline(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        String[] parsedDeadline \u003d input.split(\" \\\\/by \");"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        if (input.isEmpty())"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            throw new DukeException(\"The description of a deadline cannot be empty.\");"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        if (parsedDeadline.length \u003d\u003d 1)"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            throw new DukeException(\"Deadline is missing a deadline\");"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        Task newDeadline \u003d new Deadline(parsedDeadline[0], parsedDeadline[1]);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Update Local Copy"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList.add(newDeadline);"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Update Harddisk Copy"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskFileManager.appendToFile(newDeadline.serialise());"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        echoEntry(newDeadline.toString());"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void createEvent(String input) throws DukeException{"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        String[] parsedEvent \u003d input.split(\" \\\\/at \");"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        if (input.isEmpty())"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            throw new DukeException(\"The description of an event cannot be empty.\");"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        if (parsedEvent.length \u003d\u003d 1)"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            throw new DukeException(\"Event is missing a location\");"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        Task newEvent \u003d new Event(parsedEvent[0], parsedEvent[1]);"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Update Local Copy"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList.add(newEvent);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Update Harddisk Copy"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskFileManager.appendToFile(newEvent.serialise());"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        echoEntry(newEvent.toString());"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public void createTodo(String input) throws DukeException{"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        if (input.isEmpty())"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "            throw new DukeException(\"The description of a todo cannot be empty.\");"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        Task newTodo \u003d new Todo(input);"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Update Local Copy"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskList.add(newTodo);"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        // Update Harddisk Copy"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        taskFileManager.appendToFile(newTodo.serialise());"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        echoEntry(newTodo.toString());"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Raikonen": 105
     }
   },
   {
@@ -4805,7 +3294,7 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        super(description);"
+        "content": "        super(description, TaskType.TODO);"
       },
       {
         "lineNumber": 5,
@@ -4819,45 +3308,101 @@
         "author": {
           "gitId": "Raikonen"
         },
-        "content": ""
+        "content": "    public Todo(String description, boolean isDone) {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    @Override"
+        "content": "        super(description, TaskType.TODO, isDone);"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "        return \"[T]\" + \"[\" + super.getStatusIcon() + \"]\" + super.toString();"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "Raikonen"
         },
-        "content": "}"
+        "content": "    public String serialise() {"
       },
       {
         "lineNumber": 12,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return String.format(\"T | %d | %s\\n\", isDone ? 1 : 0, description);"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "        return \"[T]\" + \"[\" + super.getStatusIcon() + \"]\" + super.toString();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Raikonen"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "Raikonen"
         },
@@ -4865,7 +3410,7 @@
       }
     ],
     "authorContributionMap": {
-      "Raikonen": 12
+      "Raikonen": 20
     }
   },
   {

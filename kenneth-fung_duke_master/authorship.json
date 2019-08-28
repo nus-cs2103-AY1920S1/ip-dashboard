@@ -1,6 +1,6 @@
 [
   {
-    "path": "src/main/java/Deadline.java",
+    "path": "src/main/java/duke/Duke.java",
     "fileType": "java",
     "lines": [
       {
@@ -8,87 +8,335 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "package duke;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    protected String deadline;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "import duke.command.Command;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public Deadline(String description, String deadline) {"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "kenneth-fung"
+          "gitId": "-"
         },
-        "content": "        super(description);"
+        "content": "public class Duke {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        this.deadline \u003d deadline;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    @Override"
+        "content": "    private TaskList tasks;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        return \"[D]\" + super.toString();"
+        "content": "    public Duke(String filepath) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        storage \u003d new Storage(filepath);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            tasks \u003d new TaskList(storage.load());"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            ui.showError(e.getMessage());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            tasks \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ui.showWelcomeMessage();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        boolean isExit \u003d false;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        while (!isExit) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                String fullCommand \u003d ui.readCommand();"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                Command c \u003d Parser.parseCommand(fullCommand);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                c.execute(tasks, ui, storage);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                isExit \u003d c.isExit();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                ui.showError(e.getMessage());"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        new Duke(\"\\\\data\\\\duke.txt\").run();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 38,
+      "-": 2
+    }
+  },
+  {
+    "path": "src/main/java/duke/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class DukeException extends Exception {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public DukeException(String error) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        super(error);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
         "author": {
           "gitId": "kenneth-fung"
         },
@@ -96,11 +344,11 @@
       }
     ],
     "authorContributionMap": {
-      "kenneth-fung": 13
+      "kenneth-fung": 7
     }
   },
   {
-    "path": "src/main/java/Duke.java",
+    "path": "src/main/java/duke/Parser.java",
     "fileType": "java",
     "lines": [
       {
@@ -108,161 +356,716 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "package duke;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "import java.util.Scanner;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "import duke.command.Command;"
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "-"
+          "gitId": "kenneth-fung"
         },
-        "content": "public class Duke {"
+        "content": "import duke.command.CommandList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "import duke.command.CommandMark;"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "-"
+          "gitId": "kenneth-fung"
         },
-        "content": "    public static void main(String[] args) {"
+        "content": "import duke.command.CommandDelete;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        String welcomeMessage \u003d \"Hello! I\u0027m Duke\\nWhat can I do for you?\";"
+        "content": "import duke.command.CommandAdd;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(welcomeMessage);"
+        "content": "import duke.command.CommandExit;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+        "content": "    public static Command parseCommand(String fullCommand) throws DukeException {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "        String[] commandWords \u003d fullCommand.split(\" \");"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        String input;"
+        "content": "        switch (commandWords[0]) {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        String command;"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "            return new CommandList();"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        while (true) {"
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            input \u003d sc.nextLine();"
+        "content": "            try {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            command \u003d input.split(\" \")[0].toLowerCase();"
+        "content": "                return new CommandMark(Integer.parseInt(commandWords[1]));"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "            } catch (Exception e) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            if (command.equalsIgnoreCase(\"bye\")) {"
+        "content": "                throw new DukeException(\"Invalid task number.\");"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                break;"
+        "content": "            }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "kenneth-fung"
         },
+        "content": "        case \"delete\":"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                return new CommandDelete(Integer.parseInt(commandWords[1]));"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                throw new DukeException(\"Invalid task number.\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
         "content": "            }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                String taskType \u003d fullCommand.split(\" \")[0];"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                String taskDescription \u003d fullCommand.split(\" \", 2)[1];"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                return new CommandAdd(taskType, taskDescription);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                throw new DukeException(\"To add tasks, please use the format: type description\\n\" +"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                        \"e.g. todo read book\""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                );"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"bye\":"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            return new CommandExit();"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            throw new DukeException(\"I\u0027m sorry, I don\u0027t know what \u0027\" + commandWords[0] + \"\u0027 means :(\");"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public static LocalDateTime parseDateTimeString(String dateTime) throws DukeException {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        // ensure that dateTime string is in the format: \"12/02/2019, 6:05pm\""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            // get day of month, month, and year"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            String[] dateArray \u003d dateTime.split(\", \")[0].split(\"/\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            int dayOfMonth \u003d Integer.parseInt(dateArray[0]);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            int month \u003d Integer.parseInt(dateArray[1]);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            int year \u003d Integer.parseInt(dateArray[2]);"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            // get minute and hour"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            String time \u003d dateTime.split(\", \")[1];"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            int minute \u003d Integer.parseInt(time.split(\":\")[1].substring(0, 2));"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            int hour \u003d Integer.parseInt(time.split(\":\")[0]);"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            if (hour \u003c\u003d 0) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                throw new DukeException(\"Hour cannot be less than or equal to 0\");"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            boolean isPastNoon \u003d time.substring(time.length() - 2).equalsIgnoreCase(\"pm\");"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            if (isPastNoon \u0026\u0026 hour !\u003d 12) {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                // convert to 24 hour format (except for 12pm)"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                hour +\u003d 12;"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            } else if (!isPastNoon \u0026\u0026 hour \u003d\u003d 12) {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                // edge case: 12am to 12:59am"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                hour \u003d 0;"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            return LocalDateTime.of(year, month, dayOfMonth, hour, minute);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            throw new DukeException(\"DateTime \\\"\" + dateTime + \"\\\" format incorrect\");"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 78
+    }
+  },
+  {
+    "path": "src/main/java/duke/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.ToDo;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Deadline;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Event;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.io.FileReader;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.io.BufferedReader;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.io.BufferedWriter;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    private String filepath;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public Storage(String filepath) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.filepath \u003d System.getProperty(\"user.dir\") + filepath;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 24,
@@ -276,231 +1079,231 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            switch (command) {"
+        "content": "        File file \u003d new File(filepath);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                case \"list\":"
+        "content": "        if (!file.exists()) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    PrintTasks(tasks);"
+        "content": "            return tasks;"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    break;"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                case \"done\":"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    try {"
+        "content": "        BufferedReader reader \u003d null;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        MarkTaskDone(tasks, input);"
+        "content": "        try {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    } catch (Exception e) {"
+        "content": "            reader \u003d new BufferedReader(new FileReader(file));"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        System.out.println(\"\" + e);"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    }"
+        "content": "            String line \u003d reader.readLine();"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    break;"
+        "content": "            while (line !\u003d null) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                case \"delete\":"
+        "content": "                Task taskToRead \u003d null;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    try {"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        DeleteTask(tasks, input);"
+        "content": "                // get task type and description"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    } catch (Exception e) {"
+        "content": "                String[] lineArray \u003d line.split(\" ~ \");"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        System.out.println(\"\" + e);"
+        "content": "                String taskType \u003d lineArray[0];"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    }"
+        "content": "                String taskDescription;"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    break;"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                case \"todo\":"
+        "content": "                switch (taskType) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                case \"deadline\":"
+        "content": "                case \"T\":"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                case \"event\":"
+        "content": "                    taskDescription \u003d lineArray[2];"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    try {"
+        "content": "                    taskToRead \u003d new ToDo(taskDescription);"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        AddTask(tasks, input, command);"
+        "content": "                    break;"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    } catch (Exception e) {"
+        "content": "                case \"D\":"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        System.out.println(\"\" + e);"
+        "content": "                    // get description"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                        continue;"
+        "content": "                    taskDescription \u003d lineArray[2].split(\"by: \")[0];"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    }"
+        "content": "                    // remove space and closing bracket"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    break;"
+        "content": "                    taskDescription \u003d taskDescription.substring(0, taskDescription.length() - 2);"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                default:"
+        "content": ""
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    System.out.println(\"I\u0027m sorry, but I don\u0027t know what that means :(\");"
+        "content": "                    // get deadline"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    break;"
+        "content": "                    String deadline \u003d lineArray[2].split(\"by: \")[1];"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            }"
+        "content": "                    // remove closing bracket"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "                    deadline \u003d deadline.substring(0, deadline.length() - 1);"
       },
       {
         "lineNumber": 58,
@@ -514,322 +1317,322 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
+        "content": "                    // read task with deadline"
       },
       {
         "lineNumber": 60,
         "author": {
-          "gitId": "-"
+          "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "                    taskToRead \u003d new Deadline(taskDescription, Parser.parseDateTimeString(deadline));"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "                    break;"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    private static void PrintTasks(ArrayList\u003cTask\u003e tasks) {"
+        "content": "                case \"E\":"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(\"Here are the task(s) in your list:\");"
+        "content": "                    // get description"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "                    taskDescription \u003d lineArray[2].split(\"at: \")[0];"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        String task;"
+        "content": "                    // remove space and closing bracket"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
+        "content": "                    taskDescription \u003d taskDescription.substring(0, taskDescription.length() - 2);"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            task \u003d String.format(\"%d.%s\", (i + 1), tasks.get(i));"
+        "content": ""
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            System.out.println(task);"
+        "content": "                    // get time"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "                    String time \u003d lineArray[2].split(\"at: \")[1];"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "                    // remove closing bracket"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        if (tasks.size() \u003d\u003d 0) {"
+        "content": "                    time \u003d time.substring(0, time.length() - 1);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            System.out.println(\"There are no tasks in your list right now.\");"
+        "content": ""
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "                    // read task with deadline"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "                    taskToRead \u003d new Event(taskDescription, Parser.parseDateTimeString(time));"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "                    break;"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    private static void MarkTaskDone(ArrayList\u003cTask\u003e tasks, String input) throws DukeException {"
+        "content": "                }"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        int taskNumber;"
+        "content": ""
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        try {"
+        "content": "                // check if the task is marked as done"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            taskNumber \u003d Integer.parseInt(input.split(\" \")[1]);"
+        "content": "                if (lineArray[1].equals(\"1\")) {"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            tasks.get(taskNumber - 1).markDone();"
+        "content": "                    taskToRead.markDone();"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        } catch (Exception e) {"
+        "content": "                }"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            throw new DukeException(\"Invalid task number.\");"
+        "content": ""
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "                tasks.add(taskToRead);"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
+        "content": ""
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(String.format(\"  %s\", tasks.get(taskNumber - 1)));"
+        "content": "                line \u003d reader.readLine();"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "            }"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "        } catch (Exception e) {"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    private static void DeleteTask(ArrayList\u003cTask\u003e tasks, String input) throws DukeException {"
+        "content": "            throw new DukeException(e.getMessage());"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        int taskNumber;"
+        "content": "        } finally {"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        Task deletedTask;"
+        "content": "            // close reader"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        try {"
+        "content": "            if (reader !\u003d null) {"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            taskNumber \u003d Integer.parseInt(input.split(\" \")[1]);"
+        "content": "                try {"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            deletedTask \u003d tasks.remove(taskNumber - 1);"
+        "content": "                    reader.close();"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        } catch (Exception e) {"
+        "content": "                } catch (IOException e) {"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            throw new DukeException(\"Invalid task number.\");"
+        "content": "                    System.err.println(e.getMessage());"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "                }"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(\"Noted. I\u0027ve removed this task:\");"
+        "content": "            }"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(String.format(\"  %s\", deletedTask));"
+        "content": "        }"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        System.out.println(String.format(\"Now you have %d task(s) in the list.\", tasks.size()));"
+        "content": ""
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "        return tasks;"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    private static void AddTask(ArrayList\u003cTask\u003e tasks, String input, String type) throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        // get task description"
+        "content": "    public void save(TaskList tasks) throws DukeException {"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        String description;"
+        "content": "        BufferedWriter writer \u003d null;"
       },
       {
         "lineNumber": 105,
@@ -843,268 +1646,218 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            description \u003d input.split(\" \", 2)[1];"
+        "content": "            writer \u003d new BufferedWriter(new FileWriter(filepath));"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        } catch (Exception e) {"
+        "content": "            // empty file before writing"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            throw new DukeException(\"Description of \" + type + \" cannot be empty.\");"
+        "content": "            FileWriter overwrite \u003d new FileWriter(filepath);"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "            overwrite.close();"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "            // write all tasks in virtual list to file"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        Task newTask \u003d null;"
+        "content": "            for (int i \u003d 1; i \u003c\u003d tasks.size(); i++) {"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "                Task task \u003d tasks.get(i);"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        // create new task of specified type"
+        "content": "                // task string structured as [D][+] description (by: datetime)"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        switch (type) {"
+        "content": "                char type \u003d task.toString().toCharArray()[1];"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            case \"todo\":"
+        "content": "                char done \u003d task.toString().toCharArray()[4] \u003d\u003d \u0027+\u0027 ? \u00271\u0027 : \u00270\u0027;"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                newTask \u003d new ToDo(description);"
+        "content": "                String description \u003d task.toString().split(\"] \", 2)[1];"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                break;"
+        "content": "                // write task to file"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            case \"deadline\":"
+        "content": "                writer.write(String.format(\"%s ~ %s ~ %s\", type, done, description));"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                String[] descriptionDeadline \u003d description.split(\" /by \", 2);"
+        "content": "                writer.newLine();"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                if (descriptionDeadline.length \u003c 2) {"
+        "content": "            }"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    throw new DukeException(\"Deadline format incorrect, should be e.g. deadline task /by time\");"
+        "content": "        } catch (Exception e) {"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                }"
+        "content": "            System.err.println(e.getMessage());"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                newTask \u003d new Deadline(descriptionDeadline[0], descriptionDeadline[1]);"
+        "content": "            throw new DukeException(\"Failed to save task list to file.\");"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                break;"
+        "content": "        } finally {"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "            case \"event\":"
+        "content": "            // close writer"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                String[] descriptionTime \u003d description.split(\" /at \", 2);"
+        "content": "            if (writer !\u003d null) {"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                if (descriptionTime.length \u003c 2) {"
+        "content": "                try {"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                    throw new DukeException(\"Event format incorrect, should be e.g. event task /at time\");"
+        "content": "                    writer.close();"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                }"
+        "content": "                } catch (IOException e) {"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                newTask \u003d new Event(descriptionTime[0], descriptionTime[1]);"
+        "content": "                    System.err.println(e.getMessage());"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "                break;"
+        "content": "                }"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        }"
+        "content": "            }"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        tasks.add(newTask);"
+        "content": "    }"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "        String message \u003d String.format("
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "                \"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d task(s) in the list.\","
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "                newTask, tasks.size()"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "        );"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "        System.out.println(message);"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "-"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "kenneth-fung": 137,
-      "-": 5
+      "kenneth-fung": 135
     }
   },
   {
-    "path": "src/main/java/DukeException.java",
+    "path": "src/main/java/duke/TaskList.java",
     "fileType": "java",
     "lines": [
       {
@@ -1112,121 +1865,77 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "public class DukeException extends Exception {"
+        "content": "package duke;"
       },
       {
         "lineNumber": 2,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "    public DukeException(String error) {"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "        super(error);"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "kenneth-fung": 5
-    }
-  },
-  {
-    "path": "src/main/java/Event.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "public class Event extends Task {"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "kenneth-fung"
-        },
-        "content": "    protected String time;"
-      },
-      {
-        "lineNumber": 3,
         "author": {
           "gitId": "kenneth-fung"
         },
         "content": ""
       },
       {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
         "lineNumber": 4,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public Event(String description, String time) {"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        this.time \u003d time;"
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public String toString() {"
+        "content": "    public TaskList() {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        return \"[E]\" + super.toString();"
+        "content": "        this.tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 12,
@@ -1240,15 +1949,155 @@
         "author": {
           "gitId": "kenneth-fung"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e tasks) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.tasks \u003d tasks;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public int size() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return tasks.size();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public Task get(int taskNumber) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return tasks.get(taskNumber - 1);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public boolean add(Task task) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return tasks.add(task);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public Task remove(int taskNumber) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return tasks.remove(taskNumber - 1);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "kenneth-fung": 13
+      "kenneth-fung": 33
     }
   },
   {
-    "path": "src/main/java/Task.java",
+    "path": "src/main/java/duke/Ui.java",
     "fileType": "java",
     "lines": [
       {
@@ -1256,56 +2105,56 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "public abstract class Task {"
+        "content": "package duke;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    protected String description;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    protected boolean done;"
+        "content": "import duke.task.Task;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": ""
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public Task(String description) {"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        this.description \u003d description;"
+        "content": "public class Ui {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        this.done \u003d false;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "    private Scanner sc;"
       },
       {
         "lineNumber": 9,
@@ -1319,14 +2168,1645 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public void markDone() {"
+        "content": "    public Ui() {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        this.done \u003d true;"
+        "content": "        sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void showWelcomeMessage() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        String welcomeMessage \u003d \"Hello! I\u0027m Duke.\\nWhat can I do for you?\\n\" +"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                \"To input dates and times for deadlines and events, \" +"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                \"please use the format: 29/03/2019, 6:05pm\";"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(welcomeMessage);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void showExitMessage() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(\"Bye! Hope to see you again soon :)\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void showError(String errorMessage) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.err.println(errorMessage);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public String readCommand() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return sc.nextLine();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void printTaskList(TaskList tasks) {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(\"Here are the task(s) in your list:\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        String task;"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        for (int i \u003d 1; i \u003c\u003d tasks.size(); i++) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            task \u003d String.format(\"%d.%s\", i, tasks.get(i));"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            System.out.println(task);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        if (tasks.size() \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            System.out.println(\"There are no tasks in your list right now.\");"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void printTaskMarkedDone(Task task) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(String.format(\"  %s\", task));"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void printTaskDeleted(TaskList tasks, Task task) {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(String.format("
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                \"Noted. I\u0027ve removed this task:\\n  %s\\nNow you have %d task(s) in the list.\","
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                task, tasks.size()"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ));"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void printTaskAdded(TaskList tasks, Task task) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        System.out.println(String.format("
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                \"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d task(s) in the list.\","
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                task, tasks.size()"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ));"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 66
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public abstract class Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 15
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/CommandAdd.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Parser;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.ToDo;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Deadline;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Event;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class CommandAdd extends Command {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    private String taskType;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    private String taskDescription;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public CommandAdd(String taskType, String taskDescription) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.taskType \u003d taskType;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.taskDescription \u003d taskDescription;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        Task newTask \u003d null;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        // create new task of specified type"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        switch (taskType) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            newTask \u003d new ToDo(taskDescription);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            String[] descriptionAndDeadline \u003d taskDescription.split(\" /by \", 2);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            if (descriptionAndDeadline.length !\u003d 2) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                throw new DukeException(\"Deadline format incorrect, should be e.g. deadline description /by time\");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            newTask \u003d new Deadline("
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                    descriptionAndDeadline[0],"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                    Parser.parseDateTimeString(descriptionAndDeadline[1])"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            );"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            String[] descriptionAndTime \u003d taskDescription.split(\" /at \", 2);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            if (descriptionAndTime.length !\u003d 2) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                throw new DukeException(\"Event format incorrect, should be e.g. event description /at time\");"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            newTask \u003d new Event("
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                    descriptionAndTime[0],"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                    Parser.parseDateTimeString(descriptionAndTime[1])"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            );"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        tasks.add(newTask);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        storage.save(tasks);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ui.printTaskAdded(tasks, newTask);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 58
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/CommandDelete.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class CommandDelete extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    private int taskNumber;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public CommandDelete(int taskNumber) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.taskNumber \u003d taskNumber;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        Task taskToDelete;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            taskToDelete \u003d tasks.remove(taskNumber);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            throw new DukeException(\"Invalid task number.\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        storage.save(tasks);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ui.printTaskDeleted(tasks, taskToDelete);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 27
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/CommandExit.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class CommandExit extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ui.showExitMessage();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 17
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/CommandList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class CommandList extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ui.printTaskList(tasks);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 11
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/CommandMark.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class CommandMark extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    private int taskNumber;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public CommandMark(int taskNumber) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.taskNumber \u003d taskNumber;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        Task taskToMark;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            taskToMark \u003d tasks.get(taskNumber);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            taskToMark.markDone();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "            throw new DukeException(\"Invalid task number.\");"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        storage.save(tasks);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        ui.printTaskMarkedDone(taskToMark);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 30
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    protected LocalDateTime deadline;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public Deadline(String description, LocalDateTime deadline) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.deadline \u003d deadline;"
       },
       {
         "lineNumber": 12,
@@ -1361,24 +3841,59 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        String doneIcon \u003d done ? \"+\" : \" \";"
+        "content": "        DateTimeFormatter dateTimeFormatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy, h:mma\");"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        return String.format(\"[%s] %s\", doneIcon, description);"
+        "content": "        return String.format("
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "                \"[D][%s] %s (by: %s)\","
       },
       {
         "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                isDone ? \"+\" : \" \","
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                description,"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                deadline.format(dateTimeFormatter)"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        );"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
         "author": {
           "gitId": "kenneth-fung"
         },
@@ -1386,11 +3901,11 @@
       }
     ],
     "authorContributionMap": {
-      "kenneth-fung": 19
+      "kenneth-fung": 24
     }
   },
   {
-    "path": "src/main/java/ToDo.java",
+    "path": "src/main/java/duke/task/Event.java",
     "fileType": "java",
     "lines": [
       {
@@ -1398,28 +3913,28 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "public class ToDo extends Task {"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public ToDo(String description) {"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        super(description);"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 5,
@@ -1433,31 +3948,129 @@
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    @Override"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    public String toString() {"
+        "content": "    protected LocalDateTime time;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "        return \"[T]\" + super.toString();"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "kenneth-fung"
         },
-        "content": "    }"
+        "content": "    public Event(String description, LocalDateTime time) {"
       },
       {
         "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.time \u003d time;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        DateTimeFormatter dateTimeFormatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy, h:mma\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return String.format("
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                \"[E][%s] %s (at: %s)\","
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                isDone ? \"+\" : \" \","
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                description,"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "                time.format(dateTimeFormatter)"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        );"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
         "author": {
           "gitId": "kenneth-fung"
         },
@@ -1465,7 +4078,256 @@
       }
     ],
     "authorContributionMap": {
-      "kenneth-fung": 10
+      "kenneth-fung": 24
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public abstract class Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    protected String description;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public Task(String description) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public void markDone() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        String doneIcon \u003d isDone ? \"+\" : \" \";"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return String.format(\"[%s] %s\", doneIcon, description);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 21
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/ToDo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "public class ToDo extends Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public ToDo(String description) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "kenneth-fung"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "kenneth-fung": 12
     }
   }
 ]

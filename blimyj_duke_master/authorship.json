@@ -8,49 +8,49 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "public class Deadline extends Task{"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    protected String byDateTime;"
+        "content": "import java.time.DateTimeException;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public Deadline(String description, String byDateTime) {"
+        "content": "import java.time.format.DateTimeParseException;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        this.byDateTime \u003d byDateTime;"
+        "content": "public class Deadline extends Task{"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "    protected LocalDateTime byDateTime;"
       },
       {
         "lineNumber": 8,
@@ -64,122 +64,276 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String getByDateTime() {"
+        "content": "    public Deadline(String description, String byDateTime) throws DukeException {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return byDateTime;"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "        this.taskType \u003d TaskType.DEADLINE;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    @Override"
+        "content": "            this.byDateTime \u003d LocalDateTime.parse(byDateTime, DateTimeFormatter.ofPattern(\"dd/MM/yyyy HH:mm\"));"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String toString() {"
+        "content": "        } catch (DateTimeParseException e) {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String str \u003d \"[\""
+        "content": "            throw new DukeException(\"DateTime Parsing Failed: DateTime Format should follow \\\"dd/MM/yyyy HH:mm\\\" \" +"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"D\""
+        "content": "                    \"format.\" + e.getMessage());"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"][\""
+        "content": "        }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getStatusIcon()"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"] \""
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getDescription()"
+        "content": "    public String getByDateTimeString(){"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \" (by: \""
+        "content": "        try{"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getByDateTime()"
+        "content": "            String string \u003d byDateTime.format(DateTimeFormatter.ofPattern(\"dd/MM/yyyy HH:mm\"));"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \")\";"
+        "content": "            return string;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return str;"
+        "content": "        } catch (DateTimeException e) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "            return \"DateCannotBeFormatted\";"
       },
       {
         "lineNumber": 26,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String toSaveString() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String saveString \u003d super.toSaveString() + \"@@@\" + this.getByDateTimeString();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return saveString;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String str \u003d \"[\""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"D\""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"][\""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getStatusIcon()"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"] \""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getDescription()"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \" (by: \""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getByDateTimeString()"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \")\";"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return str;"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 48,
         "author": {
           "gitId": "blimyj"
         },
@@ -187,7 +341,7 @@
       }
     ],
     "authorContributionMap": {
-      "blimyj": 26
+      "blimyj": 48
     }
   },
   {
@@ -199,35 +353,35 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.util.LinkedList;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "import java.util.LinkedList;"
+        "content": "import java.util.Iterator;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "import java.util.Iterator;"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "blimyj"
+          "gitId": "-"
         },
-        "content": ""
+        "content": "public class Duke {"
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "-"
+          "gitId": "blimyj"
         },
-        "content": "public class Duke {"
+        "content": "    "
       },
       {
         "lineNumber": 6,
@@ -241,1116 +395,136 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String dividerLine \u003d new String(\"\\u2501\").repeat(80).concat(\"\\n\");"
+        "content": "        UI ui;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String startMessage \u003d \"  Hello! I\u0027m Duke\\n\""
+        "content": "        TaskList tasks;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"  What can I do for you?\\n\";"
+        "content": "        FileHandler fileHandler;"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "-"
+          "gitId": "blimyj"
         },
-        "content": "        String logo \u003d \"   ____        _        \\n\""
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "-"
+          "gitId": "blimyj"
         },
-        "content": "                + \"  |  _ \\\\ _   _| | _____ \\n\""
+        "content": "        //Initialize FileHandler"
       },
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "-"
+          "gitId": "blimyj"
         },
-        "content": "                + \"  | | | | | | | |/ / _ \\\\\\n\""
+        "content": "        fileHandler \u003d new FileHandler(\"../data\", \"save1.txt\");"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "-"
+          "gitId": "blimyj"
         },
-        "content": "                + \"  | |_| | |_| |   \u003c  __/\\n\""
+        "content": "        "
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"  |____/ \\\\__,_|_|\\\\_\\\\___|\\n\""
+        "content": "        //Try to load old data."
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + startMessage"
+        "content": "        try {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + dividerLine;"
+        "content": "            tasks \u003d fileHandler.loadData();    "
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        LinkedList\u003cTask\u003e tasks \u003d new LinkedList\u003c\u003e();"
+        "content": "            //Does nothing for now"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "            tasks \u003d new TaskList(new LinkedList\u003cTask\u003e());"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        System.out.print(dividerLine + \"  Hello from\\n\" + logo);"
+        "content": "        }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "        "
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        //Take in input"
+        "content": "        //Start UI"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "        ui \u003d new UI();"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String input \u003d sc.nextLine();"
+        "content": "        ui.start(tasks, fileHandler);"
       },
       {
         "lineNumber": 25,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "        //Check if bye"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "        while (!input.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            //Split input incase it has a command and argument"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            String[] inputArray \u003d input.split(\" \", 2);"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            String[] cmdArgs \u003d new String[0];"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            Task newTask \u003d new Task(\"\");"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            //If list print all tasks"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                switch (inputArray[0]) {"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    case \"list\":"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine);"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        //Print each task"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        Iterator\u003cTask\u003e tasksIterator \u003d tasks.iterator();"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        Task currTask \u003d new Task(\"\");"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        for (int i \u003d 1; i \u003c\u003d tasks.size(); i++) {"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            currTask \u003d tasksIterator.next();"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            System.out.print(\"  \""
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                    + i"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                    + \". \""
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                    + currTask"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                    + \"\\n\");"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine);"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    case \"done\":"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        if (inputArray.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            throw new DukeException(\"OOPS!!! You need to specify the number of the task \" "
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                    + \"you want to mark as done!\");"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        int taskNum \u003d Integer.parseInt(inputArray[1]);"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        int taskIndex \u003d taskNum - 1;"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        Task modifiedTask \u003d tasks.get(taskIndex);"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        modifiedTask.markAsDone();"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        //Printing"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine);"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(\"  Nice! I\u0027ve marked this task as done:\\n\");"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(\"    \""
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + modifiedTask"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\");"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine);"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    case \"todo\":"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        if (inputArray.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            throw new DukeException(\"OOPS!!! The description of a todo cannot be empty.\");"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        newTask \u003d new Todo(inputArray[1]);"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Got it. I\u0027ve added this task:\\n\""
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"    \""
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + newTask"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Now you have \""
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + tasks.size()"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \" task(s) in the list.\""
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + dividerLine);"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    case \"event\":"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        if (inputArray.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            throw new DukeException(\"OOPS!!! The description of a event cannot be empty.\");"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        cmdArgs \u003d inputArray[1].split(\" /at \", 2);"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        newTask \u003d new Event(cmdArgs[0], cmdArgs[1]);"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Got it. I\u0027ve added this task:\\n\""
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"    \""
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + newTask"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Now you have \""
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + tasks.size()"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \" task(s) in the list.\""
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + dividerLine);"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    case \"deadline\":"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        if (inputArray.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            throw new DukeException(\"OOPS!!! The description of a deadline cannot be empty.\");"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        cmdArgs \u003d inputArray[1].split(\" /by \", 2);"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        newTask \u003d new Deadline(cmdArgs[0], cmdArgs[1]);"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Got it. I\u0027ve added this task:\\n\""
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"    \""
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + newTask"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Now you have \""
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + tasks.size()"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \" task(s) in the list.\""
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + dividerLine);"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    case \"delete\":"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        if (inputArray.length \u003c 2) {"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                            throw new DukeException(\"OOPS!!! You need to specify the number of the task \""
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                    + \"you want to delete!\");"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        int taskIndexToRemove \u003d Integer.parseInt(inputArray[1]) - 1;"
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        Task removedTask \u003d tasks.remove(taskIndexToRemove);"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        System.out.print(dividerLine"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Noted. I\u0027ve removed this task:\\n\""
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"    \""
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + removedTask"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"  Now you have \""
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + tasks.size()"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \" task(s) in the list.\""
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + \"\\n\""
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                                + dividerLine);"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        break;"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                    default:"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                System.out.print(dividerLine"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        + \"  ☹ \""
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        + e.getMessage()"
-      },
-      {
-        "lineNumber": 154,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        + \"\\n\""
-      },
-      {
-        "lineNumber": 155,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                        + dividerLine);"
-      },
-      {
-        "lineNumber": 156,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            } finally {"
-      },
-      {
-        "lineNumber": 157,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                input \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 158,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 159,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 160,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "        // Exit if bye"
-      },
-      {
-        "lineNumber": 161,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "        System.out.print(dividerLine"
-      },
-      {
-        "lineNumber": 162,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                + \"  Bye. Hope to see you again soon!\\n\""
-      },
-      {
-        "lineNumber": 163,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": "                + dividerLine);"
-      },
-      {
-        "lineNumber": 164,
-        "author": {
-          "gitId": "blimyj"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 165,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 166,
+        "lineNumber": 26,
         "author": {
           "gitId": "-"
         },
@@ -1358,8 +532,8 @@
       }
     ],
     "authorContributionMap": {
-      "blimyj": 158,
-      "-": 8
+      "blimyj": 22,
+      "-": 4
     }
   },
   {
@@ -1415,49 +589,401 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "public class Event extends Task{"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    protected String atDateTime;"
+        "content": "import java.time.DateTimeException;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public Event(String description, String atDateTime) {"
+        "content": "import java.time.format.DateTimeParseException;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        this.atDateTime \u003d atDateTime;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "blimyj"
         },
+        "content": "public class Event extends Task{"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    protected LocalDateTime atDateTime;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public Event(String description, String atDateTime) throws DukeException {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        this.taskType \u003d TaskType.EVENT;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            this.atDateTime \u003d LocalDateTime.parse(atDateTime, DateTimeFormatter.ofPattern(\"dd/MM/yyyy HH:mm\"));"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        } catch (DateTimeParseException e) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            throw new DukeException(\"DateTime Parsing Failed: DateTime Format should follow \\\"dd/MM/yyyy HH:mm\\\" \" +"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    \"format.\" + e.getMessage());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "blimyj"
+        },
         "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String getAtDateTimeString() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        try{"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            String string \u003d atDateTime.format(DateTimeFormatter.ofPattern(\"dd/MM/yyyy HH:mm\"));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            return string;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        } catch (DateTimeException e) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            return \"DateCannotBeFormatted\";"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String toSaveString() {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String saveString \u003d super.toSaveString() + \"@@@\" + this.getAtDateTimeString();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return saveString;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String str \u003d \"[\""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"E\""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"][\""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getStatusIcon()"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"] \""
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getDescription()"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \" (at: \""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getAtDateTimeString()"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \")\";"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return str;"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "blimyj": 49
+    }
+  },
+  {
+    "path": "src/main/java/FileHandler.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.util.LinkedList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
       },
       {
         "lineNumber": 8,
@@ -1471,21 +997,709 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String getAtDateTime() {"
+        "content": "public class FileHandler {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return atDateTime;"
+        "content": "    "
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "blimyj"
         },
+        "content": "    private String saveLocation;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    private String fileName;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public FileHandler (String saveLocation, String fileName) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        this.saveLocation \u003d saveLocation;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        this.fileName \u003d fileName;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "blimyj"
+        },
         "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public void saveTasks (TaskList tasks) throws DukeException {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String strToAdd;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String filePath \u003d saveLocation + \"/\" + fileName;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        //Future: Check if filePath is valid?"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //Check if dir exists, creates if dir does not exist."
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            File dataDir \u003d new File(saveLocation);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            if (!dataDir.exists()) { dataDir.mkdirs(); }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //Future: Check if parent dir exists?"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //Check if file exists, creates if file does not exist."
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            File saveFile \u003d  new File(saveLocation + \"/\" + fileName);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            if (!saveFile.exists()) { saveFile.createNewFile(); }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            "
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //Initialise FileWriter"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            FileWriter fw \u003d new FileWriter(filePath);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            Task task;"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            for (int i \u003d 0; i \u003c tasks.getTaskListLength(); i++) { "
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                task \u003d tasks.getTask(i);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                strToAdd \u003d task.toSaveString();"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fw.write(strToAdd);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fw.write(System.lineSeparator());"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            fw.close();"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            throw new DukeException(\"Save Failed: \" + e.getMessage());"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public TaskList loadData () throws DukeException {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        TaskList tasks \u003d new TaskList(new LinkedList\u003cTask\u003e());"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        File saveFile \u003d  new File(saveLocation + \"/\" + fileName);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //Read line by line"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            Scanner s \u003d new Scanner(saveFile); // create a Scanner using the File as the source"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            String taskString;"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            String[] taskArr;"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            Task newTask;"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            "
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            while (s.hasNext()) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                taskString \u003d (s.nextLine());"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                "
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Splits string based on \"@@@\" delimiter"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                taskArr \u003d taskString.split(\"@@@\");"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                "
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Instantiates class using appropriate constructor"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                switch(taskArr[0]) {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                case \"TODO\":"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    newTask \u003d new Todo(taskArr[2]);"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                case \"DEADLINE\":"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    newTask \u003d new Deadline(taskArr[2], taskArr[3]);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    break; "
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                case \"EVENT\":"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    newTask \u003d new Event(taskArr[2], taskArr[3]);"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                default:"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    newTask \u003d new Todo(\"Error Task\");"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                "
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Marks task as done if saveFile indicates that it is done"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                if(taskArr[1].equals(\"true\")) {"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    newTask.markAsDone();"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Append to tasks"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                tasks.addTask(newTask);"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            "
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            return tasks;"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //If file does not exist, throw DukeException File not Found"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            throw new DukeException(\"Save File does not exist.\");"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "blimyj": 97
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.util.LinkedList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "public class Parser{"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public static LinkedList\u003cString\u003e parseAndExecute(String input, TaskList tasks, FileHandler fileHandler) throws DukeException {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        //Split input incase it has a command and argument"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String[] inputArray \u003d input.split(\" \", 2);"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String[] cmdArgs \u003d new String[0];"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        Task newTask;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        LinkedList\u003cString\u003e result \u003d new LinkedList\u003c\u003e();"
       },
       {
         "lineNumber": 12,
@@ -1499,101 +1713,745 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "        switch (inputArray[0]) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    @Override"
+        "content": "            case \"list\":"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String toString() {"
+        "content": "                Task currTask;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String str \u003d \"[\""
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"E\""
+        "content": "                //Append to result"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"][\""
+        "content": "                for (int i \u003d 1; i \u003c\u003d tasks.getTaskListLength(); i++) {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getStatusIcon()"
+        "content": "                    currTask \u003d tasks.getTask(i - 1);"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"] \""
+        "content": "                    result.add(i + \". \" + currTask);"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getDescription()"
+        "content": "                }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \" (at: \""
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getAtDateTime()"
+        "content": "                break;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \")\";"
+        "content": "            case \"done\":"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return str;"
+        "content": "                if (inputArray.length \u003c 2) {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "                    throw new DukeException(\"OOPS!!! You need to specify the number of the task \""
       },
       {
         "lineNumber": 27,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                            + \"you want to mark as done!\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                int taskNum \u003d Integer.parseInt(inputArray[1]);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                int taskIndex \u003d taskNum - 1;"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                Task modifiedTask \u003d tasks.getTask(taskIndex);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                modifiedTask.markAsDone();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Saving"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fileHandler.saveTasks(tasks);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Append to result"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"  \" + modifiedTask.toString());"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                if (inputArray.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    throw new DukeException(\"OOPS!!! The description of a todo cannot be empty.\");"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                newTask \u003d new Todo(inputArray[1]);"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                tasks.addTask(newTask);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Saving"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fileHandler.saveTasks(tasks);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Append to result"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"  \" + newTask.toString());"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Now you have \" + tasks.getTaskListLength() + \" task(s) in the list.\");"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                if (inputArray.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    throw new DukeException(\"OOPS!!! The description of a event cannot be empty.\");"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                cmdArgs \u003d inputArray[1].split(\" /at \", 2);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                newTask \u003d new Event(cmdArgs[0], cmdArgs[1]);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                tasks.addTask(newTask);"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Saving"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fileHandler.saveTasks(tasks);"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Append to result"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"  \" + newTask.toString());"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Now you have \" + tasks.getTaskListLength() + \" task(s) in the list.\");"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                if (inputArray.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    throw new DukeException(\"OOPS!!! The description of a deadline cannot be empty.\");"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                cmdArgs \u003d inputArray[1].split(\" /by \", 2);"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                newTask \u003d new Deadline(cmdArgs[0], cmdArgs[1]);"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                tasks.addTask(newTask);"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Saving"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fileHandler.saveTasks(tasks);"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Append to result"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"  \" + newTask.toString());"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Now you have \" + tasks.getTaskListLength() + \" task(s) in the list.\");"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                if (inputArray.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                    throw new DukeException(\"OOPS!!! You need to specify the number of the task \""
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                            + \"you want to delete!\");"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                int taskIndexToRemove \u003d Integer.parseInt(inputArray[1]) - 1;"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                Task removedTask \u003d tasks.removeTask(taskIndexToRemove);"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Saving"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                fileHandler.saveTasks(tasks);"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                //Append to result"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Noted. I\u0027ve removed this task:\");"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"  \" + removedTask.toString());"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                result.add(\"Now you have \" + tasks.getTaskListLength() + \" task(s) in the list.\");"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return result;"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 119,
         "author": {
           "gitId": "blimyj"
         },
@@ -1601,7 +2459,7 @@
       }
     ],
     "authorContributionMap": {
-      "blimyj": 27
+      "blimyj": 119
     }
   },
   {
@@ -1613,7 +2471,7 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "public class Task {"
+        "content": "public abstract class Task {"
       },
       {
         "lineNumber": 2,
@@ -1634,70 +2492,70 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "    protected TaskType taskType;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public Task(String description) {"
+        "content": "    "
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        this.description \u003d description;"
+        "content": "    public Task(String description) {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "        this.isDone \u003d false;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "        this.taskType \u003d TaskType.UNDECIDED;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    //Getters"
+        "content": "    }"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "    //Getters"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "    public String getStatusIcon() { return (isDone ? \"\\u2713\" : \"\\u2718\"); }//return tick or X symbols"
       },
       {
         "lineNumber": 14,
@@ -1732,108 +2590,255 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "    "
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    //Setters"
+        "content": "    public Boolean getIsDone() { return isDone; }"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public boolean markAsDone() {"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "    public TaskType getTaskType() { return taskType; }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return true;"
+        "content": "    "
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "    //Setters"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "blimyj"
         },
-        "content": ""
+        "content": "    public boolean markAsDone() {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    @Override"
+        "content": "        this.isDone \u003d true;"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String toString() {"
+        "content": "        return true;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String str \u003d \"[\""
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getStatusIcon()"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"] \""
+        "content": "    public String toSaveString() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getDescription();"
+        "content": "        //Concat item and two Separators"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return str;"
+        "content": "        //Future: Google best separator to use? or how to save files with delimiters??"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "        //https://stackoverflow.com/questions/6319551/whats-the-best-separator-delimiter-characters-for-a-plaintext-db-file"
       },
       {
         "lineNumber": 33,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        //Future: Throw DukeException in input if delimiter is found in input. To disallow use of delimiter in input"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String saveString;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        //Get the three items"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        saveString \u003d this.getTaskType().name();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        saveString \u003d saveString + \"@@@\";"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        saveString \u003d saveString + this.getIsDone().toString();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        saveString \u003d saveString + \"@@@\";"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        saveString \u003d saveString + this.getDescription();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return saveString;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String str \u003d \"[\""
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getStatusIcon()"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"] \""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getDescription();"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return str;"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
         "author": {
           "gitId": "blimyj"
         },
@@ -1841,7 +2846,228 @@
       }
     ],
     "authorContributionMap": {
-      "blimyj": 33
+      "blimyj": 54
+    }
+  },
+  {
+    "path": "src/main/java/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.util.LinkedList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "public class TaskList{"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    private LinkedList\u003cTask\u003e tasks;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public TaskList(LinkedList\u003cTask\u003e tasks) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        this.tasks \u003d tasks;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public int getTaskListLength() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return tasks.size();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public Task getTask(int index) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return tasks.get(index);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public void addTask(Task task) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        tasks.add(task);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public Task removeTask(int index) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        Task removedTask \u003d tasks.remove(index);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return removedTask;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "blimyj": 26
+    }
+  },
+  {
+    "path": "src/main/java/TaskType.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "public enum TaskType {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    DEADLINE, EVENT, TODO, UNDECIDED"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "blimyj": 3
     }
   },
   {
@@ -1874,7 +3100,135 @@
         "author": {
           "gitId": "blimyj"
         },
+        "content": "        this.taskType \u003d TaskType.TODO;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "blimyj"
+        },
         "content": "    }"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String str \u003d \"[\""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"T\""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"][\""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getStatusIcon()"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + \"] \""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                + this.getDescription();"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        return str;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "blimyj": 17
+    }
+  },
+  {
+    "path": "src/main/java/UI.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.util.LinkedList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "public class UI {"
       },
       {
         "lineNumber": 5,
@@ -1888,73 +3242,409 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    @Override"
+        "content": "    private String dividerLine \u003d new String(\"\\u2501\").repeat(80).concat(\"\\n\");"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    public String toString() {"
+        "content": "    "
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        String str \u003d \"[\""
+        "content": "    //UI.start()"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"T\""
+        "content": "        //Prints Start Message"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"][\""
+        "content": "        //Awaits input"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getStatusIcon()"
+        "content": "        //While input is not bye, pass input to parser"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + \"] \""
+        "content": "    "
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "                + this.getDescription();"
+        "content": "            //format the output by parser -\u003e implies parser should always return LinkedList of strings or throws exception"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "        return str;"
+        "content": "            //print it out "
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "    }"
+        "content": "            "
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //throw exception if required"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //return to awaiting input above"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        //Else"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //print byebye message"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            //exit."
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public void start(TaskList tasks, FileHandler fileHandler) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        LinkedList\u003cString\u003e startMessage \u003d new LinkedList\u003cString\u003e();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"Hello from\");"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\" ____        _        \");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"|  _ \\\\ _   _| | _____ \");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"| | | | | | | |/ / _ \\\\\");"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"| |_| | |_| |   \u003c  __/\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"|____/ \\\\__,_|_|\\\\_\\\\___|\");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"Hello! I\u0027m Duke\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        startMessage.add(\"What can I do for you?\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        this.formattedPrint(startMessage);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        Scanner sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        String input \u003d sc.nextLine();"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        while(!input.equals(\"bye\")) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                this.formattedPrint(Parser.parseAndExecute(input, tasks, fileHandler));"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                LinkedList\u003cString\u003e msg \u003d new LinkedList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                msg.add(\"☹ \" + e.getMessage());"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                this.formattedPrint(msg);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            } finally {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "                input \u003d sc.nextLine();"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        "
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        // Exit if bye"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        LinkedList\u003cString\u003e byeMsg \u003d new LinkedList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        byeMsg.add(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        this.formattedPrint(byeMsg);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    public void formattedPrint(LinkedList\u003cString\u003e strings) {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        System.out.print(dividerLine);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        for(String string: strings) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            System.out.print(\"  \");"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            System.out.print(string);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "            System.out.print(\"\\n\");"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "        System.out.print(dividerLine);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "blimyj"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
         "author": {
           "gitId": "blimyj"
         },
@@ -1962,7 +3652,7 @@
       }
     ],
     "authorContributionMap": {
-      "blimyj": 16
+      "blimyj": 64
     }
   },
   {
@@ -1988,14 +3678,14 @@
         "author": {
           "gitId": "blimyj"
         },
-        "content": "deadline return book /by Sunday"
+        "content": "deadline return book /by 30/09/1999 19:00"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "blimyj"
         },
-        "content": "event project meeting /at Mon 2-4pm"
+        "content": "event project meeting /at 30/10/1999 20:00"
       },
       {
         "lineNumber": 5,

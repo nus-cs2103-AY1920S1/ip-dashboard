@@ -1,6 +1,6 @@
 [
   {
-    "path": "src/main/java/Deadline.java",
+    "path": "src/main/java/duke/command/ByeCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -8,42 +8,42 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    protected String time;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": ""
+        "content": "import duke.main.*;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public Deadline(String name, String time) {"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        super(name);"
+        "content": "public class ByeCommand implements Command {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        this.time \u003d time;"
+        "content": "    public ByeCommand() {"
       },
       {
         "lineNumber": 7,
@@ -64,31 +64,52 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    @Override"
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public String toString() {"
+        "content": "        ui.sayBye();"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        return String.format(\"[D]%s (by: %s)\", super.toString(), this.time);"
+        "content": "    }"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public boolean isRunning() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
         "author": {
           "gitId": "MackyMaguire"
         },
@@ -96,11 +117,11 @@
       }
     ],
     "authorContributionMap": {
-      "MackyMaguire": 13
+      "MackyMaguire": 16
     }
   },
   {
-    "path": "src/main/java/Duke.java",
+    "path": "src/main/java/duke/command/Command.java",
     "fileType": "java",
     "lines": [
       {
@@ -108,154 +129,417 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "import java.lang.reflect.Array;"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "import java.util.Scanner;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import duke.main.*;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": ""
+        "content": "import duke.exception.DukeException;"
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "-"
+          "gitId": "MackyMaguire"
         },
-        "content": "public class Duke {"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    static ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003cTask\u003e();"
+        "content": "public interface Command {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": ""
+        "content": "    public abstract void execute(Storage storage, Ui ui, TaskList tasks) throws DukeException;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    static void list(String s) throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        if (!s.isBlank()) {"
+        "content": "    public abstract boolean isRunning();"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "            throw new DukeException(\"OOPS!!! No input is needed after \u0027list\u0027\");"
-      },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 10
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DeadlineCommand.java",
+    "fileType": "java",
+    "lines": [
       {
-        "lineNumber": 11,
+        "lineNumber": 1,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        }"
+        "content": "package duke.command;"
       },
       {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        System.out.println(\"Here are the tasks in your list: \");"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            System.out.println((i + 1) + \". \" + tasks.get(i).toString());"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 17,
+        "lineNumber": 2,
         "author": {
           "gitId": "MackyMaguire"
         },
         "content": ""
       },
       {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.main.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.task.*;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class DeadlineCommand implements Command {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String time;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public DeadlineCommand(String task, String time) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.task \u003d task;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.time \u003d time;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        Deadline dl \u003d new Deadline(task, time);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        tasks.addTask(dl);"
+      },
+      {
         "lineNumber": 18,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    static void done(String number) throws DukeException {"
+        "content": "        ui.output(String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list\","
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        try {"
+        "content": "                dl.toString(), tasks.getTasksSize()));"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "            Task doneTask \u003d tasks.get(Integer.parseInt(number) - 1);"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "            doneTask.markDone();"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "            System.out.println(\"Nice! I\u0027ve marked this task as done: \\n\" + doneTask.toString());"
+        "content": "    public boolean isRunning() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.main.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.task.*;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class DeleteCommand implements Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private int index;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public DeleteCommand(int index) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.index \u003d index;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) throws DukeException {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            Task deleted \u003d tasks.removeTask(index);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            ui.output(String.format(\"Noted. I\u0027ve removed this task:\\n  %s\\nNow you have %d tasks in the list\","
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                    deleted.toString(), tasks.getTasksSize()));"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        catch (Exception e) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(String.format(\"OOPS!!! Please input a number between 1 and %d after \u0027delete\u0027\","
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                    tasks.getTasksSize()));"
       },
       {
         "lineNumber": 23,
@@ -269,28 +553,28 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        catch (Exception e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "            throw new DukeException(String.format(\"OOPS!!! Please input a number between 1 and %d after \u0027done\u0027\","
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "                    tasks.size()));"
+        "content": "    public boolean isRunning() {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        }"
+        "content": "        return true;"
       },
       {
         "lineNumber": 28,
@@ -304,709 +588,15 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    static void delete(String number) throws DukeException {"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            Task deleted \u003d tasks.remove(Integer.parseInt(number) - 1);"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            System.out.println(String.format(\"Noted. I\u0027ve removed this task:\\n  %s\\nNow you have %d tasks in the list\","
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                deleted.toString(), tasks.size()));"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        catch (Exception e) {"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            throw new DukeException(String.format(\"OOPS!!! Please input a number between 1 and %d after \u0027delete\u0027\","
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    tasks.size()));"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    static void deadline(String s) throws DukeException {"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            String[] split \u003d s.split(\" /by \");"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            if (split[0].isBlank() || split[1].isBlank()) {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                throw new Exception();"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            Deadline dl \u003d new Deadline(split[0], split[1]);"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            tasks.add(dl);"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            System.out.println(String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list\","
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    dl.toString(), tasks.size()));"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        catch (Exception e) {"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            throw new DukeException(\"OOPS!!! Please input in this format: \u0027deadline \u003ctask\u003e /by \u003ctime\u003e\u0027\");"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    static void event(String s) throws DukeException {"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            String[] split \u003d s.split(\" /at \");"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            if (split[0].isBlank() || split[1].isBlank()) {"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                throw new Exception();"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            Event ev \u003d new Event(split[0], split[1]);"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            tasks.add(ev);"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            System.out.println(String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list\","
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    ev.toString(), tasks.size()));"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        catch (Exception e) {"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            throw new DukeException(\"OOPS!!! Please input in this format: \u0027event \u003ctask\u003e /at \u003ctime\u003e\u0027\");"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    static void todo(String s) throws DukeException {"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        if (s.isBlank()) {"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            throw new DukeException(\"OOPS!!! Please add task description after \u0027todo\u0027\");"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        Todo td \u003d new Todo(s);"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        tasks.add(td);"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        System.out.println(String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list\","
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                td.toString(), tasks.size()));"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    static void output(Scanner sc) {"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        while (sc.hasNextLine()) {"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                String cmmd \u003d sc.next();"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                String next \u003d sc.nextLine().trim();"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                if (cmmd.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else if (cmmd.equals(\"list\")) {"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    list(next);"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else if (cmmd.equals(\"done\")) {"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    done(next);"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else if (cmmd.equals(\"delete\")) {"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    delete(next);"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else if (cmmd.equals(\"deadline\")) {"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    deadline(next);"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else if (cmmd.equals(\"event\")) {"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    event(next);"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else if (cmmd.equals(\"todo\")) {"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    todo(next);"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                    throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-()\");"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "                System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    public static void main(String[] args) {"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "        String logo \u003d \" ____        _        \\n\""
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        String opening \u003d logo + \"\\nHello! I\u0027m Duke\\nWhat can I do for you?\";"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        String closing \u003d \"Bye. Hope to see you again soon!\";"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        System.out.println(opening);"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        output(sc);"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        System.out.println(closing);"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        System.exit(0);"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "-"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "MackyMaguire": 119,
-      "-": 9
+      "MackyMaguire": 29
     }
   },
   {
-    "path": "src/main/java/DukeException.java",
+    "path": "src/main/java/duke/command/DoneCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -1014,200 +604,56 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "public class DukeException extends Exception {"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    public DukeException(String msg) {"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        super(msg);"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "MackyMaguire": 5
-    }
-  },
-  {
-    "path": "src/main/java/Event.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "public class Event extends Task {"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    protected String time;"
-      },
-      {
-        "lineNumber": 3,
         "author": {
           "gitId": "MackyMaguire"
         },
         "content": ""
       },
       {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.main.*;"
+      },
+      {
         "lineNumber": 4,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public Event(String name, String time) {"
+        "content": "import duke.exception.DukeException;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        super(name);"
+        "content": "import duke.task.*;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        this.time \u003d time;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    }"
+        "content": "public class DoneCommand implements Command {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    public String toString() {"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        return String.format(\"[E]%s (at: %s)\", super.toString(), this.time);"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "MackyMaguire": 13
-    }
-  },
-  {
-    "path": "src/main/java/Task.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "public class Task {"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    protected String name;"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    protected boolean isDone;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    public Task(String name) {"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        this.name \u003d name;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "        this.isDone \u003d false;"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "MackyMaguire"
-        },
-        "content": "    }"
+        "content": "    private int index;"
       },
       {
         "lineNumber": 9,
@@ -1221,14 +667,14 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public String statusIcon() {"
+        "content": "    public DoneCommand(int index) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\");"
+        "content": "        this.index \u003d index;"
       },
       {
         "lineNumber": 12,
@@ -1249,14 +695,2084 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public void markDone() {"
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) throws DukeException {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            Task doneTask \u003d tasks.getTask(index);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            doneTask.markDone();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            ui.output(\"Nice! I\u0027ve marked this task as done: \\n\" + doneTask.toString());"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        catch (Exception e) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(String.format(\"OOPS!!! Please input a number between 1 and %d after \u0027done\u0027\","
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                    tasks.getTasksSize()));"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public boolean isRunning() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 29
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/EventCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.main.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.task.*;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class EventCommand implements Command {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String time;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public EventCommand(String task, String time) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.task \u003d task;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.time \u003d time;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        Event ev \u003d new Event(task, time);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        tasks.addTask(ev);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        ui.output(String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list\","
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                ev.toString(), tasks.getTasksSize()));"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public boolean isRunning() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.main.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class ListCommand implements Command {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public ListCommand() {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        ui.output(\"Here are the tasks in your list: \");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        for (int i \u003d 0; i \u003c tasks.getTasksSize(); i++) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            ui.output((i + 1) + \". \" + tasks.getTask(i).toString());"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public boolean isRunning() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 19
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/TodoCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.main.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.task.*;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class TodoCommand implements Command {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public TodoCommand(String task) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.task \u003d task;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void execute(Storage storage, Ui ui, TaskList tasks) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        Todo td \u003d new Todo(task);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        tasks.addTask(td);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        ui.output(String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list\","
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                td.toString(), tasks.getTasksSize()));"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public boolean isRunning() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 23
+    }
+  },
+  {
+    "path": "src/main/java/duke/exception/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class DukeException extends Exception {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public DukeException(String msg) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        super(msg);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 7
+    }
+  },
+  {
+    "path": "src/main/java/duke/main/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.main;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.command.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private TaskList tasks;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private Parser parser;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Duke(String filePath) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        tasks \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        parser \u003d new Parser();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        ui.sayWelcome();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        boolean isRunning \u003d true;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        while (isRunning) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                String[] fullCommand \u003d ui.getCommand();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                Command c \u003d parser.parse(fullCommand);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                c.execute(storage, ui, tasks);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                isRunning \u003d c.isRunning();"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                ui.displayError(e.getMessage());"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        System.exit(0);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        new Duke(\"data/duke.txt\").run();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 36,
+      "-": 3
+    }
+  },
+  {
+    "path": "src/main/java/duke/main/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.main;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.command.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Parser() {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Command parse(String[] fullCommand) throws DukeException {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        String command \u003d fullCommand[0];"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        String details \u003d fullCommand[1];"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        if (command.equals(\"bye\")) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseBye(details);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else if (command.equals(\"list\")) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseList(details);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else if (command.equals(\"done\")) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseDone(details);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else if (command.equals(\"delete\")) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseDelete(details);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else if (command.equals(\"deadline\")) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseDeadline(details);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else if (command.equals(\"event\")) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseEvent(details);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else if (command.equals(\"todo\")) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return parseTodo(details);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-()\");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public ByeCommand parseBye(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        if (!details.isBlank()) {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! No input is needed after bye\u0027\");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return new ByeCommand();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public ListCommand parseList(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        if (!details.isBlank()) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! No input is needed after \u0027list\u0027\");"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return new ListCommand();"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public DoneCommand parseDone(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            int index \u003d Integer.parseInt(details) - 1;"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return new DoneCommand(index);"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        catch (Exception e) {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! Please input a valid number after \u0027done\u0027\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public DeleteCommand parseDelete(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            int index \u003d Integer.parseInt(details) - 1;"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return new DeleteCommand(index);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        catch (Exception e) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! Please input a valid number after \u0027delete\u0027\");"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public DeadlineCommand parseDeadline(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            String[] split \u003d details.split(\" /by \");"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            String task \u003d split[0];"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            String time \u003d split[1];"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            if (task.isBlank() || time.isBlank()) {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                throw new Exception();"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return new DeadlineCommand(task, time);"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        catch (Exception e) {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! Please input in this format: \u0027deadline \u003ctask\u003e /by \u003ctime\u003e\u0027\");"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public EventCommand parseEvent(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            String[] split \u003d details.split(\" /at \");"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            String task \u003d split[0];"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            String time \u003d split[1];"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            if (task.isBlank() || time.isBlank()) {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "                throw new Exception();"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            return new EventCommand(task, time);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        catch (Exception e) {"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! Please input in this format: \u0027event \u003ctask\u003e /at \u003ctime\u003e\u0027\");"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public TodoCommand parseTodo(String details) throws DukeException {"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        if (details.isBlank()) {"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! Please add task description after \u0027todo\u0027\");"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return new TodoCommand(details);"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 102
+    }
+  },
+  {
+    "path": "src/main/java/duke/main/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.main;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String filePath;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private FileWriter fw;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Storage(String filePath) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.filePath \u003d filePath;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 12
+    }
+  },
+  {
+    "path": "src/main/java/duke/main/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.main;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import duke.task.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        tasks \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void addTask(Task task) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        tasks.add(task);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Task getTask(int index) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return tasks.get(index);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Task removeTask(int index) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return tasks.remove(index);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public int getTasksSize() {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return tasks.size();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 28
+    }
+  },
+  {
+    "path": "src/main/java/duke/main/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.main;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String logo \u003d \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "            + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String opening \u003d logo + \"\\nHello! I\u0027m Duke\\nWhat can I do for you?\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private String closing \u003d \"Bye. Hope to see you again soon!\";"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    private Scanner sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Ui() {"
       },
       {
         "lineNumber": 16,
@@ -1277,21 +2793,21 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    @Override"
+        "content": "    public String[] getCommand() {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public String toString() {"
+        "content": "        String[] fullCommand \u003d {sc.next(), sc.nextLine().trim()};"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        return String.format(\"[%s] %s\", this.statusIcon(), this.name);"
+        "content": "        return fullCommand;"
       },
       {
         "lineNumber": 21,
@@ -1305,15 +2821,127 @@
         "author": {
           "gitId": "MackyMaguire"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void sayWelcome() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        System.out.println(opening);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void sayBye() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        System.out.println(closing);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void displayError(String error) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        System.out.println(error);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void output(String s) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        System.out.println(s);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "MackyMaguire": 22
+      "MackyMaguire": 38
     }
   },
   {
-    "path": "src/main/java/Todo.java",
+    "path": "src/main/java/duke/task/Deadline.java",
     "fileType": "java",
     "lines": [
       {
@@ -1321,28 +2949,28 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "public class Todo extends Task {"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public Todo(String name) {"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        super(name);"
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    }"
+        "content": "    protected String time;"
       },
       {
         "lineNumber": 5,
@@ -1356,21 +2984,21 @@
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    @Override"
+        "content": "    public Deadline(String name, String time) {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "    public String toString() {"
+        "content": "        super(name);"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "MackyMaguire"
         },
-        "content": "        return String.format(\"[T]\" + super.toString());"
+        "content": "        this.time \u003d time;"
       },
       {
         "lineNumber": 9,
@@ -1384,11 +3012,430 @@
         "author": {
           "gitId": "MackyMaguire"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return String.format(\"[D]%s (by: %s)\", super.toString(), this.time);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "MackyMaguire": 10
+      "MackyMaguire": 15
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class Event extends Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    protected String time;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Event(String name, String time) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        super(name);"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.time \u003d time;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return String.format(\"[E]%s (at: %s)\", super.toString(), this.time);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 15
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    protected String name;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Task(String name) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.name \u003d name;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public String statusIcon() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\");"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public void markDone() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return String.format(\"[%s] %s\", this.statusIcon(), this.name);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 24
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Todo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "public class Todo extends Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public Todo(String name) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        super(name);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "        return String.format(\"[T]\" + super.toString());"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "MackyMaguire"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "MackyMaguire": 12
     }
   },
   {

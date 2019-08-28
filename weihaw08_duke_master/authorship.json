@@ -99,7 +99,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    archiveVersion \u003d \u00270.1.3\u0027"
+        "content": "    archiveVersion \u003d \u00270.1\u0027"
       },
       {
         "lineNumber": 15,
@@ -1319,360 +1319,535 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.text.ParseException;"
+        "content": "import duke.exception.InvalidTimeAndDateException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.TaskList;"
+        "content": "import duke.functionality.Storage;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Ui;"
+        "content": "import duke.functionality.TaskList;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Storage;"
+        "content": "import duke.functionality.Ui;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.InvalidTimeAndDateException;"
+        "content": "import duke.tasks.Deadline;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.FormattedDate;"
+        "content": "import duke.tasks.Event;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Deadline;"
+        "content": "import duke.tasks.FormattedDate;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Event;"
+        "content": "import duke.tasks.Task;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Task;"
+        "content": "import duke.tasks.ToDo;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.ToDo;"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class AddCommand extends Command {"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "/**"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public AddCommand(String addCommand) {"
+        "content": " * Represents the command that will add a {@code Task} object into a {@code TaskList} object. The command fed into a"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(addCommand);"
+        "content": " * {@code AddCommand} object is assumed to be valid. The command is valid if and only if it is of one of the following"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": " * forms:"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * 1) \"todo ~task name~\","
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+        "content": " * 2) \"deadline ~task name~ /by ~date~\","
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String[] tokens \u003d this.command.split(\" \");"
+        "content": " * 3) \"event ~task name~ /at ~start date~ - ~end date~."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        Task newTask \u003d null;"
+        "content": " */"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        ui.printBorder();"
+        "content": "public class AddCommand extends Command {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            if (tokens[0].equals(\"todo\")) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                String todoName \u003d this.command.replace(\"todo \", \"\");"
+        "content": "     * Instantiates an {@code AddCommand} object."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                newTask \u003d new ToDo(todoName);"
+        "content": "     * @param addCommand a command that indicates the action of adding a task into the task list."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            } else if (tokens[0].equals(\"deadline\")) {"
+        "content": "     */"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                String deadlineName \u003d this.command.replace(\"deadline \", \"\");"
+        "content": "    public AddCommand(String addCommand) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                String[] splitDeadline \u003d deadlineName.split(\" /by \");"
+        "content": "        super(addCommand);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                FormattedDate byTime \u003d new FormattedDate(splitDeadline[1]);"
+        "content": "    }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                newTask \u003d new Deadline(splitDeadline[0], byTime);"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            } else {"
+        "content": "    /**"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                String eventName \u003d this.command.replace(\"event \", \"\");"
+        "content": "     * Executes the add command that has been fed into the {@code AddCommand} object. A {@code Task} object will be"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                String[] splitEvent \u003d eventName.split(\" /at \");"
+        "content": "     * added to the {@code TaskList} if and only if the date provided in the command is of the \"dd/mm/yyyy hhmm\""
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                String[] startAndEnd \u003d splitEvent[1].split(\" - \");"
+        "content": "     * format."
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                FormattedDate start \u003d new FormattedDate(startAndEnd[0]);"
+        "content": "     * @param taskList the {@code TaskList} object in Duke"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                FormattedDate end \u003d new FormattedDate(startAndEnd[1]);"
+        "content": "     * @param ui the {@code Ui} object in Duke"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                newTask \u003d new Event(splitEvent[0], start, end);"
+        "content": "     * @param storage the {@code Storage} object in Duke"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            }"
+        "content": "     */"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (ParseException e) {"
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(\"T.T!!! Please enter the dates like this:\");"
+        "content": "        String[] tokens \u003d this.command.split(\" \");"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(\"\\\"dd/mm/yyyy hhmm\\\"!\");"
+        "content": "        Task newTask \u003d null;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (InvalidTimeAndDateException e) {"
+        "content": "        ui.printBorder();"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": "        try {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } finally {"
+        "content": "            if (tokens[0].equals(\"todo\")) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            if (newTask !\u003d null) {"
+        "content": "                String todoName \u003d this.command.replace(\"todo \", \"\");"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                taskList.addTask(newTask);"
+        "content": "                newTask \u003d new ToDo(todoName);"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                ui.printTaskModification(taskList.size(), newTask, \"add\");"
+        "content": "            } else if (tokens[0].equals(\"deadline\")) {"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            }"
+        "content": "                String deadlineName \u003d this.command.replace(\"deadline \", \"\");"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printBorder();"
+        "content": "                String[] splitDeadline \u003d deadlineName.split(\" /by \");"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "                FormattedDate byTime \u003d new FormattedDate(splitDeadline[1]);"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "                newTask \u003d new Deadline(splitDeadline[0], byTime);"
       },
       {
         "lineNumber": 54,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                String eventName \u003d this.command.replace(\"event \", \"\");"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                String[] splitEvent \u003d eventName.split(\" /at \");"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                String[] startAndEnd \u003d splitEvent[1].split(\" - \");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                FormattedDate start \u003d new FormattedDate(startAndEnd[0]);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                FormattedDate end \u003d new FormattedDate(startAndEnd[1]);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                if (start.compareTo(end) \u003e 0) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                    throw new InvalidTimeAndDateException(startAndEnd[0] + \" - \" + startAndEnd[1]);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                newTask \u003d new Event(splitEvent[0], start, end);"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(\"T.T!!! Please enter the dates like this:\");"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(\"\\\"dd/mm/yyyy hhmm\\\"!\");"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (InvalidTimeAndDateException e) {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.getMessage());"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            if (newTask !\u003d null) {"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                taskList.addTask(newTask);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                ui.printTaskModification(taskList.size(), newTask, \"add\");"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printBorder();"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 79,
         "author": {
           "gitId": "weihaw08"
         },
@@ -1680,7 +1855,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 54
+      "weihaw08": 79
     }
   },
   {
@@ -1706,7 +1881,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.io.IOException;"
+        "content": "import duke.functionality.Storage;"
       },
       {
         "lineNumber": 4,
@@ -1727,136 +1902,185 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Storage;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "/**"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * Represents the command that will bid Duke goodbye. The command fed into a {@code ByeCommand} object is assumed to"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class ByeCommand extends Command {"
+        "content": " * be valid. The command is valid if and only if it is of the form \"bye\"."
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public ByeCommand(String byeCommand) {"
+        "content": "public class ByeCommand extends Command {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(byeCommand);"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * Instantiates a {@code ByeCommand} object."
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+        "content": "     * @param byeCommand the command that indicates the action of bidding goodbye to Duke"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printByeMessage();"
+        "content": "    public ByeCommand(String byeCommand) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            storage.save(taskList.obtainList());"
+        "content": "        super(byeCommand);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printBorder();"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(\"Please help me find the way to my brain! T_T\");"
+        "content": "    /**"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printBorder();"
+        "content": "     * Executes the command fed into {@code ByeCommand} object. This will terminate the Duke program and Duke will bid"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     * fare well to the user while saving the tasks in the task list onto a text file."
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * @param taskList the {@code TaskList} object in Duke"
       },
       {
         "lineNumber": 25,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param ui the {@code Ui} object in Duke"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param storage the {@code Storage} object in Duke"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        ui.printByeMessage();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        storage.save(taskList.obtainList());"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
         "author": {
           "gitId": "weihaw08"
         },
@@ -1864,7 +2088,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 25
+      "weihaw08": 32
     }
   },
   {
@@ -1890,21 +2114,21 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.TaskList;"
+        "content": "import duke.functionality.Storage;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Ui;"
+        "content": "import duke.functionality.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Storage;"
+        "content": "import duke.functionality.Ui;"
       },
       {
         "lineNumber": 6,
@@ -1918,59 +2142,66 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public abstract class Command {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    String command;"
+        "content": "public abstract class Command {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    String command;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    Command(String command) {"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.command \u003d command;"
+        "content": "    Command(String command) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        this.command \u003d command;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public abstract void execute(TaskList taskList, Ui ui, Storage storage);"
+        "content": ""
       },
       {
         "lineNumber": 15,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public abstract void execute(TaskList taskList, Ui ui, Storage storage);"
+      },
+      {
+        "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
@@ -1978,7 +2209,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 15
+      "weihaw08": 16
     }
   },
   {
@@ -2004,14 +2235,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.TaskList;"
+        "content": "import duke.exception.EmptyListException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Ui;"
+        "content": "import duke.exception.IndexNotFoundException;"
       },
       {
         "lineNumber": 5,
@@ -2025,14 +2256,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.EmptyListException;"
+        "content": "import duke.functionality.TaskList;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.IndexNotFoundException;"
+        "content": "import duke.functionality.Ui;"
       },
       {
         "lineNumber": 8,
@@ -2053,157 +2284,269 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class DeleteCommand extends Command {"
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * Represents the command that will instruct Duke to delete a {@code Task} object from the {@code TaskList} object. The"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public DeleteCommand(String deleteCommand) {"
+        "content": " * command fed into a {@code DeleteCommand} object is assumed to be valid. The command is valid if and only if it is of"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(deleteCommand);"
+        "content": " * the form \"delete ~task number~\"."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "public class DeleteCommand extends Command {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String[] tokens \u003d this.command.split(\" \");"
+        "content": "    /**"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int indexToRemove \u003d Integer.parseInt(tokens[1]);"
+        "content": "     * Instantiates a {@code DeleteCommand} object."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        ui.printBorder();"
+        "content": "     * @param deleteCommand a command that indicates the action of deleting a task from the task list."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            Task toBeRemoved \u003d taskList.retrieveTask(indexToRemove);"
+        "content": "    public DeleteCommand(String deleteCommand) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            taskList.deleteTask(indexToRemove);"
+        "content": "        super(deleteCommand);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printTaskModification(taskList.size(), toBeRemoved, \"delete\");"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (EmptyListException e) {"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (IndexNotFoundException e) {"
+        "content": "     * Executes the command fed into {@code DeleteCommand} object. A {@code Task} object will be deleted from the"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": "     * {@code TaskList} object if and only if there is a task at the given index and the list is not empty."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } finally {"
+        "content": "     * @param taskList the {@code TaskList} object in Duke"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printBorder();"
+        "content": "     * @param ui the {@code Ui} object in Duke"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     * @param storage the {@code Storage} object in Duke"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String[] tokens \u003d this.command.split(\" \");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        int indexToRemove \u003d Integer.parseInt(tokens[1]);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        ui.printBorder();"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            Task toBeRemoved \u003d taskList.retrieveTask(indexToRemove);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            taskList.deleteTask(indexToRemove);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printTaskModification(taskList.size(), toBeRemoved, \"delete\");"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (EmptyListException e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (IndexNotFoundException e) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printBorder();"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 48,
         "author": {
           "gitId": "weihaw08"
         },
@@ -2211,7 +2554,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 32
+      "weihaw08": 48
     }
   },
   {
@@ -2237,14 +2580,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.TaskList;"
+        "content": "import duke.exception.EmptyListException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Ui;"
+        "content": "import duke.exception.IndexNotFoundException;"
       },
       {
         "lineNumber": 5,
@@ -2258,14 +2601,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.EmptyListException;"
+        "content": "import duke.functionality.TaskList;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.IndexNotFoundException;"
+        "content": "import duke.functionality.Ui;"
       },
       {
         "lineNumber": 8,
@@ -2286,157 +2629,269 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class DoneCommand extends Command {"
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * Represents a command that informs Duke that a particular task has been completed. The command fed to a"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public DoneCommand(String doneCommand) {"
+        "content": " * {@code DoneCommand} object is assumed to be valid. The command is valid if and only if it is of the form"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(doneCommand);"
+        "content": " * \"done ~task number~\"."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "public class DoneCommand extends Command {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String[] tokens \u003d this.command.split(\" \");"
+        "content": "    /**"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int index \u003d Integer.valueOf(tokens[1]);"
+        "content": "     * Instantiates a {@code DoneCommand} object."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        ui.printBorder();"
+        "content": "     * @param doneCommand a command that indicates that a particular task is completed"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            Task completedTask \u003d taskList.retrieveTask(index);"
+        "content": "    public DoneCommand(String doneCommand) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            completedTask.markAsDone();"
+        "content": "        super(doneCommand);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printTaskModification(taskList.size(), completedTask, \"done\");"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (EmptyListException e) {"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (IndexNotFoundException e) {"
+        "content": "     * Executes the command that has been fed into the {@code DoneCommand} object. The {@code Task} object at the index"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": "     * given will be deleted if and only if there is a {@code Task} object in that index and the list is nonempty."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } finally {"
+        "content": "     * @param taskList the {@code TaskList} object in Duke"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printBorder();"
+        "content": "     * @param ui the {@code Ui} object in Duke"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     * @param storage the {@code Storage} object in Duke"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String[] tokens \u003d this.command.split(\" \");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        int index \u003d Integer.parseInt(tokens[1]);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        ui.printBorder();"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            Task completedTask \u003d taskList.retrieveTask(index);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            completedTask.markAsDone();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printTaskModification(taskList.size(), completedTask, \"done\");"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (EmptyListException e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (IndexNotFoundException e) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printBorder();"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 48,
         "author": {
           "gitId": "weihaw08"
         },
@@ -2444,7 +2899,443 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 32
+      "weihaw08": 48
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/FindCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "import duke.exception.EmptyListException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "import duke.exception.IndexNotFoundException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "import duke.functionality.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "import duke.functionality.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "import duke.functionality.Ui;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "import duke.tasks.Task;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": " * Represents a command to instruct Duke to find tasks that contain specific keyword(s). The command fed into"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": " * {@code FindCommand} object is assumed to be valid. The command is valid if and only if it is of the form"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": " * \"find ~keyword(s)~\"."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "public class FindCommand extends Command {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Instantiates a {@code FindCommand} object."
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param findCommand a command that indicates the action of asking Duke to look for tasks with specific keyword(s)"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public FindCommand(String findCommand) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        super(findCommand);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Executes the find command inside the {@code FindCommand} object. Duke will perform a linear search through the"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * {@code TaskList} object to look for the {@code Task} objects that match the specific keyword(s)."
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param taskList the {@code TaskList} object in Duke"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param ui the {@code Ui} object in Duke"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param storage the {@code Storage} object in Duke"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        boolean isFound \u003d false;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String[] tokens \u003d this.command.split(\" \");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        int count \u003d 0;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        ui.printBorder();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            for (int i \u003d 1; i \u003c\u003d taskList.size(); i++) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                Task task \u003d taskList.retrieveTask(i);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                if (task.getTaskName().contains(tokens[1])) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                    if (!isFound) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                        ui.printMessage(\"It\u0027s a match!\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                        isFound \u003d true;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                    count++;"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                    ui.printMessage(count + \". \" + task.toString());"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            if (!isFound) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                ui.printMessage(\"UwU\\\" No matches found. Please try again.\");"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (EmptyListException e) {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (IndexNotFoundException e) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printBorder();"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "weihaw08": 61
     }
   },
   {
@@ -2470,14 +3361,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.TaskList;"
+        "content": "import duke.exception.EmptyListException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.functionality.Ui;"
+        "content": "import duke.exception.IndexNotFoundException;"
       },
       {
         "lineNumber": 5,
@@ -2491,14 +3382,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.EmptyListException;"
+        "content": "import duke.functionality.TaskList;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.IndexNotFoundException;"
+        "content": "import duke.functionality.Ui;"
       },
       {
         "lineNumber": 8,
@@ -2512,150 +3403,332 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class ListCommand extends Command {"
+        "content": "/**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * Represents the command that instructs Duke to print out the current tasks that are inside the task list. The command"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public ListCommand(String listCommand) {"
+        "content": " * fed into a {@code ListCommand} object is assumed to be valid. A command is valid if and only if it is of the form"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(listCommand);"
+        "content": " * \"list\"."
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": " */"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "public class ListCommand extends Command {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        ui.printBorder();"
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": "     * Instantiates a {@code listCommand} object."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(\"T_T! These are the tasks for the busy you:\");"
+        "content": "     * @param listCommand a command that indicates the action of wanting the list from Duke."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            for (int i \u003d 1; i \u003c\u003d taskList.size(); i++) {"
+        "content": "     */"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                ui.printMessage(i + \". \" + taskList.retrieveTask(i));"
+        "content": "    public ListCommand(String listCommand) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            }"
+        "content": "        super(listCommand);"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (EmptyListException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (IndexNotFoundException e) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printMessage(e.toString());"
+        "content": "     * Executes the command that is fed into the {@code ListCommand} object. This will prompt Duke to print out all of"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } finally {"
+        "content": "     * the current tasks in the {@code TaskList} object."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            ui.printBorder();"
+        "content": "     * @param taskList the {@code TaskList} object in Duke"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     * @param ui the {@code Ui} object in Duke"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * @param storage the {@code Storage} object in Duke"
       },
       {
         "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        ui.printBorder();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String msg;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        int size \u003d taskList.size();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        if (size \u003c\u003d 5) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            String pluralOrNot \u003d (size \u003d\u003d 1) ? \"task\" : \"tasks\";"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            msg \u003d \"\u003c(^.^\u003c) You must be quite free! You only have \" + size + \" \" + pluralOrNot + \"!\";"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (size \u003c\u003d 10) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            msg \u003d \"O.O\\\" You are quite busy! You have \" + size + \" tasks!\";"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            msg \u003d \"T_T Please don\u0027t be stressed over your \" + size + \" tasks!\";"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        ui.printMessage(msg);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            for (int i \u003d 1; i \u003c\u003d size; i++) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                ui.printMessage(i + \". \" + taskList.retrieveTask(i));"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (EmptyListException e) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (IndexNotFoundException e) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printMessage(e.toString());"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            ui.printBorder();"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
         "author": {
           "gitId": "weihaw08"
         },
@@ -2663,7 +3736,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 30
+      "weihaw08": 56
     }
   },
   {
@@ -3003,31 +4076,94 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "    public InvalidTimeAndDateException(String errorInput) {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String toString() {"
+        "content": "        super(errorInput);"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return MESSAGE;"
+        "content": "    }"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 10,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return MESSAGE;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"The date(s) you entered could be incorrect: \\n     \" + super.getMessage();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
@@ -3035,7 +4171,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 10
+      "weihaw08": 19
     }
   },
   {
@@ -3175,28 +4311,28 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.command.ListCommand;"
+        "content": "import duke.command.FindCommand;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.EmptyDescriptionException;"
+        "content": "import duke.command.ListCommand;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.exception.WrongInstructionException;"
+        "content": "import duke.exception.EmptyDescriptionException;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "import duke.exception.WrongInstructionException;"
       },
       {
         "lineNumber": 12,
@@ -3210,105 +4346,105 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class Parser {"
+        "content": "/**"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private String[] tokens;"
+        "content": " * Represents a command parser that interprets a command. The {@code Parser} object creates a new {@code Command}"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private String command;"
+        "content": " * object if the command that it is fed with is a valid command."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Parser(String command) {"
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.tokens \u003d command.split(\" \");"
+        "content": "    private String[] tokens;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.command \u003d command;"
+        "content": "    private String command;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isAddCommand(String command) {"
+        "content": "     * Instantiates a {@code Parser} object."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\");"
+        "content": "     * @param command an input command"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    public Parser(String command) {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isDeleteCommand(String command) {"
+        "content": "        this.tokens \u003d command.split(\" \");"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return command.equals(\"delete\");"
+        "content": "        this.command \u003d command;"
       },
       {
         "lineNumber": 28,
@@ -3329,14 +4465,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isDoneCommand(String command) {"
+        "content": "    private boolean isAddCommand(String command) {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return command.equals(\"done\");"
+        "content": "        return command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\");"
       },
       {
         "lineNumber": 32,
@@ -3357,14 +4493,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isListCommand(String command) {"
+        "content": "    private boolean isDeleteCommand(String command) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return command.equals(\"list\");"
+        "content": "        return command.equals(\"delete\");"
       },
       {
         "lineNumber": 36,
@@ -3385,14 +4521,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isByeCommand(String command) {"
+        "content": "    private boolean isDoneCommand(String command) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return command.equals(\"bye\");"
+        "content": "        return command.equals(\"done\");"
       },
       {
         "lineNumber": 40,
@@ -3413,413 +4549,413 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isValidInstruction(String instruction) {"
+        "content": "    private boolean isListCommand(String command) {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return isAddCommand(instruction) || isDeleteCommand(instruction) || isDoneCommand(instruction)"
+        "content": "        return command.equals(\"list\");"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                || isListCommand(instruction) || isByeCommand(instruction);"
+        "content": "    }"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    private boolean isByeCommand(String command) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private AddCommand createAddCommand() throws EmptyDescriptionException {"
+        "content": "        return command.equals(\"bye\");"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (tokens.length \u003d\u003d 1) {"
+        "content": "    }"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new EmptyDescriptionException(tokens[0]);"
+        "content": ""
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": "    private boolean isFindCommand(String command) {"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new AddCommand(command);"
+        "content": "        return command.equals(\"find\");"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    private boolean isValidInstruction(String instruction) {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private DoneCommand createDoneCommand() throws WrongInstructionException {"
+        "content": "        return isAddCommand(instruction) || isDeleteCommand(instruction) || isDoneCommand(instruction)"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (tokens.length !\u003d 2) {"
+        "content": "                || isListCommand(instruction) || isByeCommand(instruction) || isFindCommand(instruction);"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new WrongInstructionException();"
+        "content": "    }"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": ""
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new DoneCommand(command);"
+        "content": "    private AddCommand createAddCommand() throws EmptyDescriptionException {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        if (tokens.length \u003d\u003d 1 || tokens[1].equals(\"/by\") || tokens[1].equals(\"/at\")) {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            throw new EmptyDescriptionException(tokens[0]);"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        } else {"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private DeleteCommand createDeleteCommand() throws WrongInstructionException {"
+        "content": "            return new AddCommand(command);"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (tokens.length !\u003d 2) {"
+        "content": "        }"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new WrongInstructionException();"
+        "content": "    }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": ""
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new DeleteCommand(command);"
+        "content": "    private DoneCommand createDoneCommand() throws WrongInstructionException {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        if (tokens.length !\u003d 2) {"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            throw new WrongInstructionException();"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        } else {"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private ListCommand createListCommand() throws WrongInstructionException {"
+        "content": "            return new DoneCommand(command);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (tokens.length !\u003d 1) {"
+        "content": "        }"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new WrongInstructionException();"
+        "content": "    }"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": ""
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new ListCommand(command);"
+        "content": "    private DeleteCommand createDeleteCommand() throws WrongInstructionException {"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        if (tokens.length !\u003d 2) {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            throw new WrongInstructionException();"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        } else {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private ByeCommand createByeCommand() throws WrongInstructionException {"
+        "content": "            return new DeleteCommand(command);"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (tokens.length !\u003d 1) {"
+        "content": "        }"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new WrongInstructionException();"
+        "content": "    }"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": ""
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new ByeCommand(command);"
+        "content": "    private ListCommand createListCommand() throws WrongInstructionException {"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        if (tokens.length !\u003d 1) {"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            throw new WrongInstructionException();"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        } else {"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Command parse() throws WrongInstructionException, EmptyDescriptionException {"
+        "content": "            return new ListCommand(command);"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (!isValidInstruction(tokens[0])) {"
+        "content": "        }"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new WrongInstructionException();"
+        "content": "    }"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (isAddCommand(tokens[0])) {"
+        "content": ""
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return createAddCommand();"
+        "content": "    private ByeCommand createByeCommand() throws WrongInstructionException {"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (isDeleteCommand(tokens[0])) {"
+        "content": "        if (tokens.length !\u003d 1) {"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return createDeleteCommand();"
+        "content": "            throw new WrongInstructionException();"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (isDoneCommand(tokens[0])) {"
+        "content": "        } else {"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return createDoneCommand();"
+        "content": "            return new ByeCommand(command);"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (isListCommand(tokens[0])) {"
+        "content": "        }"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return createListCommand();"
+        "content": "    }"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": ""
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return createByeCommand();"
+        "content": "    private FindCommand createFindCommand() {"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        return new FindCommand(command);"
       },
       {
         "lineNumber": 101,
@@ -3840,11 +4976,179 @@
         "author": {
           "gitId": "weihaw08"
         },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Interprets the command stored in the {@code Parser} instance and produces an output if the command is valid."
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return a {@code Command} object representing the command the {@code Parser} is fed with."
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @throws WrongInstructionException if the command fed to the {@code Parser} object is invalid"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @throws EmptyDescriptionException if the command fed to the {@code Parser} object is correct but incomplete."
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public Command parse() throws WrongInstructionException, EmptyDescriptionException {"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        if (!isValidInstruction(tokens[0])) {"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            throw new WrongInstructionException();"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (isAddCommand(tokens[0])) {"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return createAddCommand();"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (isDeleteCommand(tokens[0])) {"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return createDeleteCommand();"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (isDoneCommand(tokens[0])) {"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return createDoneCommand();"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (isListCommand(tokens[0])) {"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return createListCommand();"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (isByeCommand(tokens[0])) {"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return createByeCommand();"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return createFindCommand();"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "weihaw08"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 103
+      "weihaw08": 127
     }
   },
   {
@@ -3877,28 +5181,28 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.FormattedDate;"
+        "content": "import duke.tasks.Deadline;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Task;"
+        "content": "import duke.tasks.Event;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Deadline;"
+        "content": "import duke.tasks.FormattedDate;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Event;"
+        "content": "import duke.tasks.Task;"
       },
       {
         "lineNumber": 8,
@@ -3912,458 +5216,605 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.io.FileNotFoundException;"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.io.FileWriter;"
+        "content": "import java.io.File;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.io.IOException;"
+        "content": "import java.io.FileNotFoundException;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.io.File;"
+        "content": "import java.io.FileWriter;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.text.ParseException;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class Storage {"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private File tasktext;"
+        "content": "/**"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private String filePath;"
+        "content": " * Represents the storage system of Duke. A {@code Storage} object helps to load the previously stored text file in"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * Duke and saves the updates that have been made."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Storage(String filePath) {"
+        "content": " */"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": "public class Storage {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            this.tasktext \u003d new File(filePath);"
+        "content": "    private File tasktext;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            this.filePath \u003d filePath;"
+        "content": "    private String filePath;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            if (!tasktext.exists()) {"
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                tasktext.getParentFile().mkdir();"
+        "content": "    /**"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                tasktext.createNewFile();"
+        "content": "     * Instantiates a {@code Storage} object. A new directory and file is created if the file has yet to be created."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            }"
+        "content": "     * @param filePath the path of the file"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "     */"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            System.out.println(\"Invalid file path! Unable to find Duke\u0027s memory.\");"
+        "content": "    public Storage(String filePath) {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        try {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            this.tasktext \u003d new File(filePath);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "            this.filePath \u003d filePath;"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public ArrayList\u003cTask\u003e load() {"
+        "content": "            if (!tasktext.exists()) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        ArrayList\u003cTask\u003e initialisedList \u003d new ArrayList\u003c\u003e();"
+        "content": "                tasktext.getParentFile().mkdir();"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        try {"
+        "content": "                tasktext.createNewFile();"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            Scanner scanItems \u003d new Scanner(this.tasktext);"
+        "content": "            }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            while (scanItems.hasNext()) {"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                initialisedList.add(processLine(scanItems.nextLine()));"
+        "content": "            System.out.println(\"Invalid file path! Unable to find Duke\u0027s memory.\");"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (FileNotFoundException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            System.out.println(\"Unable to find Duke\u0027s memory. Please provide the correct file!\");"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (ParseException e) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            System.out.println(\"Wrong text formatting in the file! Please format the file properly!\");"
+        "content": "     * Initialises the list of items that have been stored in the text file of the {@code Storage} instance."
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } catch (InvalidTimeAndDateException e) {"
+        "content": "     * @return an {@code ArrayList} of {@code Task} objects that are stored in text format in the file."
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            System.out.println(\"Are you sure you are not travelling to the past? Please check again!\");"
+        "content": "     */"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "    public ArrayList\u003cTask\u003e load() {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return initialisedList;"
+        "content": "        ArrayList\u003cTask\u003e initialisedList \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        try {"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "            Scanner scanItems \u003d new Scanner(this.tasktext);"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private Task processLine(String line) throws ParseException, InvalidTimeAndDateException {"
+        "content": "            while (scanItems.hasNext()) {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String[] tokens \u003d line.split(\" ~ \");"
+        "content": "                initialisedList.add(processLine(scanItems.nextLine()));"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        boolean isDone \u003d Boolean.valueOf(tokens[1]);"
+        "content": "            }"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (tokens[0].equals(\"T\")) {"
+        "content": "        } catch (FileNotFoundException e) {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new ToDo(tokens[2], isDone);"
+        "content": "            System.out.println(\"Unable to find Duke\u0027s memory. Please provide the correct file!\");"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (tokens[0].equals(\"E\")) {"
+        "content": "        } catch (ParseException e) {"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            String[] startAndEnd \u003d tokens[3].split(\" - \");"
+        "content": "            System.out.println(\"Wrong text formatting in the file! Please format the file properly!\");"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            FormattedDate start \u003d new FormattedDate(startAndEnd[0]);"
+        "content": "        } catch (InvalidTimeAndDateException e) {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            FormattedDate end \u003d new FormattedDate(startAndEnd[1]);"
+        "content": "            System.out.println(\"Are you sure you are not travelling to the past? Please check again!\");"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new Event(tokens[2], isDone, start, end);"
+        "content": "        }"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": "        return initialisedList;"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            FormattedDate by \u003d new FormattedDate(tokens[3]);"
+        "content": "    }"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return new Deadline(tokens[2], isDone, by);"
+        "content": ""
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "    private Task processLine(String line) throws ParseException, InvalidTimeAndDateException {"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        String[] tokens \u003d line.split(\" ~ \");"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        boolean isDone \u003d Boolean.parseBoolean(tokens[1]);"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void save(ArrayList\u003cTask\u003e list) throws IOException {"
+        "content": "        if (tokens[0].equals(\"T\")) {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        FileWriter fw \u003d new FileWriter(filePath);"
+        "content": "            return new ToDo(tokens[2], isDone);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        for (Task task : list) {"
+        "content": "        } else if (tokens[0].equals(\"E\")) {"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            fw.write(task.convertToText() + \"\\n\");"
+        "content": "            String[] startAndEnd \u003d tokens[3].split(\" - \");"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "            FormattedDate start \u003d new FormattedDate(startAndEnd[0]);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        fw.close();"
+        "content": "            FormattedDate end \u003d new FormattedDate(startAndEnd[1]);"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            return new Event(tokens[2], isDone, start, end);"
       },
       {
         "lineNumber": 74,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            FormattedDate by \u003d new FormattedDate(tokens[3]);"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return new Deadline(tokens[2], isDone, by);"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Saves the {@code Task} objects that are stored in the list in text format."
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param list an {@code ArrayList} of {@code Task} objects"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void save(ArrayList\u003cTask\u003e list) {"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            FileWriter fw \u003d new FileWriter(filePath);"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            for (Task task : list) {"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "                fw.write(task.convertToText() + \"\\n\");"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            fw.close();"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            System.out.println(\"Unable to find Duke\u0027s memory location!\");"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 95,
         "author": {
           "gitId": "weihaw08"
         },
@@ -4371,7 +5822,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 74
+      "weihaw08": 95
     }
   },
   {
@@ -4439,42 +5890,42 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class TaskList {"
+        "content": "/**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private ArrayList\u003cTask\u003e list;"
+        "content": " * Represents the list that is used to store the tasks in Duke. This class provides utility functions that allow Duke"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * to retrieve, delete and add tasks."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public TaskList(ArrayList\u003cTask\u003e list) {"
+        "content": " */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.list \u003d list;"
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    private ArrayList\u003cTask\u003e list;"
       },
       {
         "lineNumber": 15,
@@ -4488,210 +5939,210 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void addTask(Task newTask) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.list.add(newTask);"
+        "content": "     * Instantiates a {@code TaskList} object."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * @param list an {@code ArrayList} of {@code Task} objects"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void deleteTask(int index) throws EmptyListException, IndexNotFoundException {"
+        "content": "    public TaskList(ArrayList\u003cTask\u003e list) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (this.list.isEmpty()) {"
+        "content": "        this.list \u003d list;"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new EmptyListException();"
+        "content": "    }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (index \u003c\u003d 0 || index \u003e this.list.size()) {"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new IndexNotFoundException(index);"
+        "content": "    /**"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": "     * Adds a new {@code Task} object into the {@code TaskList}."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            this.list.remove(index - 1);"
+        "content": "     * @param newTask a {@code Task} object"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     */"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    public void addTask(Task newTask) {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        this.list.add(newTask);"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Task retrieveTask(int index) throws EmptyListException, IndexNotFoundException {"
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (this.list.isEmpty()) {"
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new EmptyListException();"
+        "content": "    /**"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (index \u003c\u003d 0 || index \u003e this.list.size()) {"
+        "content": "     * Deletes a {@code Task} object that is found at a given index."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new IndexNotFoundException(index);"
+        "content": "     * @param index the index where the task to be deleted is"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": "     * @throws EmptyListException if there are no tasks in the list"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            return this.list.get(index - 1);"
+        "content": "     * @throws IndexNotFoundException if there are no tasks in that given index"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     */"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    public void deleteTask(int index) throws EmptyListException, IndexNotFoundException {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        if (this.list.isEmpty()) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public ArrayList\u003cTask\u003e obtainList() {"
+        "content": "            throw new EmptyListException();"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return this.list;"
+        "content": "        } else if (index \u003c\u003d 0 || index \u003e this.list.size()) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            throw new IndexNotFoundException(index);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        } else {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public int size() {"
+        "content": "            this.list.remove(index - 1);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return this.list.size();"
+        "content": "        }"
       },
       {
         "lineNumber": 46,
@@ -4705,11 +6156,242 @@
         "author": {
           "gitId": "weihaw08"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Retrieves a {@code Task} object at a given index."
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param index the index where the task to be retrieved is at"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return a {@code Task} object"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @throws EmptyListException if the list is empty"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @throws IndexNotFoundException if there are no tasks in the given index"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public Task retrieveTask(int index) throws EmptyListException, IndexNotFoundException {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        if (this.list.isEmpty()) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            throw new EmptyListException();"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (index \u003c\u003d 0 || index \u003e this.list.size()) {"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            throw new IndexNotFoundException(index);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return this.list.get(index - 1);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Obtains an {@code ArrayList} of {@code Task} objects that are stored in the {@code TaskList} object."
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return an {@code ArrayList} of {@code Task} object"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public ArrayList\u003cTask\u003e obtainList() {"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return this.list;"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Gives the number of items that are currently inside the {@code TaskList} object."
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return the number of items in the {@code TaskList} object"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public int size() {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return this.list.size();"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "weihaw08"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 47
+      "weihaw08": 80
     }
   },
   {
@@ -4749,56 +6431,56 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class Ui {"
+        "content": "/**"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private static final String BORDER \u003d \"____________________________________________________________________\";"
+        "content": " * Represents the various user interface features that the user will see while using Duke. This class provides features"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private static final int USUAL_INDENTATION \u003d 5;"
+        "content": " * such as printing messages and beautifying the user interface for Duke."
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isBye;"
+        "content": " */"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "public class Ui {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Ui() {"
+        "content": "    private static final String BORDER \u003d \"____________________________________________________________________\";"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.isBye \u003d false;"
+        "content": "    private static final int USUAL_INDENTATION \u003d 5;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    private boolean isBye;"
       },
       {
         "lineNumber": 13,
@@ -4812,84 +6494,84 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void printBorder() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(BORDER, 4);"
+        "content": "     * Instantiates a {@code Ui} object."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    public Ui() {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void printMessage(String msg) {"
+        "content": "        this.isBye \u003d false;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(msg, USUAL_INDENTATION);"
+        "content": "    }"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private void printMessage(String msg, int indentation) {"
+        "content": "     * Prints a border line that will help to separate consecutive outputs."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int rightShift \u003d indentation + msg.length();"
+        "content": "     */"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String formatting \u003d \"%\" + rightShift + \"s %n\";"
+        "content": "    public void printBorder() {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        System.out.printf(formatting, msg);"
+        "content": "        printMessage(BORDER, 4);"
       },
       {
         "lineNumber": 26,
@@ -4910,315 +6592,315 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void printHelloMessage() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String logo \u003d \" ____        _        \\n\""
+        "content": "     * Prints a message that has a fixed left indentation (5 white spaces)."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+        "content": "     * @param msg the message to be printed"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+        "content": "     */"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+        "content": "    public void printMessage(String msg) {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+        "content": "        printMessage(msg, USUAL_INDENTATION);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+        "content": "    }"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printBorder();"
+        "content": ""
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(\"Hello! I\u0027m Duke\");"
+        "content": "    private void printMessage(String msg, int indentation) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(\"What can I do for you?\");"
+        "content": "        int rightShift \u003d indentation + msg.length();"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printBorder();"
+        "content": "        String formatting \u003d \"%\" + rightShift + \"s %n\";"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        System.out.printf(formatting, msg);"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void printByeMessage() {"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printBorder();"
+        "content": "    /**"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.isBye \u003d true;"
+        "content": "     * Prints the hello message when Duke is initialised."
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(\"Bye. Hope to see you again soon!\");"
+        "content": "     */"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printBorder();"
+        "content": "    public void printHelloMessage() {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        String logo \u003d \" ____        _        \\n\""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private void printListSize(int size) {"
+        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (size \u003d\u003d 1) {"
+        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            printMessage(\"Now you have 1 task in the list.\");"
+        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": "        System.out.println(\"Hello from\\n\" + logo);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            printMessage(\"Now you have \" + size + \" tasks in the list.\");"
+        "content": "        printBorder();"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "        printMessage(\"Hello! I\u0027m Duke\");"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        printMessage(\"What can I do for you?\");"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        printBorder();"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void printTaskModification(int size, Task modifiedTask, String modification) {"
+        "content": "    }"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String messageToPrint;"
+        "content": ""
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        boolean isListModified;"
+        "content": "    /**"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (modification.equals(\"add\")) {"
+        "content": "     * Prints the bye message when the user inputs the \"bye\" command."
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            messageToPrint \u003d \"UWU. A task has been added:\";"
+        "content": "     */"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            isListModified \u003d true;"
+        "content": "    public void printByeMessage() {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else if (modification.equals(\"delete\")) {"
+        "content": "        printBorder();"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            messageToPrint \u003d \"OWO. A task has been removed:\";"
+        "content": "        this.isBye \u003d true;"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            isListModified \u003d true;"
+        "content": "        printMessage(\"Bye. Hope to see you again soon!\");"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        } else {"
+        "content": "        printBorder();"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            messageToPrint \u003d \"^W^. A task has been marked done:\";"
+        "content": "    }"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            isListModified \u003d false;"
+        "content": ""
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "    private void printListSize(int size) {"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(messageToPrint);"
+        "content": "        if (size \u003d\u003d 1) {"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        printMessage(modifiedTask.toString(), 7);"
+        "content": "            printMessage(\"Now you have 1 task in the list.\");"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (isListModified) {"
+        "content": "        } else {"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            printListSize(size);"
+        "content": "            printMessage(\"Now you have \" + size + \" tasks in the list.\");"
       },
       {
         "lineNumber": 73,
@@ -5246,31 +6928,241 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public boolean isBye() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return this.isBye;"
+        "content": "     * Notifies the user about the changes that have been made to a task or a task list."
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * @param size the size of the {@code TaskList}"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * @param modifiedTask the {@code Task} object that has been modified"
       },
       {
         "lineNumber": 80,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @param modification the type of modification: \"done\", \"add\", \"delete\""
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void printTaskModification(int size, Task modifiedTask, String modification) {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String messageToPrint;"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        boolean isListModified;"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        if (modification.equals(\"add\")) {"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            messageToPrint \u003d \"UWU. A task has been added:\";"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            isListModified \u003d true;"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else if (modification.equals(\"delete\")) {"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            messageToPrint \u003d \"OWO. A task has been removed:\";"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            isListModified \u003d true;"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            messageToPrint \u003d \"^W^. A task has been marked done:\";"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            isListModified \u003d false;"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        printMessage(messageToPrint);"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        printMessage(modifiedTask.toString(), 7);"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        if (isListModified) {"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            printListSize(size);"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Checks if the user has given the \"bye\" command."
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return {@code true} if the user has given the \"bye\" command and {@code false} if otherwise"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public boolean isBye() {"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return this.isBye;"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 110,
         "author": {
           "gitId": "weihaw08"
         },
@@ -5278,7 +7170,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 80
+      "weihaw08": 110
     }
   },
   {
@@ -5304,164 +7196,297 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "/**"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private FormattedDate deadline;"
+        "content": " * Represents a task that has to be completed before a certain time. A {@code Deadline} object is a {@code Task}"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * object with a task name and a deadline."
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Deadline(String taskName, FormattedDate deadline) {"
+        "content": " */"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(taskName);"
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.deadline \u003d deadline;"
+        "content": "    private FormattedDate deadline;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Deadline(String taskName, boolean isDone, FormattedDate deadline) {"
+        "content": "     * Instantiates a {@code Deadline} object."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(taskName, isDone);"
+        "content": "     * @param taskName the name of the task"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.deadline \u003d deadline;"
+        "content": "     * @param deadline the time in which the task is due"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    public Deadline(String taskName, FormattedDate deadline) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "        super(taskName);"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String toString() {"
+        "content": "        this.deadline \u003d deadline;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String sym \u003d this.isDone ? \"✓\" : \"✗\";"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return \"[D]\" + \"[\" + sym + \"] \" + this.taskName + \" (by: \" + this.deadline + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * Instantiates a {@code Deadline} object. The user is allowed to set if the task has been completed or not."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "     * @param taskName the name of the task"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String convertToText() {"
+        "content": "     * @param isDone the state of the task"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return \"D\" + \" ~ \" + this.isDone + \" ~ \" + this.taskName + \" ~ \" + this.deadline;"
+        "content": "     * @param deadline the time in which the task is due"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 26,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public Deadline(String taskName, boolean isDone, FormattedDate deadline) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        super(taskName, isDone);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        this.deadline \u003d deadline;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String sym \u003d this.isDone ? \"✓\" : \"✗\";"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"[D]\" + \"[\" + sym + \"] \" + this.taskName + \" (by: \" + this.deadline + \")\";"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Creates a text version of the {@code Deadline} task. This text version is stored in a text file."
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return a string that represents the state, the name and the deadline of the {@code Deadline} task."
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String convertToText() {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"D\" + \" ~ \" + this.isDone + \" ~ \" + this.taskName + \" ~ \" + this.deadline;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
         "author": {
           "gitId": "weihaw08"
         },
@@ -5469,7 +7494,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 26
+      "weihaw08": 45
     }
   },
   {
@@ -5495,185 +7520,339 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class Event extends Task {"
+        "content": "/**"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private FormattedDate start;"
+        "content": " * Represents a task that has a start date and an end date. A {@code Event} task object is a {@code Task} object"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private FormattedDate end;"
+        "content": " * with a task name, start date and end date."
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Event(String taskName, FormattedDate start, FormattedDate end) {"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(taskName);"
+        "content": "    private FormattedDate start;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.start \u003d start;"
+        "content": "    private FormattedDate end;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.end \u003d end;"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * Instantiates an {@code Event} object."
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Event(String taskName, boolean isDone, FormattedDate start, FormattedDate end) {"
+        "content": "     * @param taskName the name of the task"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(taskName, isDone);"
+        "content": "     * @param start the start date of the task"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.start \u003d start;"
+        "content": "     * @param end the end date of the task"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.end \u003d end;"
+        "content": "     */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    public Event(String taskName, FormattedDate start, FormattedDate end) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        super(taskName);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "        this.start \u003d start;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String toString() {"
+        "content": "        this.end \u003d end;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String sym \u003d this.isDone ? \"✓\" : \"✗\";"
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return \"[E]\" + \"[\" + sym + \"] \" + this.taskName + \" (at: \" + this.start + \" - \" + this.end + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * Instantiates an {@code Event} object. The user is allowed to set if the task has been completed or not."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "     * @param taskName the name of the task"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String convertToText() {"
+        "content": "     * @param isDone the state of the task"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return \"E\" + \" ~ \" + this.isDone + \" ~ \" + this.taskName + \" ~ \" + this.start + \" - \" + this.end;"
+        "content": "     * @param start the start date of the task"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * @param end the end date of the task"
       },
       {
         "lineNumber": 29,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public Event(String taskName, boolean isDone, FormattedDate start, FormattedDate end) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        super(taskName, isDone);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        this.start \u003d start;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        this.end \u003d end;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String sym \u003d this.isDone ? \"✓\" : \"✗\";"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"[E]\" + \"[\" + sym + \"] \" + this.taskName + \" (at: \" + this.start + \" - \" + this.end + \")\";"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Creates a text version of the {@code Event} task. This text version is stored in a text file."
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return a string that represents the state, the name, the start date and the end date of the"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     *         {@code Deadline} task."
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String convertToText() {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"E\" + \" ~ \" + this.isDone + \" ~ \" + this.taskName + \" ~ \" + this.start + \" - \" + this.end;"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 51,
         "author": {
           "gitId": "weihaw08"
         },
@@ -5681,7 +7860,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 29
+      "weihaw08": 51
     }
   },
   {
@@ -5721,28 +7900,28 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.util.Date;"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.time.YearMonth;"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.text.SimpleDateFormat;"
+        "content": "import java.time.YearMonth;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import java.text.ParseException;"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 9,
@@ -5756,140 +7935,140 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class FormattedDate {"
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private Date date;"
+        "content": " * Helps to determine if a date is valid and represents a date in the standardised format \"dd/mm/yyyy hhmm\"."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private static final SimpleDateFormat FORMAT \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
+        "content": " */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "public class FormattedDate implements Comparable\u003cFormattedDate\u003e {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public FormattedDate(String s) throws ParseException, InvalidTimeAndDateException {"
+        "content": "    private Date date;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.date \u003d FORMAT.parse(s);"
+        "content": "    private static final SimpleDateFormat FORMAT \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String[] tokens \u003d s.split(\" \");"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        Date currentDate \u003d new Date();"
+        "content": "    /**"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        if (!isValidDate(tokens[0]) || !isValidTime(tokens[1]) || this.date.before(currentDate)) {"
+        "content": "     * Instantiates a {@code FormattedDate} object."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "            throw new InvalidTimeAndDateException();"
+        "content": "     * @param s a string that could possibly represent a date in the format \"dd/mm/yyyy hhmm\""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        }"
+        "content": "     * @throws ParseException if the string is not a date or is not in the \"dd/mm/yyyy hhmm\" format"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * @throws InvalidTimeAndDateException if the date and time is not in an official time system"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isValidDate(String date) {"
+        "content": "    public FormattedDate(String s) throws ParseException, InvalidTimeAndDateException {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String[] tokens \u003d date.split(\"/\");"
+        "content": "        this.date \u003d FORMAT.parse(s);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int day \u003d Integer.valueOf(tokens[0]);"
+        "content": "        String[] tokens \u003d s.split(\" \");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int month \u003d Integer.valueOf(tokens[1]);"
+        "content": "        Date currentDate \u003d new Date();"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int year \u003d Integer.valueOf(tokens[2]);"
+        "content": "        if (!isValidDate(tokens[0]) || !isValidTime(tokens[1]) || this.date.before(currentDate)) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        YearMonth findDays \u003d YearMonth.of(year, month);"
+        "content": "            throw new InvalidTimeAndDateException(s);"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return month \u003e\u003d 1 \u0026\u0026 month \u003c\u003d 12 \u0026\u0026 day \u003c\u003d findDays.lengthOfMonth() \u0026\u0026 day \u003e\u003d 1;"
+        "content": "        }"
       },
       {
         "lineNumber": 30,
@@ -5910,66 +8089,192 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    private boolean isValidTime(String time) {"
+        "content": "    private boolean isValidDate(String date) {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        int value \u003d Integer.valueOf(time);"
+        "content": "        String[] tokens \u003d date.split(\"/\");"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return value \u003e\u003d 0 \u0026\u0026 value \u003c\u003d 2359;"
+        "content": "        int day \u003d Integer.parseInt(tokens[0]);"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        int month \u003d Integer.parseInt(tokens[1]);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        int year \u003d Integer.parseInt(tokens[2]);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "        if (month \u003c 0 || month \u003e 12) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String toString() {"
+        "content": "            return false;"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return FORMAT.format(this.date);"
+        "content": "        } else {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "            YearMonth findDays \u003d YearMonth.of(year, month);"
       },
       {
         "lineNumber": 41,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "            return day \u003c\u003d findDays.lengthOfMonth() \u0026\u0026 day \u003e\u003d 1;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    private boolean isValidTime(String time) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        int value \u003d Integer.parseInt(time);"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return value \u003e\u003d 0 \u0026\u0026 value \u003c\u003d 2359;"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return FORMAT.format(this.date);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public int compareTo(FormattedDate anotherDate) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return this.date.compareTo(anotherDate.date);"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
         "author": {
           "gitId": "weihaw08"
         },
@@ -5977,7 +8282,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 41
+      "weihaw08": 59
     }
   },
   {
@@ -6031,122 +8336,185 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Task(String taskName) {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.taskName \u003d taskName;"
+        "content": "    Task(String taskName) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        isDone \u003d false;"
+        "content": "        this.taskName \u003d taskName;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        isDone \u003d false;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public Task(String taskName, boolean isDone) {"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.taskName \u003d taskName;"
+        "content": "    Task(String taskName, boolean isDone) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.isDone \u003d isDone;"
+        "content": "        this.taskName \u003d taskName;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        this.isDone \u003d isDone;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public void markAsDone() {"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "    /**"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * Retrieves the task name of the {@code Task} object."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * @return the task name of the {@code Task} object"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public abstract String toString();"
+        "content": "     */"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    public String getTaskName() {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public abstract String convertToText();"
+        "content": "        return this.taskName;"
       },
       {
         "lineNumber": 24,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public void markAsDone() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public abstract String toString();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public abstract String convertToText();"
+      },
+      {
+        "lineNumber": 33,
         "author": {
           "gitId": "weihaw08"
         },
@@ -6154,7 +8522,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 24
+      "weihaw08": 33
     }
   },
   {
@@ -6180,143 +8548,255 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "public class ToDo extends Task {"
+        "content": "/**"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": " * Represents a task that one intends to do. A {@code ToDo} object is a {@code Task} object that contains a task name."
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public ToDo(String taskName) {"
+        "content": " */"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(taskName);"
+        "content": "public class ToDo extends Task {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public ToDo(String taskName, boolean isDone) {"
+        "content": "     * Instantiates a {@code ToDo} object."
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        super(taskName, isDone);"
+        "content": "     * @param taskName the name of the task"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    public ToDo(String taskName) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "        super(taskName);"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        String sym \u003d this.isDone ? \"✓\" : \"✗\";"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return \"[T]\" + \"[\" + sym + \"] \" + this.taskName;"
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "     * Instantiates a {@code ToDo} object. The user can state if the task has been completed or not."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "     * @param taskName the name of the task"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Override"
+        "content": "     * @param isDone the state of the task"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    public String convertToText() {"
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        return \"T\" + \" ~ \" + this.isDone + \" ~ \" + this.taskName;"
+        "content": "    public ToDo(String taskName, boolean isDone) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": "        super(taskName, isDone);"
       },
       {
         "lineNumber": 23,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        String sym \u003d this.isDone ? \"✓\" : \"✗\";"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"[T]\" + \"[\" + sym + \"] \" + this.taskName;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * Creates a text version of the {@code ToDo} task. This text version is stored in a text file."
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     * @return a string that represents the state and the name of the {@code ToDo} task."
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    public String convertToText() {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "        return \"T\" + \" ~ \" + this.isDone + \" ~ \" + this.taskName;"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "weihaw08"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
         "author": {
           "gitId": "weihaw08"
         },
@@ -6324,11 +8804,11 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 23
+      "weihaw08": 39
     }
   },
   {
-    "path": "src/test/java/tasks/DeadlineTest.java",
+    "path": "src/test/java/duke/tasks/DeadlineTest.java",
     "fileType": "java",
     "lines": [
       {
@@ -6336,7 +8816,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "package tasks;"
+        "content": "package duke.tasks;"
       },
       {
         "lineNumber": 2,
@@ -6357,14 +8837,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Deadline;"
+        "content": "import org.junit.jupiter.api.Test;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import org.junit.jupiter.api.Test;"
+        "content": ""
       },
       {
         "lineNumber": 6,
@@ -6617,7 +9097,7 @@
     }
   },
   {
-    "path": "src/test/java/tasks/EventTest.java",
+    "path": "src/test/java/duke/tasks/EventTest.java",
     "fileType": "java",
     "lines": [
       {
@@ -6625,7 +9105,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "package tasks;"
+        "content": "package duke.tasks;"
       },
       {
         "lineNumber": 2,
@@ -6646,14 +9126,14 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.Event;"
+        "content": "import org.junit.jupiter.api.Test;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import org.junit.jupiter.api.Test;"
+        "content": ""
       },
       {
         "lineNumber": 6,
@@ -6906,7 +9386,7 @@
     }
   },
   {
-    "path": "src/test/java/tasks/FormattedDateStub.java",
+    "path": "src/test/java/duke/tasks/FormattedDateStub.java",
     "fileType": "java",
     "lines": [
       {
@@ -6914,7 +9394,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "package tasks;"
+        "content": "package duke.tasks;"
       },
       {
         "lineNumber": 2,
@@ -6935,7 +9415,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.FormattedDate;"
+        "content": ""
       },
       {
         "lineNumber": 5,
@@ -7034,7 +9514,7 @@
     }
   },
   {
-    "path": "src/test/java/tasks/FormattedDateTest.java",
+    "path": "src/test/java/duke/tasks/FormattedDateTest.java",
     "fileType": "java",
     "lines": [
       {
@@ -7042,7 +9522,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "package tasks;"
+        "content": "package duke.tasks;"
       },
       {
         "lineNumber": 2,
@@ -7063,28 +9543,28 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.FormattedDate;"
+        "content": "import org.junit.jupiter.api.Test;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import org.junit.jupiter.api.Test;"
+        "content": "import org.junit.jupiter.params.ParameterizedTest;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import org.junit.jupiter.params.ParameterizedTest;"
+        "content": "import org.junit.jupiter.params.provider.ValueSource;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import org.junit.jupiter.params.provider.ValueSource;"
+        "content": ""
       },
       {
         "lineNumber": 8,
@@ -7323,7 +9803,7 @@
     }
   },
   {
-    "path": "src/test/java/tasks/ToDoTest.java",
+    "path": "src/test/java/duke/tasks/ToDoTest.java",
     "fileType": "java",
     "lines": [
       {
@@ -7331,7 +9811,7 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "package tasks;"
+        "content": "package duke.tasks;"
       },
       {
         "lineNumber": 2,
@@ -7345,199 +9825,192 @@
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import duke.tasks.ToDo;"
+        "content": "import org.junit.jupiter.api.Test;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import org.junit.jupiter.api.Test;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "class ToDoTest {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "class ToDoTest {"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    @Test"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Test"
+        "content": "    void testStringConversion() {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    void testStringConversion() {"
+        "content": "        // Testing string conversion for constructor 1"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        // Testing string conversion for constructor 1"
+        "content": "        assertEquals(\"[T][✗] sleep\", new ToDo(\"sleep\").toString());"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        assertEquals(\"[T][✗] sleep\", new ToDo(\"sleep\").toString());"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "        // Testing string conversion for constructor 2"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        // Testing string conversion for constructor 2"
+        "content": "        assertEquals(\"[T][✓] talk\", new ToDo(\"talk\", true).toString());"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        assertEquals(\"[T][✓] talk\", new ToDo(\"talk\", true).toString());"
+        "content": "    }"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    @Test"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Test"
+        "content": "    void testIsDoneFunction() {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    void testIsDoneFunction() {"
+        "content": "        ToDo t \u003d new ToDo(\"sleep\");"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        ToDo t \u003d new ToDo(\"sleep\");"
+        "content": "        t.markAsDone();"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        t.markAsDone();"
+        "content": "        assertEquals(\"[T][✓] sleep\", t.toString());"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        assertEquals(\"[T][✓] sleep\", t.toString());"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": ""
+        "content": "    @Test"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    @Test"
+        "content": "    void testTextConversion() {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "    void testTextConversion() {"
+        "content": "        assertEquals(\"T ~ false ~ sleep\", new ToDo(\"sleep\").convertToText());"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        assertEquals(\"T ~ false ~ sleep\", new ToDo(\"sleep\").convertToText());"
+        "content": "        assertEquals(\"T ~ true ~ talk\", new ToDo(\"talk\", true).convertToText());"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "weihaw08"
         },
-        "content": "        assertEquals(\"T ~ true ~ talk\", new ToDo(\"talk\", true).convertToText());"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "weihaw08"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 31,
+        "lineNumber": 30,
         "author": {
           "gitId": "weihaw08"
         },
@@ -7545,7 +10018,7 @@
       }
     ],
     "authorContributionMap": {
-      "weihaw08": 31
+      "weihaw08": 30
     }
   },
   {

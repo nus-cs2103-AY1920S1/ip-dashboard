@@ -1,6 +1,6 @@
 [
   {
-    "path": "src/main/java/Deadline.java",
+    "path": "src/main/java/AddCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -8,7 +8,7 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 2,
@@ -22,35 +22,35 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    protected String by;"
+        "content": "public class AddCommand extends Command {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "fadisng"
         },
-        "content": ""
+        "content": "    private String[] arr;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public Deadline(String description, String by) {"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        super(description);"
+        "content": "    public AddCommand(String[] arr) {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        this.by \u003d by;"
+        "content": "        this.arr \u003d arr;"
       },
       {
         "lineNumber": 8,
@@ -78,24 +78,276 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public String toString() {"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage){"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + by + \")\";"
+        "content": "        String description \u003d \"\";"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "        Task t;"
       },
       {
         "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        String next \u003d arr[0];"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            if (next.equals(\"todo\") || next.equals(\"deadline\") || next.equals(\"event\")) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                if (arr.length \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    throw new EmptyDescriptionException(\"☹ OOPS!!! The description of a \" + next + \" cannot be empty.\");"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    for (int i \u003d 1; i \u003c arr.length; i++) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                        description +\u003d \" \" + arr[i];"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                throw new UnknownTaskException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            if (next.equals(\"todo\")) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                t \u003d new Todos(description.trim());"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            } else if (next.equals(\"deadline\")) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                int index \u003d description.indexOf(\"/\");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String byWhen \u003d description.substring(index + 4);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String desc \u003d description.substring(1, index - 1);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                t \u003d new Deadline(desc, byWhen);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                int index \u003d description.indexOf(\"/\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String at \u003d description.substring(index + 4);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String desc \u003d description.substring(1, index - 1);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                t \u003d new Event(desc, at);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            tasks.getList().add(t);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            ui.printTask(tasks.getList().size(), t);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(e.getMessage());"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"Date in wrong format\");"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        storage.writeFile(tasks.getList());"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 50,
         "author": {
           "gitId": "fadisng"
         },
@@ -103,11 +355,11 @@
       }
     ],
     "authorContributionMap": {
-      "fadisng": 14
+      "fadisng": 50
     }
   },
   {
-    "path": "src/main/java/Duke.java",
+    "path": "src/main/java/Command.java",
     "fileType": "java",
     "lines": [
       {
@@ -115,14 +367,326 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "import java.util.Scanner;"
+        "content": "public abstract class Command {"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "import java.util.ArrayList;"
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public abstract void execute(TaskList tasks, Ui ui, Storage storage);"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 5
+    }
+  },
+  {
+    "path": "src/main/java/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    protected String by;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    protected Date date;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public Deadline(String description, String by) throws ParseException {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.by \u003d by;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.date \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(by);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public Deadline(String description, boolean isDone, String by) throws ParseException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        super(description, isDone);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.by \u003d by;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.date \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(by);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        SimpleDateFormat formatter \u003d new SimpleDateFormat(\"d MMMM yyyy, hmma\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        String formattedDate \u003d formatter.format(this.date);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + formattedDate + \")\";"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String print() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        if (this.isDone) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return \"D @ 1 @ \" + this.description + \" @ \" + this.by;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return \"D @ 0 @ \" + this.description + \" @ \" + this.by;"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 37
+    }
+  },
+  {
+    "path": "src/main/java/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class DeleteCommand extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private int taskNumber;"
       },
       {
         "lineNumber": 3,
@@ -134,579 +698,548 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "public class Duke {"
+        "content": "    public DeleteCommand(int taskNumber) {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public static void main(String[] args) throws DukeException {"
+        "content": "        this.taskNumber \u003d taskNumber;"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "        String logo \u003d \" ____        _        \\n\""
+        "content": "    }"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+        "content": "    @Override"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+        "content": "        Task taskRemoved \u003d tasks.getList().remove(taskNumber);"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "-"
+          "gitId": "fadisng"
         },
-        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+        "content": "        System.out.println(\"Noted. I\u0027ve removed this task:\");"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "        ui.printTask(tasks.getList().size(), taskRemoved);"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        ArrayList\u003cTask\u003e list \u003d new ArrayList\u003c\u003e();"
+        "content": "        storage.writeFile(tasks.getList());"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        System.out.println(\"Hello! I\u0027m Duke \\nWhat can I do for you?\");"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        String[] arr \u003d sc.nextLine().split(\" \");"
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 15
+    }
+  },
+  {
+    "path": "src/main/java/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class DoneCommand extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private int taskNumber;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public DoneCommand(int taskNumber) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.taskNumber \u003d taskNumber;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        Task taskDone \u003d tasks.getList().get(taskNumber);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        taskDone.markAsDone();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        System.out.println(\"Nice! I\u0027ve marked this task as done:\\n  \" + taskDone);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        storage.writeFile(tasks.getList());"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "   public int getTaskNumber() {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        String next \u003d arr[0];"
+        "content": "        return taskNumber;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        int count \u003d 0;"
+        "content": "    }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        while (!next.equals(\"bye\")) {"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "            if (next.equals(\"list\")) {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                System.out.println(\"Here are the tasks in your list:\");"
+        "content": "    public boolean equals(Object obj) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                int listCount \u003d 1;"
+        "content": "        if (obj \u003d\u003d this) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                for (Task task : list) {"
+        "content": "            return true;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                    System.out.println(listCount + \".\" + task);"
+        "content": "        } else if (obj \u003d\u003d null || obj.getClass() !\u003d this.getClass()) {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                    listCount++;"
+        "content": "            return false;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                }"
+        "content": "        } else {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "            } else if (next.equals(\"done\")) {"
+        "content": "            DoneCommand command \u003d (DoneCommand) obj;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                int number \u003d Integer.parseInt(arr[1]) - 1;"
+        "content": "            return taskNumber \u003d\u003d command.getTaskNumber();"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                Task taskDone \u003d list.get(number);"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                taskDone.markAsDone();"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "                System.out.println(\"Nice! I\u0027ve marked this task as done:\\n  \" + taskDone);"
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "            } else if(next.equals(\"delete\")) {"
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 31
+    }
+  },
+  {
+    "path": "src/main/java/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private TaskList list;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public Duke(String file) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        storage \u003d new Storage(file);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        list \u003d new TaskList(storage.load());"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        ui.showWelcome();"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        boolean isExit \u003d false;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        while (!isExit) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            String fullCommand \u003d ui.readCommand();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            Command c \u003d Parser.parse(fullCommand);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            c.execute(list, ui, storage);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            isExit \u003d c instanceof ExitCommand;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        Duke duke \u003d new Duke(\"Duke_List.txt\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        duke.run();"
       },
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "fadisng"
+          "gitId": "-"
         },
-        "content": "                int number \u003d Integer.parseInt(arr[1]) - 1;"
+        "content": "    }"
       },
       {
         "lineNumber": 33,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                Task taskRemoved \u003d list.remove(number);"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                System.out.println(\"Noted. I\u0027ve removed this task:\");"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                printTask(--count, taskRemoved);"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                String description \u003d \"\";"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                Task t;"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                try {"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    if (next.equals(\"todo\") || next.equals(\"deadline\") || next.equals(\"event\")) {"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        if (arr.length \u003d\u003d 1) {"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                            throw new EmptyDescriptionException(\"☹ OOPS!!! The description of a \" + next + \" cannot be empty.\");"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                            for (int i \u003d 1; i \u003c arr.length; i++) {"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                                description +\u003d \" \" + arr[i];"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                            }"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        throw new UnknownTaskException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    count++;"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    if (next.equals(\"todo\")) {"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        t \u003d new Todos(description.trim());"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    } else if (next.equals(\"deadline\")) {"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        int index \u003d description.indexOf(\"/\");"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        String byWhen \u003d description.substring(index + 4, description.length());"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        String desc \u003d description.substring(1, index - 1);"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        t \u003d new Deadline(desc, byWhen);"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        int index \u003d description.indexOf(\"/\");"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        String at \u003d description.substring(index + 4, description.length());"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        String desc \u003d description.substring(1, index - 1);"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                        t \u003d new Event(desc, at);"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    list.add(t);"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    printTask(count, t);"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                    System.out.println(e.getMessage());"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "            arr \u003d sc.nextLine().split(\" \");"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "            next \u003d arr[0];"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "    public static void printTask(int count, Task t) {"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "        if (count \u003d\u003d 1) {"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "            System.out.println(\"  \" + t + \"\\nNow you have \" + count + \" task in the list.\");"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "        } else {"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "            System.out.println(\"  \" + t + \"\\nNow you have \" + count + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "fadisng"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 86,
         "author": {
           "gitId": "-"
         },
@@ -714,8 +1247,8 @@
       }
     ],
     "authorContributionMap": {
-      "fadisng": 76,
-      "-": 10
+      "fadisng": 29,
+      "-": 4
     }
   },
   {
@@ -760,6 +1293,43 @@
     ],
     "authorContributionMap": {
       "fadisng": 5
+    }
+  },
+  {
+    "path": "src/main/java/Duke_List.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "T @ 1 @ jump"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "T @ 0 @ go lecture"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "E @ 0 @ project @ 2/4/2019 1800"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "T @ 0 @ play basketball"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 4
     }
   },
   {
@@ -815,49 +1385,49 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "public class Event extends Task {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    protected String at;"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "fadisng"
         },
-        "content": ""
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public Event(String description, String at) {"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        super(description);"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        this.at \u003d at;"
+        "content": "    protected Date date;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "    protected String at;"
       },
       {
         "lineNumber": 8,
@@ -871,31 +1441,192 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    @Override"
+        "content": "    public Event(String description, String at) throws ParseException {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public String toString() {"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
+        "content": "        this.at \u003d at;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "        this.date \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(at);"
       },
       {
         "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public Event(String description, boolean isDone, String at) throws ParseException {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        super(description, isDone);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.at \u003d at;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.date \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(at);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        SimpleDateFormat formatter \u003d new SimpleDateFormat(\"d MMMM yyyy, hmma\");"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        String formattedDate \u003d formatter.format(this.date);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + formattedDate + \")\";"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String print() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        if (this.isDone) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return \"E @ 1 @ \" + this.description + \" @ \" + this.at;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return \"E @ 0 @ \" + this.description + \" @ \" + this.at;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
         "author": {
           "gitId": "fadisng"
         },
@@ -903,7 +1634,764 @@
       }
     ],
     "authorContributionMap": {
-      "fadisng": 13
+      "fadisng": 36
+    }
+  },
+  {
+    "path": "src/main/java/ExitCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class ExitCommand extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        System.out.println(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 6
+    }
+  },
+  {
+    "path": "src/main/java/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        System.out.println(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        int listCount \u003d 1;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        for (Task task : tasks.getList()) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(listCount + \".\" + task);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            listCount++;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 12
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public static Command parse(String str) {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        String[] arr \u003d str.split(\" \");"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        String next \u003d arr[0];"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        Command c;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        switch (next) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            case \"bye\":"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                c \u003d new ExitCommand();"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            case \"list\":"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                c \u003d new ListCommand();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            case \"done\":"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                c \u003d new DoneCommand(Integer.parseInt(arr[1]) - 1);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                c \u003d new DeleteCommand(Integer.parseInt(arr[1]) - 1);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    c \u003d new AddCommand(arr);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                return c;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 26
+    }
+  },
+  {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private String file;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public Storage(String file) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.file \u003d file;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public ArrayList\u003cTask\u003e load()  {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        ArrayList\u003cTask\u003e list \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            File f \u003d new File(file); // create a File for the given file path"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            Scanner sc \u003d new Scanner(f); // create a Scanner using the File as the source"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            Task t;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            while (sc.hasNext()) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String next \u003d sc.nextLine();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String[] arr \u003d next.split(\"@\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                boolean isDone \u003d arr[1].equals(\"1\");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                String description \u003d arr[2];"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                if (arr[0].contains(\"T\")) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    t \u003d new Todos(description.trim(), isDone);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                } else if (arr[0].contains(\"D\")) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    t \u003d new Deadline(description.trim(), isDone, arr[3].trim());"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                    t \u003d new Event(description.trim(), isDone, arr[3].trim());"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                list.add(t);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"File not found\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"Date in wrong format\");"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } finally {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return list;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void writeFile(ArrayList\u003cTask\u003e list) {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            FileWriter fw \u003d new FileWriter(file);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            String textToAdd \u003d \"\";"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            for (Task task : list) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                textToAdd +\u003d task.print() + \"\\n\";"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            fw.write(textToAdd);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            fw.close();"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"File not found.\");"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 59
     }
   },
   {
@@ -978,105 +2466,105 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    public Task(String description, boolean isDone) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "        this.isDone \u003d isDone;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "fadisng"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public String getDescription() {"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        return this.description;"
+        "content": "    public String getStatusIcon() {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "fadisng"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public void markAsDone() {"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "        return this.description;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "fadisng"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public String toString() {"
+        "content": "    public void markAsDone() {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        return \"[\" + this.getStatusIcon() + \"] \" + this.description;"
+        "content": "        this.isDone \u003d true;"
       },
       {
         "lineNumber": 25,
@@ -1090,11 +2578,174 @@
         "author": {
           "gitId": "fadisng"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return \"[\" + this.getStatusIcon() + \"] \" + this.description;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String print() {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return \"\";"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    };"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "fadisng"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "fadisng": 26
+      "fadisng": 35
+    }
+  },
+  {
+    "path": "src/main/java/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    private ArrayList\u003cTask\u003e taskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e list) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        this.taskList \u003d list;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public ArrayList\u003cTask\u003e getList() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return this.taskList;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 13
     }
   },
   {
@@ -1141,38 +2792,122 @@
         "author": {
           "gitId": "fadisng"
         },
-        "content": ""
+        "content": "    public Todos(String description, boolean isDone) {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    @Override"
+        "content": "        super(description, isDone);"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "        return \"[T]\" + super.toString();"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "fadisng"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String print() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        if (this.isDone) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return \"T @ 1 @ \" + this.description;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            return \"T @ 0 @ \" + this.description;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
         "author": {
           "gitId": "fadisng"
         },
@@ -1180,7 +2915,212 @@
       }
     ],
     "authorContributionMap": {
-      "fadisng": 11
+      "fadisng": 23
+    }
+  },
+  {
+    "path": "src/main/java/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        String logo \u003d \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        System.out.println(\"Hello! I\u0027m Duke \\nWhat can I do for you?\");"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public String readCommand() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        Scanner sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        return sc.nextLine();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void printTask(int count, Task t) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        if (count \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"  \" + t + \"\\nNow you have \" + count + \" task in the list.\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "            System.out.println(\"  \" + t + \"\\nNow you have \" + count + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 28
     }
   },
   {
@@ -1225,6 +3165,227 @@
     ],
     "authorContributionMap": {
       "fadisng": 5
+    }
+  },
+  {
+    "path": "src/test/java/ParserTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class ParserTest {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void parseTest() {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        assertEquals(new DoneCommand(2), Parser.parse(\"done 3\"));"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 10
+    }
+  },
+  {
+    "path": "src/test/java/TodosTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "public class TodosTest {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void dummyTest() {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        assertEquals(2, 2);"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void testPrint() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        assertEquals(\"T @ 1 @ borrow book\", new Todos(\"borrow book\", true).print());"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    public void testToString() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "        assertEquals(\"[T][\\u2713] play basketball\", new Todos(\"play basketball\", true).toString());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "fadisng"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "fadisng": 19
     }
   }
 ]

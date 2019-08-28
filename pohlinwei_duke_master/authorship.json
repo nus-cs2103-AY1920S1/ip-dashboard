@@ -8,28 +8,28 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public Deadline(String taskName) {"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        super(taskName);"
+        "content": "import java.util.Calendar;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 5,
@@ -43,129 +43,486 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    @Override"
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String[] parsedName \u003d taskName.split(\" /\");"
+        "content": "    private String time \u003d \"\";"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String name \u003d parsedName[0];"
+        "content": "    private String name \u003d \"\";"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String[] info \u003d parsedName[1].split(\" \");"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String time \u003d \"\";"
+        "content": "    private int currentYear \u003d Calendar.getInstance().get(Calendar.YEAR);"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "    private static SimpleDateFormat dateFormatter \u003d new SimpleDateFormat(\"d/M/y HHmm\");"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        for (int i \u003d 1; i \u003c info.length; i++) {"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            time +\u003d (\" \" + info[i]);"
+        "content": "    private Date date;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        time \u003d time.trim();"
+        "content": "    public Deadline(String taskName) throws DeadlineParseException {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "        super(taskName);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        if (done) {"
+        "content": "        String[] parsedName \u003d taskName.split(\" /\");"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            return String.format(\"[D][\\u2714] %s (by: %s)\", name, time);"
+        "content": "        this.name \u003d parsedName[0];"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        } else {"
+        "content": "        String[] info \u003d parsedName[1].split(\" \");"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            return String.format(\"[D][\\u2718] %s (by: %s)\", name, time);"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        }"
+        "content": "        for (int i \u003d 1; i \u003c info.length; i++) {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": "            this.time +\u003d (\" \" + info[i]);"
       },
       {
         "lineNumber": 24,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        this.time \u003d this.time.trim();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String dateAndTime \u003d taskName.split(\" /by: \")[1];"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] dateAndTimeArr \u003d dateAndTime.split(\" \");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (dateAndTimeArr.length !\u003d 2) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            throw new DeadlineParseException(\"Missing date or time information\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String date \u003d dateAndTimeArr[0];"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String times \u003d dateAndTimeArr[1];"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.date \u003d dateFormatter.parse(date + \"/\" + currentYear + \" \" + times);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            throw new DeadlineParseException(\"Incorrect formatting of deadline\u0027s date and time info\");"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public Deadline(String taskName, boolean trust) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        super(taskName);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] parsedName \u003d taskName.split(\" /\");"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        this.name \u003d parsedName[0];"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] info \u003d parsedName[1].split(\" \");"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        for (int i \u003d 1; i \u003c info.length; i++) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.time +\u003d (\" \" + info[i]);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        this.time \u003d this.time.trim();"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String dateAndTime \u003d taskName.split(\" /by: \")[1];"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] dateAndTimeArr \u003d dateAndTime.split(\" \");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String date \u003d dateAndTimeArr[0];"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String times \u003d dateAndTimeArr[1];"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.date \u003d dateFormatter.parse(date + \"/\" + currentYear + \" \" + times);"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            // do nothing because we are sure that this input works"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public String getInfo() {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return String.format(\"D | %d | %s | %s\", done ? 1 : 0, name, time);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (done) {"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            return String.format(\"[D][\\u2714] %s (by: %s)\", name, time);"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            return String.format(\"[D][\\u2718] %s (by: %s)\", name, time);"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 75,
         "author": {
           "gitId": "pohlinwei"
         },
@@ -173,7 +530,114 @@
       }
     ],
     "authorContributionMap": {
-      "pohlinwei": 24
+      "pohlinwei": 75
+    }
+  },
+  {
+    "path": "src/main/java/DeadlineParseException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "public class DeadlineParseException extends ParseException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public DeadlineParseException(String str) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        super(str, 0);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return String.format(super.getMessage() + \"\\n\" +"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                \"Please input time and date info for deadline in the following format:\\n\" +"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                \"d/m hhmm where hh:mm is in 24h format (e.g. 20/1 1800)\");"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "pohlinwei": 14
     }
   },
   {
@@ -185,70 +649,70 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "import java.util.Arrays;"
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "import java.util.List;"
+        "content": "import java.util.Arrays;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "import java.util.stream.IntStream;"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "import java.util.stream.Collectors;"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "-"
+          "gitId": "pohlinwei"
         },
-        "content": "public class Duke {"
+        "content": "import java.util.stream.IntStream;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    // for formatting purposes"
+        "content": "import java.util.stream.Stream;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    private static String line \u003d \"    ____________________________________________________________\\n\";"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    private static String prependSpace \u003d \"     \";"
+        "content": ""
       },
       {
         "lineNumber": 11,
@@ -260,44 +724,44 @@
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "pohlinwei"
+          "gitId": "-"
         },
-        "content": "    // default statements by duke"
+        "content": "public class Duke {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    private static String hi \u003d \"Hello! I\u0027m Duke\\nWhat can I do for you?\";"
+        "content": "    private static String entries \u003d \"../data/entries.txt\";"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    private static String farewell \u003d \"Bye. Hope to see you again soon!\";"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    private static String listIntro \u003d \"Here are the tasks in your list:\";"
+        "content": "    // for formatting purposes"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "    private static String line \u003d \"    ____________________________________________________________\\n\";"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "-"
+          "gitId": "pohlinwei"
         },
-        "content": "    public static void main(String[] args) {"
+        "content": "    private static String prependSpace \u003d \"     \";"
       },
       {
         "lineNumber": 18,
@@ -311,703 +775,1102 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "    // default statements by duke"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        System.out.print(formatOutput(hi));"
+        "content": "    private static String hi \u003d \"Hello! I\u0027m Duke\\nWhat can I do for you?\";"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "    private static String farewell \u003d \"Bye. Hope to see you again soon!\";"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String input \u003d \"\";"
+        "content": "    private static String listIntro \u003d \"Here are the tasks in your list:\";"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
-          "gitId": "pohlinwei"
+          "gitId": "-"
         },
-        "content": "        // get first user input"
+        "content": "    public static void main(String[] args) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        input \u003d sc.nextLine();"
+        "content": "        Scanner sc \u003d new Scanner(System.in);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "        System.out.print(formatOutput(hi));"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        while (!input.equals(\"bye\")) {"
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            String[] parsedInput \u003d input.split(\" \");"
+        "content": "        String input \u003d \"\";"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            String command \u003d parsedInput[0];"
+        "content": "        List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "        Storage storage;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            // get task details, if any"
+        "content": "        try {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            String taskName \u003d \"\";"
+        "content": "            storage \u003d new Storage(entries);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            for (int i \u003d 1; i \u003c parsedInput.length; i++) {"
+        "content": "            tasks.addAll(toTaskList(storage.load()));"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                taskName +\u003d (\" \" + parsedInput[i]);"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            }"
+        "content": "            System.err.print(formatOutput(\"Unable to load txt file: \" + e.getMessage()));"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            taskName \u003d taskName.trim();"
+        "content": "            return;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            try {"
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                if (command.equals(\"list\")) {"
+        "content": "        // get first user input"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    // print all tasks"
+        "content": "        input \u003d sc.nextLine();"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    String listedTask \u003d IntStream.range(0, tasks.size())"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            .mapToObj(i -\u003e String.format(\"%d. %s\\n\", (i + 1), tasks.get(i)))"
+        "content": "        while (!input.equals(\"bye\")) {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            .reduce(\"\", (prev, curr) -\u003e prev + curr);"
+        "content": "            String[] parsedInput \u003d input.split(\" \");"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    System.out.print(formatOutput(listIntro + \"\\n\" + listedTask));"
+        "content": "            String command \u003d parsedInput[0];"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                } else if (command.equals(\"done\")) {"
+        "content": ""
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    int taskNum \u003d Integer.parseInt(parsedInput[1]) - 1;"
+        "content": "            // get task details, if any"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    Task currentTask \u003d tasks.get(taskNum);"
+        "content": "            String taskName \u003d \"\";"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    if (currentTask.isDone()) {"
+        "content": "            for (int i \u003d 1; i \u003c parsedInput.length; i++) {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                        throw new MultipleChecksException(taskNum + 1);"
+        "content": "                taskName +\u003d (\" \" + parsedInput[i]);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    }"
+        "content": "            }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    currentTask.done();"
+        "content": "            taskName \u003d taskName.trim();"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    // update user"
+        "content": ""
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    System.out.print(formatOutput(String.format(\"Nice! I\u0027ve marked this task as done:\\n  %s\\n\","
+        "content": "            try {"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            tasks.get(taskNum))));"
+        "content": "                if (command.equals(\"list\")) {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                } else if (command.equals(\"delete\")) {"
+        "content": "                    // print all tasks"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    int taskNum \u003d Integer.parseInt(parsedInput[1]) - 1;"
+        "content": "                    String listedTask \u003d IntStream.range(0, tasks.size())"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    Task deletedTask \u003d tasks.get(taskNum);"
+        "content": "                            .mapToObj(i -\u003e String.format(\"%d. %s\\n\", (i + 1), tasks.get(i)))"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    tasks.remove(taskNum);"
+        "content": "                            .reduce(\"\", (prev, curr) -\u003e prev + curr);"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    // update user"
+        "content": "                    System.out.print(formatOutput(listIntro + \"\\n\" + listedTask));"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    String response \u003d String.format(\"Noted. I\u0027ve removed this task:\\n  %s\\nNow you have %d tasks in the list.\","
+        "content": "                } else if (command.equals(\"done\")) {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                                                    deletedTask, tasks.size());"
+        "content": "                    int taskNum \u003d Integer.parseInt(parsedInput[1]) - 1;"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    System.out.print(formatOutput(response));"
+        "content": "                    Task currentTask \u003d tasks.get(taskNum);"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                } else if (command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\")) {"
+        "content": "                    if (currentTask.isDone()) {"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    // if new tasks needs to be added"
+        "content": "                        throw new MultipleChecksException(taskNum + 1);"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    if (taskName.equals(\"\")) {"
+        "content": "                    }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                        throw new EmptyDescriptionException(command);"
+        "content": "                    currentTask.done();"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    }"
+        "content": "                    // update storage"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "                    storage.update(tasks);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    switch(command) {"
+        "content": "                    // update user"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                        case \"todo\":"
+        "content": "                    System.out.print(formatOutput(String.format(\"Nice! I\u0027ve marked this task as done:\\n  %s\\n\","
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            tasks.add(new Todo(taskName));"
+        "content": "                            tasks.get(taskNum))));"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            break;"
+        "content": "                } else if (command.equals(\"delete\")) {"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                        case \"deadline\":"
+        "content": "                    int taskNum \u003d Integer.parseInt(parsedInput[1]) - 1;"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            if (!taskName.contains(\" /\")) {"
+        "content": "                    Task deletedTask \u003d tasks.get(taskNum);"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                                throw new InvalidTimeException();"
+        "content": "                    tasks.remove(taskNum);"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            }"
+        "content": "                    // update storage to remove first similar task"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            tasks.add(new Deadline(taskName));"
+        "content": "                    storage.update(tasks);"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            break;"
+        "content": "                    // update user"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                        case \"event\":"
+        "content": "                    String response \u003d String.format(\"Noted. I\u0027ve removed this task:\\n  %s\\nNow you have %d tasks in the list.\","
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            if (!taskName.contains(\" /\")) {"
+        "content": "                            deletedTask, tasks.size());"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                                throw new InvalidTimeException();"
+        "content": "                    System.out.print(formatOutput(response));"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            }"
+        "content": "                } else if (command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\")) {"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            tasks.add(new Event(taskName));"
+        "content": "                    // if new tasks needs to be added"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            break;"
+        "content": "                    if (taskName.equals(\"\")) {"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    }"
+        "content": "                        throw new EmptyDescriptionException(command);"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "                    }"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    String response \u003d String.format(\"Got it. I\u0027ve added this task:\\n  %s\\nNow you have %d tasks in the list.\\n\","
+        "content": ""
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                            tasks.get(tasks.size() - 1), tasks.size());"
+        "content": "                    switch (command) {"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    System.out.print(formatOutput(response));"
+        "content": "                    case \"todo\":"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                } else {"
+        "content": "                        tasks.add(new Todo(taskName));"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                    throw new InvalidCommandException();"
+        "content": "                        break;"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                }"
+        "content": "                    case \"deadline\":"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            } catch(MultipleChecksException e) {"
+        "content": "                        if (!taskName.contains(\" /\")) {"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                System.err.print(formatOutput(e.getMessage()));"
+        "content": "                            throw new InvalidTimeException();"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            } catch (InvalidCommandException e) {"
+        "content": "                        }"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                System.err.print(formatOutput(e.getMessage()));"
+        "content": "                        tasks.add(new Deadline(taskName));"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            } catch (EmptyDescriptionException e) {"
+        "content": "                        break;"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                System.err.print(formatOutput(e.getMessage()));"
+        "content": "                    case \"event\":"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            } catch (InvalidTimeException e) {"
+        "content": "                        if (!taskName.contains(\" /\")) {"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                System.err.print(formatOutput(e.getMessage()));"
+        "content": "                            throw new InvalidTimeException();"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            } finally {"
+        "content": "                        }"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                // get next user input"
+        "content": "                        tasks.add(new Event(taskName));"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                input \u003d sc.nextLine();"
+        "content": "                        break;"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            }"
+        "content": "                    }"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "                    // add new task to storage"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        // bid farewell"
+        "content": "                    storage.addTask(tasks.get(tasks.size() - 1));"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        System.out.println(formatOutput(farewell));"
+        "content": "                    String response \u003d String.format(\"Got it. I\u0027ve added this task:\\n  %s\\n\" +"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": "                                    \"Now you have %d tasks in the list.\\n\","
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "                            tasks.get(tasks.size() - 1), tasks.size());"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    private static String formatOutput(String str) {"
+        "content": "                    System.out.print(formatOutput(response));"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String accum \u003d line;"
+        "content": "                } else {"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String[] allLines \u003d str.split(\"\\n\");"
+        "content": "                    throw new InvalidCommandException();"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        accum +\u003d Arrays.stream(allLines)"
+        "content": "                }"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "                .reduce(\"\", (prev, curr) -\u003e prev + prependSpace + curr + \"\\n\");"
+        "content": "            } catch (MultipleChecksException e) {"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        accum +\u003d line;"
+        "content": "                System.err.print(formatOutput(e.getMessage()));"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        return accum;"
+        "content": "            } catch (InvalidCommandException e) {"
       },
       {
         "lineNumber": 118,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                System.err.print(formatOutput(e.getMessage()));"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            } catch (EmptyDescriptionException e) {"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                System.err.print(formatOutput(e.getMessage()));"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            } catch (InvalidTimeException e) {"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                System.err.print(formatOutput(e.getMessage()));"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                System.err.print(formatOutput(e.getMessage()));"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                System.err.print(formatOutput(e.getMessage()));"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            } finally {"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                // get next user input"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                input \u003d sc.nextLine();"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        // bid farewell"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        System.out.println(formatOutput(farewell));"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    private static String formatOutput(String str) {"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String accum \u003d line;"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] allLines \u003d str.split(\"\\n\");"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        accum +\u003d Arrays.stream(allLines)"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                .reduce(\"\", (prev, curr) -\u003e prev + prependSpace + curr + \"\\n\");"
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        accum +\u003d line;"
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return accum;"
+      },
+      {
+        "lineNumber": 144,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 119,
+        "lineNumber": 145,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    private static List\u003cTask\u003e toTaskList(Stream\u003cString\u003e allTasks) {"
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return allTasks.map(taskInfo -\u003e toTask(taskInfo))"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                .collect(Collectors.toList());"
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    private static Task toTask(String taskInfo) {"
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] parsedInfo \u003d taskInfo.split(\" \\\\| \");"
+      },
+      {
+        "lineNumber": 153,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String type \u003d parsedInfo[0];"
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        boolean done \u003d Integer.parseInt(parsedInfo[1]) \u003d\u003d 1;"
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String name \u003d parsedInfo[2];"
+      },
+      {
+        "lineNumber": 156,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        Task task;"
+      },
+      {
+        "lineNumber": 157,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String time;"
+      },
+      {
+        "lineNumber": 158,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        switch (type) {"
+      },
+      {
+        "lineNumber": 159,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        case \"T\":"
+      },
+      {
+        "lineNumber": 160,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            task \u003d new Todo(name);"
+      },
+      {
+        "lineNumber": 161,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 162,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        case \"D\":"
+      },
+      {
+        "lineNumber": 163,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            time \u003d parsedInfo[3];"
+      },
+      {
+        "lineNumber": 164,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            task \u003d new Deadline(name + \" /by: \" + time, true);"
+      },
+      {
+        "lineNumber": 165,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 166,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 167,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            time \u003d parsedInfo[3];"
+      },
+      {
+        "lineNumber": 168,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            task \u003d new Event(name + \" /at: \" + time, true);"
+      },
+      {
+        "lineNumber": 169,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 170,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 171,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (done) {"
+      },
+      {
+        "lineNumber": 172,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            task.done();"
+      },
+      {
+        "lineNumber": 173,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 174,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return task;"
+      },
+      {
+        "lineNumber": 175,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 176,
         "author": {
           "gitId": "-"
         },
@@ -1015,8 +1878,8 @@
       }
     ],
     "authorContributionMap": {
-      "pohlinwei": 115,
-      "-": 4
+      "pohlinwei": 171,
+      "-": 5
     }
   },
   {
@@ -1177,28 +2040,28 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "public class Event extends Task {"
+        "content": "import java.text.ParseException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public Event(String taskName) {"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        super(taskName);"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": "import java.util.Calendar;"
       },
       {
         "lineNumber": 5,
@@ -1212,129 +2075,542 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    @Override"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String[] parsedName \u003d taskName.split(\" /\");"
+        "content": "    private String time \u003d \"\";"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String name \u003d parsedName[0];"
+        "content": "    private String name \u003d \"\";"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String[] info \u003d parsedName[1].split(\" \");"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        String time \u003d \"\";"
+        "content": "    private int currentYear \u003d Calendar.getInstance().get(Calendar.YEAR);"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "    private static SimpleDateFormat dateFormatter \u003d new SimpleDateFormat(\"d/M/y HHmm\");"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        for (int i \u003d 1; i \u003c info.length; i++) {"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            time +\u003d (\" \" + info[i]);"
+        "content": "    private Date start;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        }"
+        "content": "    private Date end;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        time \u003d time.trim();"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "    public Event(String taskName) throws EventParseException {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        if (done) {"
+        "content": "        super(taskName);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            return String.format(\"[E][\\u2714] %s (at: %s)\", name, time);"
+        "content": "        String[] parsedName \u003d taskName.split(\" /\");"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        } else {"
+        "content": "        this.name \u003d parsedName[0];"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            return String.format(\"[E][\\u2718] %s (at: %s)\", name, time);"
+        "content": "        String[] info \u003d parsedName[1].split(\" \");"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": "        for (int i \u003d 1; i \u003c info.length; i++) {"
       },
       {
         "lineNumber": 24,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            time +\u003d (\" \" + info[i]);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        time \u003d time.trim();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String dateAndTime \u003d taskName.split(\" /at: \")[1];"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] dateAndTimeArr \u003d dateAndTime.split(\" \");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (dateAndTimeArr.length !\u003d 2) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            throw new EventParseException(\"Missing date or time info\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String date \u003d dateAndTimeArr[0];"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] times \u003d dateAndTimeArr[1].split(\"-\");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (times.length !\u003d 2) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            throw new EventParseException(\"Missing hyphen between start and end time\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String startTime \u003d times[0];"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String endTime \u003d times[1];"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.start \u003d dateFormatter.parse(date + \"/\" + currentYear + \" \" + startTime);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.end \u003d dateFormatter.parse(date + \"/\" + currentYear + \" \" + endTime);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            throw new EventParseException(\"Incorrect formatting of event\u0027s date and time info\");"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public Event(String taskName, boolean trust) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        super(taskName);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] parsedName \u003d taskName.split(\" /\");"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        this.name \u003d parsedName[0];"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] info \u003d parsedName[1].split(\" \");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        for (int i \u003d 1; i \u003c info.length; i++) {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            time +\u003d (\" \" + info[i]);"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        time \u003d time.trim();"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String dateAndTime \u003d taskName.split(\" /at: \")[1];"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] dateAndTimeArr \u003d dateAndTime.split(\" \");"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String date \u003d dateAndTimeArr[0];"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String[] times \u003d dateAndTimeArr[1].split(\"-\");"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String startTime \u003d times[0];"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        String endTime \u003d times[1];"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.start \u003d dateFormatter.parse(date + \"/\" + currentYear + \" \" + startTime);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            this.end \u003d dateFormatter.parse(date + \"/\" + currentYear + \" \" + endTime);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            // do nothing because this version can be trusted"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public String getInfo() {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return String.format(\"E | %d | %s | %s\", done ? 1 : 0, name, time);"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (done) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            return String.format(\"[E][\\u2714] %s (at: %s)\", name, time);"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            return String.format(\"[E][\\u2718] %s (at: %s)\", name, time);"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 83,
         "author": {
           "gitId": "pohlinwei"
         },
@@ -1342,7 +2618,114 @@
       }
     ],
     "authorContributionMap": {
-      "pohlinwei": 24
+      "pohlinwei": 83
+    }
+  },
+  {
+    "path": "src/main/java/EventParseException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "public class EventParseException extends ParseException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public EventParseException(String str) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        super(str, 0);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public String getMessage() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return String.format(super.getMessage() + \"\\n\" +"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                \"Please input time and date info for event in the following format:\\n\" +"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                \"d/m hhmm-hhmm where hh:mm is in 24h format (e.g. 20/1 1800-1830)\");"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "pohlinwei": 14
     }
   },
   {
@@ -1604,6 +2987,358 @@
     }
   },
   {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.io.BufferedWriter;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.nio.file.Files;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.nio.file.Paths;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.util.stream.Stream;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "import java.util.stream.IntStream;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    private String path \u003d \"\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public Storage(String path) throws IOException {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        this.path \u003d path;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        if (!Files.exists(Paths.get(path))) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            String[] parsedPath \u003d path.split(\"/\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            // determine dirs path"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            String dirPath \u003d IntStream.range(0, parsedPath.length - 1)"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                    .mapToObj(i -\u003e parsedPath[i])"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                    .reduce(\"\", (prev, curr) -\u003e prev + curr + \"/\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            Files.createDirectories(Paths.get(dirPath));"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            // create file"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            Files.createFile(Paths.get(path));"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public Stream\u003cString\u003e load() throws IOException {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return Files.lines(Paths.get(path));"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public void addTask(Task task) throws IOException {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        BufferedWriter w \u003d new BufferedWriter(new FileWriter(path, true));"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        w.write(task.getInfo() + System.lineSeparator());"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        w.close();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public void update(List\u003cTask\u003e tasks) throws IOException {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        BufferedWriter w \u003d new BufferedWriter(new FileWriter(path));"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        tasks.stream()"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                .forEach(task -\u003e {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                    try {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                        w.write(task.getInfo() + System.lineSeparator());"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                    } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                        System.err.println(\"Unable to update storage: \" + e.getMessage());"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "                });"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        w.close();"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "pohlinwei": 49
+    }
+  },
+  {
     "path": "src/main/java/Task.java",
     "fileType": "java",
     "lines": [
@@ -1612,7 +3347,7 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "public class Task {"
+        "content": "abstract public class Task {"
       },
       {
         "lineNumber": 2,
@@ -1668,52 +3403,73 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public void done() {"
+        "content": "    // returns a summary of the task\u0027s state and info"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        done \u003d true;"
+        "content": "    abstract public String getInfo();"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": ""
+        "content": "    public void done() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public boolean isDone() {"
+        "content": "        done \u003d true;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        return done;"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    public boolean isDone() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        return done;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
         "author": {
           "gitId": "pohlinwei"
         },
@@ -1721,7 +3477,7 @@
       }
     ],
     "authorContributionMap": {
-      "pohlinwei": 16
+      "pohlinwei": 19
     }
   },
   {
@@ -1768,59 +3524,87 @@
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    @Override"
+        "content": "    public String getInfo() {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    public String toString() {"
+        "content": "        return String.format(\"T | %d | %s\", done ? 1 : 0, taskName);"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        if (done) {"
+        "content": "    }"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            return String.format(\"[T][\\u2714] %s\", taskName);"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        } else {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "            return String.format(\"[T][\\u2718] %s\", taskName);"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "        }"
+        "content": "        if (done) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "pohlinwei"
         },
-        "content": "    }"
+        "content": "            return String.format(\"[T][\\u2714] %s\", taskName);"
       },
       {
         "lineNumber": 14,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "            return String.format(\"[T][\\u2718] %s\", taskName);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "pohlinwei"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
         "author": {
           "gitId": "pohlinwei"
         },
@@ -1828,7 +3612,7 @@
       }
     ],
     "authorContributionMap": {
-      "pohlinwei": 14
+      "pohlinwei": 18
     }
   }
 ]

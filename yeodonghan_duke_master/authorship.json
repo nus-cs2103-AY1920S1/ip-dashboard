@@ -8,36 +8,15 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "T | 1 | read book"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "D | 0 | return book | June 6th"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "E | 0 | project meeting | Aug 6th 2-4pm"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "T | 1 | join sports club"
+        "content": "T | 0 | food"
       }
     ],
     "authorContributionMap": {
-      "yeodonghan": 4
+      "yeodonghan": 1
     }
   },
   {
-    "path": "src/main/java/Deadline.java",
+    "path": "src/main/java/Command.java",
     "fileType": "java",
     "lines": [
       {
@@ -45,21 +24,21 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "public abstract class Command {"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": ""
+        "content": "    public boolean isExit \u003d false;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    protected String by;"
+        "content": "    public abstract void execute(TaskList tasks, Ui ui, Storage storage);"
       },
       {
         "lineNumber": 4,
@@ -73,49 +52,971 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    public Deadline(String description, String by) {"
-      },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 5
+    }
+  },
+  {
+    "path": "src/main/java/CommandAdd.java",
+    "fileType": "java",
+    "lines": [
       {
-        "lineNumber": 6,
+        "lineNumber": 1,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        super(description);"
+        "content": "public class CommandAdd extends Command {"
       },
       {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "        this.by \u003d by;"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 9,
+        "lineNumber": 2,
         "author": {
           "gitId": "yeodonghan"
         },
         "content": ""
       },
       {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private String type;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private Date date;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private Task task;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public CommandAdd(String str) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.type \u003d str.split(\" \", 2)[0];"
+      },
+      {
         "lineNumber": 10,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    public String getBy() {"
+        "content": "        if (type.equals(\"todo\")) {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        return by;"
+        "content": "            this.description \u003d str.split(\" \", 2)[1];"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            Todo temp \u003d new Todo(description);"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            this.task \u003d temp;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (this.type.equals(\"deadline\")){"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String[] firstSplit \u003d new String[2];"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            firstSplit \u003d str.split(\" /by \");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            // description"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String tempStr \u003d firstSplit[0].split(\" \")[1];"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            for (int i \u003d 2; i \u003c firstSplit[0].split(\" \").length; i++){"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                tempStr \u003d tempStr + \" \" + firstSplit[0].split(\" \")[i];"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            description \u003d tempStr;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            // timing"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            Deadline temp \u003d new Deadline(description, firstSplit[1]);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            this.task \u003d temp;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            this.date \u003d temp.getDate();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String[] firstSplit \u003d new String[2];"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            firstSplit \u003d str.split(\" /at \");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            // description"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String tempStr \u003d firstSplit[0].split(\" \")[1];"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            for (int i \u003d 2; i \u003c firstSplit[0].split(\" \").length; i++){"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                tempStr \u003d tempStr + \" \" + firstSplit[0].split(\" \")[i];"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            description \u003d tempStr;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            // timing"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            Event temp \u003d new Event(description, firstSplit[1]);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            this.task \u003d temp;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            this.date \u003d temp.getDate();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        tasks.add(task);"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String tempStr;"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        tempStr \u003d task.toString();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(tempStr);"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Now you have \" + tasks.getNoOfTasks() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        storage.save(tasks.getList(), tasks.getNoOfTasks());"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 53
+    }
+  },
+  {
+    "path": "src/main/java/CommandDel.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class CommandDel extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int position;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public CommandDel (int i) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        position \u003d i;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String curr \u003d tasks.getList().get(position - 1).toString();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        tasks.delete(position);"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        storage.save(tasks.getList(), tasks.getNoOfTasks());"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Noted. I\u0027ve removed this task:\");"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(curr);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Now you have \" + tasks.getNoOfTasks() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        storage.save(tasks.getList(), tasks.getNoOfTasks());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 19
+    }
+  },
+  {
+    "path": "src/main/java/CommandDone.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class CommandDone extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int position;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public CommandDone (int i) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        position \u003d i;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        tasks.done(position);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String curr \u003d tasks.getList().get(position - 1).toString();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        storage.save(tasks.getList(), tasks.getNoOfTasks());"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(curr);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        storage.save(tasks.getList(), tasks.getNoOfTasks());"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 17
+    }
+  },
+  {
+    "path": "src/main/java/CommandExit.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class CommandExit extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private String string;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public CommandExit(String fullCommand) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        string \u003d fullCommand;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.isExit \u003d true;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 14
+    }
+  },
+  {
+    "path": "src/main/java/CommandList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class CommandList extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private String string;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        ui.printString(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        int count \u003d 1;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        for (Task t: tasks.getList()) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String tempStr \u003d count + \".\" + t.toString();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            ui.printString(tempStr);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            count++;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 16
+    }
+  },
+  {
+    "path": "src/main/java/Date.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class Date {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int day;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int month;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int year;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int time;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public Date(int day, int month, int year, int time) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.day \u003d day;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.month \u003d month;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.year \u003d year;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.time \u003d time;"
       },
       {
         "lineNumber": 12,
@@ -150,17 +1051,549 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + by + \")\";"
+        "content": "        String str \u003d \"\";"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        // Day"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        if (day \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            str \u003d str + \"1st of \";"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (day \u003d\u003d 2) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            str \u003d str + \"2nd of \";"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (day \u003d\u003d 3) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            str \u003d str + \"3rd of \";"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            str \u003d str + day + \"th of \";"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        // Month"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        switch (month) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 1: str \u003d str + \"January \";"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 2: str \u003d str + \"February \";"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 3: str \u003d str + \"March \";"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 4: str \u003d str + \"April \";"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 5: str \u003d str + \"May \";"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 6: str \u003d str + \"June \";"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 7: str \u003d str + \"July \";"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 8: str \u003d str + \"August \";"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 9: str \u003d str + \"September \";"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 10: str \u003d str + \"October \";"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            case 11: str \u003d str + \"November \";"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            default: str \u003d str + \"December \";"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        // Year"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        str \u003d str + year + \", \";"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        // Time"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        if (time \u003e\u003d 1300) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int minutes \u003d time % 100;"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int PMtime \u003d (time - 1200) / 100;"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            if (minutes \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + PMtime + \"pm\";"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else if (minutes \u003c 10) {"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + PMtime + \".0\" + minutes + \"pm\";"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + PMtime + \".\" + minutes + \"pm\";"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (time \u003c 1200){"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int minutes \u003d time % 100;"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int AMtime \u003d time / 100;"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            if (minutes \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + AMtime + \"am\";"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else if (minutes \u003c 10){"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + AMtime + \".0\" + minutes + \"am\";"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + AMtime + \".\" + minutes + \"am\";"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int minutes \u003d time % 100;"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int noonTime \u003d time / 100;"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            if (minutes \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + noonTime + \"pm\";"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else if (minutes \u003c 10){"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + noonTime + \".0\" + minutes + \"pm\";"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + noonTime + \".\" + minutes + \"pm\";"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return str;"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 94,
         "author": {
           "gitId": "yeodonghan"
         },
@@ -168,7 +1601,184 @@
       }
     ],
     "authorContributionMap": {
-      "yeodonghan": 18
+      "yeodonghan": 94
+    }
+  },
+  {
+    "path": "src/main/java/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    protected Date date;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public Deadline(String description, String by) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String[] dateAndTime \u003d new String[2];"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        dateAndTime \u003d by.split(\" \");"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String[] date \u003d new String[3];"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        date \u003d dateAndTime[0].split(\"/\");"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.date \u003d new Date(Integer.parseInt(date[0]), Integer.parseInt(date[1]),"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            Integer.parseInt(date[2]), Integer.parseInt(dateAndTime[1]));"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public Date getDate() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return date;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + date + \")\";"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 24
     }
   },
   {
@@ -187,1963 +1797,332 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "import java.io.FileWriter;"
+        "content": "import java.io.FileNotFoundException;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "import java.io.IOException;"
+        "content": "import java.io.FileWriter;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "import java.util.List;"
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": ""
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
         "author": {
           "gitId": "-"
         },
         "content": "public class Duke {"
       },
       {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "    public static void main(String[] args) throws Exception{"
-      },
-      {
         "lineNumber": 10,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        /*"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "-"
+          "gitId": "yeodonghan"
         },
-        "content": "        String logo \u003d \" ____        _        \\n\""
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "-"
+          "gitId": "yeodonghan"
         },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+        "content": "    private TaskList tasks;"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "-"
+          "gitId": "yeodonghan"
         },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "-"
+          "gitId": "yeodonghan"
         },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "-"
+          "gitId": "yeodonghan"
         },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+        "content": "    public Duke(String filePath) {"
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "-"
+          "gitId": "yeodonghan"
         },
-        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        */"
+        "content": "        storage \u003d new Storage(filePath);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "            tasks \u003d new TaskList(storage.load());"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        List\u003cTask\u003e list \u003d new ArrayList\u003c\u003e();"
+        "content": "        } catch (FileNotFoundException e) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        int pos \u003d 0;"
+        "content": "            ui.showLoadingError();"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        // Writer"
+        "content": "            tasks \u003d new TaskList();"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        // Load from saved file"
+        "content": "    }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        File file \u003d new File(\"duke.txt\");"
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        Scanner fileSc \u003d new Scanner(file);"
+        "content": "    public void run() {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        while (fileSc.hasNextLine()) {"
+        "content": "        boolean isExit \u003d false;"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "            String type \u003d fileSc.next();"
+        "content": "        ui.showWelcome();"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "            int status;"
+        "content": "        while (!isExit) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "            switch (type) {"
+        "content": "            try {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                case \"T\":"
+        "content": "                String fullCommand \u003d ui.readCommand();"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    fileSc.next();"
+        "content": "                ui.showLine(); // show the divider line (\"_______\")"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    status \u003d fileSc.nextInt();"
+        "content": "                Command c \u003d Parser.parse(fullCommand);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    fileSc.next();"
+        "content": "                c.execute(tasks, ui, storage);"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    String description \u003d fileSc.nextLine().trim();"
+        "content": "                isExit \u003d c.isExit;"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    Task curr \u003d new Todo(description);"
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    list.add(curr);"
+        "content": "                ui.showError(e.getMessage());"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    pos++;"
+        "content": "            } finally {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    if (status \u003d\u003d 1) {"
+        "content": "                ui.showLine();"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                        int pos1 \u003d pos - 1;"
+        "content": "            }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                        list.get(pos1).markAsDone();"
+        "content": "        }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    }"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    break;"
+        "content": "    }"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                case \"D\":"
+        "content": ""
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    fileSc.next();"
+        "content": "    public static void main(String[] args) throws Exception{"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    status \u003d fileSc.nextInt();"
+        "content": "        new Duke(\"data/duke.txt\").run();"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    fileSc.next();"
+        "content": "    }"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "                    String[] split1 \u003d new String[2];"
+        "content": ""
       },
       {
         "lineNumber": 49,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    split1 \u003d fileSc.nextLine().trim().split(\" \\\\| \");"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    Task curr1 \u003d new Deadline(split1[0], split1[1]);"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    list.add(curr1);"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    pos++;"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (status \u003d\u003d 1) {"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        int pos1 \u003d pos - 1;"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        list.get(pos1).markAsDone();"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                case \"E\":"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    fileSc.next();"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    status \u003d fileSc.nextInt();"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    fileSc.next();"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String[] split2 \u003d new String[2];"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    split2 \u003d fileSc.nextLine().trim().split(\" \\\\| \");"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    Task curr2 \u003d new Event(split2[0], split2[1]);"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    list.add(curr2);"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    pos++;"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (status \u003d\u003d 1) {"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        int pos1 \u003d pos - 1;"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        list.get(pos1).markAsDone();"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "        System.out.println(\"Hello! I\u0027m Duke\");"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "        System.out.println(\"What can I do for you?\");"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "        while (sc.hasNextLine()) {"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            if (sc.hasNext(\"done\")) {"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String dummy \u003d sc.next();"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                int number \u003d sc.nextInt();"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                int pos1 \u003d number - 1;"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String dummy1 \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                list.get(pos1).markAsDone();"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Nice! I\u0027ve marked this task as done:\");"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(list.get(pos1));"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                //Write file"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String str \u003d \"\";"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                for (int i \u003d 0; i \u003c pos; i++) {"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (list.get(i) instanceof Todo) {"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"T | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \"\\n\";"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else if (list.get(i) instanceof Deadline) {"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"D | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Deadline) list.get(i)).getBy() + \"\\n\";"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"E | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Event) list.get(i)).getAt() + \"\\n\";"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                try (FileWriter fileWriter \u003d new FileWriter(\"duke.txt\")) {"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String fileContent \u003d str;"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    fileWriter.write(fileContent);"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"File not found.\");"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            } else if (sc.hasNext(\"bye\")) {"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                return;"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            } else if (sc.hasNext(\"todo\")) {"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                try {"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String dummy \u003d sc.next();"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String description \u003d sc.nextLine().trim();"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (description.equals(\"\")) {"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        throw new DukeException(\"☹ OOPS!!! The description of a todo cannot be empty.\");"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    Task curr \u003d new Todo(description);"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    list.add(curr);"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    pos++;"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(curr);"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"Now you have \" + pos + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    //Write file"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String str \u003d \"\";"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    for (int i \u003d 0; i \u003c pos; i++) {"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        if (list.get(i) instanceof Todo) {"
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                            str \u003d str + \"T | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                    + list.get(i).getDescription() + \"\\n\";"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        } else if (list.get(i) instanceof Deadline) {"
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                            str \u003d str + \"D | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                    + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                    + ((Deadline) list.get(i)).getBy() + \"\\n\";"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                            str \u003d str + \"E | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                    + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                    + ((Event) list.get(i)).getAt() + \"\\n\";"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    try (FileWriter fileWriter \u003d new FileWriter(\"duke.txt\")) {"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        String fileContent \u003d str;"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        fileWriter.write(fileContent);"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        System.out.println(\"File not found.\");"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 154,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 155,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"☹ OOPS!!! The description of a todo cannot be empty.\");"
-      },
-      {
-        "lineNumber": 156,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 157,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 158,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            } else if (sc.hasNext(\"deadline\")) {"
-      },
-      {
-        "lineNumber": 159,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String dummy \u003d sc.next();"
-      },
-      {
-        "lineNumber": 160,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String[] split \u003d new String[2];"
-      },
-      {
-        "lineNumber": 161,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                split \u003d sc.nextLine().trim().split(\" /by \");"
-      },
-      {
-        "lineNumber": 162,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                Task curr \u003d new Deadline(split[0], split[1]);"
-      },
-      {
-        "lineNumber": 163,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                list.add(curr);"
-      },
-      {
-        "lineNumber": 164,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                pos++;"
-      },
-      {
-        "lineNumber": 165,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 166,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(curr);"
-      },
-      {
-        "lineNumber": 167,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Now you have \" + pos + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 168,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 169,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                //Write file"
-      },
-      {
-        "lineNumber": 170,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String str \u003d \"\";"
-      },
-      {
-        "lineNumber": 171,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                for (int i \u003d 0; i \u003c pos; i++) {"
-      },
-      {
-        "lineNumber": 172,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (list.get(i) instanceof Todo) {"
-      },
-      {
-        "lineNumber": 173,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"T | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 174,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \"\\n\";"
-      },
-      {
-        "lineNumber": 175,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else if (list.get(i) instanceof Deadline) {"
-      },
-      {
-        "lineNumber": 176,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"D | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 177,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 178,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Deadline) list.get(i)).getBy() + \"\\n\";"
-      },
-      {
-        "lineNumber": 179,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 180,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"E | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 181,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 182,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Event) list.get(i)).getAt() + \"\\n\";"
-      },
-      {
-        "lineNumber": 183,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 184,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 185,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                try (FileWriter fileWriter \u003d new FileWriter(\"duke.txt\")) {"
-      },
-      {
-        "lineNumber": 186,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String fileContent \u003d str;"
-      },
-      {
-        "lineNumber": 187,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    fileWriter.write(fileContent);"
-      },
-      {
-        "lineNumber": 188,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 189,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"File not found.\");"
-      },
-      {
-        "lineNumber": 190,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 191,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 192,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            } else if (sc.hasNext(\"event\")) {"
-      },
-      {
-        "lineNumber": 193,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String dummy \u003d sc.next();"
-      },
-      {
-        "lineNumber": 194,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String[] split \u003d new String[2];"
-      },
-      {
-        "lineNumber": 195,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                split \u003d sc.nextLine().trim().split(\" /at \");"
-      },
-      {
-        "lineNumber": 196,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                Task curr \u003d new Event(split[0], split[1]);"
-      },
-      {
-        "lineNumber": 197,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                list.add(curr);"
-      },
-      {
-        "lineNumber": 198,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                pos++;"
-      },
-      {
-        "lineNumber": 199,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Got it. I\u0027ve added this task:\");"
-      },
-      {
-        "lineNumber": 200,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(curr);"
-      },
-      {
-        "lineNumber": 201,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Now you have \" + pos + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 202,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 203,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                //Write file"
-      },
-      {
-        "lineNumber": 204,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String str \u003d \"\";"
-      },
-      {
-        "lineNumber": 205,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                for (int i \u003d 0; i \u003c pos; i++) {"
-      },
-      {
-        "lineNumber": 206,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (list.get(i) instanceof Todo) {"
-      },
-      {
-        "lineNumber": 207,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"T | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 208,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \"\\n\";"
-      },
-      {
-        "lineNumber": 209,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else if (list.get(i) instanceof Deadline) {"
-      },
-      {
-        "lineNumber": 210,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"D | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 211,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 212,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Deadline) list.get(i)).getBy() + \"\\n\";"
-      },
-      {
-        "lineNumber": 213,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 214,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"E | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 215,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 216,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Event) list.get(i)).getAt() + \"\\n\";"
-      },
-      {
-        "lineNumber": 217,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 218,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 219,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                try (FileWriter fileWriter \u003d new FileWriter(\"duke.txt\")) {"
-      },
-      {
-        "lineNumber": 220,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String fileContent \u003d str;"
-      },
-      {
-        "lineNumber": 221,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    fileWriter.write(fileContent);"
-      },
-      {
-        "lineNumber": 222,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 223,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"File not found.\");"
-      },
-      {
-        "lineNumber": 224,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 225,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 226,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            } else if (sc.hasNext(\"delete\")){"
-      },
-      {
-        "lineNumber": 227,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String dummy \u003d sc.next();"
-      },
-      {
-        "lineNumber": 228,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                int line \u003d sc.nextInt();"
-      },
-      {
-        "lineNumber": 229,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String dummy1 \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 230,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                Task curr \u003d list.get(line - 1);"
-      },
-      {
-        "lineNumber": 231,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Noted. I\u0027ve removed this task:\");"
-      },
-      {
-        "lineNumber": 232,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(curr);"
-      },
-      {
-        "lineNumber": 233,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                list.remove(line - 1);"
-      },
-      {
-        "lineNumber": 234,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                pos--;"
-      },
-      {
-        "lineNumber": 235,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                System.out.println(\"Now you have \" + pos + \" tasks in the list.\");"
-      },
-      {
-        "lineNumber": 236,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 237,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                //Write file"
-      },
-      {
-        "lineNumber": 238,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                String str \u003d \"\";"
-      },
-      {
-        "lineNumber": 239,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                for (int i \u003d 0; i \u003c pos; i++) {"
-      },
-      {
-        "lineNumber": 240,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (list.get(i) instanceof Todo) {"
-      },
-      {
-        "lineNumber": 241,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"T | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 242,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \"\\n\";"
-      },
-      {
-        "lineNumber": 243,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else if (list.get(i) instanceof Deadline) {"
-      },
-      {
-        "lineNumber": 244,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"D | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 245,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 246,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Deadline) list.get(i)).getBy() + \"\\n\";"
-      },
-      {
-        "lineNumber": 247,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    } else {"
-      },
-      {
-        "lineNumber": 248,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        str \u003d str + \"E | \" + list.get(i).getStatus() + \" | \""
-      },
-      {
-        "lineNumber": 249,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + list.get(i).getDescription() + \" | \""
-      },
-      {
-        "lineNumber": 250,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                                + ((Event) list.get(i)).getAt() + \"\\n\";"
-      },
-      {
-        "lineNumber": 251,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 252,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 253,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                try (FileWriter fileWriter \u003d new FileWriter(\"duke.txt\")) {"
-      },
-      {
-        "lineNumber": 254,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String fileContent \u003d str;"
-      },
-      {
-        "lineNumber": 255,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    fileWriter.write(fileContent);"
-      },
-      {
-        "lineNumber": 256,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 257,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"File not found.\");"
-      },
-      {
-        "lineNumber": 258,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 259,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 260,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 261,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                try {"
-      },
-      {
-        "lineNumber": 262,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    String input \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 263,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    if (!input.equals(\"list\")) {"
-      },
-      {
-        "lineNumber": 264,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 265,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 266,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"Here are the tasks in your list:\");"
-      },
-      {
-        "lineNumber": 267,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    int k \u003d 0;"
-      },
-      {
-        "lineNumber": 268,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    while (k !\u003d pos) {"
-      },
-      {
-        "lineNumber": 269,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        int bullet \u003d k + 1;"
-      },
-      {
-        "lineNumber": 270,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        System.out.println(bullet + \".\" + list.get(k));"
-      },
-      {
-        "lineNumber": 271,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                        k++;"
-      },
-      {
-        "lineNumber": 272,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 273,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 274,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                    System.out.println(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 275,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 276,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 277,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 278,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 279,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 280,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 281,
-        "author": {
-          "gitId": "yeodonghan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 282,
         "author": {
           "gitId": "-"
         },
@@ -2151,8 +2130,8 @@
       }
     ],
     "authorContributionMap": {
-      "-": 9,
-      "yeodonghan": 273
+      "-": 2,
+      "yeodonghan": 47
     }
   },
   {
@@ -2222,42 +2201,212 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    protected String at;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": ""
+        "content": "    protected Date date;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    public Event(String description, String at) {"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        super(description);"
+        "content": "    public Event(String description, String at) {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        this.at \u003d at;"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "yeodonghan"
         },
+        "content": "        String[] dateAndTime \u003d new String[2];"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        dateAndTime \u003d at.split(\" \");"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String[] date \u003d new String[3];"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        date \u003d dateAndTime[0].split(\"/\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.date \u003d new Date(Integer.parseInt(date[0]), Integer.parseInt(date[1]),"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                Integer.parseInt(date[2]), Integer.parseInt(dateAndTime[1]));"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
         "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public Date getDate() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return date;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + date + \")\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 23
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 8,
@@ -2271,21 +2420,21 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    public String getAt() {"
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        return at;"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    }"
+        "content": "    Scanner sc \u003d new Scanner(System.in);"
       },
       {
         "lineNumber": 12,
@@ -2299,31 +2448,2224 @@
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    @Override"
+        "content": "    public static Command parse(String fullCommand) throws DukeException {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    public String toString() {"
+        "content": "        if (fullCommand.equals(\"bye\")) {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
+        "content": "            return new CommandExit(fullCommand);"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "yeodonghan"
         },
-        "content": "    }"
+        "content": "        } else if (fullCommand.split(\" \")[0].equals(\"delete\")) {"
       },
       {
         "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            return new CommandDel(Integer.parseInt(fullCommand.split(\" \")[1]));"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (fullCommand.split(\" \")[0].equals(\"list\")) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            return new CommandList();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (fullCommand.split(\" \")[0].equals(\"done\")) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            return new CommandDone(Integer.parseInt(fullCommand.split(\" \")[1]));"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else if (fullCommand.split(\" \")[0].equals(\"todo\") ||"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fullCommand.split(\" \")[0].equals(\"deadline\") ||"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fullCommand.split(\" \")[0].equals(\"event\")) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            return new CommandAdd(fullCommand);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "// IDEA IS LIKE"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "// 1. Load from storage"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "// 2. UI reads lines"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "// 3. command \u003d parse(string)"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "// 4. command.execute()"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "// 5. calls other classes to do the changes as well as print, save"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 38
+    }
+  },
+  {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private String filePath;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private File file;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private List\u003cTask\u003e storageList;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int noOfTasks;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public Storage (String filepath) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.filePath \u003d filepath;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    //create new storage before saving"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void save(List\u003cTask\u003e list, int noOfTasks) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        //Write file"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.storageList \u003d list;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.noOfTasks \u003d noOfTasks;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String str \u003d \"\";"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        for (int i \u003d 0; i \u003c noOfTasks; i++) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            if (storageList.get(i) instanceof Todo) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + \"T | \" + storageList.get(i).getStatus() + \" | \""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        + storageList.get(i).getDescription() + \"\\n\";"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else if (storageList.get(i) instanceof Deadline) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + \"D | \" + storageList.get(i).getStatus() + \" | \""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        + storageList.get(i).getDescription() + \" | \""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        + ((Deadline) storageList.get(i)).getDate() + \"\\n\";"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                str \u003d str + \"E | \" + storageList.get(i).getStatus() + \" | \""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        + storageList.get(i).getDescription() + \" | \""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        + ((Event) storageList.get(i)).getDate() + \"\\n\";"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        try (FileWriter fileWriter \u003d new FileWriter(\"duke.txt\")) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String fileContent \u003d str;"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            fileWriter.write(fileContent);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            System.out.println(\"File not found.\");"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public ArrayList\u003cTask\u003e load() throws FileNotFoundException {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        List\u003cTask\u003e list \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        int pos \u003d 0;"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        File file \u003d new File(\"duke.txt\");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        Scanner fileSc \u003d new Scanner(file);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        while (fileSc.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            String type \u003d fileSc.next();"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            int status;"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            switch (type) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                case \"T\":"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fileSc.next();"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    status \u003d fileSc.nextInt();"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fileSc.next();"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String description \u003d fileSc.nextLine().trim();"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    Task curr \u003d new Todo(description);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    list.add(curr);"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    pos++;"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (status \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        int pos1 \u003d pos - 1;"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        list.get(pos1).markAsDone();"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                case \"D\":"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String day;"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String month;"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String year;"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String time;"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fileSc.next();"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    status \u003d fileSc.nextInt();"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fileSc.next();"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String[] split1 \u003d new String[2];"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    split1 \u003d fileSc.nextLine().trim().split(\" \\\\| \");"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String[] dateTime \u003d new String[2];"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    dateTime \u003d split1[1].trim().split(\", \");"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String[] date \u003d new String[4];"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    date \u003d dateTime[0].trim().split(\" \");"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // day"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (date[0].length() \u003d\u003d 3) {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        day \u003d date[0].substring(0, 1);"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else {"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        day \u003d date[0].substring(0, 2);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // month"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    switch (date[2]) {"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"January\":"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"1\";"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"February\":"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"2\";"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"March\":"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"3\";"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"April\":"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"4\";"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"May\":"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"5\";"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"June\":"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"6\";"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"July\":"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"7\";"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"August\":"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"8\";"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"September\":"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"9\";"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"October\":"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"10\";"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"November\":"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"11\";"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        default:"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"12\";"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // year"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    year \u003d date[3];"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // time"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (dateTime[1].length() \u003d\u003d 7) {"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime[1].contains(\"pm\") \u0026\u0026 (Integer.parseInt(dateTime[1].substring(0, 2)) \u003c 12)) {"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime[1].substring(0, 2) + dateTime[1].substring(3, 5)) + 1200;"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime[1].substring(0, 2) + dateTime[1].substring(3, 5));"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else if (dateTime[1].length() \u003d\u003d 6) {"
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime[1].contains(\"pm\")) {"
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime[1].substring(0, 1) + dateTime[1].substring(2, 4)) + 1200;"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime[1].substring(0, 1) + dateTime[1].substring(2, 4));"
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else if (dateTime[1].length() \u003d\u003d 4) {"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime[1].contains(\"pm\")) {"
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime[1].substring(0, 2) + \"00\") + 1200;"
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 153,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime[1].substring(0, 2) + \"00\");"
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 156,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 157,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else {"
+      },
+      {
+        "lineNumber": 158,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime[1].contains(\"pm\")) {"
+      },
+      {
+        "lineNumber": 159,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(\"0\" + dateTime[1].substring(0, 1) + \"00\") + 1200;"
+      },
+      {
+        "lineNumber": 160,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 161,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 162,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(\"0\" + dateTime[1].substring(0, 1) + \"00\");"
+      },
+      {
+        "lineNumber": 163,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 164,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 165,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 166,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // forming date string"
+      },
+      {
+        "lineNumber": 167,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String dateInput \u003d day + \"/\" + month + \"/\" + year + \" \" + time;"
+      },
+      {
+        "lineNumber": 168,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    Task curr1 \u003d new Deadline(split1[0], dateInput);"
+      },
+      {
+        "lineNumber": 169,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    list.add(curr1);"
+      },
+      {
+        "lineNumber": 170,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    pos++;"
+      },
+      {
+        "lineNumber": 171,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (status \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 172,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        int pos1 \u003d pos - 1;"
+      },
+      {
+        "lineNumber": 173,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        list.get(pos1).markAsDone();"
+      },
+      {
+        "lineNumber": 174,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 175,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 176,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                case \"E\":"
+      },
+      {
+        "lineNumber": 177,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String day1;"
+      },
+      {
+        "lineNumber": 178,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String month1;"
+      },
+      {
+        "lineNumber": 179,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String year1;"
+      },
+      {
+        "lineNumber": 180,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String time1;"
+      },
+      {
+        "lineNumber": 181,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 182,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fileSc.next();"
+      },
+      {
+        "lineNumber": 183,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    status \u003d fileSc.nextInt();"
+      },
+      {
+        "lineNumber": 184,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    fileSc.next();"
+      },
+      {
+        "lineNumber": 185,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String[] split2 \u003d new String[2];"
+      },
+      {
+        "lineNumber": 186,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    split2 \u003d fileSc.nextLine().trim().split(\" \\\\| \");"
+      },
+      {
+        "lineNumber": 187,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String[] dateTime2 \u003d new String[2];"
+      },
+      {
+        "lineNumber": 188,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    dateTime2 \u003d split2[1].trim().split(\", \");"
+      },
+      {
+        "lineNumber": 189,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String[] date2 \u003d new String[4];"
+      },
+      {
+        "lineNumber": 190,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    date2 \u003d dateTime2[0].trim().split(\" \");"
+      },
+      {
+        "lineNumber": 191,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // day"
+      },
+      {
+        "lineNumber": 192,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (date2[0].length() \u003d\u003d 3) {"
+      },
+      {
+        "lineNumber": 193,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        day \u003d date2[0].substring(0, 1);"
+      },
+      {
+        "lineNumber": 194,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else {"
+      },
+      {
+        "lineNumber": 195,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        day \u003d date2[0].substring(0, 2);"
+      },
+      {
+        "lineNumber": 196,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 197,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // month"
+      },
+      {
+        "lineNumber": 198,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    switch (date2[2]) {"
+      },
+      {
+        "lineNumber": 199,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"January\":"
+      },
+      {
+        "lineNumber": 200,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"1\";"
+      },
+      {
+        "lineNumber": 201,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 202,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"February\":"
+      },
+      {
+        "lineNumber": 203,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"2\";"
+      },
+      {
+        "lineNumber": 204,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 205,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"March\":"
+      },
+      {
+        "lineNumber": 206,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"3\";"
+      },
+      {
+        "lineNumber": 207,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 208,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"April\":"
+      },
+      {
+        "lineNumber": 209,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"4\";"
+      },
+      {
+        "lineNumber": 210,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 211,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"May\":"
+      },
+      {
+        "lineNumber": 212,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"5\";"
+      },
+      {
+        "lineNumber": 213,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 214,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"June\":"
+      },
+      {
+        "lineNumber": 215,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"6\";"
+      },
+      {
+        "lineNumber": 216,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 217,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"July\":"
+      },
+      {
+        "lineNumber": 218,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"7\";"
+      },
+      {
+        "lineNumber": 219,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 220,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"August\":"
+      },
+      {
+        "lineNumber": 221,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"8\";"
+      },
+      {
+        "lineNumber": 222,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 223,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"September\":"
+      },
+      {
+        "lineNumber": 224,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"9\";"
+      },
+      {
+        "lineNumber": 225,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 226,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"October\":"
+      },
+      {
+        "lineNumber": 227,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"10\";"
+      },
+      {
+        "lineNumber": 228,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 229,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        case \"November\":"
+      },
+      {
+        "lineNumber": 230,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"11\";"
+      },
+      {
+        "lineNumber": 231,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 232,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        default:"
+      },
+      {
+        "lineNumber": 233,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            month \u003d \"12\";"
+      },
+      {
+        "lineNumber": 234,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            break;"
+      },
+      {
+        "lineNumber": 235,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 236,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // year"
+      },
+      {
+        "lineNumber": 237,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    year \u003d date2[3];"
+      },
+      {
+        "lineNumber": 238,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // time"
+      },
+      {
+        "lineNumber": 239,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (dateTime2[1].length() \u003d\u003d 7) {"
+      },
+      {
+        "lineNumber": 240,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime2[1].contains(\"pm\") \u0026\u0026 (Integer.parseInt(dateTime2[1].substring(0, 2)) \u003c 12)) {"
+      },
+      {
+        "lineNumber": 241,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime2[1].substring(0, 2) + dateTime2[1].substring(3, 5)) + 1200;"
+      },
+      {
+        "lineNumber": 242,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 243,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 244,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime2[1].substring(0, 2) + dateTime2[1].substring(3, 5));"
+      },
+      {
+        "lineNumber": 245,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 246,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 247,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else if (dateTime2[1].length() \u003d\u003d 6) {"
+      },
+      {
+        "lineNumber": 248,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime2[1].contains(\"pm\")) {"
+      },
+      {
+        "lineNumber": 249,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime2[1].substring(0, 1) + dateTime2[1].substring(2, 4)) + 1200;"
+      },
+      {
+        "lineNumber": 250,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 251,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 252,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime2[1].substring(0, 1) + dateTime2[1].substring(2, 4));"
+      },
+      {
+        "lineNumber": 253,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 254,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 255,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else if (dateTime2[1].length() \u003d\u003d 4) {"
+      },
+      {
+        "lineNumber": 256,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime2[1].contains(\"pm\")) {"
+      },
+      {
+        "lineNumber": 257,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime2[1].substring(0, 2) + \"00\") + 1200;"
+      },
+      {
+        "lineNumber": 258,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 259,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 260,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(dateTime2[1].substring(0, 2) + \"00\");"
+      },
+      {
+        "lineNumber": 261,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 262,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 263,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    } else {"
+      },
+      {
+        "lineNumber": 264,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        if (dateTime2[1].contains(\"pm\")) {"
+      },
+      {
+        "lineNumber": 265,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(\"0\" + dateTime2[1].substring(0, 1) + \"00\") + 1200;"
+      },
+      {
+        "lineNumber": 266,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 267,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        } else {"
+      },
+      {
+        "lineNumber": 268,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            int timing \u003d Integer.parseInt(\"0\" + dateTime2[1].substring(0, 1) + \"00\");"
+      },
+      {
+        "lineNumber": 269,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                            time \u003d timing + \"\";"
+      },
+      {
+        "lineNumber": 270,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 271,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 272,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    // forming date string"
+      },
+      {
+        "lineNumber": 273,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    String dateInput2 \u003d day + \"/\" + month + \"/\" + year + \" \" + time;"
+      },
+      {
+        "lineNumber": 274,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    Task curr2 \u003d new Deadline(split2[0], dateInput2);"
+      },
+      {
+        "lineNumber": 275,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    list.add(curr2);"
+      },
+      {
+        "lineNumber": 276,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    pos++;"
+      },
+      {
+        "lineNumber": 277,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    if (status \u003d\u003d 1) {"
+      },
+      {
+        "lineNumber": 278,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        int pos1 \u003d pos - 1;"
+      },
+      {
+        "lineNumber": 279,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                        list.get(pos1).markAsDone();"
+      },
+      {
+        "lineNumber": 280,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 281,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 282,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                default:"
+      },
+      {
+        "lineNumber": 283,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                    break;"
+      },
+      {
+        "lineNumber": 284,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 285,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 286,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        storageList \u003d list;"
+      },
+      {
+        "lineNumber": 287,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        noOfTasks \u003d pos;"
+      },
+      {
+        "lineNumber": 288,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return (ArrayList\u003cTask\u003e) list;"
+      },
+      {
+        "lineNumber": 289,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 290,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 291,
         "author": {
           "gitId": "yeodonghan"
         },
@@ -2331,7 +4673,7 @@
       }
     ],
     "authorContributionMap": {
-      "yeodonghan": 17
+      "yeodonghan": 291
     }
   },
   {
@@ -2575,6 +4917,323 @@
     }
   },
   {
+    "path": "src/main/java/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private List\u003cTask\u003e list;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    private int noOfTasks;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e list) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.list \u003d list;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.noOfTasks \u003d list.size();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.list \u003d new ArrayList\u003cTask\u003e();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        this.noOfTasks \u003d 0;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public int getNoOfTasks() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return noOfTasks;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public List\u003cTask\u003e getList() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return list;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void add(Task task) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        list.add(task);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        noOfTasks++;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void delete( int no) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        list.remove(no -1);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        noOfTasks--;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void done(int no) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        list.get(no - 1).markAsDone();"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 44
+    }
+  },
+  {
     "path": "src/main/java/Todo.java",
     "fileType": "java",
     "lines": [
@@ -2651,6 +5310,323 @@
     ],
     "authorContributionMap": {
       "yeodonghan": 10
+    }
+  },
+  {
+    "path": "src/main/java/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    Scanner scanner;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    Ui(){"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        scanner \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    void showWelcome(){"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        String logo \u003d \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    void showLine(){"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    String readCommand(){"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        return scanner.nextLine();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    public void printString(String string){"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        System.out.println(\"    \" + string);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    void showLoadingError(){"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        System.out.println(\"    Failed to load file\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    void showError(String string){"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "        printString(string);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "yeodonghan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "yeodonghan": 44
     }
   }
 ]

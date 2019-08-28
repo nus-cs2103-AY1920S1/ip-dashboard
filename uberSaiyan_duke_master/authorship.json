@@ -1,29 +1,6 @@
 [
   {
-    "path": "data/duke.txt",
-    "fileType": "txt",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "T | 1 | read book"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "T | 1 | break stones"
-      }
-    ],
-    "authorContributionMap": {
-      "uberSaiyan": 2
-    }
-  },
-  {
-    "path": "src/main/java/Chatbot.java",
+    "path": "src/main/java/Duke.java",
     "fileType": "java",
     "lines": [
       {
@@ -31,35 +8,945 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.io.FileNotFoundException;"
+        "content": "import duke.*;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.io.IOException;"
+        "content": "import duke.command.Command;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.text.ParseException;"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "uberSaiyan"
+          "gitId": "-"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "public class Duke {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.util.InputMismatchException;"
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private TaskList taskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public Duke(String filePath) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            taskList \u003d new TaskList(storage.load());"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            ui.showLoadingError();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            taskList \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.showWelcome();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        boolean isExit \u003d false;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        while (!isExit) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                String fullCommand \u003d ui.readCommand();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                ui.showLine();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                Command c \u003d Parser.parse(fullCommand);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                c.execute(taskList, ui, storage);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                isExit \u003d c.isExit();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                ui.showError(e.getMessage());"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } finally {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                ui.showLine();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        new Duke(\"data/tasks.txt\").run();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 37,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/duke/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class DukeException extends RuntimeException {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public DukeException(String msg) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        super(msg);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 7
+    }
+  },
+  {
+    "path": "src/main/java/duke/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.command.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public static Date parseDate(String dateString) throws ParseException {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(dateString);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public static Command parse(String fullCommand) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        String command \u003d fullCommand.split(\" \")[0];"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        switch (command) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"bye\":"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            return new ExitCommand();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"list\":"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            return new ListCommand();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            String description \u003d fullCommand.substring(4).trim();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            if (description.length() \u003e 0) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                return new AddTodoCommand(description);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a todo cannot be empty.\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                String[] deadlineInfo \u003d fullCommand.substring(8).split(\" /by \");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                if (deadlineInfo[0].length() \u003e 0) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    Date date \u003d parseDate(deadlineInfo[1].trim());"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    return new AddDeadlineCommand(deadlineInfo[0].trim(), date);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    throw new DukeException(\"☹ OOPS!!! The description of a deadline cannot be empty.\");"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                throw new DukeException(\"Error while parsing input.\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                String[] eventInfo \u003d fullCommand.substring(5).split(\" /at \");"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                if (eventInfo[0].length() \u003e 0) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    Date date \u003d parseDate(eventInfo[1].trim());"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    return new AddEventCommand(eventInfo[0].trim(), date);"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    throw new DukeException(\"☹ OOPS!!! The description of an event cannot be empty.\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                throw new DukeException(\"Error while parsing input.\");"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"done\":"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                int doneIndex \u003d Integer.parseInt(fullCommand.substring(4).split(\" \")[1]);"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                return new DoneCommand(doneIndex);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                throw new DukeException(\"Error while parsing input.\");"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        case \"delete\":"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                int deleteIndex \u003d Integer.parseInt(fullCommand.substring(6).split(\" \")[1]);"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                return new DeleteCommand(deleteIndex);"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                throw new DukeException(\"Error while parsing input.\");"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            return new InvalidCommand();"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 78
+    }
+  },
+  {
+    "path": "src/main/java/duke/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.io.*;"
       },
       {
         "lineNumber": 6,
@@ -80,147 +967,147 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "public class Chatbot {"
+        "content": "public class Storage {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    private static final String FILEPATH \u003d \"data/duke.txt\";"
+        "content": "    private String filePath;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    private List\u003cTask\u003e tasks;"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
+        "content": "    public Storage(String filePath) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public Chatbot() {"
+        "content": "        this.filePath \u003d filePath;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        try {"
+        "content": "    }"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            tasks \u003d TaskListSaver.deserialize(FILEPATH);"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        } catch (FileNotFoundException e) {"
+        "content": "    public List\u003cTask\u003e load() {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            System.out.println(\"Previous saved data not found.\");"
+        "content": "        try {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            tasks \u003d new ArrayList\u003c\u003e();"
+        "content": "            FileInputStream file \u003d new FileInputStream(filePath);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        }"
+        "content": "            ObjectInputStream in \u003d new ObjectInputStream(file);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
+        "content": "            List\u003cTask\u003e tasks \u003d (List\u003cTask\u003e)in.readObject();"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    private static void prettyPrint(String[] messages) {"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        String indentation \u003d \"    \";"
+        "content": "            in.close();"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        String linebreak \u003d \"____________________________________________________________\";"
+        "content": "            file.close();"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        System.out.println(indentation + linebreak);"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        for (String msg : messages) {"
+        "content": "            return tasks;"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            System.out.println(indentation + \" \" + msg);"
+        "content": "        } catch (IOException | ClassNotFoundException e) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        }"
+        "content": "            throw new DukeException(\"Failed to load stored data.\");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        System.out.println(indentation + linebreak);"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
@@ -241,21 +1128,613 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public void greet() {"
+        "content": "    public void save(List\u003cTask\u003e tasks) {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        String[] greetings \u003d {\"Hello! I\u0027m Duke\", \"What can I do for you?\"};"
+        "content": "        try {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        prettyPrint(greetings);"
+        "content": "            FileOutputStream file \u003d new FileOutputStream(filePath);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            ObjectOutputStream out \u003d new ObjectOutputStream(file);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            out.writeObject(tasks);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            out.close();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            file.close();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            throw new DukeException(\"Failed to save data.\");"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 44
+    }
+  },
+  {
+    "path": "src/main/java/duke/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private List\u003cTask\u003e tasks;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public TaskList(List\u003cTask\u003e tasks) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.tasks \u003d tasks;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public List\u003cTask\u003e getTasks() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return tasks;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public Task get(int index) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return this.tasks.get(index);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void add(Task task) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.tasks.add(task);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public Task remove(int index) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return this.tasks.remove(index);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public int size() {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return this.tasks.size();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 38
+    }
+  },
+  {
+    "path": "src/main/java/duke/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private Scanner sc;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public Ui() {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public String readCommand() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return sc.nextLine();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        showLine();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        show(\"Hello! I\u0027m Duke\");"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        show(\"What can I do for you?\");"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        showLine();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void showLine() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        String linebreak \u003d \"____________________________________________________________\";"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        show(linebreak, 4);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void showLoadingError() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        System.err.println(\"Loading error.\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void showError(String msg) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        showError(msg, 5);"
       },
       {
         "lineNumber": 34,
@@ -276,794 +1755,122 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public void goodbye() {"
+        "content": "    public void showError(String msg, int indentCount) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        String[] goodbye \u003d {\"Bye. Hope to see you again soon!\"};"
+        "content": "        for (int i \u003d 0; i \u003c indentCount; i++) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        prettyPrint(goodbye);"
+        "content": "            msg \u003d \" \" + msg;"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        try {"
+        "content": "        }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            TaskListSaver.serialize(FILEPATH, tasks);"
+        "content": "        System.err.println(msg);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            System.out.println(\"Error while saving data: \" + e.getMessage());"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        }"
+        "content": "    public void show(String msg) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    }"
+        "content": "        show(msg, 5);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public void addTask(String input, TaskType taskType) {"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        switch (taskType) {"
+        "content": "    public void show(String msg, int indentCount) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        case TODO:"
+        "content": "        for (int i \u003d 0; i \u003c indentCount; i++) {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            try {"
+        "content": "            msg \u003d \" \" + msg;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "                String description \u003d input.substring(4);"
+        "content": "        }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "                addTodo(description);"
+        "content": "        System.out.println(msg);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 53,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                prettyPrint(new String[]{\"☹ OOPS!!! The description of a todo cannot be empty.\"});"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        case DEADLINE:"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                String deadlineInfo \u003d input.substring(8);"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                addDeadline(deadlineInfo);"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                prettyPrint(new String[]{\"☹ OOPS!!! The description of a deadline cannot be empty.\"});"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            } catch (ParseException e) {"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                prettyPrint(new String[]{\"☹ OOPS!!! The input date is invalid.\"});"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        case EVENT:"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                String eventInfo \u003d input.substring(5);"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                addEvent(eventInfo);"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                prettyPrint(new String[]{\"☹ OOPS!!! The description of an event cannot be empty.\"});"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            } catch (ParseException e) {"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                prettyPrint(new String[]{\"☹ OOPS!!! The input date is invalid.\"});"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public void listTasks() {"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] messages \u003d new String[tasks.size() + 1];"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        messages[0] \u003d \"Here are the tasks in your list:\";"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            Task task \u003d tasks.get(i);"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            int msgIndex \u003d i + 1;"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            messages[msgIndex] \u003d String.format(\"%d.%s\", msgIndex, task);"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        prettyPrint(messages);"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public void markAsDone(String input) {"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            int index \u003d Integer.parseInt(input);"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            Task task \u003d tasks.get(index - 1);"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            task.markAsDone();"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            String[] messages \u003d {\"Nice! I\u0027ve marked this task as done:\", \"  \" + task.toString()};"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            prettyPrint(messages);"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        } catch (InputMismatchException e) {"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            prettyPrint(new String[]{\"☹ OOPS!!! Please input an integer index.\"});"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            prettyPrint(new String[]{\"☹ OOPS!!! Index is out of bounds.\"});"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public void deleteTask(String input) {"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            int index \u003d Integer.parseInt(input);"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            Task deletedTask \u003d tasks.remove(index - 1);"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            String[] messages \u003d {\"Noted. I\u0027ve removed this task:\", \"  \" + deletedTask, listSummary()};"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            prettyPrint(messages);"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        } catch (InputMismatchException e) {"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            prettyPrint(new String[]{\"☹ OOPS!!! Please input an integer index.\"});"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            prettyPrint(new String[]{\"☹ OOPS!!! Index is out of bounds.\"});"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public void apologize() {"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        prettyPrint(new String[]{\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\"});"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private void addTodo(String description) {"
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Task newTask \u003d Todo.of(description.trim());"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] messages \u003d {\"Got it. I\u0027ve added this task:\", \"  \" + newTask.toString(), listSummary()};"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        prettyPrint(messages);"
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private void addDeadline(String deadlineInfo) throws ParseException {"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] info \u003d deadlineInfo.split(\" /by \");"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Task newTask \u003d Deadline.by(info[0].trim(), info[1]);"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] messages \u003d {\"Got it. I\u0027ve added this task:\", \"  \" + newTask.toString(), listSummary()};"
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        prettyPrint(messages);"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private void addEvent(String eventInfo) throws ParseException {"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] info \u003d eventInfo.split(\" /at \");"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Task newTask \u003d Event.at(info[0].trim(), info[1]);"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        tasks.add(newTask);"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] messages \u003d {\"Got it. I\u0027ve added this task:\", \"  \" + newTask.toString(), listSummary()};"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        prettyPrint(messages);"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private String listSummary() {"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return String.format(\"Now you have %d tasks in the list.\", tasks.size());"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 149,
         "author": {
           "gitId": "uberSaiyan"
         },
@@ -1071,11 +1878,11 @@
       }
     ],
     "authorContributionMap": {
-      "uberSaiyan": 149
+      "uberSaiyan": 53
     }
   },
   {
-    "path": "src/main/java/Deadline.java",
+    "path": "src/main/java/duke/command/AddDeadlineCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -1083,14 +1890,1649 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.text.ParseException;"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.text.SimpleDateFormat;"
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Deadline;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class AddDeadlineCommand extends Command {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private Date date;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public AddDeadlineCommand(String description, Date date) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.date \u003d date;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        Task task \u003d new Deadline(description, date);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        taskList.add(task);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(task.toString(), 7);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(String.format(\"Now you have %d tasks in the list.\", taskList.size()));"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 33
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/AddEventCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Event;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class AddEventCommand extends Command {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private Date date;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public AddEventCommand(String description, Date date) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.date \u003d date;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        Task task \u003d new Event(description, date);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        taskList.add(task);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(task.toString(), 7);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(String.format(\"Now you have %d tasks in the list.\", taskList.size()));"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 33
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/AddTodoCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Todo;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class AddTodoCommand extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public AddTodoCommand(String description) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        Task task \u003d new Todo(description);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        taskList.add(task);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(\"Got it. I\u0027ve added this task:\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(task.toString(), 7);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(String.format(\"Now you have %d tasks in the list.\", taskList.size()));"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 29
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public abstract class Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public abstract void execute(TaskList taskList, Ui ui, Storage storage);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public abstract boolean isExit();"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 10
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class DeleteCommand extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private int index;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public DeleteCommand(int index) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.index \u003d index;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            Task task \u003d taskList.remove(index - 1);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            ui.show(task.toString());"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            throw new DukeException(\"Invalid index.\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 30
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class DoneCommand extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    private int index;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public DoneCommand(int index) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        this.index \u003d index;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            Task task \u003d taskList.get(index - 1);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            task.markAsDone();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            ui.show(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            ui.show(task.toString(), 7);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            throw new DukeException(\"Invalid index.\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 32
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ExitCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class ExitCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        storage.save(taskList.getTasks());"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 18
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/InvalidCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class InvalidCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 17
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        ui.show(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        for (int i \u003d 0; i \u003c taskList.size(); i++) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            ui.show(String.format(\"%d.%s\", (i + 1), taskList.get(i)));"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 20
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
       },
       {
         "lineNumber": 3,
@@ -1118,7 +3560,7 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    protected Date by;"
+        "content": "    private Date by;"
       },
       {
         "lineNumber": 7,
@@ -1132,7 +3574,7 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    private Deadline(String description, Date by) {"
+        "content": "    public Deadline(String description, Date by) {"
       },
       {
         "lineNumber": 9,
@@ -1167,466 +3609,43 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public static Deadline by(String description, String by) throws ParseException {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 14,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        if (description.equals(\"\")) {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            throw new DukeException();"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return new Deadline(description, new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(by));"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public String convertToWritable() {"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return String.format(\"D | %s | %s\", super.convertToWritable(), by);"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 26,
         "author": {
           "gitId": "uberSaiyan"
         },
         "content": "    public String toString() {"
       },
       {
-        "lineNumber": 27,
+        "lineNumber": 15,
         "author": {
           "gitId": "uberSaiyan"
         },
         "content": "        return \"[D]\" + super.toString() + \" (by: \" + by + \")\";"
       },
       {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "uberSaiyan": 29
-    }
-  },
-  {
-    "path": "src/main/java/Duke.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "public class Duke {"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    public static void main(String[] args) {"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Chatbot chatbot \u003d new Chatbot();"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        chatbot.greet();"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        while (true) {"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            String input \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            switch (input.split(\" \")[0]) {"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"bye\":"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.goodbye();"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                System.exit(0);"
-      },
-      {
         "lineNumber": 16,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "                break;"
+        "content": "    }"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"list\":"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.listTasks();"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"done\":"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.markAsDone(input.substring(4));"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"delete\":"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.deleteTask(input.substring(6));"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"todo\":"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.addTask(input, TaskType.TODO);"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"deadline\":"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.addTask(input, TaskType.DEADLINE);"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            case \"event\":"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.addTask(input, TaskType.EVENT);"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            default:"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "                chatbot.apologize();"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "-"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "uberSaiyan": 43,
-      "-": 4
+      "uberSaiyan": 17
     }
   },
   {
-    "path": "src/main/java/DukeException.java",
+    "path": "src/main/java/duke/task/Event.java",
     "fileType": "java",
     "lines": [
       {
@@ -1634,7 +3653,7 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "public class DukeException extends RuntimeException {"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,
@@ -1642,36 +3661,6 @@
           "gitId": "uberSaiyan"
         },
         "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "uberSaiyan": 3
-    }
-  },
-  {
-    "path": "src/main/java/Event.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.text.ParseException;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 3,
@@ -1699,7 +3688,7 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    protected Date at;"
+        "content": "    private Date at;"
       },
       {
         "lineNumber": 7,
@@ -1713,7 +3702,7 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    private Event(String description, Date at) {"
+        "content": "    public Event(String description, Date at) {"
       },
       {
         "lineNumber": 9,
@@ -1748,115 +3737,31 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public static Event at(String description, String at) throws ParseException {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        if (description.equals(\"\")) {"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            throw new DukeException();"
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 17,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return new Event(description, new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(at));"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public String convertToWritable() {"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return String.format(\"E | %s | %s\", super.convertToWritable(), at);"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public String toString() {"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 29,
         "author": {
           "gitId": "uberSaiyan"
         },
@@ -1864,11 +3769,11 @@
       }
     ],
     "authorContributionMap": {
-      "uberSaiyan": 29
+      "uberSaiyan": 17
     }
   },
   {
-    "path": "src/main/java/Task.java",
+    "path": "src/main/java/duke/task/Task.java",
     "fileType": "java",
     "lines": [
       {
@@ -1876,21 +3781,21 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "public abstract class Task {"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    protected String description;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    protected boolean isDone;"
+        "content": "import java.io.Serializable;"
       },
       {
         "lineNumber": 4,
@@ -1904,49 +3809,49 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    protected Task(String description) {"
+        "content": "public abstract class Task implements Serializable {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        this.description \u003d description;"
+        "content": "    private String description;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "    private boolean isDone;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
+        "content": "    protected Task(String description) {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "        this.isDone \u003d false;"
       },
       {
         "lineNumber": 12,
@@ -1967,14 +3872,14 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public void markAsDone() {"
+        "content": "    private String getStatusIcon() {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        isDone \u003d true;"
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
       },
       {
         "lineNumber": 16,
@@ -1995,14 +3900,14 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public String convertToWritable() {"
+        "content": "    public void markAsDone() {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        return String.format(\"%d | %s\", isDone ? 1 : 0, description);"
+        "content": "        isDone \u003d true;"
       },
       {
         "lineNumber": 20,
@@ -2059,7 +3964,7 @@
     }
   },
   {
-    "path": "src/main/java/TaskListSaver.java",
+    "path": "src/main/java/duke/task/Todo.java",
     "fileType": "java",
     "lines": [
       {
@@ -2067,529 +3972,70 @@
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.io.File;"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "import java.io.FileNotFoundException;"
+        "content": ""
       },
       {
         "lineNumber": 3,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.io.FileWriter;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.io.IOException;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.util.List;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "public class TaskListSaver {"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public static void serialize(String path, List\u003cTask\u003e tasks) throws IOException {"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String textToAdd \u003d \"\";"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        FileWriter file \u003d new FileWriter(path);"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        for (Task task : tasks) {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            textToAdd +\u003d convertToWritable(task) + \"\\n\";"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        file.write(textToAdd);"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        file.close();"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    public static List\u003cTask\u003e deserialize(String path) throws FileNotFoundException {"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        File file \u003d new File(path);"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Scanner sc \u003d new Scanner(file);"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        while (sc.hasNext()) {"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            tasks.add(convertToTask(sc.nextLine()));"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return tasks;"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private static String convertToWritable(Task task) {"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return task.convertToWritable();"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private static Task convertToTask(String taskString) {"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        String[] parameters \u003d taskString.split(\" \\\\| \");"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        Task task \u003d null;"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        switch (parameters[0]) {"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        case \"T\":"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            task \u003d new Todo(parameters[2]);"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        case \"D\":"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            task \u003d new Deadline(parameters[2], parameters[3]);"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        case \"E\":"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            task \u003d new Event(parameters[2], parameters[3]);"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        if (Integer.parseInt(parameters[1]) \u003d\u003d 1) {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "            task.markAsDone();"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        return task;"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "uberSaiyan": 58
-    }
-  },
-  {
-    "path": "src/main/java/TaskType.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "public enum TaskType {"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    TODO,"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    DEADLINE,"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    EVENT"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "uberSaiyan": 5
-    }
-  },
-  {
-    "path": "src/main/java/Todo.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
         "author": {
           "gitId": "uberSaiyan"
         },
         "content": "public class Todo extends Task {"
       },
       {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "    private Todo(String description) {"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "uberSaiyan"
-        },
-        "content": "        super(description);"
-      },
-      {
         "lineNumber": 4,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    }"
+        "content": "    public Todo(String description) {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
+        "content": "        super(description);"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public static Todo of(String description) {"
+        "content": "    }"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        if (description.equals(\"\")) {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "            throw new DukeException();"
+        "content": "    @Override"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        }"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        return new Todo(description);"
+        "content": "        return \"[T]\" + super.toString();"
       },
       {
         "lineNumber": 11,
@@ -2603,63 +4049,156 @@
         "author": {
           "gitId": "uberSaiyan"
         },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 12
+    }
+  },
+  {
+    "path": "src/test/java/DeadlineTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Deadline;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
         "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.fail;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class DeadlineTest {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Test"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    @Override"
+        "content": "    public void stringConversion_isNotDone_crossSymbol() {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public String convertToWritable() {"
+        "content": "        try {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        return String.format(\"T | %s\", super.convertToWritable());"
+        "content": "            Task testTake \u003d new Deadline(\"Example.\","
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    }"
+        "content": "                    new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(\"28/08/2019 1700\"));"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": ""
+        "content": "            assertEquals(\"[D][\\u2718] Example. (by: Wed Aug 28 17:00:00 SGT 2019)\", testTake.toString());"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    @Override"
+        "content": "        } catch (ParseException e) {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "    public String toString() {"
+        "content": "            fail(); // the test should not reach this line"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uberSaiyan"
         },
-        "content": "        return \"[T]\" + super.toString();"
+        "content": "        }"
       },
       {
         "lineNumber": 21,
@@ -2673,11 +4212,498 @@
         "author": {
           "gitId": "uberSaiyan"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void stringConversion_isDone_tickSymbol() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            Task testTake \u003d new Deadline(\"Example.\","
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(\"28/08/2019 1700\"));"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            testTake.markAsDone();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            assertEquals(\"[D][\\u2713] Example. (by: Wed Aug 28 17:00:00 SGT 2019)\", testTake.toString());"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            fail(); // the test should not reach this line"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "uberSaiyan": 22
+      "uberSaiyan": 35
+    }
+  },
+  {
+    "path": "src/test/java/EventTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Event;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.fail;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class EventTest {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void stringConversion_isNotDone_crossSymbol() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            Task testTake \u003d new Event(\"Example.\","
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(\"28/08/2019 1700\"));"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            assertEquals(\"[E][\\u2718] Example. (at: Wed Aug 28 17:00:00 SGT 2019)\", testTake.toString());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            fail(); // the test should not reach this line"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void stringConversion_isDone_tickSymbol() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            Task testTake \u003d new Event(\"Example.\","
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "                    new SimpleDateFormat(\"dd/MM/yyyy HHmm\").parse(\"28/08/2019 1700\"));"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            testTake.markAsDone();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            assertEquals(\"[E][\\u2713] Example. (at: Wed Aug 28 17:00:00 SGT 2019)\", testTake.toString());"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "            fail(); // the test should not reach this line"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 34
+    }
+  },
+  {
+    "path": "src/test/java/TodoTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import duke.task.Todo;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "public class TodoTest {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void stringConversion_isNotDone_crossSymbol() {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        Task testTake \u003d new Todo(\"This is an example.\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        assertEquals(\"[T][\\u2718] This is an example.\", testTake.toString());"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    public void stringConversion_isDone_tickSymbol() {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        Task testTask \u003d new Todo(\"This is an example.\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        testTask.markAsDone();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "        assertEquals(\"[T][\\u2713] This is an example.\", testTask.toString());"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uberSaiyan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uberSaiyan": 20
     }
   },
   {

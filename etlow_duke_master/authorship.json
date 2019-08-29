@@ -1,6 +1,6 @@
 [
   {
-    "path": "src/main/java/Bye.java",
+    "path": "src/main/java/ByeCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -22,7 +22,7 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "class Bye implements Command {"
+        "content": "class ByeCommand implements Command {"
       },
       {
         "lineNumber": 4,
@@ -108,59 +108,66 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.List;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "etlow"
         },
-        "content": "interface Command {"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    List\u003cString\u003e run(String[] words) throws DukeException;"
+        "content": "interface Command {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "    List\u003cString\u003e run(String[] words) throws DukeException, IOException;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    default boolean isExit() {"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return false;"
+        "content": "    default boolean isExit() {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "        return false;"
       },
       {
         "lineNumber": 9,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
         "author": {
           "gitId": "etlow"
         },
@@ -168,7 +175,7 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 9
+      "etlow": 10
     }
   },
   {
@@ -180,218 +187,274 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.Arrays;"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.List;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "public class Deadline extends TimeTask {"
       },
       {
         "lineNumber": 4,
-        "author": {
-          "gitId": "etlow"
-        },
-        "content": "public class Deadline extends Task {"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "etlow"
-        },
-        "content": "    private String time;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "etlow"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
         "author": {
           "gitId": "etlow"
         },
         "content": "    private Deadline(String description, String time) {"
       },
       {
-        "lineNumber": 8,
+        "lineNumber": 5,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        super(description);"
+        "content": "        super(description, time);"
       },
       {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "etlow"
-        },
-        "content": "        this.time \u003d time;"
-      },
-      {
-        "lineNumber": 10,
+        "lineNumber": 6,
         "author": {
           "gitId": "etlow"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 11,
+        "lineNumber": 7,
         "author": {
           "gitId": "etlow"
         },
         "content": ""
       },
       {
-        "lineNumber": 12,
+        "lineNumber": 8,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    static Command getCommand(List\u003cTask\u003e tasks) {"
+        "content": "    static Command getCommand(List\u003cTask\u003e tasks, Storage storage) {"
       },
       {
-        "lineNumber": 13,
+        "lineNumber": 9,
         "author": {
           "gitId": "etlow"
         },
         "content": "        return words -\u003e {"
       },
       {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            List\u003cString\u003e wordList \u003d List.of(words);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            int separator \u003d wordList.indexOf(\"/by\");"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            if (separator \u003d\u003d -1) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                throw new DukeException(\"A deadline must have a time.\");"
+      },
+      {
         "lineNumber": 14,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            int separator \u003d List.of(words).indexOf(\"/by\");"
+        "content": "            } else if (separator \u003d\u003d 1) {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String[] descriptionArr \u003d Arrays.copyOfRange(words, 1, separator);"
+        "content": "                throw new DukeException(\"The description of a deadline cannot be empty.\");"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String[] timeArr \u003d Arrays.copyOfRange(words, separator + 1, words.length);"
+        "content": "            } else if (separator \u003d\u003d words.length - 1) {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String description \u003d String.join(\" \", descriptionArr);"
+        "content": "                throw new DukeException(\"The time of a deadline cannot be empty.\");"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String time \u003d String.join(\" \", timeArr);"
+        "content": "            }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            Task task \u003d new Deadline(description, time);"
+        "content": "            String description \u003d String.join(\" \", wordList.subList(1, separator));"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            tasks.add(task);"
+        "content": "            String time \u003d String.join(\" \", wordList.subList(separator + 1, words.length));"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            return List.of(\"Got it. I\u0027ve added this task:\", \"  \" + task,"
+        "content": "            Task task \u003d new Deadline(description, time);"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "etlow"
         },
-        "content": "                    \"Now you have \" + tasks.size() + \" tasks in the list.\");"
+        "content": "            tasks.add(task);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        };"
+        "content": "            storage.store(tasks);"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "            return List.of(\"Got it. I\u0027ve added this task:\", \"  \" + task,"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "                    \"Now you have \" + tasks.size() + \" tasks in the list.\");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    @Override"
+        "content": "        };"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + time + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "etlow"
         },
+        "content": "    String getSaveString() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return \"D|\" + super.getSaveString() + \"|\" + time;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + getTimeString() + \")\";"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "etlow"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "etlow": 30
+      "etlow": 38
     }
   },
   {
-    "path": "src/main/java/Delete.java",
+    "path": "src/main/java/DeleteCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -399,108 +462,136 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.List;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "etlow"
         },
-        "content": "class Delete implements Command {"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    private final List\u003cTask\u003e tasks;"
+        "content": "class DeleteCommand implements Command {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "    private final List\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    Delete(List\u003cTask\u003e tasks) {"
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        this.tasks \u003d tasks;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "    DeleteCommand(List\u003cTask\u003e tasks, Storage storage) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "        this.tasks \u003d tasks;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    @Override"
+        "content": "        this.storage \u003d storage;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    public List\u003cString\u003e run(String[] words) {"
+        "content": "    }"
       },
       {
         "lineNumber": 12,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    public List\u003cString\u003e run(String[] words) throws IOException {"
+      },
+      {
+        "lineNumber": 15,
         "author": {
           "gitId": "etlow"
         },
         "content": "        Task task \u003d tasks.remove(Integer.parseInt(words[1]) - 1);"
       },
       {
-        "lineNumber": 13,
+        "lineNumber": 16,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        storage.store(tasks);"
+      },
+      {
+        "lineNumber": 17,
         "author": {
           "gitId": "etlow"
         },
         "content": "        return List.of(\"Noted. I\u0027ve removed this task:\", \"  \" + task,"
       },
       {
-        "lineNumber": 14,
+        "lineNumber": 18,
         "author": {
           "gitId": "etlow"
         },
         "content": "                \"Now you have \" + tasks.size() + \" tasks in the list.\");"
       },
       {
-        "lineNumber": 15,
+        "lineNumber": 19,
         "author": {
           "gitId": "etlow"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 16,
+        "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
@@ -508,11 +599,11 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 16
+      "etlow": 20
     }
   },
   {
-    "path": "src/main/java/Done.java",
+    "path": "src/main/java/DoneCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -520,108 +611,136 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.List;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "etlow"
         },
-        "content": "public class Done implements Command {"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    private final List\u003cTask\u003e tasks;"
+        "content": "public class DoneCommand implements Command {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "    private final List\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    Done(List\u003cTask\u003e tasks) {"
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        this.tasks \u003d tasks;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "    DoneCommand(List\u003cTask\u003e tasks, Storage storage) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "        this.tasks \u003d tasks;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    @Override"
+        "content": "        this.storage \u003d storage;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    public List\u003cString\u003e run(String[] words) {"
+        "content": "    }"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        Task task \u003d tasks.get(Integer.parseInt(words[1]) - 1);"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        task.markAsDone();"
+        "content": "    @Override"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return List.of(\"Nice! I\u0027ve marked this task as done:\", \"  \" + task);"
+        "content": "    public List\u003cString\u003e run(String[] words) throws IOException {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "        Task task \u003d tasks.get(Integer.parseInt(words[1]) - 1);"
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        task.markAsDone();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        storage.store(tasks);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return List.of(\"Nice! I\u0027ve marked this task as done:\", \"  \" + task);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
@@ -629,7 +748,7 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 16
+      "etlow": 20
     }
   },
   {
@@ -641,7 +760,7 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 2,
@@ -681,285 +800,278 @@
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "-"
-        },
-        "content": "        String logo \u003d \" ____        _        \\n\""
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "        System.out.println(\"Hello from\\n\" + logo);"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "etlow"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 14,
-        "author": {
           "gitId": "etlow"
         },
         "content": "        printMessage(List.of(\"Hello! I\u0027m Duke\", \"What can I do for you?\"));"
       },
       {
-        "lineNumber": 15,
+        "lineNumber": 8,
         "author": {
           "gitId": "etlow"
         },
         "content": ""
       },
       {
-        "lineNumber": 16,
+        "lineNumber": 9,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+        "content": "        Storage storage \u003d new Storage(\"tasks.txt\");"
       },
       {
-        "lineNumber": 17,
+        "lineNumber": 10,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        List\u003cTask\u003e tasks \u003d storage.load();"
+      },
+      {
+        "lineNumber": 11,
         "author": {
           "gitId": "etlow"
         },
         "content": "        Parser parser \u003d new Parser();"
       },
       {
-        "lineNumber": 18,
+        "lineNumber": 12,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        parser.register(\"todo\", ToDo.getCommand(tasks));"
+        "content": "        parser.register(\"todo\", ToDo.getCommand(tasks, storage));"
       },
       {
-        "lineNumber": 19,
+        "lineNumber": 13,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        parser.register(\"deadline\", Deadline.getCommand(tasks));"
+        "content": "        parser.register(\"deadline\", Deadline.getCommand(tasks, storage));"
       },
       {
-        "lineNumber": 20,
+        "lineNumber": 14,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        parser.register(\"event\", Event.getCommand(tasks));"
+        "content": "        parser.register(\"event\", Event.getCommand(tasks, storage));"
       },
       {
-        "lineNumber": 21,
+        "lineNumber": 15,
         "author": {
           "gitId": "etlow"
         },
         "content": "        parser.register(\"list\", new ListCommand(tasks));"
       },
       {
-        "lineNumber": 22,
+        "lineNumber": 16,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        parser.register(\"done\", new Done(tasks));"
+        "content": "        parser.register(\"done\", new DoneCommand(tasks, storage));"
       },
       {
-        "lineNumber": 23,
+        "lineNumber": 17,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        parser.register(\"delete\", new Delete(tasks));"
+        "content": "        parser.register(\"delete\", new DeleteCommand(tasks, storage));"
       },
       {
-        "lineNumber": 24,
+        "lineNumber": 18,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        parser.register(\"bye\", new Bye());"
+        "content": "        parser.register(\"bye\", new ByeCommand());"
       },
       {
-        "lineNumber": 25,
+        "lineNumber": 19,
         "author": {
           "gitId": "etlow"
         },
         "content": "        Scanner input \u003d new Scanner(System.in);"
       },
       {
-        "lineNumber": 26,
+        "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
         "content": "        boolean exit \u003d false;"
       },
       {
-        "lineNumber": 27,
+        "lineNumber": 21,
         "author": {
           "gitId": "etlow"
         },
         "content": "        while (!exit \u0026\u0026 input.hasNext()) {"
       },
       {
-        "lineNumber": 28,
+        "lineNumber": 22,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String line \u003d input.nextLine();"
+        "content": "            String[] words \u003d input.nextLine().split(\" \");"
       },
       {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "etlow"
-        },
-        "content": "            String[] words \u003d line.split(\" \");"
-      },
-      {
-        "lineNumber": 30,
+        "lineNumber": 23,
         "author": {
           "gitId": "etlow"
         },
         "content": "            try {"
       },
       {
-        "lineNumber": 31,
+        "lineNumber": 24,
         "author": {
           "gitId": "etlow"
         },
         "content": "                Command command \u003d parser.parse(words);"
       },
       {
-        "lineNumber": 32,
+        "lineNumber": 25,
         "author": {
           "gitId": "etlow"
         },
         "content": "                printMessage(command.run(words));"
       },
       {
-        "lineNumber": 33,
+        "lineNumber": 26,
         "author": {
           "gitId": "etlow"
         },
         "content": "                exit \u003d command.isExit();"
       },
       {
-        "lineNumber": 34,
+        "lineNumber": 27,
         "author": {
           "gitId": "etlow"
         },
         "content": "            } catch (DukeException e) {"
       },
       {
-        "lineNumber": 35,
+        "lineNumber": 28,
         "author": {
           "gitId": "etlow"
         },
         "content": "                printMessage(List.of(e.getMessage()));"
       },
       {
-        "lineNumber": 36,
+        "lineNumber": 29,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                e.printStackTrace();"
+      },
+      {
+        "lineNumber": 31,
         "author": {
           "gitId": "etlow"
         },
         "content": "            }"
       },
       {
-        "lineNumber": 37,
+        "lineNumber": 32,
         "author": {
           "gitId": "etlow"
         },
         "content": "        }"
       },
       {
-        "lineNumber": 38,
+        "lineNumber": 33,
         "author": {
           "gitId": "etlow"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 39,
+        "lineNumber": 34,
         "author": {
           "gitId": "etlow"
         },
         "content": ""
       },
       {
-        "lineNumber": 40,
+        "lineNumber": 35,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "     * Prints the given list of messages to the standard output"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "     * @param messages the list of messages to print"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 39,
         "author": {
           "gitId": "etlow"
         },
         "content": "    private static void printMessage(List\u003cString\u003e messages) {"
       },
       {
-        "lineNumber": 41,
+        "lineNumber": 40,
         "author": {
           "gitId": "etlow"
         },
         "content": "        System.out.println(\"    ____________________________________________________________\");"
       },
       {
-        "lineNumber": 42,
+        "lineNumber": 41,
         "author": {
           "gitId": "etlow"
         },
         "content": "        for (String message : messages) {"
       },
       {
-        "lineNumber": 43,
+        "lineNumber": 42,
         "author": {
           "gitId": "etlow"
         },
         "content": "            System.out.println(\"     \" + message);"
       },
       {
-        "lineNumber": 44,
+        "lineNumber": 43,
         "author": {
           "gitId": "etlow"
         },
         "content": "        }"
       },
       {
-        "lineNumber": 45,
+        "lineNumber": 44,
         "author": {
           "gitId": "etlow"
         },
         "content": "        System.out.println(\"    ____________________________________________________________\\n\");"
       },
       {
-        "lineNumber": 46,
+        "lineNumber": 45,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 47,
+        "lineNumber": 46,
         "author": {
           "gitId": "-"
         },
@@ -967,8 +1079,8 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 37,
-      "-": 10
+      "etlow": 42,
+      "-": 4
     }
   },
   {
@@ -1024,206 +1136,262 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.Arrays;"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "etlow"
         },
-        "content": "import java.util.List;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "public class Event extends TimeTask {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "etlow"
         },
-        "content": "public class Event extends Task {"
+        "content": "    Event(String description, String time) {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    private String time;"
+        "content": "        super(description, time);"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    private Event(String description, String time) {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        super(description);"
+        "content": "    static Command getCommand(List\u003cTask\u003e tasks, Storage storage) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        this.time \u003d time;"
+        "content": "        return words -\u003e {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "            List\u003cString\u003e wordList \u003d List.of(words);"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "            int separator \u003d wordList.indexOf(\"/at\");"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    static Command getCommand(List\u003cTask\u003e tasks) {"
+        "content": "            if (separator \u003d\u003d -1) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return words -\u003e {"
+        "content": "                throw new DukeException(\"An event must have a time.\");"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            int separator \u003d List.of(words).indexOf(\"/at\");"
+        "content": "            } else if (separator \u003d\u003d 1) {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String[] descriptionArr \u003d Arrays.copyOfRange(words, 1, separator);"
+        "content": "                throw new DukeException(\"The description of an event cannot be empty.\");"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String[] timeArr \u003d Arrays.copyOfRange(words, separator + 1, words.length);"
+        "content": "            } else if (separator \u003d\u003d words.length - 1) {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String description \u003d String.join(\" \", descriptionArr);"
+        "content": "                throw new DukeException(\"The time of an event cannot be empty.\");"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            String time \u003d String.join(\" \", timeArr);"
+        "content": "            }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            Task task \u003d new Event(description, time);"
+        "content": "            String description \u003d String.join(\" \", wordList.subList(1, separator));"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            tasks.add(task);"
+        "content": "            String time \u003d String.join(\" \", wordList.subList(separator + 1, words.length));"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            return List.of(\"Got it. I\u0027ve added this task:\", \"  \" + task,"
+        "content": "            Task task \u003d new Event(description, time);"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "etlow"
         },
-        "content": "                    \"Now you have \" + tasks.size() + \" tasks in the list.\");"
+        "content": "            tasks.add(task);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        };"
+        "content": "            storage.store(tasks);"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "            return List.of(\"Got it. I\u0027ve added this task:\", \"  \" + task,"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "                    \"Now you have \" + tasks.size() + \" tasks in the list.\");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    @Override"
+        "content": "        };"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + time + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 30,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    String getSaveString() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return \"E|\" + super.getSaveString() + \"|\" + time;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + getTimeString() + \")\";"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
         "author": {
           "gitId": "etlow"
         },
@@ -1231,7 +1399,7 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 30
+      "etlow": 38
     }
   },
   {
@@ -1334,38 +1502,45 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
+        "content": "        messages.add(\"Here are the tasks in your list:\");"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "etlow"
         },
-        "content": "            messages.add(i + 1 + \".\" + tasks.get(i));"
+        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        }"
+        "content": "            messages.add(i + 1 + \".\" + tasks.get(i));"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return messages;"
+        "content": "        }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "        return messages;"
       },
       {
         "lineNumber": 19,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
@@ -1373,7 +1548,7 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 19
+      "etlow": 20
     }
   },
   {
@@ -1512,6 +1687,442 @@
     }
   },
   {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.lang.reflect.Array;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.nio.file.Files;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.nio.file.Path;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.nio.file.Paths;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "class Storage {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    private Path path;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    Storage(String location) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        path \u003d Paths.get(location);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    void store(List\u003cTask\u003e tasks) throws IOException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        List\u003cString\u003e save \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        for (Task task : tasks) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            save.add(task.getSaveString());"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        Files.write(path, save);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    List\u003cTask\u003e load() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            for (String line : Files.readAllLines(path)) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                tasks.add(parseTask(line));"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return tasks;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    private String unescape(String str) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return str.replace(\"\\\\p\", \"|\");"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    private Task parseTask(String line) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        String[] data \u003d line.split(\"\\\\|\");"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        Task task;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        switch (data[0]) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            case \"T\":"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                task \u003d new ToDo(unescape(data[2]));"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            case \"D\":"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                task \u003d new Deadline(unescape(data[2]), unescape(data[3]));"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            case \"E\":"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                task \u003d new Event(unescape(data[2]), unescape(data[3]));"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "                return null;"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        if (data[1].equals(\"1\")) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "            task.markAsDone();"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return task;"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "etlow": 61
+    }
+  },
+  {
     "path": "src/main/java/Task.java",
     "fileType": "java",
     "lines": [
@@ -1639,21 +2250,21 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "    @Override"
+        "content": "    String getSaveString() {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    public String toString() {"
+        "content": "        int doneInt \u003d isDone ? 1 : 0;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
+        "content": "        return doneInt + \"|\" + description.replace(\"|\", \"\\\\p\");"
       },
       {
         "lineNumber": 21,
@@ -1667,11 +2278,167 @@
         "author": {
           "gitId": "etlow"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "etlow"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "etlow": 22
+      "etlow": 27
+    }
+  },
+  {
+    "path": "src/main/java/TimeTask.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "class TimeTask extends Task {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    private LocalDateTime time;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    TimeTask(String description, String timeString) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"d/M/yyyy HHmm\");"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        time \u003d LocalDateTime.parse(timeString, formatter);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    String getTimeString() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return DateTimeFormatter.ofPattern(\"yyyy MMMM dd HHmm\").format(time);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "etlow": 16
     }
   },
   {
@@ -1711,7 +2478,7 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "    private ToDo(String description) {"
+        "content": "    ToDo(String description) {"
       },
       {
         "lineNumber": 6,
@@ -1739,7 +2506,7 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "    static Command getCommand(List\u003cTask\u003e tasks) {"
+        "content": "    static Command getCommand(List\u003cTask\u003e tasks, Storage storage) {"
       },
       {
         "lineNumber": 10,
@@ -1795,66 +2562,108 @@
         "author": {
           "gitId": "etlow"
         },
-        "content": "            return List.of(\"Got it. I\u0027ve added this task:\", \"  \" + task,"
+        "content": "            storage.store(tasks);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "etlow"
         },
-        "content": "                    \"Now you have \" + tasks.size() + \" tasks in the list.\");"
+        "content": "            return List.of(\"Got it. I\u0027ve added this task:\", \"  \" + task,"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        };"
+        "content": "                    \"Now you have \" + tasks.size() + \" tasks in the list.\");"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "        };"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "etlow"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    public String toString() {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "etlow"
         },
-        "content": "        return \"[T]\" + super.toString();"
+        "content": "    String getSaveString() {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "etlow"
         },
-        "content": "    }"
+        "content": "        return \"T|\" + super.getSaveString();"
       },
       {
         "lineNumber": 26,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "etlow"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
         "author": {
           "gitId": "etlow"
         },
@@ -1862,7 +2671,7 @@
       }
     ],
     "authorContributionMap": {
-      "etlow": 26
+      "etlow": 32
     }
   }
 ]

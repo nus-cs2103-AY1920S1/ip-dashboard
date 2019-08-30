@@ -22,80 +22,108 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "abstract public class Command {"
+        "content": "import duke.command.Bye;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected Parser parser \u003d new Parser();"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected String name;"
+        "content": "abstract public class Command {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected Duke duke;"
+        "content": "    protected Parser parser \u003d new Parser();"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Command(Duke duke) {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        this.duke \u003d duke;"
+        "content": "    protected String[] args;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    public Command(String[] args) {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public String getName() {"
+        "content": "        this.args \u003d args;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return name;"
+        "content": "    }"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    };"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    abstract public void execute(String[] args) throws DukeException;"
+        "content": "    public boolean isExit() {"
       },
       {
         "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return (this instanceof Bye);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    abstract public String getName();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    abstract public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException;"
+      },
+      {
+        "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
@@ -103,7 +131,7 @@
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 14
+      "gabrielchao": 18
     }
   },
   {
@@ -157,7 +185,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    Map\u003cString, Command\u003e commands \u003d new HashMap\u003c\u003e();"
+        "content": "    Map\u003cString, Class\u003c? extends Command\u003e\u003e commands \u003d new HashMap\u003c\u003e();"
       },
       {
         "lineNumber": 8,
@@ -171,7 +199,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commands.put(command.getName(), command);"
+        "content": "        commands.put(command.getName(), command.getClass());"
       },
       {
         "lineNumber": 10,
@@ -185,7 +213,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Command get(String name) {"
+        "content": "    public Class\u003c? extends Command\u003e get(String name) {"
       },
       {
         "lineNumber": 12,
@@ -236,7 +264,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 4,
@@ -257,203 +285,203 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    private CommandMap commandMap \u003d new CommandMap();"
+        "content": "    private PreParser preParser;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    private TaskList taskList \u003d new TaskList();"
+        "content": "    private TaskList taskList;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Duke() {"
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.Bye(this));"
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.List(this));"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.Done(this));"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.Todo(this));"
+        "content": "    public Duke(String filePath) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.Deadline(this));"
+        "content": "        preParser \u003d new PreParser();"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.Event(this));"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        commandMap.register(new duke.commands.Delete(this));"
+        "content": "        storage \u003d new Storage(filePath);"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        try {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void run() {"
+        "content": "            taskList \u003d storage.load();"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        say(\"Hello! I\u0027m Duke\\nWhat can I do for you?\");"
+        "content": "        } catch(IOException | ClassNotFoundException e) {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "            System.err.println(e);"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        while(sc.hasNext()) {"
+        "content": "            ui.showLoadingError();"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            String input \u003d sc.nextLine();"
+        "content": "            taskList \u003d new TaskList();"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            String[] args \u003d input.split(\" \");"
+        "content": "        }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            if(args.length \u003d\u003d 0) continue;"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            Command command \u003d commandMap.get(args[0]);"
+        "content": "    public void run() {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            if(command !\u003d null) {"
+        "content": "        ui.showWelcome();"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                try {"
+        "content": "        boolean isExit \u003d false;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                    command.execute(args);"
+        "content": "        while(!isExit) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                }"
+        "content": "            try {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                catch(DukeException e) {"
+        "content": "                String fullCommand \u003d ui.readCommand();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                    oops(e.getMessage());"
+        "content": "                Command command \u003d preParser.parse(fullCommand);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                }"
+        "content": "                command.execute(taskList, ui, storage);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            }"
+        "content": "                isExit \u003d command.isExit();"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            else {"
+        "content": "            } catch(DukeException e) {"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                oops(\"I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "                ui.oops(e.getMessage());"
       },
       {
         "lineNumber": 35,
@@ -474,143 +502,59 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void addTask(Task t) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        taskList.add(t);"
+        "content": "            storage.write(taskList);"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        say(\"added: \" + t);"
+        "content": "        } catch(IOException e) {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "            System.err.println(e);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public TaskList getTaskList() {"
+        "content": "            ui.oops(\"Couldn\u0027t save tasks to disk.\");"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return taskList;"
+        "content": "        }"
       },
       {
         "lineNumber": 44,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public void say(String text) {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        System.out.println(\" ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        System.out.println(text);"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        System.out.println(\" ____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        System.out.println(\"\");"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public void oops(String text) {"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        say(\"☹ OOPS!!! \" + text);"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public void quit() {"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        System.exit(0);"
-      },
-      {
-        "lineNumber": 56,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 57,
+        "lineNumber": 45,
         "author": {
           "gitId": "-"
         },
@@ -618,7 +562,7 @@
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 54,
+      "gabrielchao": 42,
       "-": 3
     }
   },
@@ -717,7 +661,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Duke duke \u003d new Duke();"
+        "content": "        Duke duke \u003d new Duke(\"./data/tasks.txt\");"
       },
       {
         "lineNumber": 6,
@@ -768,7 +712,1152 @@
         "author": {
           "gitId": "gabrielchao"
         },
+        "content": "import java.time.LocalDate;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.time.format.DateTimeFormatterBuilder;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.time.format.DateTimeParseException;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.time.format.FormatStyle;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.time.temporal.ChronoField;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "gabrielchao"
+        },
         "content": "import java.util.*;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    protected Set\u003cString\u003e requiredSwitches \u003d new TreeSet\u003c\u003e();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    protected Set\u003cString\u003e optionalSwitches \u003d new TreeSet\u003c\u003e();"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public void register(String name, boolean required) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(required) requiredSwitches.add(name);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        else optionalSwitches.add(name);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public Map\u003cString, String[]\u003e parse(String[] args) throws DukeException {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        Set\u003cString\u003e requiredSwitchesRemaining \u003d new TreeSet\u003c\u003e(requiredSwitches);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        Set\u003cString\u003e optionalSwitchesRemaining \u003d new TreeSet\u003c\u003e(optionalSwitches);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d new HashMap\u003c\u003e();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        int switchStartIndex \u003d 0;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        for(int i \u003d 1; i \u003c args.length; i++) { // command name is an implied switch"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            boolean isSwitch \u003d false;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            if(requiredSwitches.contains(args[i])) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                if(!requiredSwitchesRemaining.remove(args[i])) throw new DukeException(\"Repeated switch \" + args[i]);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                isSwitch \u003d true;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            else if(optionalSwitches.contains(args[i])) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                if(!optionalSwitchesRemaining.remove(args[i])) throw new DukeException(\"Repeated switch \" + args[i]);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                isSwitch \u003d true;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            if(isSwitch) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                try {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                    // This allows for switches with no arguments"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                    switchArgs.put(args[switchStartIndex], Arrays.copyOfRange(args, switchStartIndex + 1, i));"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                    throw new DukeException(\"Bad arguments for switch \" + args[switchStartIndex]);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                switchStartIndex \u003d i;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        // Add last switch"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        switchArgs.put(args[switchStartIndex], Arrays.copyOfRange(args, switchStartIndex+1, args.length));"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(!requiredSwitchesRemaining.isEmpty()) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            for(String s : requiredSwitchesRemaining) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                sb.append(s);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                sb.append(\" \");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            sb.append(requiredSwitchesRemaining.size() \u003d\u003d 1 ? \"is a required switch\" : \"are required switches\");"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            throw new DukeException(sb.toString());"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return switchArgs;"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public static String concatenate(String[] strings) {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return concatenate(strings, 0, strings.length);"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public static String concatenate(String[] strings, int fromIndex, int toIndex) {"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        for(int i \u003d fromIndex; i \u003c toIndex; i++) {"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            sb.append(strings[i]);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            if(i !\u003d toIndex-1) sb.append(\" \");"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return sb.toString();"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public static LocalDate parseDate(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        List\u003cDateTimeFormatter\u003e formatters \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ISO_DATE);"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ofPattern(\"dd/MM/YYYY\"));"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ofPattern(\"d/M/YYYY\"));"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        LocalDate date \u003d null;"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        for(DateTimeFormatter formatter : formatters) {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                date \u003d LocalDate.parse(input, formatter);"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            } catch(DateTimeParseException e) {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(date \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            throw new DukeException(\"Could not parse input as date\");"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return date;"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public static LocalDateTime parseDateTime(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        List\u003cDateTimeFormatter\u003e formatters \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ISO_DATE_TIME);"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL));"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(new DateTimeFormatterBuilder()"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                .appendPattern(\"dd/MM/yyyy HHmm\")"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                .toFormatter());"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        formatters.add(new DateTimeFormatterBuilder()"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                .appendPattern(\"d/M/yyyy HHmm\")"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                .toFormatter());"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        LocalDateTime dateTime \u003d null;"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        for(DateTimeFormatter formatter : formatters) {"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                dateTime \u003d LocalDateTime.parse(input, formatter);"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            } catch(DateTimeParseException e) {"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(dateTime \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            throw new DukeException(\"Could not parse input as date\");"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return dateTime;"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public static String parseDateOrDateTimeToString(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String parsedString \u003d null;"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            parsedString \u003d parseDate(input).format(DateTimeFormatter.ofPattern(\"d \u0027of\u0027 MMMM yyyy\"));"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        } catch(DukeException e1) {"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "                parsedString \u003d parseDateTime(input).format(DateTimeFormatter.ofPattern(\"d \u0027of\u0027 MMMM yyyy, h:mma\"));"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            } catch(DukeException e2) {"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(parsedString \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            throw new DukeException(\"Could not parse String as Date or DateTime\");"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return parsedString;"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "gabrielchao": 135
+    }
+  },
+  {
+    "path": "src/main/java/duke/PreParser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class PreParser {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    private CommandMap commandMap;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public PreParser() {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String[] dummyArgs \u003d new String[0];"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap \u003d new CommandMap();"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.Bye(dummyArgs));"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.List(dummyArgs));"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.Done(dummyArgs));"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.Todo(dummyArgs));"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.Deadline(dummyArgs));"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.Event(dummyArgs));"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        commandMap.register(new duke.command.Delete(dummyArgs));"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public Command parse(String fullCommand) throws DukeException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String[] args \u003d fullCommand.split(\" \");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            Class\u003c? extends Command\u003e cls \u003d commandMap.get(args[0]);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            Command command \u003d cls.getConstructor(String[].class).newInstance(new Object[]{args});"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            return command;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        } catch(Exception e) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            throw new DukeException(\"I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "gabrielchao": 26
+    }
+  },
+  {
+    "path": "src/main/java/duke/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.io.*;"
       },
       {
         "lineNumber": 4,
@@ -782,42 +1871,42 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "public class Parser {"
+        "content": "import java.nio.file.*;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected Set\u003cString\u003e requiredSwitches \u003d new TreeSet\u003c\u003e();"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected Set\u003cString\u003e optionalSwitches \u003d new TreeSet\u003c\u003e();"
+        "content": "public class Storage {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void register(String name, boolean required) {"
+        "content": "    private Path path;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(required) requiredSwitches.add(name);"
+        "content": "    public Storage(String filepath) {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        else optionalSwitches.add(name);"
+        "content": "        this.path \u003d Paths.get(filepath).toAbsolutePath().normalize();"
       },
       {
         "lineNumber": 11,
@@ -831,360 +1920,122 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Map\u003cString, String[]\u003e parse(String[] args) throws DukeException {"
+        "content": "    public TaskList load() throws IOException, ClassNotFoundException {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Set\u003cString\u003e requiredSwitchesRemaining \u003d new TreeSet\u003c\u003e(requiredSwitches);"
+        "content": "        if(!Files.exists(path)) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Set\u003cString\u003e optionalSwitchesRemaining \u003d new TreeSet\u003c\u003e(optionalSwitches);"
+        "content": "            return new TaskList();"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d new HashMap\u003c\u003e();"
+        "content": "        }"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        FileInputStream fis \u003d new FileInputStream(path.toString());"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        int switchStartIndex \u003d 0;"
+        "content": "        ObjectInputStream ois \u003d new ObjectInputStream(fis);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        for(int i \u003d 1; i \u003c args.length; i++) { // command name is an implied switch"
+        "content": "        TaskList taskList \u003d (TaskList) ois.readObject();"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            boolean isSwitch \u003d false;"
+        "content": "        ois.close();"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            if(requiredSwitches.contains(args[i])) {"
+        "content": "        return taskList;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                if(!requiredSwitchesRemaining.remove(args[i])) throw new DukeException(\"Repeated switch \" + args[i]);"
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                isSwitch \u003d true;"
+        "content": "    public void write(TaskList taskList) throws IOException {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            }"
+        "content": "        if(path.getParent() !\u003d null) Files.createDirectories(path.getParent());"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            else if(optionalSwitches.contains(args[i])) {"
+        "content": "        FileOutputStream fos \u003d new FileOutputStream(path.toString());"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                if(!optionalSwitchesRemaining.remove(args[i])) throw new DukeException(\"Repeated switch \" + args[i]);"
+        "content": "        ObjectOutputStream oos \u003d new ObjectOutputStream(fos);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "                isSwitch \u003d true;"
+        "content": "        oos.writeObject(taskList);"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            }"
+        "content": "        oos.close();"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            if(isSwitch) {"
+        "content": "    }"
       },
       {
         "lineNumber": 29,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                try {"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                    // This allows for switches with no arguments"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                    switchArgs.put(args[switchStartIndex], Arrays.copyOfRange(args, switchStartIndex + 1, i));"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                    throw new DukeException(\"Bad arguments for switch \" + args[switchStartIndex]);"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                switchStartIndex \u003d i;"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        // Add last switch"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        switchArgs.put(args[switchStartIndex], Arrays.copyOfRange(args, switchStartIndex+1, args.length));"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        if(!requiredSwitchesRemaining.isEmpty()) {"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            StringBuilder sb \u003d new StringBuilder();"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            for(String s : requiredSwitchesRemaining) {"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                sb.append(s);"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                sb.append(\" \");"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            sb.append(requiredSwitchesRemaining.size() \u003d\u003d 1 ? \"is a required switch\" : \"are required switches\");"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            throw new DukeException(sb.toString());"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        return switchArgs;"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public static String concatenate(String[] strings) {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        return concatenate(strings, 0, strings.length);"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public static String concatenate(String[] strings, int fromIndex, int toIndex) {"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        StringBuilder sb \u003d new StringBuilder();"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        for(int i \u003d fromIndex; i \u003c toIndex; i++) {"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            sb.append(strings[i]);"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            if(i !\u003d toIndex-1) sb.append(\" \");"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        return sb.toString();"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 63,
         "author": {
           "gitId": "gabrielchao"
         },
@@ -1192,7 +2043,7 @@
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 63
+      "gabrielchao": 29
     }
   },
   {
@@ -1218,143 +2069,157 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "abstract public class Task {"
+        "content": "import java.io.Serializable;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected String description;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected boolean done;"
+        "content": "abstract public class Task implements Serializable {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Task(String d) {"
+        "content": "    protected String description;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        description \u003d d;"
+        "content": "    protected boolean done;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        done \u003d false;"
+        "content": "    public Task(String d) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        description \u003d d;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public char getStatusChar() {"
+        "content": "        done \u003d false;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return done ? \u0027✓\u0027 : \u0027✗\u0027;"
+        "content": "    }"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    public char getStatusChar() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public String getDescription() {"
+        "content": "        return done ? \u0027✓\u0027 : \u0027✗\u0027;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return description;"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void markDone() throws DukeException {"
+        "content": "        return description;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(done) {"
+        "content": "    }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            throw new DukeException(\"Task is already done!\");"
+        "content": "    public void markDone() throws DukeException {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        }"
+        "content": "        if(done) {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        done \u003d true;"
+        "content": "            throw new DukeException(\"Task is already done!\");"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    abstract public String toString();"
+        "content": "        done \u003d true;"
       },
       {
         "lineNumber": 23,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    abstract public String toString();"
+      },
+      {
+        "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
@@ -1362,7 +2227,7 @@
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 23
+      "gabrielchao": 25
     }
   },
   {
@@ -1388,239 +2253,246 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.io.Serializable;"
       },
       {
         "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 5,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "import java.util.List;"
       },
       {
-        "lineNumber": 5,
+        "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": ""
       },
       {
-        "lineNumber": 6,
+        "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "public class TaskList {"
+        "content": "public class TaskList implements Serializable {"
       },
       {
-        "lineNumber": 7,
+        "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
-        "lineNumber": 8,
+        "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    public TaskList() {"
       },
       {
-        "lineNumber": 9,
+        "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": ""
       },
       {
-        "lineNumber": 10,
+        "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 11,
+        "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    public void add(Task t) {"
       },
       {
-        "lineNumber": 12,
+        "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        tasks.add(t);"
       },
       {
-        "lineNumber": 13,
+        "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 14,
+        "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    public void markDone(int oneIndex) throws DukeException {"
       },
       {
-        "lineNumber": 15,
+        "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        tasks.get(oneIndex-1).markDone();"
       },
       {
-        "lineNumber": 16,
+        "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 17,
+        "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    public Task delete(int oneIndex) {"
       },
       {
-        "lineNumber": 18,
+        "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        return tasks.remove(oneIndex-1);"
       },
       {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Task get(int oneIndex) {"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return tasks.get(oneIndex-1);"
+        "content": "    public Task get(int oneIndex) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        return tasks.get(oneIndex-1);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public int size() {"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return tasks.size();"
+        "content": "    public int size() {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        return tasks.size();"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public String toString() {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String s \u003d \"\";"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        for(int i \u003d 0; i \u003c tasks.size(); i++) {"
+        "content": "        String s \u003d \"\";"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            s \u003d s + String.format(\"%d. %s\\n\", (i+1), tasks.get(i).toString());"
+        "content": "        for(int i \u003d 0; i \u003c tasks.size(); i++) {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        }"
+        "content": "            s \u003d s + String.format(\"%d. %s\\n\", (i+1), tasks.get(i).toString());"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return s;"
+        "content": "        }"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        return s;"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "gabrielchao"
         },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "gabrielchao"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 35
+      "gabrielchao": 36
     }
   },
   {
-    "path": "src/main/java/duke/commands/Bye.java",
+    "path": "src/main/java/duke/Ui.java",
     "fileType": "java",
     "lines": [
       {
@@ -1628,7 +2500,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.commands;"
+        "content": "package duke;"
       },
       {
         "lineNumber": 2,
@@ -1642,205 +2514,91 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Command;"
+        "content": "import java.io.InputStream;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Duke;"
+        "content": "import java.io.PrintStream;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "public class Bye extends Command {"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Bye(Duke duke) {"
+        "content": "public class Ui {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        super(duke);"
+        "content": "    private InputStream in;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        name \u003d \"bye\";"
+        "content": "    private PrintStream out;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    public Ui() {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void execute(String[] args) {"
+        "content": "        this(System.in, System.out);"
       },
       {
         "lineNumber": 12,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        duke.say(\"Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        duke.quit();"
-      },
-      {
-        "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "gabrielchao": 15
-    }
-  },
-  {
-    "path": "src/main/java/duke/commands/Deadline.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "package duke.commands;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Command;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Duke;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.DukeException;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Parser;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import java.util.Map;"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "public class Deadline extends Command {"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public Deadline(Duke duke) {"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        super(duke);"
-      },
-      {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        name \u003d \"deadline\";"
+        "content": "    public Ui(InputStream inputStream, PrintStream printStream) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        this.in \u003d inputStream;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        parser.register(\"/by\", true);"
+        "content": "        this.out \u003d printStream;"
       },
       {
         "lineNumber": 16,
@@ -1854,84 +2612,84 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    public String readCommand() {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    @Override"
+        "content": "        Scanner sc \u003d new Scanner(System.in);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void execute(String[] args) throws DukeException {"
+        "content": "        return sc.nextLine();"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    public void say(String text) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String[] comArgs \u003d switchArgs.get(name);"
+        "content": "        out.println(\" ____________________________________________________________\");"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"The description of a deadline cannot be empty.\");"
+        "content": "        out.println(text);"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        out.println(\" ____________________________________________________________\");"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String[] byArgs \u003d switchArgs.get(\"/by\");"
+        "content": "        out.println(\"\");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(byArgs.length \u003d\u003d 0) throw new DukeException(\"The date of a deadline cannot be empty.\");"
+        "content": "    }"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    public void oops(String text) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        duke.addTask(new duke.tasks.Deadline(Parser.concatenate(comArgs), Parser.concatenate(byArgs)));"
+        "content": "        say(\"☹ OOPS!!! \" + text);"
       },
       {
         "lineNumber": 29,
@@ -1945,15 +2703,57 @@
         "author": {
           "gitId": "gabrielchao"
         },
+        "content": "    public void showLoadingError() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        oops(\"Couldn\u0027t load tasks from disk.\");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        say(\"Hello! I\u0027m Duke\\nWhat can I do for you?\");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "gabrielchao"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 30
+      "gabrielchao": 36
     }
   },
   {
-    "path": "src/main/java/duke/commands/Delete.java",
+    "path": "src/main/java/duke/command/Bye.java",
     "fileType": "java",
     "lines": [
       {
@@ -1961,7 +2761,361 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.commands;"
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import duke.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class Bye extends Command {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public Bye(String[] args) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        super(args);"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public String getName() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return \"bye\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        ui.say(\"Bye. Hope to see you again soon!\");"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "gabrielchao": 17
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import duke.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.util.Map;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class Deadline extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public Deadline(String[] args) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        super(args);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        parser.register(\"/by\", true);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public String getName() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return \"deadline\";"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String[] comArgs \u003d switchArgs.get(getName());"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"The description of a deadline cannot be empty.\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String[] byArgs \u003d switchArgs.get(\"/by\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(byArgs.length \u003d\u003d 0) throw new DukeException(\"The date of a deadline cannot be empty.\");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        duke.task.Deadline d \u003d new duke.task.Deadline(Parser.concatenate(comArgs), Parser.concatenate(byArgs));"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        tasks.add(d);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        ui.say(\"added: \" + d);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "gabrielchao": 31
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/Delete.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
@@ -2010,485 +3164,210 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Delete(Duke duke) {"
+        "content": "    public Delete(String[] args) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        super(duke);"
+        "content": "        super(args);"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        name \u003d \"delete\";"
+        "content": "    }"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    public String getName() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    @Override"
+        "content": "        return \"delete\";"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void execute(String[] args) throws DukeException {"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
+        "content": "    @Override"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String[] comArgs \u003d switchArgs.get(name);"
+        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"An index must be specified.\");"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        String[] comArgs \u003d switchArgs.get(getName());"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        TaskList taskList \u003d duke.getTaskList();"
+        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"An index must be specified.\");"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        int oneIndex;"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        try {"
+        "content": "        int oneIndex;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            oneIndex \u003d Integer.parseInt(comArgs[0]);"
+        "content": "        try {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        }"
+        "content": "            oneIndex \u003d Integer.parseInt(comArgs[0]);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        catch(NumberFormatException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 26,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        catch(NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 27,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "            throw new DukeException(\"The index to be deleted must be an integer.\");"
       },
       {
-        "lineNumber": 27,
+        "lineNumber": 28,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        }"
       },
       {
-        "lineNumber": 28,
+        "lineNumber": 29,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        Task task;"
       },
       {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        try {"
-      },
-      {
         "lineNumber": 30,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            task \u003d taskList.delete(oneIndex);"
+        "content": "        try {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        }"
+        "content": "            task \u003d tasks.delete(oneIndex);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        catch(IndexOutOfBoundsException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "            throw new DukeException(\"There is no task with index \" + oneIndex + \".\");"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        duke.say(String.format(\"Noted. I\u0027ve removed this task:\\n\\t%s\\nNow you have %d task%s in the list.\","
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "                task.toString(), taskList.size(), taskList.size() \u003d\u003d 1 ? \"\" : \"s\"));"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "gabrielchao": 38
-    }
-  },
-  {
-    "path": "src/main/java/duke/commands/Done.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "package duke.commands;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Command;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Duke;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.DukeException;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.TaskList;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import java.util.Map;"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "public class Done extends Command {"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public Done(Duke duke) {"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        super(duke);"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        name \u003d \"done\";"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public void execute(String[] args) throws DukeException {"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        String[] comArgs \u003d switchArgs.get(name);"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"An index must be specified.\");"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        TaskList taskList \u003d duke.getTaskList();"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        int oneIndex;"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            oneIndex \u003d Integer.parseInt(comArgs[0]);"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        catch(NumberFormatException e) {"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            throw new DukeException(\"The index to be marked must be an integer.\");"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            taskList.markDone(oneIndex);"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "gabrielchao"
-        },
         "content": "        catch(IndexOutOfBoundsException e) {"
       },
       {
-        "lineNumber": 35,
+        "lineNumber": 34,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "            throw new DukeException(\"There is no task with index \" + oneIndex + \".\");"
       },
       {
-        "lineNumber": 36,
+        "lineNumber": 35,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        }"
       },
       {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        ui.say(String.format(\"Noted. I\u0027ve removed this task:\\n\\t%s\\nNow you have %d task%s in the list.\","
+      },
+      {
         "lineNumber": 37,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        duke.say(\"Nice! I\u0027ve marked this task as done:\\n\" + taskList.get(oneIndex));"
+        "content": "                task.toString(), tasks.size(), tasks.size() \u003d\u003d 1 ? \"\" : \"s\"));"
       },
       {
         "lineNumber": 38,
@@ -2510,7 +3389,7 @@
     }
   },
   {
-    "path": "src/main/java/duke/commands/Event.java",
+    "path": "src/main/java/duke/command/Done.java",
     "fileType": "java",
     "lines": [
       {
@@ -2518,7 +3397,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.commands;"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
@@ -2532,126 +3411,126 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Command;"
+        "content": "import duke.*;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Duke;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.DukeException;"
+        "content": "import java.util.Map;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Parser;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "public class Done extends Command {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import java.util.Map;"
+        "content": "    public Done(String[] args) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        super(args);"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "public class Event extends Command {"
+        "content": "    }"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Event(Duke duke) {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        super(duke);"
+        "content": "    public String getName() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        name \u003d \"event\";"
+        "content": "        return \"done\";"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        parser.register(\"/at\", true);"
+        "content": "    @Override"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void execute(String[] args) throws DukeException {"
+        "content": "        String[] comArgs \u003d switchArgs.get(getName());"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
+        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"An index must be specified.\");"
       },
       {
         "lineNumber": 21,
@@ -2665,71 +3544,120 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String[] comArgs \u003d switchArgs.get(name);"
+        "content": "        int oneIndex;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"The description of an event cannot be empty.\");"
+        "content": "        try {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "            oneIndex \u003d Integer.parseInt(comArgs[0]);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String[] atArgs \u003d switchArgs.get(\"/at\");"
+        "content": "        }"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(atArgs.length \u003d\u003d 0) throw new DukeException(\"The date of an event cannot be empty.\");"
+        "content": "        catch(NumberFormatException e) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "            throw new DukeException(\"The index to be marked must be an integer.\");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        duke.addTask(new duke.tasks.Event(Parser.concatenate(comArgs), Parser.concatenate(atArgs)));"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        try {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "gabrielchao"
         },
+        "content": "            tasks.markDone(oneIndex);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        catch(IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            throw new DukeException(\"There is no task with index \" + oneIndex + \".\");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        ui.say(\"Nice! I\u0027ve marked this task as done:\\n\" + tasks.get(oneIndex));"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "gabrielchao"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 30
+      "gabrielchao": 37
     }
   },
   {
-    "path": "src/main/java/duke/commands/List.java",
+    "path": "src/main/java/duke/command/Event.java",
     "fileType": "java",
     "lines": [
       {
@@ -2737,7 +3665,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.commands;"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
@@ -2751,289 +3679,119 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Command;"
+        "content": "import duke.*;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Duke;"
+        "content": ""
       },
       {
         "lineNumber": 5,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.TaskList;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "public class List extends Command {"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public List(Duke duke) {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        super(duke);"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        name \u003d \"list\";"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    public void execute(String[] args) {"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        TaskList taskList \u003d duke.getTaskList();"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        if(taskList.size() \u003e 0) {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            duke.say(duke.getTaskList().toString());"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        else {"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "            duke.say(\"No tasks yet.\");"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "gabrielchao": 23
-    }
-  },
-  {
-    "path": "src/main/java/duke/commands/Todo.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "package duke.commands;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Command;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Duke;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.DukeException;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "import duke.Parser;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "import java.util.Map;"
       },
       {
-        "lineNumber": 9,
+        "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class Event extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public Event(String[] args) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        super(args);"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "public class Todo extends Command {"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Todo(Duke duke) {"
+        "content": "        parser.register(\"/at\", true);"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        super(duke);"
+        "content": "    }"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        name \u003d \"todo\";"
+        "content": "    @Override"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "    public String getName() {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public void execute(String[] args) throws DukeException {"
+        "content": "        return \"event\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
+        "content": "    }"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "    @Override"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        String[] comArgs \u003d switchArgs.get(name);"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"The description of a todo cannot be empty.\");"
+        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
       },
       {
         "lineNumber": 20,
@@ -3047,29 +3805,85 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        duke.addTask(new duke.tasks.Todo(Parser.concatenate(comArgs)));"
+        "content": "        String[] comArgs \u003d switchArgs.get(getName());"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"The description of an event cannot be empty.\");"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "gabrielchao"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String[] atArgs \u003d switchArgs.get(\"/at\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(atArgs.length \u003d\u003d 0) throw new DukeException(\"The date of an event cannot be empty.\");"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        duke.task.Event e \u003d new duke.task.Event(Parser.concatenate(comArgs), Parser.concatenate(atArgs));"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        tasks.add(e);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        ui.say(\"added: \" + e);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "gabrielchao"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 23
+      "gabrielchao": 31
     }
   },
   {
-    "path": "src/main/java/duke/tasks/Deadline.java",
+    "path": "src/main/java/duke/command/List.java",
     "fileType": "java",
     "lines": [
       {
@@ -3077,7 +3891,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.tasks;"
+        "content": "package duke.command;"
       },
       {
         "lineNumber": 2,
@@ -3091,7 +3905,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Task;"
+        "content": "import duke.*;"
       },
       {
         "lineNumber": 4,
@@ -3102,83 +3916,493 @@
       },
       {
         "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class List extends Command {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public List(String[] args) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        super(args);"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public String getName() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return \"list\";"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(tasks.size() \u003e 0) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            ui.say(tasks.toString());"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        else {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "            ui.say(\"No tasks yet.\");"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "gabrielchao": 22
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/Todo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import duke.*;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import java.util.Map;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "public class Todo extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public Todo(String[] args) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        super(args);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public String getName() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return \"todo\";"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        Map\u003cString, String[]\u003e switchArgs \u003d parser.parse(args);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        String[] comArgs \u003d switchArgs.get(getName());"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        if(comArgs.length \u003d\u003d 0) throw new DukeException(\"The description of a todo cannot be empty.\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        duke.task.Todo t \u003d new duke.task.Todo(Parser.concatenate(comArgs));"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        tasks.add(t);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        ui.say(\"added: \" + t);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "gabrielchao": 28
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import duke.Parser;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "import duke.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "public class Deadline extends Task {"
       },
       {
-        "lineNumber": 6,
+        "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    protected String date;"
       },
       {
-        "lineNumber": 7,
+        "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "    public Deadline(String desc, String date) {"
       },
       {
-        "lineNumber": 8,
+        "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
         "content": "        super(desc);"
       },
       {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "        this.date \u003d date;"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "gabrielchao"
-        },
-        "content": "    }"
-      },
-      {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    @Override"
+        "content": "            this.date \u003d Parser.parseDateOrDateTimeToString(date);"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public String toString() {"
+        "content": "        } catch(DukeException e) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return String.format(\"[D][%c] %s (by: %s)\", getStatusChar(), description, date);"
+        "content": "            this.date \u003d date;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return String.format(\"[D][%c] %s (by: %s)\", getStatusChar(), description, date);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
@@ -3186,11 +4410,11 @@
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 16
+      "gabrielchao": 22
     }
   },
   {
-    "path": "src/main/java/duke/tasks/Event.java",
+    "path": "src/main/java/duke/task/Event.java",
     "fileType": "java",
     "lines": [
       {
@@ -3198,7 +4422,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.tasks;"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,
@@ -3212,94 +4436,136 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "import duke.Task;"
+        "content": "import duke.DukeException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "import duke.Parser;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "public class Event extends Task {"
+        "content": "import duke.Task;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    protected String date;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public Event(String desc, String date) {"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        super(desc);"
+        "content": "    protected String date;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        this.date \u003d date;"
+        "content": "    public Event(String desc, String date) {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        super(desc);"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    @Override"
+        "content": "            this.date \u003d Parser.parseDateOrDateTimeToString(date);"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    public String toString() {"
+        "content": "        } catch(DukeException e) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "        return String.format(\"[E][%c] %s (at: %s)\", getStatusChar(), description, date);"
+        "content": "            this.date \u003d date;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 16,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "        return String.format(\"[E][%c] %s (at: %s)\", getStatusChar(), description, date);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "gabrielchao"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
         "author": {
           "gitId": "gabrielchao"
         },
@@ -3307,11 +4573,11 @@
       }
     ],
     "authorContributionMap": {
-      "gabrielchao": 16
+      "gabrielchao": 22
     }
   },
   {
-    "path": "src/main/java/duke/tasks/Todo.java",
+    "path": "src/main/java/duke/task/Todo.java",
     "fileType": "java",
     "lines": [
       {
@@ -3319,7 +4585,7 @@
         "author": {
           "gitId": "gabrielchao"
         },
-        "content": "package duke.tasks;"
+        "content": "package duke.task;"
       },
       {
         "lineNumber": 2,

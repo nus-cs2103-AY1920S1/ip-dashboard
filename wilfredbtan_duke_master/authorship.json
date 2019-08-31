@@ -1,0 +1,4451 @@
+[
+  {
+    "path": "src/main/java/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import command.Command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import exception.DukeException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import parser.Parser;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import tasklist.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private Command command;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private TaskList taskList;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        new Duke(\"data/tasks.txt\").run();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Duke(String filePath) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        ui.showWelcome();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            taskList \u003d storage.load();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            ui.showLoadingError();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            taskList \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public void run() {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        while (true) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                Scanner sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                String userInput \u003d sc.nextLine();"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                Parser parsed \u003d new Parser(userInput);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                command \u003d new Command(parsed);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                command.execute(ui, taskList, storage);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                ui.showError(e.getMessage());"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 48,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/command/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import parser.Parser;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Deadline;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Event;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Todo;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import tasklist.TaskList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Command {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    Parser parsed;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Command(Parser parsed) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.parsed \u003d parsed;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    //main driver"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void execute(Ui ui, TaskList taskList, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        switch (parsed.getCommandString()) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            Task currTodo \u003d new Todo(parsed.getDesc());"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            taskList.add(currTodo, storage);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                Task currDeadline \u003d new Deadline(parsed.getDesc(), parsed.getStartDate(), parsed.getStartTime());"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                taskList.add(currDeadline, storage);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            } catch (NullPointerException e) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                throw new DukeException(\"    Sorry, that\u0027s an incomplete command. Failed to add task.\", e);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            Task currEvent \u003d new Event(parsed.getDesc(), parsed.getStartDate(), parsed.getStartTime(),"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                    parsed.getEndTime());"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            taskList.add(currEvent, storage);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"delete\":"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                Task deletedTask \u003d taskList.get(parsed.getIndex() - 1);"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                taskList.remove(parsed.getIndex() - 1, storage);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                ui.showDeleteSuccess(deletedTask, taskList);"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                throw new DukeException(\"     Deleted item is out of bounds! Task not deleted\", e);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"done\":"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                Task doneTask \u003d taskList.get(parsed.getIndex() - 1);"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                taskList.setDone(doneTask, storage);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                ui.showDoneSuccess(doneTask);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                throw new DukeException(\"     Selected item is out of bounds!. Task not marked as done.\", e);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"list\":"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            ui.showList(taskList);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"bye\":"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            ui.showBye();"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            System.exit(1);"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            ui.showInvalidInputError();"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 76
+    }
+  },
+  {
+    "path": "src/main/java/data/tasks.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "T|0| hello"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 1
+    }
+  },
+  {
+    "path": "src/main/java/exception/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class DukeException extends Exception{"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public DukeException(String errorMessage, Throwable err) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        super(errorMessage + \"\\n\", err);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 7
+    }
+  },
+  {
+    "path": "src/main/java/parser/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package parser;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Todo;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Deadline;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Event;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.LocalDate;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.LocalTime;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.util.Locale;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private String userInput;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private String commandString;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private String desc;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalDate startDate;"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalTime startTime;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalTime endTime;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private int index;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Parser (String userInput) throws DukeException {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.userInput \u003d userInput;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        parse();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private void parse() throws DukeException {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        Ui ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        Scanner sc \u003d new Scanner(userInput);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.commandString \u003d sc.next();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (commandString.equals(\"list\") || commandString.equals(\"bye\")) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            return;"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (sc.hasNextInt()) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            this.index \u003d sc.nextInt();"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (sc.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            String[] descriptionAndDate \u003d sc.nextLine().split(\"/\", 2);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            this.desc \u003d descriptionAndDate[0];"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                if (commandString.equals(\"deadline\") || commandString.equals(\"event\")) {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                    parseDateTime(descriptionAndDate[1]);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                throw new DukeException(\"    Parse exception Description\", e);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            } catch (ArrayIndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                throw new DukeException(\"    Please include a date and time\", e);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private void parseDateTime(String dateString) throws ParseException {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String[] dateTimeArr \u003d dateString.split(\" \");"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.startDate \u003d LocalDate.parse(dateTimeArr[0], dateFormatter());"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String[] timeRange \u003d dateTimeArr[1].split(\"-\");"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (timeRange.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            this.startTime \u003d LocalTime.parse(dateTimeArr[1], timeFormatter());"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            this.startTime \u003d LocalTime.parse(timeRange[0], timeFormatter());"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            this.endTime \u003d LocalTime.parse(timeRange[1], timeFormatter());"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public static Task parseStringToTask(String taskData) throws ParseException {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        Task newTask;"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String type;"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        boolean isDone;"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String desc;"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        LocalDate newStartDate;"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        LocalTime newStartTime;"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        LocalTime newEndTime;"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String[] dataArr \u003d taskData.split(\"[|]\");"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        type \u003d dataArr[0];"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        isDone \u003d (dataArr[1].equals(\"1\")) ? true : false;"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        desc \u003d dataArr[2];"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        switch (type) {"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"T\":"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newTask \u003d new Todo(desc);"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newTask.setDone(isDone);"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"D\":"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newStartDate \u003d LocalDate.parse((dataArr[3]), dateFormatter());"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newStartTime \u003d LocalTime.parse((dataArr[4]), timeFormatter());"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newTask \u003d new Deadline(desc, newStartDate, newStartTime);"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newTask.setDone(isDone);"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        case \"E\":"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newStartDate \u003d LocalDate.parse((dataArr[3]), dateFormatter());"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newStartTime \u003d LocalTime.parse((dataArr[4]), timeFormatter());"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newEndTime \u003d LocalTime.parse((dataArr[5]), timeFormatter());"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newTask \u003d new Event(desc, newStartDate, newStartTime, newEndTime);"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            newTask.setDone(isDone);"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            break;"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            throw new ParseException(\"invalid task loaded\", 0);"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return newTask;"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public static DateTimeFormatter dateFormatter() {"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return DateTimeFormatter.ofPattern(\"[dd/MM/yyyy][dd/MM/yy][dd-MM-YYYY]\" +"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                \"[dd-MM-YY]\", Locale.ENGLISH);"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public static DateTimeFormatter timeFormatter() {"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return DateTimeFormatter.ofPattern(\"[HHmm][HH:mm][H]\", Locale.ENGLISH);"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String getDesc() {"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.desc;"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String getCommandString() {"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.commandString;"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalDate getStartDate() {"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.startDate;"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalTime getStartTime() {"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.startTime;"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 143,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalTime getEndTime() {"
+      },
+      {
+        "lineNumber": 144,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.endTime;"
+      },
+      {
+        "lineNumber": 145,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 146,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public int getIndex() {"
+      },
+      {
+        "lineNumber": 148,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.index;"
+      },
+      {
+        "lineNumber": 149,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 150
+    }
+  },
+  {
+    "path": "src/main/java/storage/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package storage;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Deadline;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Event;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import tasklist.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import parser.Parser;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.FileWriter;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.FileInputStream;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.InputStreamReader;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.BufferedWriter;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.io.BufferedReader;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.util.Locale;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private File file;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Storage(String filePath) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.file \u003d new File(filePath);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public TaskList load() throws IOException{"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            FileInputStream fis \u003d new FileInputStream(file);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            InputStreamReader isr \u003d new InputStreamReader(fis, \"UTF-8\");"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            BufferedReader br \u003d new BufferedReader(isr);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            //load tasks into task list."
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            String line;"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            while ((line \u003d br.readLine()) !\u003d null) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                Task newTask \u003d Parser.parseStringToTask(line);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                tasks.add(newTask);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            System.out.println(\"Failed to parse String to task\");"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return new TaskList(tasks);"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void save(TaskList taskList) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            BufferedWriter writer \u003d new BufferedWriter(new FileWriter(file));"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            for (Task task : taskList.getTasks()) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                String formattedData \u003d formatData(task);"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                writer.append(formattedData);"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                writer.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            writer.close();"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            System.out.println(\"invalid filePath\");"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private String formatData(Task currTask) {"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String data \u003d \"\";"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        data +\u003d currTask.getType() + \"|\";"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        data +\u003d currTask.getDone() ? \"1|\" : \"0|\";"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        data +\u003d currTask.getDescription();"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        DateTimeFormatter dateFormatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.ENGLISH);"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        DateTimeFormatter timeFormatter\u003d DateTimeFormatter.ofPattern(\"HHmm\", Locale.ENGLISH);"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (currTask instanceof Deadline) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            data +\u003d \"|\" + ((Deadline) currTask).getDate().format(dateFormatter) +"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                    \"|\" + ((Deadline) currTask).getTime().format(timeFormatter);"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (currTask instanceof Event) {"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            data +\u003d \"|\" + ((Event) currTask).getStartDate().format(dateFormatter) +"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                    \"|\" + ((Event) currTask).getStartTime().format(timeFormatter) +"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                    \"|\" + ((Event) currTask).getEndTime().format(timeFormatter);"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return data;"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 92
+    }
+  },
+  {
+    "path": "src/main/java/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.LocalDate;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.LocalTime;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalDate date;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalTime time;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Deadline(String description, LocalDate date, LocalTime time) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.type \u003d \"D\";"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.date \u003d date;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.time \u003d time;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return \"[D]\" + super.toString() + \"(by: \" + date + \" \" + time + \")\";"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalDate getDate() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.date;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalTime getTime() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.time;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 29
+    }
+  },
+  {
+    "path": "src/main/java/task/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.LocalDate;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.time.LocalTime;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Event extends Task{"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalDate startDate;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalTime startTime;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private LocalTime endTime;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Event(String description, LocalDate startDate, LocalTime startTime, LocalTime endTime) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.type \u003d \"E\";"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.startDate \u003d startDate;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.startTime \u003d startTime;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.endTime \u003d endTime;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalDate getStartDate() {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return startDate;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalTime getStartTime() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return startTime;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public LocalTime getEndTime() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return endTime;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return \"[E]\" + super.toString() + \"(at: \" + startDate + \" \" + startTime +"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                \"-\" + endTime + \")\";"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 35
+    }
+  },
+  {
+    "path": "src/main/java/task/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Task {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    protected String type;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    protected String description;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Task(String description) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String getStatusIcon() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void setDone(boolean isDone) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.isDone \u003d isDone;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String getType() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.type;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String getDescription() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.description;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public boolean getDone() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.isDone;"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return \"[\" + getStatusIcon() + \"]\" + description;"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 38
+    }
+  },
+  {
+    "path": "src/main/java/task/Todo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Todo extends Task{"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Todo(String description) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.type \u003d \"T\";"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return \"[\" + this.type + \"]\" + super.toString();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 14
+    }
+  },
+  {
+    "path": "src/main/java/tasklist/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package tasklist;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import storage.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import ui.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.tasks \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e taskList) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        this.tasks \u003d taskList;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void add(Task task, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        if (task.getDescription() !\u003d null) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            tasks.add(task);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            storage.save(this);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            Ui.showAddSuccess(task, this);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            System.out.println(\"   ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            System.out.println(\"    Sorry, that\u0027s an incomplete command. Failed to add task.\");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            System.out.println(\"   ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void remove(int index, Storage storage) {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        tasks.remove(index);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        storage.save(this);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void setDone(Task task, Storage storage) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        task.setDone(true);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        storage.save(this);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public ArrayList\u003cTask\u003e getTasks() {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return this.tasks;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public int getSize() {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return tasks.size();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public Task get(int index) {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        return tasks.get(index);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 55
+    }
+  },
+  {
+    "path": "src/main/java/ui/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "package ui;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "import tasklist.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String welcomeString \u003d"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"    Hello! I\u0027m Duke\\n\") +"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                        (\"    What can I do for you?\\n\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(welcomeString);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showBye() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(\"    Bye. Hope to see you again soon!\\n\");"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showList(TaskList taskList) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String listString \u003d \"\";"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        for (int i \u003d 0; i \u003c taskList.getSize(); i++) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "            listString +\u003d \"    \" + (i + 1) + \". \" + taskList.get(i) + \"\\n\";"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(listString);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showError(String errorMessage) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(errorMessage);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showLoadingError() {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(\"    No existing data. Duke initialised with an empty TaskList\\n\");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showInvalidInputError() {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(\"    \\u2639  OOPS!! I\u0027m sorry, but I don\u0027t know what that means :-(\\n\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public static void showAddSuccess(Task addedTask, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String successString \u003d"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"    Got it. I\u0027ve added this task:\\n\") +"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"      \" + addedTask + \"\\n\") +"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"    Now you have \" + taskList.getSize() + \" tasks in this list.\\n\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(successString);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showDeleteSuccess(Task deletedTask, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String deleteString \u003d"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"    Noted. I\u0027ve removed this task:\\n\") +"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"      \" + deletedTask + \"\\n\") +"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"    Now you have \" + taskList.getSize() + \" tasks in this list.\\n\");"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(deleteString);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public void showDoneSuccess(Task doneTask) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        String doneString \u003d"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"     Nice! I\u0027ve marked this task as done:\\n\") +"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "                (\"     \" + doneTask + \"\\n\");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        wrapWithLine(doneString);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public static void showLine() {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        System.out.println(\"   ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    public static void wrapWithLine(String input) {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        showLine();"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        System.out.print(input);"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "        showLine();"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "wilfredbtan"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "wilfredbtan": 71
+    }
+  }
+]

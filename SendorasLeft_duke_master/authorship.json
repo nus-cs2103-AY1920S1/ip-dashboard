@@ -1,0 +1,6731 @@
+[
+  {
+    "path": "src/main/java/duke/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.Command;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.Parser;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.Storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * CLI Chat assistant that keep tracks of tasks."
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * Will be developed incrementally over the course"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * of CS2103."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private Storage storage;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private TaskList taskList;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Drives the main code to start up Duke. It is the CLI entry"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * point."
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param args command line arguments. Not used."
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        Duke duke;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        String logo \u003d \" ____        _        \\n\""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        System.out.println(\"Hello from\\n\" + logo);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        if (args.length \u003e 1) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            duke \u003d new Duke(args[1]);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            duke \u003d new Duke();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        duke.start();"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Returns a Duke object, which can be used"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * to start the chat assistant driver loop."
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Duke() {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.storage \u003d new Storage();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            this.taskList \u003d new TaskList(this.storage.loadFromDisk());"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ui.showLoadingError(e);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            this.taskList \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Duke(String filePath) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui \u003d new Ui();"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            this.taskList \u003d new TaskList(this.storage.loadFromDisk());"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ui.showLoadingError(e);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            this.taskList \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /*"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     Main driver function for the program -"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     Greets user, then repeatedly takes in"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     user input and processes them."
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    */"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private void start() {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        boolean isNotShutdown \u003d true;"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.greetHello(); // greet user on startup"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        do { // main loop and exception handler"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                String input \u003d ui.getUserCommand();"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                this.ui.showLine();"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                Command c \u003d Parser.parseForCommands(input); // send it off to be parsed"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                c.initialize(this.storage, this.taskList, this.ui);"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                c.execute();"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                isNotShutdown \u003d !c.isExit();"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                ui.displayMessage(e.getMessage());"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            } finally {"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                this.ui.showLine();"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } while (isNotShutdown);"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        //ui.greetGoodbye(); // greet user before exiting"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 86,
+      "-": 9
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ByeCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class ByeCommand extends Command {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.isExit \u003d true;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.greetGoodbye();"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 9
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public abstract class Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected Storage storage;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected TaskList taskList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected Ui ui;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected boolean isExit;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Command() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.isExit \u003d false; // commands are non-exiting by default"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void initialize(Storage storage, TaskList taskList, Ui ui) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.storage \u003d storage;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.taskList \u003d taskList;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui \u003d ui;"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public abstract void execute() throws DukeException;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return this.isExit;"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 29
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DeadlineCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.DateTime;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.Deadline;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DeadlineCommand extends NewTaskCommand {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public DeadlineCommand(String description, DateTime by) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(new Deadline(description, by));"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 11
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DeleteCommand extends Command {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private int taskId;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public DeleteCommand(int taskId) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.taskId \u003d taskId;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void execute() throws DukeException {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        Task task \u003d this.taskList.delete(taskId);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.displaySingleLine(\"Noted. I\u0027ve removed this task:\");"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.displayMessage(task.toString(), 2);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.displaySingleLine(\"Now you have \""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + this.taskList.getSize()"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \" task(s) in the list.\");"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.storage.saveToDisk(this.taskList);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 22
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DoneCommand extends Command {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private int taskId;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public DoneCommand(int taskId) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.taskId \u003d taskId;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void execute() throws DukeException {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        Task task \u003d this.taskList.at(taskId);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        task.markAsDone();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.displaySingleLine(\"Nice! I\u0027ve marked this task as done:\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.displayMessage(task.toString(), 2);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.storage.saveToDisk(this.taskList);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 20
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/EventCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.DateTime;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.Event;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class EventCommand extends NewTaskCommand {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public EventCommand(String description, DateTime at) {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(new Event(description, at));"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 11
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void execute() {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        if (taskList.getSize() \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ui.displaySingleLine(\"Nice! You have no pending tasks!\");"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ui.displaySingleLine(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ui.displayMessage(taskList.toString(), 2);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 12
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/NewTaskCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public abstract class NewTaskCommand extends Command {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private Task task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public NewTaskCommand(Task task) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.task \u003d task;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void execute() throws DukeException {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.taskList.add(this.task);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.ui.displayMessage(\"Got it. I\u0027ve added this task:\\n  \""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + task"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \"\\nNow you have \""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + this.taskList.getSize()"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \" task(s) in the list.\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.storage.saveToDisk(this.taskList);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 23
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/TodoCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.Todo;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class TodoCommand extends NewTaskCommand {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public TodoCommand(String description) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(new Todo(description));"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 10
+    }
+  },
+  {
+    "path": "src/main/java/duke/exception/DateParseException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/** Custom sub-class of ParseException to denote a"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * specific parsing issue with dates instead of just"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * general text. This is for future-proofing when we might"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * actually have to parse general text next time."
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DateParseException extends ParseException {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Constructor that takes in an error message and"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * returns a DateParseException object."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param error_message description of error."
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public DateParseException(String error_message, int errorOffset) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(error_message, errorOffset);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 19
+    }
+  },
+  {
+    "path": "src/main/java/duke/exception/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/** Exception class for representing cases where"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * an input command is not recognized by the Duke"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * program."
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DukeException extends Exception {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Basic constructor for the DukeException class"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * that takes in an error message."
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param errorMessage error message to be associated."
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public DukeException(String errorMessage) {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(errorMessage);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 16
+    }
+  },
+  {
+    "path": "src/main/java/duke/exception/DukeShutDownException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.exception;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/** An exception class that indicates that Duke is shutting"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * down. One example is when the command parser detects"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * that the user had typed \"bye\"."
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DukeShutDownException extends DukeException {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Basic constructor for DukeShutDownException."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Accepts an error message to be stored."
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param errorMessage"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public DukeShutDownException(String errorMessage) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(errorMessage);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 17
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.DateTime;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * A sub-class of Task that adds a time"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * by which the task must be completed by."
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected DateTime by;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Basic constructor for the Deadline sub-class."
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Takes in a description and a task deadline"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param description details of the task."
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param by time by which task should be completed."
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Deadline(String description, DateTime by) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.by \u003d by;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Override toString() function for the Deadline"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * sub-class. Prefixes a \"[D]\" to indicate the"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * type of task."
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @return a string representation of the Deadline object."
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + by + \")\";"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 31
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.DateTime;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * A sub-class of Task that adds a time/period of time"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * in which the task will take place at/during."
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Event extends Task {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected DateTime at;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Basic constructor for the Event sub-class."
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Takes in description of the task as well"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * as the time period at which it occurs."
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param description details of the task."
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param at time period at which task occurs."
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Event(String description, DateTime at) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.at \u003d at;"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Override toString() function for the Event"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * sub-class. Prefixes a \"[E]\" to indicate the"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * type of task."
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @return a string representation of the Event object."
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 32
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.Serializable;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * An abstract class that represents a human task"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * and keeps track of its completion status."
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * This is the basic Task template that all Task objects"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * must adhere to."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public abstract class Task implements Serializable {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected String description;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Basic constructor for the Task"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * class that only takes in one string"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * for description."
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param description description/name of Task"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Task(String description) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Depending on the completion state of task,"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * returns a ticked box (completed) or a"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * crossed box (uncompleted)."
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @return string icon depicting a ticked or crossed box."
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String getStatusIcon() {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Marks a Task object as completed."
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void markAsDone() {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Overridden toString() method for the"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Task class."
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return \"[\" + this.getStatusIcon() + \"] \"  + description;"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 53
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.Serializable;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.util.List;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.lang.IndexOutOfBoundsException;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class TaskList implements Serializable {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private List\u003cTask\u003e list; // List of all tasks"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.list \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public TaskList(List\u003cTask\u003e list) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.list \u003d list;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public TaskList(TaskList taskList) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.list \u003d taskList.list;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /*"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Given an index, deletes the corresponding task from the stored list"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * in Duke."
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param taskIndex index of task to be deleted."
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @throws DukeException if index is invalid or refers to a non-existent task."
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Task delete(int taskIndex) throws DukeException {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            taskIndex--; // convert to zero-indexing"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return this.list.remove(taskIndex);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"Hey! There\u0027s no such task!\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Task at(int taskIndex) throws DukeException {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            taskIndex--; // convert to zero-indexing"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return this.list.get(taskIndex);"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"Hey! There\u0027s no such task!\");"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void add(Task task) {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.list.add(task);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public int getSize() {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return this.list.size();"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        int i \u003d 1;"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        for (Task task : this.list) {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            sb.append(i++);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            sb.append(\". \");"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            sb.append(task);"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            sb.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return sb.toString();"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 71
+    }
+  },
+  {
+    "path": "src/main/java/duke/task/Todo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * A simple sub-class of Task in which there is"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * no given time period or deadline by which"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * it should be completed."
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Todo extends Task {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Basic constructor of the Todo sub-class."
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Takes in description of the task only."
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param description details of the task"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Todo(String description) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /** Override toString() function for the Todo"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * sub-class. Prefixes a \"[T]\" to indicate the"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * type of task."
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @return a string representation of the Todo object."
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return \"[T]\" + super.toString();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 28
+    }
+  },
+  {
+    "path": "src/main/java/duke/util/DateTime.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.util;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.Serializable;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * A class wrapper around java.util.Date and java.text.SimpleDataFormat"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * to enable Duke to freely parse input strings and switch between formats"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " * for standardized screen output."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DateTime implements Serializable {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private Date dateTime;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Returns a DateTime object whose parameters are initialized by parsing through"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * an input String with format \"dd/MM/yy HHmm\". Parsing is done through"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * java.text.SimpleDateFormat. Upon success, returns a DateTime"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * object. More templates will be added in the future to increase"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * the versatility of the parsing."
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @param input String to be parsed into date and time"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @return java.util.Date object"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @throws DukeException"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    static public DateTime parseString(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            SimpleDateFormat format \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            Date dateTime;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            dateTime \u003d format.parse(input);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return new DateTime(dateTime);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"I couldn\u0027t decipher the date and time\""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \" that you gave me...\\n\""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"Please write it in \u003cdd/mm/yyyy HHmm\u003e format for me to\""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"\\nunderstand!\");"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private DateTime (Date dateTime) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.dateTime \u003d dateTime;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Overridden toString() method for this object."
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Returns the date and time in a standardized format"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * of \"ddth MMM yyyy\", eg. 17th FEB 1996."
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * @return string representation of DateTime object"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        SimpleDateFormat format \u003d new SimpleDateFormat(\"dd MMM yyyy, hh:mm a\");"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return format.format(this.dateTime);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 58
+    }
+  },
+  {
+    "path": "src/main/java/duke/util/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.util;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.ByeCommand;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.Command;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.DeadlineCommand;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.DeleteCommand;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.DoneCommand;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.EventCommand;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.ListCommand;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.command.TodoCommand;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public static Command parseForCommands(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String[] parameters \u003d input.split(\" \", 2);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String command \u003d parameters[0];"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        switch (command) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"list\":"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return new ListCommand();"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"bye\":"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return new ByeCommand();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"done\":"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return Parser.parseDoneCommand(parameters);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"delete\":"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return Parser.parseDeleteCommand(parameters);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"todo\":"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return Parser.parseTodoCommand(parameters);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"event\":"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return Parser.parseEventCommand(parameters);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            case \"deadline\":"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                return Parser.parseDeadlineCommand(parameters);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            default:"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, \""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                        + \"but I don\u0027t know what that means :-(\");"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private static DoneCommand parseDoneCommand(String[] parameters) throws DukeException {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            int taskIndex \u003d Integer.parseInt(parameters[1]);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return new DoneCommand(taskIndex);"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"I\u0027m not psychic! You need\""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \" to tell me the ID of the task\\n\""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"you\u0027re done with!\");"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"You need to provide me \""
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"with a valid task index!\\n\""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"(That means integer numbers only!)\");"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private static DeleteCommand parseDeleteCommand(String[] parameters) throws DukeException {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            int taskIndex \u003d Integer.parseInt(parameters[1]);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return new DeleteCommand(taskIndex);"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"I\u0027m not psychic! You need\""
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \" to tell me the ID of the task\\n\""
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"you want to delete!\");"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"You need to provide me \""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"with a valid task index!\\n\""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"(That means integer numbers only!)\");"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private static TodoCommand parseTodoCommand(String[] parameters) throws DukeException {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return new TodoCommand(parameters[1]);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"☹ OOPS!!! The description of a todo task\""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \" cannot be empty.\");"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private static EventCommand parseEventCommand(String[] parameters) throws DukeException {"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            String[] deadlineParams \u003d parameters[1].split(\" /at \", 2);"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            DateTime at \u003d DateTime.parseString(deadlineParams[1]);"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return new EventCommand(deadlineParams[0], at);"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"☹ OOPS!!! You need to give me both description\\nAND time\""
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \" to create an event task.\");"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private static DeadlineCommand parseDeadlineCommand(String[] parameters) throws DukeException {"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            String[] deadlineParams \u003d parameters[1].split(\" /by \", 2);"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            DateTime by \u003d DateTime.parseString(deadlineParams[1]);"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            return new DeadlineCommand(deadlineParams[0], by);"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"☹ OOPS!!! You need to give me both description\\nAND time\""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \" to create a deadline task.\");"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 101
+    }
+  },
+  {
+    "path": "src/main/java/duke/util/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.util;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.task.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.ObjectOutputStream;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.FileOutputStream;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.ObjectInputStream;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.FileInputStream;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    // static attributes"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    final static private String DEFAULT_SAVE_PATH \u003d \"./saved_lists/savestate.tmp\";"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    // object attributes"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private File file;"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Storage() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.file \u003d new File(Storage.DEFAULT_SAVE_PATH);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Storage(String filePath) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.file \u003d new File(filePath);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public TaskList loadFromDisk() throws DukeException {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        TaskList list \u003d null;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            FileInputStream fis \u003d new FileInputStream(this.file);"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ObjectInputStream ois \u003d new ObjectInputStream(fis);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            list \u003d (TaskList) ois.readObject();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ois.close();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"I\u0027m so sorry! I had trouble sync-ing the task list\""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"to the disk!\\n\""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"Any changes might not be saved ):\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (ClassNotFoundException e) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"I\u0027m sorry, I couldn\u0027t decipher the saved list.\\n\""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"It seems to be corrupted...\\n\""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"I will have to start a new list!\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return list;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void saveToDisk(TaskList list) throws DukeException{"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            this.file.getParentFile().mkdirs();"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            FileOutputStream fos \u003d new FileOutputStream(this.file, false);"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            ObjectOutputStream oos \u003d new ObjectOutputStream(fos);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            oos.writeObject(list);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            oos.close();"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            throw new DukeException(\"I\u0027m so sorry! I had trouble sync-ing the task list\""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"to the disk!\\n\""
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                    + \"Any changes might not be saved ):\");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 60
+    }
+  },
+  {
+    "path": "src/main/java/duke/util/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.util;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    // Class attributes"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    final static private String INDENT \u003d \"      \";"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    // Object attributes"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private Scanner sc;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public Ui() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.sc \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String getUserCommand() {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.println(); // Injects a spacing for future user input"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return sc.nextLine();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void displayMessage(String message) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.print(this.indentMessage(message));"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void displayMessage(String message, int extraIndent) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.print(this.indentMessage(message, extraIndent));"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void displaySingleLine(String message) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.println(INDENT + message);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void showLine() {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.println(\"    ____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String indentMessage(String s) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String[] lines \u003d s.split(\"\\n\");"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        StringBuilder indented_output \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        for (String line : lines) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            indented_output.append(INDENT);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            indented_output.append(line);"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            indented_output.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return indented_output.toString();"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public String indentMessage(String s, int extraIndent) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String[] lines \u003d s.split(\"\\n\");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        StringBuilder indented_output \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        sb.append(INDENT);"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        for (int i \u003d 0; i \u003c extraIndent; i++) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            sb.append(\" \");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String indent \u003d sb.toString();"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        for (String line : lines) {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            indented_output.append(indent);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            indented_output.append(line);"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            indented_output.append(\"\\n\");"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        return indented_output.toString();"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /*"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     Prints out a formatted hello greeting on the"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     screen. It is a implemented as a thin wrapper"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     around duke.formattedPrintln()"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    */"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void greetHello() {"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String hello \u003d \"Hello! I\u0027m Duke\\n\""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \"What can I do for you?\";"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.showLine();"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.displayMessage(hello);"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.showLine();"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * Prints out a formatted goodbye greeting on the screen."
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     * It is a implemented as a thin wrapper around duke.formattedPrintln()"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void greetGoodbye() {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        String goodbye \u003d \"Bye. Hope to see you again soon!\";"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        //this.showLine();"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.displaySingleLine(goodbye);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        //this.showLine();"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void showLoadingError(DukeException e) {"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.showLine();"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.displayMessage(\"I couldn\u0027t find a saved task list...\\n\""
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \"Let me start up a brand new list!\");"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.showLine();"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /*"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     Prints the target string between two horizontal"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     bars. Adds a newline to the input string"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     before printing. Currently not used."
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     @param output  The string to be printed"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private void formattedPrintln(String output) {"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.println(\"____________________________________________________________\\n\""
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + output"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \"\\n\""
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \"____________________________________________________________\\n\");"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    /*"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     Prints the target string between two horizontal"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     bars. Newline is not added to input string."
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     Currently not used."
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "     @param output  The string to be printed"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    */"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private void formattedPrint(String output) {"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        System.out.println(\"____________________________________________________________\\n\""
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + output"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                + \"____________________________________________________________\\n\");"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 126
+    }
+  },
+  {
+    "path": "src/test/java/duke/Dummy.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class Dummy {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void dummyTest(){"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        assertEquals(2, 2);"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 12
+    }
+  },
+  {
+    "path": "src/test/java/duke/task/EventTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.task;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.util.DateTime;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import org.junit.jupiter.api.BeforeEach;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class EventTest {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private Event event;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @BeforeEach"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void initialize() throws DukeException {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.event \u003d new Event(\"Fly to the moon\","
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                DateTime.parseString(\"11/11/3019 0000\"));"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void toString_methodCall_formattedOutput() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        assertEquals(\"[E][✘] Fly to the moon (at: 11 Nov 3019, 12:00 AM)\","
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                this.event.toString());"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void markAsDone_methodCall_formattedOutput() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.event.markAsDone();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        assertEquals(\"[E][✓] Fly to the moon (at: 11 Nov 3019, 12:00 AM)\","
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                this.event.toString());"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 32
+    }
+  },
+  {
+    "path": "src/test/java/duke/util/DateTimeTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "package duke.util;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import duke.exception.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import org.junit.jupiter.api.Assertions;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import org.junit.jupiter.api.Test;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "public class DateTimeTest {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    private DateTime dateTime;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void parseString_invalidDateFormat_raiseException() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        Assertions.assertThrows(DukeException.class, () -\u003e {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "            DateTime.parseString(\"Not a valid date.\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        });"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void parseString_compliantDateFormat_noException() throws DukeException {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.dateTime \u003d DateTime.parseString(\"11/11/3019 0000\");"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    public void toString_methodCall_formattedOutput() throws DukeException {"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        this.dateTime \u003d DateTime.parseString(\"11/11/3019 0000\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "        assertEquals(\"11 Nov 3019, 12:00 AM\","
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "                this.dateTime.toString());"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "SendorasLeft"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "SendorasLeft": 31
+    }
+  }
+]

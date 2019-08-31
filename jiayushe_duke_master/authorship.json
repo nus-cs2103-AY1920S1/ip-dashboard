@@ -354,7 +354,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        this.by \u003d Parser.parse(by);"
+        "content": "        this.by \u003d Parser.parseDateTime(by);"
       },
       {
         "lineNumber": 9,
@@ -389,7 +389,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        return \"D | \" + super.toDataString() + \" | \" + Formatter.standardFormat(this.by);"
+        "content": "        return \"D | \" + super.toDataString() + \" | \" + Formatter.standardFormatDateTime(this.by);"
       },
       {
         "lineNumber": 14,
@@ -424,7 +424,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + Formatter.prettyFormat(by) + \")\";"
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + Formatter.prettyFormatDateTime(by) + \")\";"
       },
       {
         "lineNumber": 19,
@@ -580,7 +580,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "            String[] inputArr \u003d input.split(\"\\\\s+\", 2);"
+        "content": "            String[] inputArr \u003d Parser.parseCommand(input);"
       },
       {
         "lineNumber": 20,
@@ -678,49 +678,49 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    try {"
+        "content": "                    taskList.doTask(Parser.parseInt(inputArr[1]));"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        taskList.doTask(Integer.parseInt(inputArr[1]));"
+        "content": "                    break;"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    } catch (NumberFormatException e) {"
+        "content": "                case \"delete\":"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Task number format invalid!\");"
+        "content": "                    if (inputArr.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    } catch (IndexOutOfBoundsException e) {"
+        "content": "                        throw new DukeException(\"☹ OOPS! Task number missing!\");"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Task number invalid!\");"
+        "content": "                    }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    }"
+        "content": "                    taskList.deleteTask(Parser.parseInt(inputArr[1]));"
       },
       {
         "lineNumber": 40,
@@ -734,7 +734,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                case \"delete\":"
+        "content": "                case \"todo\":"
       },
       {
         "lineNumber": 42,
@@ -748,7 +748,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Task number missing!\");"
+        "content": "                        throw new DukeException(\"☹ OOPS! Todo description missing!\");"
       },
       {
         "lineNumber": 44,
@@ -762,395 +762,213 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    try {"
+        "content": "                    taskList.addNewTask(new ToDo(inputArr[1]));"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        taskList.deleteTask(Integer.parseInt(inputArr[1]));"
+        "content": "                    break;"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    } catch (NumberFormatException e) {"
+        "content": "                case \"deadline\":"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Task number format invalid!\");"
+        "content": "                    if (inputArr.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    } catch (IndexOutOfBoundsException e) {"
+        "content": "                        throw new DukeException(\"☹ OOPS! Deadline description missing!\");"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Task number invalid!\");"
+        "content": "                    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    }"
+        "content": "                    String[] deadlineInputArr \u003d Parser.parseDeadline(inputArr[1]);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    break;"
+        "content": "                    taskList.addNewTask(new Deadline(deadlineInputArr[0], deadlineInputArr[1]));"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                case \"todo\":"
+        "content": "                    break;"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    if (inputArr.length \u003c\u003d 1) {"
+        "content": "                case \"event\":"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Todo description missing!\");"
+        "content": "                    if (inputArr.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    }"
+        "content": "                        throw new DukeException(\"☹ OOPS! Event description missing!\");"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    taskList.addNewTask(new ToDo(inputArr[1]));"
+        "content": "                    }"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    break;"
+        "content": "                    String[] eventInputArr \u003d Parser.parseEvent(inputArr[1]);"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                case \"deadline\":"
+        "content": "                    taskList.addNewTask(new Event(eventInputArr[0], eventInputArr[1]));"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    if (inputArr.length \u003c\u003d 1) {"
+        "content": "                    break;"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        throw new DukeException(\"☹ OOPS! Deadline description missing!\");"
+        "content": "                default:"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    }"
+        "content": "                    throw new DukeException(\"☹ OOPS! I can\u0027t do it!\");"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    String[] deadlineInputArr \u003d inputArr[1].split(\" /by \");"
+        "content": "                }"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    if (deadlineInputArr.length \u003c\u003d 1) {"
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        if (inputArr[1].indexOf(\"/by\") \u003d\u003d 0) {"
+        "content": "                ui.print(e.getMessage());"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                            throw new DukeException(\"☹ OOPS! Deadline description format invalid!\");"
+        "content": "            }"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        } else {"
+        "content": "        }"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                            throw new DukeException(\"☹ OOPS! Deadline due date missing!\");"
+        "content": ""
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                        }"
+        "content": "        sc.close();"
       },
       {
         "lineNumber": 70,
         "author": {
-          "gitId": "jiayushe"
+          "gitId": "-"
         },
-        "content": "                    }"
+        "content": "    }"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "                    taskList.addNewTask(new Deadline(deadlineInputArr[0], deadlineInputArr[1]));"
+        "content": ""
       },
       {
         "lineNumber": 72,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                case \"event\":"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    if (inputArr.length \u003c\u003d 1) {"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                        throw new DukeException(\"☹ OOPS! Event description missing!\");"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    String[] eventInputArr \u003d inputArr[1].split(\" /at \");"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    if (eventInputArr.length \u003c\u003d 1) {"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                        if (inputArr[1].indexOf(\"/at\") \u003d\u003d 0) {"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                            throw new DukeException(\"☹ OOPS! Event description format invalid!\");"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                        } else {"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                            throw new DukeException(\"☹ OOPS! Event timing missing!\");"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    taskList.addNewTask(new Event(eventInputArr[0], eventInputArr[1]));"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                    throw new DukeException(\"☹ OOPS! I can\u0027t do it!\");"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "            } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "                ui.print(e.getMessage());"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": "        sc.close();"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "jiayushe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 98,
         "author": {
           "gitId": "-"
         },
         "content": "    public static void main(String[] args) {"
       },
       {
-        "lineNumber": 99,
+        "lineNumber": 73,
         "author": {
           "gitId": "jiayushe"
         },
         "content": "        new Duke(\"data/tasks.txt\").run();"
       },
       {
-        "lineNumber": 100,
+        "lineNumber": 74,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 101,
+        "lineNumber": 75,
         "author": {
           "gitId": "-"
         },
@@ -1158,7 +976,7 @@
       }
     ],
     "authorContributionMap": {
-      "jiayushe": 96,
+      "jiayushe": 70,
       "-": 5
     }
   },
@@ -1264,7 +1082,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        this.at \u003d Parser.parse(at);"
+        "content": "        this.at \u003d Parser.parseDateTime(at);"
       },
       {
         "lineNumber": 9,
@@ -1299,7 +1117,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        return \"E | \" + super.toDataString() + \" | \" + Formatter.standardFormat(this.at);"
+        "content": "        return \"E | \" + super.toDataString() + \" | \" + Formatter.standardFormatDateTime(this.at);"
       },
       {
         "lineNumber": 14,
@@ -1334,7 +1152,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + Formatter.prettyFormat(at) + \")\";"
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + Formatter.prettyFormatDateTime(at) + \")\";"
       },
       {
         "lineNumber": 19,
@@ -1413,7 +1231,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "    public static String prettyFormat(LocalDateTime dateTime) {"
+        "content": "    public static String prettyFormatDateTime(LocalDateTime dateTime) {"
       },
       {
         "lineNumber": 9,
@@ -1441,7 +1259,7 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "    public static String standardFormat(LocalDateTime dateTime) {"
+        "content": "    public static String standardFormatDateTime(LocalDateTime dateTime) {"
       },
       {
         "lineNumber": 13,
@@ -1527,52 +1345,332 @@
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "    public static LocalDateTime parse(String dateTimeString) throws DukeException {"
+        "content": "    public static String[] parseCommand(String commandString) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        try {"
+        "content": "        return commandString.split(\"\\\\s+\", 2);"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "            return LocalDateTime.parse(dateTimeString, standardFormat);"
+        "content": "    }"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        } catch (DateTimeParseException e) {"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "            throw new DukeException(\"☹ OOPS! Date Time format invalid!\");"
+        "content": "    public static LocalDateTime parseDateTime(String dateTimeString) throws DukeException {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "        }"
+        "content": "        try {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "jiayushe"
         },
-        "content": "    }"
+        "content": "            return LocalDateTime.parse(dateTimeString, standardFormat);"
       },
       {
         "lineNumber": 15,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        } catch (DateTimeParseException e) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            throw new DukeException(\"☹ OOPS! Date Time format invalid!\");"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    public static String[] parseDeadline(String deadlineString) throws DukeException {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        String[] deadlineArr \u003d deadlineString.split(\" /by \");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        if (deadlineArr.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            if (deadlineString.indexOf(\"/by\") \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS! Deadline description format invalid!\");"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS! Deadline due date missing!\");"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        return deadlineArr;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    public static String[] parseEvent(String eventString) throws DukeException {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        String[] eventArr \u003d eventString.split(\" /at \");"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        if (eventArr.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            if (eventString.indexOf(\"/at\") \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS! Event description format invalid!\");"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "                throw new DukeException(\"☹ OOPS! Event timing missing!\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        return eventArr;"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    public static int parseInt(String intString) throws DukeException {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        int result;"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            result \u003d Integer.parseInt(intString);"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        } catch (NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            throw new DukeException(\"☹ OOPS! Task number format invalid!\");"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "            throw new DukeException(\"☹ OOPS! Task number invalid!\");"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "        return result;"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "jiayushe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
         "author": {
           "gitId": "jiayushe"
         },
@@ -1580,7 +1678,7 @@
       }
     ],
     "authorContributionMap": {
-      "jiayushe": 15
+      "jiayushe": 55
     }
   },
   {

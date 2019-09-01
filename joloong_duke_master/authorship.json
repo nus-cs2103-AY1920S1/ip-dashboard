@@ -396,14 +396,14 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "    public Duke(String filePath) {"
+        "content": "    public Duke() {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        storage \u003d new Storage(filePath);"
+        "content": "        storage \u003d new Storage();"
       },
       {
         "lineNumber": 16,
@@ -473,7 +473,7 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "        new Duke(\"C:\\\\Users\\\\Botak\\\\Desktop\\\\Projects\\\\duke\\\\src\\\\main\\\\java\\\\data\\\\duke.txt\").run();"
+        "content": "        new Duke().run();"
       },
       {
         "lineNumber": 26,
@@ -2628,7 +2628,7 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "    private String filePath;"
+        "content": "    private final static String FILE_PATH \u003d \"data/duke.txt\";"
       },
       {
         "lineNumber": 13,
@@ -2642,140 +2642,140 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "    public Storage(String filePath) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        this.filePath \u003d filePath;"
+        "content": "     * Reads data from data file."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    }"
+        "content": "     * "
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "joloong"
         },
-        "content": ""
+        "content": "     * @return New TaskList that contains an ArrayList of tasks and number of tasks."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    /**"
+        "content": "     * @throws FileNotFoundException Occurs when path of file is invalid."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * Reads data from data file."
+        "content": "     */"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * "
+        "content": "    public TaskList readData() throws FileNotFoundException {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * @return New TaskList that contains an ArrayList of tasks and number of tasks."
+        "content": "        File f \u003d new File(Storage.FILE_PATH);"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * @throws FileNotFoundException Occurs when path of file is invalid."
+        "content": "        Scanner sc \u003d new Scanner(f);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     */"
+        "content": "        ArrayList\u003cTask\u003e task \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    public TaskList readData() throws FileNotFoundException {"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        File f \u003d new File(filePath);"
+        "content": "        while (sc.hasNext()) {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        Scanner sc \u003d new Scanner(f);"
+        "content": "            String taskLine \u003d sc.nextLine();"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        ArrayList\u003cTask\u003e task \u003d new ArrayList\u003c\u003e();"
+        "content": "            String[] taskLineSplit \u003d taskLine.split(\":\");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        while (sc.hasNext()) {"
+        "content": "            switch (taskLineSplit[0]) {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            String taskLine \u003d sc.nextLine();"
+        "content": "            case \"T\":"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            String[] taskLineSplit \u003d taskLine.split(\":\");"
+        "content": "                task.add(new Todo(taskLineSplit[2], Integer.parseInt(taskLineSplit[1])));"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            switch (taskLineSplit[0]) {"
+        "content": "                break;"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            case \"T\":"
+        "content": "            case \"E\":"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                task.add(new Todo(taskLineSplit[2], Integer.parseInt(taskLineSplit[1])));"
+        "content": "                task.add(new Event(taskLineSplit[2], taskLineSplit[3], Integer.parseInt(taskLineSplit[1])));"
       },
       {
         "lineNumber": 34,
@@ -2789,14 +2789,14 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "            case \"E\":"
+        "content": "            case \"D\":"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                task.add(new Event(taskLineSplit[2], taskLineSplit[3], Integer.parseInt(taskLineSplit[1])));"
+        "content": "                task.add(new Deadline(taskLineSplit[2], taskLineSplit[3], Integer.parseInt(taskLineSplit[1])));"
       },
       {
         "lineNumber": 37,
@@ -2810,42 +2810,42 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "            case \"D\":"
+        "content": "            default:"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                task.add(new Deadline(taskLineSplit[2], taskLineSplit[3], Integer.parseInt(taskLineSplit[1])));"
+        "content": "            }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                break;"
+        "content": "        }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            default:"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            }"
+        "content": "        // Close the scanner"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        }"
+        "content": "        sc.close();"
       },
       {
         "lineNumber": 44,
@@ -2859,14 +2859,14 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "        // Close the scanner"
+        "content": "        return new TaskList(task);"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        sc.close();"
+        "content": "    }"
       },
       {
         "lineNumber": 47,
@@ -2880,360 +2880,353 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "        return new TaskList(task);"
+        "content": "    /**"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    }"
+        "content": "     * Write data from taskList into data file."
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "joloong"
         },
-        "content": ""
+        "content": "     * "
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    /**"
+        "content": "     * @param taskList A TaskList that contains an ArrayList of tasks and number of"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * Write data from taskList into data file."
+        "content": "     *                 tasks."
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * "
+        "content": "     * @throws IOException Occurs when path of file is invalid."
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * @param taskList A TaskList that contains an ArrayList of tasks and number of"
+        "content": "     */"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     *                 tasks."
+        "content": "    public void writeData(TaskList taskList) throws IOException {"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     * @throws IOException Occurs when path of file is invalid."
+        "content": "        ArrayList\u003cTask\u003e task \u003d taskList.getTasks();"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "joloong"
         },
-        "content": "     */"
+        "content": "        FileWriter fw \u003d new FileWriter(Storage.FILE_PATH);"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    public void writeData(TaskList taskList) throws IOException {"
+        "content": "        String stringToWrite \u003d \"\";"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        ArrayList\u003cTask\u003e task \u003d taskList.getTasks();"
+        "content": "        int counter \u003d task.size();"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        FileWriter fw \u003d new FileWriter(filePath);"
+        "content": ""
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        String stringToWrite \u003d \"\";"
+        "content": "        for (int i \u003d 0; i \u003c counter; i++) {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        int counter \u003d task.size();"
+        "content": "            Task taskToWrite \u003d task.get(i);"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        for (int i \u003d 0; i \u003c counter; i++) {"
+        "content": "            if (taskToWrite instanceof Todo) {"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            Task taskToWrite \u003d task.get(i);"
+        "content": "                stringToWrite +\u003d \"T:\";"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            if (taskToWrite instanceof Todo) {"
+        "content": "                stringToWrite +\u003d writeStatus(taskToWrite);"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d \"T:\";"
+        "content": "                stringToWrite +\u003d taskToWrite.getDescription();"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d writeStatus(taskToWrite);"
+        "content": "            } else if (taskToWrite instanceof Event) {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d taskToWrite.getDescription();"
+        "content": "                stringToWrite +\u003d \"E:\";"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            } else if (taskToWrite instanceof Event) {"
+        "content": "                stringToWrite +\u003d writeStatus(taskToWrite);"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d \"E:\";"
+        "content": "                stringToWrite +\u003d taskToWrite.getDescription() + \":\";"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d writeStatus(taskToWrite);"
+        "content": "                Event e \u003d (Event) taskToWrite;"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d taskToWrite.getDescription() + \":\";"
+        "content": "                stringToWrite +\u003d e.getTime();"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                Event e \u003d (Event) taskToWrite;"
+        "content": "            } else if (taskToWrite instanceof Deadline) {"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d e.getTime();"
+        "content": "                stringToWrite +\u003d \"D:\";"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            } else if (taskToWrite instanceof Deadline) {"
+        "content": "                stringToWrite +\u003d writeStatus(taskToWrite);"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d \"D:\";"
+        "content": "                stringToWrite +\u003d taskToWrite.getDescription() + \":\";"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d writeStatus(taskToWrite);"
+        "content": "                Deadline d \u003d (Deadline) taskToWrite;"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d taskToWrite.getDescription() + \":\";"
+        "content": "                stringToWrite +\u003d d.getTime();"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                Deadline d \u003d (Deadline) taskToWrite;"
+        "content": "            }"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d d.getTime();"
+        "content": ""
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            }"
+        "content": "            if (i !\u003d counter - 1) {"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "joloong"
         },
-        "content": ""
+        "content": "                stringToWrite +\u003d System.lineSeparator();"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            if (i !\u003d counter - 1) {"
+        "content": "            }"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "joloong"
         },
-        "content": "                stringToWrite +\u003d System.lineSeparator();"
+        "content": "        }"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        }"
+        "content": "        fw.write(stringToWrite);"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        fw.write(stringToWrite);"
+        "content": "        fw.close();"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        fw.close();"
+        "content": "    }"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "joloong"
         },
-        "content": ""
+        "content": "    private String writeStatus(Task t) {"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    private String writeStatus(Task t) {"
+        "content": "        String statusIcon \u003d t.getStatusIcon();"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        String statusIcon \u003d t.getStatusIcon();"
+        "content": "        if (statusIcon.equals(\"O\")) {"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        if (statusIcon.equals(\"O\")) {"
+        "content": "            return \"1:\";"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            return \"1:\";"
+        "content": "        } else {"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        } else {"
+        "content": "            return \"0:\";"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "joloong"
         },
-        "content": "            return \"0:\";"
+        "content": "        }"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "joloong"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 99,
+        "lineNumber": 98,
         "author": {
           "gitId": "joloong"
         },
@@ -3241,7 +3234,7 @@
       }
     ],
     "authorContributionMap": {
-      "joloong": 99
+      "joloong": 98
     }
   },
   {
@@ -4829,59 +4822,136 @@
         "author": {
           "gitId": "joloong"
         },
-        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+        "content": "import task.Todo;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "joloong"
         },
-        "content": ""
+        "content": "import task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "joloong"
         },
-        "content": "public class DukeTest {"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "joloong"
         },
-        "content": ""
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    @Test"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    public void dummyTest() {"
+        "content": "public class DukeTest {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "joloong"
         },
-        "content": "        assertEquals(2, 3);"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "joloong"
         },
-        "content": "    }"
+        "content": "    @Test"
       },
       {
         "lineNumber": 11,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "    public void toDo_eat_success() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "        Todo todo \u003d new Todo(\"eat\");"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "        assertEquals(\"[T][X] eat\", todo.toString());"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "    public void taskListSize_oneTask_success() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "        TaskList taskList \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "        taskList.addTask(new Todo(\"eat\"));"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "        assertEquals(1, taskList.getTasks().size());"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "joloong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
         "author": {
           "gitId": "joloong"
         },
@@ -4889,7 +4959,7 @@
       }
     ],
     "authorContributionMap": {
-      "joloong": 11
+      "joloong": 22
     }
   },
   {

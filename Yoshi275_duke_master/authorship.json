@@ -23,7 +23,7 @@
     }
   },
   {
-    "path": "src/main/java/Duke.java",
+    "path": "src/main/java/AddCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -31,126 +31,499 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.io.IOException;"
+        "content": "import java.io.FileNotFoundException;"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.time.LocalDate;"
+        "content": "import java.io.UnsupportedEncodingException;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.time.format.DateTimeParseException;"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.util.Scanner;"
+        "content": "public class AddCommand extends Command {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.io.PrintWriter;"
+        "content": "    public AddCommand(String command, String commandDetails, String INDENT) {"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "        super(command, commandDetails, INDENT);"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.time.LocalDateTime;"
+        "content": "    }"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "import java.time.format.DateTimeFormatter;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "-"
+          "gitId": "Yoshi275"
         },
-        "content": "public class Duke {"
+        "content": "        try {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    static String listString \u003d \"\";"
+        "content": "            if (command.equals(\"todo\") || command.equals(\"deadline\") || command.equals(\"event\")) {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    static ArrayList\u003cTask\u003e listArr \u003d new ArrayList\u003cTask\u003e();"
+        "content": "                String befTaskAddMessage \u003d \"Got it. I\u0027ve added this task: \\n\" + INDENT + \"   \";"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    static String INDENT \u003d \"    \";"
+        "content": "                String aftTaskAddMessage \u003d \"Now you have \" + (tasks.getList().size() + 1) + \" tasks in the list.\";"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "                if (!(commandDetails.equals(\" \") || commandDetails.equals(\"\"))) {"
       },
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "-"
+          "gitId": "Yoshi275"
         },
-        "content": "    public static void main(String[] args) {"
+        "content": "                    if (command.equals(\"todo\")) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
+        "content": "                        tasks.addTask(new Task(commandDetails, \"todo\", false));"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        int listSize \u003d 0;"
+        "content": "                        ui.printResponse(befTaskAddMessage + tasks.getList().get(tasks.getList().size() - 1) + \"\\n \" + INDENT + aftTaskAddMessage);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        int listPointer;"
+        "content": "                        storage.updateTodoFile(tasks.getListString());"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                    } else if (command.equals(\"deadline\")) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        try {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            tasks.addDateTask(commandDetails.split(\" /by \")[0], commandDetails.split(\" /by \")[1], \"deadline\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            ui.printResponse(befTaskAddMessage + tasks.getList().get(tasks.getList().size() - 1) + \"\\n \" + INDENT"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                                    + aftTaskAddMessage);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            storage.updateTodoFile(tasks.getListString());"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        } catch (Exception ex) {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            ui.printError(\"☹ OOPS!!! Deadlines require a specific datetime after /by, \""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                                    + \"in format \u0027dd/MM/yyyy HHmm\u0027\");"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            System.out.println(ex);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                    } else if (command.equals(\"event\")) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        try {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            tasks.addDateTask(commandDetails.split(\" /at \")[0], commandDetails.split(\" /at \")[1], \"event\");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            ui.printResponse(befTaskAddMessage + tasks.getList().get(tasks.getList().size() - 1) + \"\\n \" + INDENT"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                                    + aftTaskAddMessage);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            storage.updateTodoFile(tasks.getListString());"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        } catch (Exception ex) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                            ui.printError(\"☹ OOPS!!! Events require a specific datetime after /at, \""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                                    + \"in format \u0027dd/MM/yyyy HHmm\u0027\");"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                } else {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                    ui.printError(\"☹ OOPS!!! The description of a \" + command + \" cannot be empty.\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                ui.printError(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\\n \" + INDENT +"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                        \"Try todo, event, deadline, list, delete or done\");"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } catch(Exception err) {"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            throw new DukeException(err.getMessage());"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 52
+    }
+  },
+  {
+    "path": "src/main/java/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.UnsupportedEncodingException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "abstract class Command {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    /*"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    1. create command with parser"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    2. abstract execute(tasks, ui, storage)"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    3. boolean isExit()"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    protected String command;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    protected String commandDetails;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    protected String INDENT;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public Command(String command, String commandDetails, String INDENT) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.command \u003d command;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.commandDetails \u003d commandDetails;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.INDENT \u003d INDENT;"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
       },
       {
         "lineNumber": 19,
@@ -164,759 +537,744 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        printIndentedString(\"Hello! I\u0027m Duke\\n\" +"
+        "content": "    public boolean isExit() {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "                INDENT + \" \" + \"What can I do for you?\", INDENT);"
+        "content": "        return command.equals(\"bye\");"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        String input \u003d sc.nextLine();"
+        "content": "    }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        String[] inputArr \u003d input.split(\" \", 2);"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "    abstract public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        while (!inputArr[0].equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            if (inputArr[0].equals(\"list\")) {"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                printIndentedString(\"Here are the tasks in your list:\\n\" + listString, INDENT);"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            } else if (inputArr[0].equals(\"done\")) {"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                listPointer \u003d Integer.parseInt(inputArr[1]);"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                listArr.get(listPointer - 1).markAsDone();"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                printIndentedString(\"Nice! I\u0027ve marked this task as done: \\n\""
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        + INDENT + \"   \" + listArr.get(listPointer - 1), INDENT);"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                updateTodoString();"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                updateTodoFile(listString);"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            } else if(inputArr[0].equals(\"delete\")) {"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                listPointer \u003d Integer.parseInt(inputArr[1]);"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                Task deletedTask \u003d listArr.get(listPointer - 1);"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                listArr.remove(listPointer - 1);"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                printIndentedString(\"Noted. I\u0027ve removed this task: \\n\""
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        + INDENT + \"   \" + deletedTask + \"\\n\" + INDENT +"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        \"Now you have \" + listArr.size() + \" tasks in the list.\", INDENT);"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                updateTodoString();"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                updateTodoFile(listString);"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            } else if(inputArr[0].equals(\"todo\") || inputArr[0].equals(\"deadline\") || inputArr[0].equals(\"event\")){"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                String befTaskAddMessage \u003d \"Got it. I\u0027ve added this task: \\n\" + INDENT + \"   \";"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                String aftTaskAddMessage \u003d \"Now you have \" + (listSize + 1) + \" tasks in the list.\";"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                if(inputArr.length \u003e 1) {"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                    if(inputArr[0].equals(\"todo\")) {"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            listArr.add(new Task(inputArr[1], \"todo\"));"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            printIndentedString(befTaskAddMessage + listArr.get(listSize) + \"\\n \" + INDENT + aftTaskAddMessage, INDENT);"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            listSize++;"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            updateTodoString();"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            updateTodoFile(listString);"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                    } else if(inputArr[0].equals(\"deadline\")) {"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        try {"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            String deadline \u003d input.split(\" /by \")[1];"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            LocalDateTime deadlineByDateTime \u003d LocalDateTime.parse(deadline, formatter);"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            listArr.add(new Task(inputArr[1].split(\" /by \")[0], \"deadline\","
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                    deadlineByDateTime));"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            printIndentedString(befTaskAddMessage + listArr.get(listSize) + \"\\n \" + INDENT"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                    + aftTaskAddMessage, INDENT);"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            listSize++;"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            updateTodoString();"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            updateTodoFile(listString);"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        } catch(Exception ex) {"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            printIndentedString(\"☹ OOPS!!! Deadlines require a specific datetime after /by, \""
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                            + \"in format \u0027dd/MM/yyyy HHmm\u0027\","
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                    INDENT);"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                    } else if(inputArr[0].equals(\"event\")) {"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        try {"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            String eventDateTime \u003d input.split(\" /at \")[1];"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            LocalDateTime eventDateTimeByDateTime \u003d LocalDateTime.parse(eventDateTime, formatter);"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            listArr.add(new Task(inputArr[1].split(\" /at \")[0], \"event\""
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                    , eventDateTimeByDateTime));"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            printIndentedString(befTaskAddMessage + listArr.get(listSize) + \"\\n \" + INDENT"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                    + aftTaskAddMessage, INDENT);"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            listSize++;"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            updateTodoString();"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            updateTodoFile(listString);"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        } catch(Exception ex) {"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            printIndentedString(\"☹ OOPS!!! Events require a specific datetime after /at, \""
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                            + \"in format \u0027dd/MM/yyyy HHmm\u0027\""
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                                    , INDENT);"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                        }"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                    }"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                } else {"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                    printIndentedString(\"☹ OOPS!!! The description of a \" + inputArr[0] + \" cannot be empty.\""
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                            , INDENT);"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                printIndentedString(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\", INDENT);"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            input \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            inputArr \u003d input.split(\" \", 2);"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        }"
-      },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 25
+    }
+  },
+  {
+    "path": "src/main/java/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
       {
-        "lineNumber": 99,
+        "lineNumber": 1,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        printIndentedString(\"Bye. Hope to see you again soon!\", INDENT);"
+        "content": "import java.io.FileNotFoundException;"
       },
       {
-        "lineNumber": 100,
+        "lineNumber": 2,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    }"
+        "content": "import java.io.UnsupportedEncodingException;"
       },
       {
-        "lineNumber": 101,
+        "lineNumber": 3,
         "author": {
           "gitId": "Yoshi275"
         },
         "content": ""
       },
       {
-        "lineNumber": 102,
+        "lineNumber": 4,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public static void printIndentedString(String string, String INDENT) {"
+        "content": "public class DeleteCommand extends Command {"
       },
       {
-        "lineNumber": 103,
+        "lineNumber": 5,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        System.out.println(INDENT + \"____________________________________________________________\");"
+        "content": "    private int listPointer;"
       },
       {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        System.out.println(INDENT + \" \" + string);"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        System.out.println(INDENT + \"____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        System.out.println();"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 108,
+        "lineNumber": 6,
         "author": {
           "gitId": "Yoshi275"
         },
         "content": ""
       },
       {
-        "lineNumber": 109,
+        "lineNumber": 7,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public static void updateTodoString() {"
+        "content": "    public DeleteCommand(String command, String commandDetails, String INDENT) {"
       },
       {
-        "lineNumber": 110,
+        "lineNumber": 8,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        listString \u003d \"\" + INDENT + \" \";"
+        "content": "        super(command, commandDetails, INDENT);"
       },
       {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        for (int i \u003d 0; i \u003c listArr.size(); i++) {"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            listString +\u003d (i + 1) + \". \" + listArr.get(i);"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            if (i !\u003d (listArr.size() - 1)) {"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "                listString +\u003d \u0027\\n\u0027 + INDENT + \u0027 \u0027;"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 117,
+        "lineNumber": 9,
         "author": {
           "gitId": "Yoshi275"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 118,
+        "lineNumber": 10,
         "author": {
           "gitId": "Yoshi275"
         },
         "content": ""
       },
       {
-        "lineNumber": 119,
+        "lineNumber": 11,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public static void updateTodoFile(String todoString) {"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
-        "lineNumber": 120,
+        "lineNumber": 12,
         "author": {
           "gitId": "Yoshi275"
         },
         "content": "        try {"
       },
       {
-        "lineNumber": 121,
+        "lineNumber": 13,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            PrintWriter writer \u003d new PrintWriter(\"../../../data/duke.txt\", \"UTF-8\");"
+        "content": "            listPointer \u003d Integer.parseInt(commandDetails);"
       },
       {
-        "lineNumber": 122,
+        "lineNumber": 14,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            writer.printf(todoString);"
+        "content": "            Task deletedTask \u003d tasks.getList().get(listPointer - 1);"
       },
       {
-        "lineNumber": 123,
+        "lineNumber": 15,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            writer.close();"
+        "content": "            tasks.deleteTask(listPointer - 1);"
       },
       {
-        "lineNumber": 124,
+        "lineNumber": 16,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        } catch (IOException ex) {"
+        "content": "            ui.printResponse(\"Noted. I\u0027ve removed this task: \\n\""
       },
       {
-        "lineNumber": 125,
+        "lineNumber": 17,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            System.out.println(ex);"
+        "content": "                    + INDENT + \"   \" + deletedTask + \"\\n\" + INDENT +"
       },
       {
-        "lineNumber": 126,
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                    \"Now you have \" + tasks.getList().size() + \" tasks in the list.\");"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            storage.updateTodoFile(tasks.getListString());"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } catch (Exception err) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            throw new DukeException(err.getMessage());"
+      },
+      {
+        "lineNumber": 22,
         "author": {
           "gitId": "Yoshi275"
         },
         "content": "        }"
       },
       {
-        "lineNumber": 127,
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 24
+    }
+  },
+  {
+    "path": "src/main/java/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.UnsupportedEncodingException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class DoneCommand extends Command {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private int listPointer;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public DoneCommand(String command, String commandDetails, String INDENT) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        super(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            listPointer \u003d Integer.parseInt(commandDetails);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            tasks.markTaskAsDone(listPointer - 1);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            ui.printResponse(\"Nice! I\u0027ve marked this task as done: \\n\""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                    + INDENT + \"   \" + tasks.getList().get(listPointer - 1));"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            storage.updateTodoFile(tasks.getListString());"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } catch (Exception err) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            throw new DukeException(err.getMessage());"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 23
+    }
+  },
+  {
+    "path": "src/main/java/Duke.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.UnsupportedEncodingException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class Duke {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private static String INDENT \u003d \"    \";"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private static String FILENAME \u003d \"../../../data/duke.txt\";"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private static Storage storage;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private static TaskList tasks;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private Ui ui;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public Duke(String filePath) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        ui \u003d new Ui(INDENT);"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            storage \u003d new Storage(filePath);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } catch(FileNotFoundException | UnsupportedEncodingException err) {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            ui.showFileMissingError();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            tasks \u003d new TaskList(storage.load());"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } catch(Exception err) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            ui.printError(err.getMessage());"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            ui.showLoadingError();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            tasks \u003d new TaskList();"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void run() {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        ui.showWelcome();"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        boolean isExit \u003d false;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        while(!isExit) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            try {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                String fullCommand \u003d ui.readCommand();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                Parser parser \u003d new Parser(fullCommand);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                Command c \u003d Parser.parse(parser.getCommand(), parser.getDetail(), INDENT);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                c.execute(tasks, ui, storage);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                isExit \u003d c.isExit();"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            } catch (DukeException e) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                ui.printError(e.getMessage());"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public static void main(String[] args) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        new Duke(FILENAME).run();"
+      },
+      {
+        "lineNumber": 49,
         "author": {
           "gitId": "-"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 128,
+        "lineNumber": 50,
         "author": {
           "gitId": "-"
         },
@@ -924,8 +1282,928 @@
       }
     ],
     "authorContributionMap": {
-      "Yoshi275": 123,
-      "-": 5
+      "Yoshi275": 46,
+      "-": 4
+    }
+  },
+  {
+    "path": "src/main/java/DukeException.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class DukeException extends Exception {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public DukeException(String message) {"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        super(message);"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 5
+    }
+  },
+  {
+    "path": "src/main/java/ExitCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class ExitCommand extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public ExitCommand(String command, String commandDetails, String INDENT) {"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        super(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        ui.exit();"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 9
+    }
+  },
+  {
+    "path": "src/main/java/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public ListCommand(String command, String commandDetails, String INDENT) {"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        super(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        ui.printResponse(\"Here are the tasks in your list:\\n\" + tasks.getListString());"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 9
+    }
+  },
+  {
+    "path": "src/main/java/Parser.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class Parser {"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private String[] inputArr;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public Parser(String input) {"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.inputArr \u003d input.split(\" \", 2);"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public String[] getInputArr() {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return inputArr;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public String getCommand() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return inputArr[0];"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public int getPointer() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return Integer.parseInt(inputArr[1]);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public String getDetail() {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        if(inputArr.length \u003e 1) {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return inputArr[1];"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return \"\";"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public static Command parse(String command, String commandDetails, String INDENT) {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        if(command.equals(\"bye\")) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return new ExitCommand(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else if(command.equals(\"list\")) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return new ListCommand(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else if(command.equals(\"done\")) {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return new DoneCommand(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else if(command.equals(\"delete\")) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return new DeleteCommand(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return new AddCommand(command, commandDetails, INDENT);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 41
+    }
+  },
+  {
+    "path": "src/main/java/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.File;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.PrintWriter;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.io.UnsupportedEncodingException;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private PrintWriter writer;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private String filename;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public Storage(String filename) throws FileNotFoundException, UnsupportedEncodingException {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.filename \u003d filename;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "//        createTodoFile();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void createTodoFile() throws FileNotFoundException, UnsupportedEncodingException {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        writer \u003d new PrintWriter(filename, \"UTF-8\");"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    // basically takes file and returns tasks"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public ArrayList\u003cTask\u003e load() throws FileNotFoundException {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        ArrayList\u003cTask\u003e tasklist \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        File f \u003d new File(filename);"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        Scanner scanner \u003d new Scanner(f);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        while(scanner.hasNext()) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            scanner.next();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            if(!scanner.hasNext()) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            String[] inputArr \u003d scanner.nextLine().trim().split(\" \", 3);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            char taskType \u003d inputArr[0].charAt(1);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            boolean isTaskComplete \u003d (inputArr[1].equals(\"[\\u2713]\")) ? true : false;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            if(taskType \u003d\u003d \u0027T\u0027) {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                tasklist.add(new Task(inputArr[2], \"todo\", isTaskComplete));"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            } else if(taskType \u003d\u003d \u0027D\u0027) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                String deadlineDetails \u003d inputArr[2].split(\"\\\\(\")[0];"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                String deadline \u003d inputArr[2].split(\"\\\\(\")[1].split(\" \", 2)[1];"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm)\");"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                LocalDateTime deadlineByDateTime \u003d LocalDateTime.parse(deadline, formatter);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                tasklist.add(new Task(deadlineDetails, \"deadline\", deadlineByDateTime, isTaskComplete));"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                String eventDetails \u003d inputArr[2].split(\"\\\\(\")[0];"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                String eventDateTime \u003d inputArr[2].split(\"\\\\(\")[1].split(\" \", 2)[1];"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm)\");"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                LocalDateTime eventDateTimeByDateTime \u003d LocalDateTime.parse(eventDateTime, formatter);"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                tasklist.add(new Task(eventDetails, \"event\", eventDateTimeByDateTime, isTaskComplete));"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return tasklist;"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void updateTodoFile(String todoString) throws FileNotFoundException, UnsupportedEncodingException {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        writer \u003d new PrintWriter(filename, \"UTF-8\");"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        writer.printf(todoString);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        writer.close();"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 61
     }
   },
   {
@@ -1007,7 +2285,7 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public Task(String description, String taskType) {"
+        "content": "    public Task(String description, String taskType, boolean isDone) {"
       },
       {
         "lineNumber": 12,
@@ -1028,7 +2306,7 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "        this.isDone \u003d isDone;"
       },
       {
         "lineNumber": 15,
@@ -1049,7 +2327,7 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public Task(String description, String taskType, LocalDateTime dateTime) {"
+        "content": "    public Task(String description, String taskType, LocalDateTime dateTime, boolean isDone) {"
       },
       {
         "lineNumber": 18,
@@ -1070,7 +2348,7 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "        this.isDone \u003d isDone;"
       },
       {
         "lineNumber": 21,
@@ -1112,168 +2390,625 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    }"
+        "content": "//        return (isDone ? \"TASKDONE\" : \"TASKNOTDONE\");"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public String getDescription() {"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        return description;"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    }"
+        "content": "        return description;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public String getTaskType() {"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        if(taskType.equals(\"todo\")) {"
+        "content": "    public String getTaskType() {"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return \"[T]\";"
+        "content": "        if(taskType.equals(\"todo\")) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        } else if(taskType.equals(\"deadline\")) {"
+        "content": "            return \"[T]\";"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return \"[D]\";"
+        "content": "        } else if(taskType.equals(\"deadline\")) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        } else if(taskType.equals(\"event\")) {"
+        "content": "            return \"[D]\";"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return \"[E]\";"
+        "content": "        } else if(taskType.equals(\"event\")) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        } else {"
+        "content": "            return \"[E]\";"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return \"\";"
+        "content": "        } else {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        }"
+        "content": "            return \"\";"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public String getDateTime() {"
+        "content": ""
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        return dateTime.format(formatter);"
+        "content": "    public String getDateTime() {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    }"
+        "content": "        return dateTime.format(formatter);"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public void markAsDone() {"
+        "content": ""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "Yoshi275"
         },
+        "content": "    public void markAsDone() {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "Yoshi275"
+        },
         "content": "        this.isDone \u003d true;"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        String stringToPrint \u003d getTaskType() + \" \" + getStatusIcon() + \" \" + getDescription();"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        if(taskType.equals(\"deadline\")) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return stringToPrint + \" (by: \" + getDateTime() + \")\";"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else if(taskType.equals(\"event\")) {"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return stringToPrint + \" (at: \" + getDateTime() + \")\";"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            return stringToPrint;"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 64
+    }
+  },
+  {
+    "path": "src/main/java/TaskList.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.time.format.DateTimeFormatter;"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class TaskList {"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private ArrayList\u003cTask\u003e list;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private String listString;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private static String INDENT \u003d \"    \";"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public TaskList() {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.list \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.listString \u003d \"\";"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public TaskList(ArrayList\u003cTask\u003e tasklist) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.list \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.listString \u003d \"\";"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        for(Task task : tasklist) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "            addTask(task);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public ArrayList\u003cTask\u003e getList() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return list;"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public String getListString() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return listString;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void addTask(Task newTask) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        list.add(newTask);"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        updateTodoString();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void addDateTask(String details, String dateTime, String taskType) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        LocalDateTime dateTimeByDateTime \u003d LocalDateTime.parse(dateTime, formatter);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        addTask(new Task(details, taskType, dateTimeByDateTime, false));"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void deleteTask(int index) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        list.remove(index);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        updateTodoString();"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void markTaskAsDone(int index) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        list.get(index).markAsDone();"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        updateTodoString();"
       },
       {
         "lineNumber": 50,
@@ -1294,80 +3029,66 @@
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    @Override"
+        "content": "    public void updateTodoString() {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "    public String toString() {"
+        "content": "        listString \u003d \"\" + INDENT + \" \";"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        String stringToPrint \u003d getTaskType() + \" \" + getStatusIcon() + \" \" + getDescription();"
+        "content": "        for (int i \u003d 0; i \u003c list.size(); i++) {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        if(taskType.equals(\"deadline\")) {"
+        "content": "            listString +\u003d (i + 1) + \". \" + list.get(i);"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return stringToPrint + \" (by: \" + getDateTime() + \")\";"
+        "content": "            if (i !\u003d (list.size() - 1)) {"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        } else if(taskType.equals(\"event\")) {"
+        "content": "                listString +\u003d \u0027\\n\u0027 + INDENT + \u0027 \u0027;"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return stringToPrint + \" (at: \" + getDateTime() + \")\";"
+        "content": "            }"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "        } else {"
+        "content": "        }"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "Yoshi275"
         },
-        "content": "            return stringToPrint;"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "Yoshi275"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "Yoshi275"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 63,
+        "lineNumber": 61,
         "author": {
           "gitId": "Yoshi275"
         },
@@ -1375,7 +3096,331 @@
       }
     ],
     "authorContributionMap": {
-      "Yoshi275": 63
+      "Yoshi275": 61
+    }
+  },
+  {
+    "path": "src/main/java/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private String INDENT;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    private Scanner scanner;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public Ui(String INDENT) {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.INDENT \u003d INDENT;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        this.scanner \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public String readCommand() {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        return scanner.nextLine();"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void printIndentedString(String string, String INDENT) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        System.out.println(INDENT + \"____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        System.out.println(INDENT + \" \" + string);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        System.out.println(INDENT + \"____________________________________________________________\");"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        System.out.println();"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void showWelcome() {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        printIndentedString(\"Hello! I\u0027m Duke\\n\" +"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "                INDENT + \" \" + \"What can I do for you?\", INDENT);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void exit() {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        printIndentedString(\"Bye. Hope to see you again soon!\", INDENT);"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void showLoadingError() {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        printIndentedString(\"Loading error! New file created.\", INDENT);"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void showFileMissingError() { printIndentedString(\"File not found. Check file directory.\", INDENT); }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void printError(String errorMessage) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        printIndentedString(errorMessage, INDENT);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    public void printResponse(String responseMessage) {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "        printIndentedString(responseMessage, INDENT);"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "Yoshi275"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Yoshi275": 45
     }
   }
 ]

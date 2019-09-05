@@ -888,127 +888,6 @@
     }
   },
   {
-    "path": "src/main/java/duke/Deadline.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "package duke;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "public class Deadline extends Task {"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    protected String by;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    public Deadline(String description, String by) {"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        super(description);"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        this.by \u003d by;"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    public String toString() {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + by + \")\";"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "cutieprobe": 16
-    }
-  },
-  {
     "path": "src/main/java/duke/Duke.java",
     "fileType": "java",
     "lines": [
@@ -1031,14 +910,14 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import duke.tasks.TaskList;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import duke.commands.Command;"
       },
       {
         "lineNumber": 5,
@@ -1059,1181 +938,306 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    private static final ArrayList\u003cTask\u003e TASKS \u003d new ArrayList\u003c\u003e();"
+        "content": "    private Parser parser;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    private static void handleList() {"
+        "content": "    private TaskList taskList;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        if (TASKS.size() \u003d\u003d 0) {"
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.println(\"     There are no tasks for now!\");"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            return;"
+        "content": "    public Duke() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        }"
+        "content": "        parser \u003d new Parser();"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        System.out.println(\"     Here are the tasks in your list:\");"
+        "content": "        storage \u003d new Storage();"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        for (int i \u003d 0; i \u003c TASKS.size(); i++) {"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.printf(\"     %d.%s\\n\", i + 1, TASKS.get(i));"
+        "content": "        try {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        }"
+        "content": "            taskList \u003d storage.loadData();"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    }"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "            ui.showException(e);"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    private static void handleDone(String line) throws DukeException {"
+        "content": "            ui.print();"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        try {"
+        "content": "            taskList \u003d new TaskList();"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            String[] input \u003d line.split(\" \");"
+        "content": "        }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            Task task \u003d TASKS.get(Integer.parseInt(input[1]) - 1);"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            task.markAsDone();"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.println(\"     Nice! I\u0027ve marked this task as done: \");"
+        "content": "    public void run() {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.printf(\"       %s\\n\", task);"
+        "content": "        ui.showGreeting();"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        } catch (Exception e) {"
+        "content": "        boolean isExit \u003d false;"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            throw new DukeException(\"Oops! Please enter a valid task number.\");"
+        "content": "        while (!isExit) {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        }"
+        "content": "            try {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    }"
+        "content": "                String input \u003d ui.getInput();"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "                Command command \u003d parser.parse(input);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    private static void handleDelete(String line) throws DukeException {"
+        "content": "                command.execute(taskList, ui, storage);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        try {"
+        "content": "                isExit \u003d command.isExit();"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            String[] input \u003d line.split(\" \");"
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            Task task \u003d TASKS.get(Integer.parseInt(input[1]) - 1);"
+        "content": "                ui.showException(e);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            TASKS.remove(task);"
+        "content": "            } finally {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.println(\"     Noted. I\u0027ve removed this task: \");"
+        "content": "                ui.print();"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.printf(\"       %s\\n\", task);"
+        "content": "            }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            System.out.printf(\"     Now you have %d tasks in the list.\\n\", TASKS.size());"
+        "content": "        }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        } catch (Exception e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            throw new DukeException(\"Oops! Please enter a valid task number.\");"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        }"
+        "content": "    /**"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    }"
+        "content": "     * Main method of duke project."
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    private static void handleToDo(String line) throws DukeException {"
+        "content": "    public static void main(String[] args) {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        String[] input \u003d line.split(\" \");"
+        "content": "        new Duke().run();"
       },
       {
         "lineNumber": 47,
         "author": {
-          "gitId": "cutieprobe"
+          "gitId": "-"
         },
-        "content": "        String description \u003d \"\";"
+        "content": "    }"
       },
       {
         "lineNumber": 48,
         "author": {
-          "gitId": "cutieprobe"
+          "gitId": "-"
         },
-        "content": "        for (int i \u003d 1; i \u003c input.length; i++) {"
+        "content": "}"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "            description \u003d description.concat(\" \" + input[i]);"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        description \u003d description.trim();"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        if (description.isBlank()) {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            throw new DukeException(\"Oops! The task description cannot be empty.\");"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        Task task \u003d new Todo(description);"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        TASKS.add(task);"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.println(\"     Got it. I\u0027ve added this task: \");"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.printf(\"       %s\\n\", task);"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.printf(\"     Now you have %d tasks in the list.\\n\", TASKS.size());"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "cutieprobe"
-        },
         "content": ""
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    private static void handleDeadLine(String line) throws DukeException {"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String[] input \u003d line.split(\" \");"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String description \u003d \"\";"
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String by \u003d \"\";"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        boolean isDescription \u003d true;"
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        for (String word: input) {"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            if (word.equals(\"deadline\")) {"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                continue;"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } else if (word.equals(\"/by\")) {"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                isDescription \u003d false;"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } else if (isDescription) {"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                description \u003d description.concat(\" \" + word);"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                by \u003d by.concat(\" \" + word);"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        description \u003d description.trim();"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        by \u003d by.trim();"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        if (description.isBlank()) {"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            throw new DukeException(\"Oops! The task description cannot be empty.\");"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        if (by.isBlank()) {"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            throw new DukeException(\"Oops! The task deadline cannot be empty.\");"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        Task task \u003d new Deadline(description, by);"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        TASKS.add(task);"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.println(\"     Got it. I\u0027ve added this task: \");"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.printf(\"       %s\\n\", task);"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.printf(\"     Now you have %d tasks in the list.\\n\", TASKS.size());"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    private static void handleEvent(String line) throws DukeException {"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String[] input \u003d line.split(\" \");"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String description \u003d \"\";"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String at \u003d \"\";"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        boolean isDescription \u003d true;"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        for (String word: input) {"
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            if (word.equals(\"event\")) {"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                continue;"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } else if (word.equals(\"/at\")) {"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                isDescription \u003d false;"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } else if (isDescription) {"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                description \u003d description.concat(\" \" + word);"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                at \u003d at.concat(\" \" + word);"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        description \u003d description.trim();"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        at \u003d at.trim();"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        if (description.isBlank()) {"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            throw new DukeException(\"Oops! The task description cannot be empty.\");"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        if (at.isBlank()) {"
-      },
-      {
-        "lineNumber": 115,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            throw new DukeException(\"Oops! The task dates/times cannot be empty.\");"
-      },
-      {
-        "lineNumber": 116,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 117,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        Task task \u003d new Event(description, at);"
-      },
-      {
-        "lineNumber": 118,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        TASKS.add(task);"
-      },
-      {
-        "lineNumber": 119,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.println(\"     Got it. I\u0027ve added this task: \");"
-      },
-      {
-        "lineNumber": 120,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.printf(\"       %s\\n\", task);"
-      },
-      {
-        "lineNumber": 121,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.printf(\"     Now you have %d tasks in the list.\\n\", TASKS.size());"
-      },
-      {
-        "lineNumber": 122,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 123,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 124,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    private static void handleException() {"
-      },
-      {
-        "lineNumber": 125,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.println(\"     Oops! I\u0027m sorry. I don\u0027t know what that means.\");"
-      },
-      {
-        "lineNumber": 126,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 127,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 128,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 129,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "     * Main method of duke project."
-      },
-      {
-        "lineNumber": 130,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 131,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "    public static void main(String[] args) {"
-      },
-      {
-        "lineNumber": 132,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        Scanner sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 133,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 134,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        String greeting \u003d \"     Hello! I\u0027m Duke\\n\""
-      },
-      {
-        "lineNumber": 135,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                + \"     What can I do for you?\";"
-      },
-      {
-        "lineNumber": 136,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        System.out.println(greeting);"
-      },
-      {
-        "lineNumber": 137,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 138,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        while (sc.hasNext()) {"
-      },
-      {
-        "lineNumber": 139,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            String line \u003d sc.nextLine();"
-      },
-      {
-        "lineNumber": 140,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            if (line.equals(\"bye\")) {"
-      },
-      {
-        "lineNumber": 141,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                System.out.println(\"     Bye. Hope to see you again soon!\");"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                break;"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            if (line.equals(\"list\")) {"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                handleList();"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                continue;"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            String[] input \u003d line.split(\" \");"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 150,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                switch (input[0]) {"
-      },
-      {
-        "lineNumber": 151,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                case \"done\":"
-      },
-      {
-        "lineNumber": 152,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    handleDone(line);"
-      },
-      {
-        "lineNumber": 153,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 154,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                case \"delete\":"
-      },
-      {
-        "lineNumber": 155,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    handleDelete(line);"
-      },
-      {
-        "lineNumber": 156,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 157,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                case \"todo\":"
-      },
-      {
-        "lineNumber": 158,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    handleToDo(line);"
-      },
-      {
-        "lineNumber": 159,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 160,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                case \"deadline\":"
-      },
-      {
-        "lineNumber": 161,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    handleDeadLine(line);"
-      },
-      {
-        "lineNumber": 162,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 163,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                case \"event\":"
-      },
-      {
-        "lineNumber": 164,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    handleEvent(line);"
-      },
-      {
-        "lineNumber": 165,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    break;"
-      },
-      {
-        "lineNumber": 166,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                default:"
-      },
-      {
-        "lineNumber": 167,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                    throw new DukeException(\"Oops! I don\u0027t understand your command.\");"
-      },
-      {
-        "lineNumber": 168,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 169,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 170,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "                System.out.println(\"     \" + e.getMessage());"
-      },
-      {
-        "lineNumber": 171,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 172,
-        "author": {
-          "gitId": "cutieprobe"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 173,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 174,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "}"
       }
     ],
     "authorContributionMap": {
       "-": 3,
-      "cutieprobe": 171
+      "cutieprobe": 46
     }
   },
   {
@@ -2295,7 +1299,7 @@
     }
   },
   {
-    "path": "src/main/java/duke/Event.java",
+    "path": "src/main/java/duke/Parser.java",
     "fileType": "java",
     "lines": [
       {
@@ -2317,56 +1321,56 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "public class Event extends Task {"
+        "content": "import duke.commands.Command;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "import duke.commands.EventCommand;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    protected String at;"
+        "content": "import duke.commands.ExitCommand;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "import duke.commands.DeadlineCommand;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public Event(String description, String at) {"
+        "content": "import duke.commands.DeleteCommand;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        super(description);"
+        "content": "import duke.commands.DoneCommand;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        this.at \u003d at;"
+        "content": "import duke.commands.ListCommand;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    }"
+        "content": "import duke.commands.TodoCommand;"
       },
       {
         "lineNumber": 11,
@@ -2380,21 +1384,2608 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    @Override"
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public String toString() {"
+        "content": "    private String getCommand(String input) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
+        "content": "        String[] tokens \u003d input.split(\" \", 2);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return tokens[0].trim().toLowerCase();"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private String getDetails(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            String[] tokens \u003d input.split(\" \", 2);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return tokens[1].trim();"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"Details of your command not found.\");"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private Command parseDone(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            int taskIndex \u003d Integer.parseInt(getDetails(input)) - 1;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return new DoneCommand(taskIndex);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"Invalid task number!\");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private Command parseDelete(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            int taskIndex \u003d Integer.parseInt(getDetails(input)) - 1;"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return new DeleteCommand(taskIndex);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (Exception e) {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"Invalid task number!\");"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private Command parseTodo(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String description \u003d getDetails(input).trim();"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        if (description.isBlank()) {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The task description cannot be empty.\");"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return new TodoCommand(description);"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private Command parseDeadline(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String[] taskDetails \u003d getDetails(input).split(\"/by\");"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String description \u003d taskDetails[0].trim();"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String by \u003d taskDetails[1].trim();"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        if (description.isBlank()) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The task description cannot be empty.\");"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } else if (by.isBlank()) {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The task deadline cannot be empty.\");"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return new DeadlineCommand(description, by);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private Command parseEvent(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String[] taskDetails \u003d getDetails(input).split(\"/at\");"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String description \u003d taskDetails[0].trim();"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String at \u003d taskDetails[1].trim();"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        if (description.isBlank()) {"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The task description cannot be empty.\");"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } else if (at.isBlank()) {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The task date/time cannot be empty.\");"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return new EventCommand(description, at);"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public Command parse(String input) throws DukeException {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String command \u003d this.getCommand(input);"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        switch (command) {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"bye\":"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return new ExitCommand();"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"list\":"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return new ListCommand();"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"done\":"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return parseDone(input);"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"delete\":"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return parseDelete(input);"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return parseTodo(input);"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return parseDeadline(input);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return parseEvent(input);"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"Please enter a valid command!\");"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 98
+    }
+  },
+  {
+    "path": "src/main/java/duke/Storage.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.IOException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.FileInputStream;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.FileNotFoundException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.FileOutputStream;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.ObjectInputStream;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.ObjectOutputStream;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class Storage {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private static final String filePath \u003d \"data/duke.txt\";"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public TaskList loadData() throws DukeException {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            FileInputStream file \u003d new FileInputStream(filePath);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            if (file.available() \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "                return new TaskList();"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            ObjectInputStream object \u003d new ObjectInputStream(file);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            TaskList tasks \u003d (TaskList) object.readObject();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            object.close();"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return tasks;"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The data file is not found.\");"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (ClassNotFoundException e) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The data file is corrupted.\");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The data file is empty.\");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void saveData(TaskList tasks) throws DukeException {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            FileOutputStream file \u003d new FileOutputStream(filePath);"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            ObjectOutputStream object \u003d new ObjectOutputStream(file);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            object.writeObject(tasks);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            object.close();"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (FileNotFoundException e) {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"The data file is not found.\");"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            //throw new DukeException(\"Cannot save data to the file.\");"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(e.getMessage());"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 50
+    }
+  },
+  {
+    "path": "src/main/java/duke/Ui.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.util.Scanner;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class Ui {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private static final StringBuilder indent \u003d new StringBuilder(\" \".repeat(5));"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private static final StringBuilder horizontalLine \u003d new StringBuilder(indent + \"_\".repeat(50) + \"\\n\");"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private StringBuilder content \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public String getInput() {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        Scanner scanner \u003d new Scanner(System.in);"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        if (scanner.hasNextLine()) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            return scanner.nextLine();"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return null;"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showException(DukeException e) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(String.format(\"Oops! %s\\n\", e.getMessage()));"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showGreeting() {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        String greeting \u003d \"     Hello! I\u0027m Duke\\n\""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "                + \"     What can I do for you?\";"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        System.out.println(greeting);"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showNoTask() {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(\"There is currently no task in the list!\\n\");"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showTasks(TaskList taskList) {"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(\"Here are the tasks in your list:\\n\");"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        for (int i \u003d 0; i \u003c taskList.getSize(); i++) {"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            this.content.append(indent);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            this.content.append(String.format(\"     %d.%s\\n\", i + 1, taskList.getTask(i)));"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showExit() {"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(\"Bye. Hope to see you again soon!\\n\");"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showDone(Task task) {"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(\"Nice! I\u0027ve marked this task as done:\\n\");"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(task + \"\\n\");"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showDelete(Task task, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(\"Noted. I\u0027ve removed this task:\\n\");"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(task + \"\\n\");"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(String.format(\"Now you have %d tasks in the list.\\n\", taskList.getSize()));"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void showAddTask(Task task, TaskList taskList) {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(\"Got it. I\u0027ve added this task:\\n\");"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(String.format(\"  %s\\n\", task));"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(indent);"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content.append(String.format(\"Now you have %d tasks in the list.\\n\", taskList.getSize()));"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void print() {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        StringBuilder output \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        output.append(horizontalLine);"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        output.append(content);"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        output.append(horizontalLine);"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        System.out.print(output.toString());"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.content \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 85
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public abstract class Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public abstract void execute(TaskList taskList, Ui ui, Storage storage) throws DukeException;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 14
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/DeadlineCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Deadline;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class DeadlineCommand extends Command {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private String by;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public DeadlineCommand(String description, String by) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.by \u003d by;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        Task deadline \u003d new Deadline(this.description, this.by);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        taskList.addTask(deadline);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        ui.showAddTask(deadline, taskList);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        storage.saveData(taskList);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class DeleteCommand extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private int taskIndex;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public DeleteCommand(int taskIndex) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.taskIndex \u003d taskIndex;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        Task task \u003d taskList.getTask(taskIndex);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        taskList.removeTask(taskIndex);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        ui.showDelete(task, taskList);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        storage.saveData(taskList);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 22
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/DoneCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Task;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class DoneCommand extends Command {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private int taskIndex;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public DoneCommand(int taskIndex) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.taskIndex \u003d taskIndex;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        Task task \u003d taskList.getTask(this.taskIndex);"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        task.markAsDone();"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        ui.showDone(task);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        storage.saveData(taskList);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 22
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/EventCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Event;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.Task;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class EventCommand extends Command {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private String description;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private String at;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public EventCommand(String description, String at) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.at \u003d at;"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        Task event \u003d new Event(this.description, this.at);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        taskList.addTask(event);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        ui.showAddTask(event, taskList);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        storage.saveData(taskList);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/ExitCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class ExitCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        ui.showExit();"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return true;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 17
+    }
+  },
+  {
+    "path": "src/main/java/duke/commands/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.tasks.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) {"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        if (taskList.getSize() \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            ui.showNoTask();"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            ui.showTasks(taskList);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
       },
       {
         "lineNumber": 15,
@@ -2416,7 +4007,7 @@
     }
   },
   {
-    "path": "src/main/java/duke/Task.java",
+    "path": "src/main/java/duke/commands/TodoCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -2424,7 +4015,7 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "package duke;"
+        "content": "package duke.commands;"
       },
       {
         "lineNumber": 2,
@@ -2438,63 +4029,63 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "public class Task {"
+        "content": "import duke.DukeException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "import duke.tasks.Todo;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    protected String description;"
+        "content": "import duke.tasks.Task;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    protected boolean isDone;"
+        "content": "import duke.tasks.TaskList;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "import duke.Storage;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public Task(String description) {"
+        "content": "import duke.Ui;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        this.description \u003d description;"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "public class TodoCommand extends Command {"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    }"
+        "content": "    private String description;"
       },
       {
         "lineNumber": 12,
@@ -2508,14 +4099,14 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    public TodoCommand(String description) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 15,
@@ -2536,14 +4127,184 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public String getDescription() {"
+        "content": "    public void execute(TaskList taskList, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        return this.description;"
+        "content": "        Task todo \u003d new Todo(this.description);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        taskList.addTask(todo);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        ui.showAddTask(todo, taskList);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        storage.saveData(taskList);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 23
+    }
+  },
+  {
+    "path": "src/main/java/duke/tasks/Deadline.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.tasks;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class Deadline extends Task {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    protected Date by;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public Deadline(String description, String by) throws DukeException {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            this.by \u003d dateTimeFormatter.parse(by);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"Incorrect date/time format for the task.\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
       },
       {
         "lineNumber": 19,
@@ -2564,14 +4325,382 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public void markAsDone() {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + dateTimeFormatter.format(by) + \")\";"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/tasks/Event.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.tasks;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import duke.DukeException;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.text.ParseException;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.util.Date;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class Event extends Task {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    protected Date at;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public Event(String description, String at) throws DukeException {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        super(description);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            this.at \u003d dateTimeFormatter.parse(at);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        } catch (ParseException e) {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "            throw new DukeException(\"Incorrect Date/time format for the task.\");"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + dateTimeFormatter.format(at) + \")\";"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/tasks/Task.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.tasks;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.Serializable;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.text.SimpleDateFormat;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class Task implements Serializable {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    protected final SimpleDateFormat dateTimeFormatter \u003d new SimpleDateFormat(\"dd/MM/yyyy HH:mm\");"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    protected String description;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    protected boolean isDone;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public Task(String description) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.description \u003d description;"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        this.isDone \u003d false;"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public String getStatusIcon() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public String getDescription() {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return this.description;"
       },
       {
         "lineNumber": 23,
@@ -2592,31 +4721,87 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    @Override"
+        "content": "    public void markAsDone() {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    public String toString() {"
+        "content": "        this.isDone \u003d true;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "        return String.format(\"[%s] %s\", this.getStatusIcon(), this.getDescription());"
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 29,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public String toSaveFormat() {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return isDone + \"`\" + description;"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return String.format(\"[%s] %s\", this.getStatusIcon(), this.getDescription());"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 37,
         "author": {
           "gitId": "cutieprobe"
         },
@@ -2624,11 +4809,11 @@
       }
     ],
     "authorContributionMap": {
-      "cutieprobe": 29
+      "cutieprobe": 37
     }
   },
   {
-    "path": "src/main/java/duke/Todo.java",
+    "path": "src/main/java/duke/tasks/TaskList.java",
     "fileType": "java",
     "lines": [
       {
@@ -2636,7 +4821,191 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "package duke;"
+        "content": "package duke.tasks;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.io.Serializable;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "public class TaskList implements Serializable {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    private ArrayList\u003cTask\u003e taskList \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void addTask(Task task) {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        taskList.add(task);"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public Task getTask(int index) {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return taskList.get(index);"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public void removeTask(int index) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        taskList.remove(index);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    public int getSize() {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "        return taskList.size();"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "cutieprobe": 25
+    }
+  },
+  {
+    "path": "src/main/java/duke/tasks/Todo.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "package duke.tasks;"
       },
       {
         "lineNumber": 2,
@@ -2997,73 +5366,80 @@
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "# run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT"
+        "content": "# clear the duke data file, run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "java -classpath ../bin duke.Duke \u003c input.txt \u003e ACTUAL.TXT"
+        "content": "echo -n \u003e ../data/duke.txt"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": ""
+        "content": "java -classpath ../bin duke.Duke \u003c input.txt \u003e ACTUAL.TXT"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "# compare the output to the expected output"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "if diff ACTUAL.TXT EXPECTED.TXT; then"
+        "content": "# compare the output to the expected output"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    echo \"Test result: PASSED\""
+        "content": "if diff ACTUAL.TXT EXPECTED.TXT; then"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    exit 0"
+        "content": "    echo \"Test result: PASSED\""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "else"
+        "content": "    exit 0"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    echo \"Test result: FAILED\""
+        "content": "else"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "cutieprobe"
         },
-        "content": "    exit 1"
+        "content": "    echo \"Test result: FAILED\""
       },
       {
         "lineNumber": 29,
+        "author": {
+          "gitId": "cutieprobe"
+        },
+        "content": "    exit 1"
+      },
+      {
+        "lineNumber": 30,
         "author": {
           "gitId": "cutieprobe"
         },
@@ -3071,7 +5447,7 @@
       }
     ],
     "authorContributionMap": {
-      "cutieprobe": 29
+      "cutieprobe": 30
     }
   }
 ]

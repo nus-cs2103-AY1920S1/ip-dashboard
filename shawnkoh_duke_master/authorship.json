@@ -396,77 +396,77 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.ui.Ui;"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * A task management application."
+        "content": "/**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": " * A task management application."
       },
       {
         "lineNumber": 14,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 15,
         "author": {
           "gitId": "-"
         },
         "content": "public class Duke {"
       },
       {
-        "lineNumber": 15,
+        "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
         "content": "    private static final String STORAGE_PATHNAME \u003d \"data/tasks.txt\";"
       },
       {
-        "lineNumber": 16,
+        "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
         "content": "    private boolean isActive;"
       },
       {
-        "lineNumber": 17,
+        "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
         "content": "    private Storage storage;"
       },
       {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    private TaskList tasks;"
-      },
-      {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private Ui ui;"
+        "content": "    private TaskList tasks;"
       },
       {
         "lineNumber": 20,
@@ -501,7 +501,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public Duke() {"
+        "content": "    public Duke() throws DukeException, IOException {"
       },
       {
         "lineNumber": 25,
@@ -515,182 +515,182 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        ui \u003d new Ui();"
+        "content": "        storage \u003d new Storage(STORAGE_PATHNAME);"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        storage \u003d new Storage(STORAGE_PATHNAME);"
+        "content": "        tasks \u003d new TaskList(storage.load());"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "    }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            tasks \u003d new TaskList(storage.load());"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            tasks \u003d new TaskList();"
+        "content": "     * Parses and executes the input given."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "     *"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @param input The input to parse and execute"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     * @return The response from Duke."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Parses and executes the input given."
+        "content": "    public String getResponse(String input) throws IOException {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "        try {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param input The input to parse and execute"
+        "content": "            Command c \u003d Parser.parse(input);"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return The response from Duke."
+        "content": "            c.setData(tasks, storage);"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "            CommandResult result \u003d c.execute();"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String getResponse(String input) {"
+        "content": "            isActive \u003d !c.isExit();"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "            return result.feedback;"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            Command c \u003d Parser.parse(input);"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            c.setData(tasks, ui, storage);"
+        "content": "            return e.getMessage();"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            CommandResult result \u003d c.execute();"
+        "content": "        }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            isActive \u003d !c.isExit();"
+        "content": "    }"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return result.feedback;"
+        "content": ""
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "    public boolean isActive() {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return e.getMessage();"
+        "content": "        return isActive;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
-          "gitId": "shawnkoh"
+          "gitId": "-"
         },
-        "content": "    }"
+        "content": "}"
       },
       {
         "lineNumber": 52,
@@ -698,45 +698,10 @@
           "gitId": "shawnkoh"
         },
         "content": ""
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public boolean isActive() {"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        return isActive;"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "}"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 55,
+      "shawnkoh": 50,
       "-": 2
     }
   },
@@ -856,185 +821,213 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.ui.MainWindow;"
+        "content": "import duke.exception.DukeException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.application.Application;"
+        "content": "import duke.ui.MainWindow;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.fxml.FXMLLoader;"
+        "content": "import javafx.application.Application;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.Scene;"
+        "content": "import javafx.fxml.FXMLLoader;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.layout.AnchorPane;"
+        "content": "import javafx.scene.Scene;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.stage.Stage;"
+        "content": "import javafx.scene.layout.AnchorPane;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import javafx.stage.Stage;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.io.IOException;"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class Main extends Application {"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "public class Main extends Application {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private Duke duke \u003d new Duke();"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    private Duke duke \u003d new Duke();"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void start(Stage primaryStage) {"
+        "content": "    public Main() throws IOException, DukeException {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            FXMLLoader fxmlLoader \u003d new FXMLLoader(Main.class.getResource(\"/view/MainWindow.fxml\"));"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            AnchorPane ap \u003d fxmlLoader.load();"
+        "content": "    @Override"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            Scene scene \u003d new Scene(ap);"
+        "content": "    public void start(Stage primaryStage) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            primaryStage.setScene(scene);"
+        "content": "        try {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().setDuke(duke);"
+        "content": "            FXMLLoader fxmlLoader \u003d new FXMLLoader(Main.class.getResource(\"/view/MainWindow.fxml\"));"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            primaryStage.show();"
+        "content": "            AnchorPane ap \u003d fxmlLoader.load();"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            Scene scene \u003d new Scene(ap);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            primaryStage.setScene(scene);"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().setDuke(duke);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "            primaryStage.show();"
       },
       {
         "lineNumber": 29,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -1042,7 +1035,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 29
+      "shawnkoh": 33
     }
   },
   {
@@ -1082,91 +1075,91 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import duke.ui.Ui;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import static java.lang.System.lineSeparator;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a {@link Command} to add a {@link Task}."
+        "content": "import static java.lang.System.lineSeparator;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "import static java.util.Objects.requireNonNull;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class AddCommand extends Command {"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "/**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private final Task toAdd;"
+        "content": " * Represents a {@link Command} to add a {@link Task}."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public AddCommand(Task task) {"
+        "content": "public class AddCommand extends Command {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.toAdd \u003d task;"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    private final Task toAdd;"
       },
       {
         "lineNumber": 18,
@@ -1180,87 +1173,157 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    /**"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public CommandResult execute() throws DukeException {"
+        "content": "     * Creates a {@link Command} that will create a {@link Task} when executed."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        tasks.add(toAdd);"
+        "content": "     *"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        String data \u003d toAdd.stringify();"
+        "content": "     * @param task the Task to be created"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        if (tasks.size() \u003e 1) {"
+        "content": "     */"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            data \u003d lineSeparator() + data;"
+        "content": "    public AddCommand(Task task) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "        this.toAdd \u003d requireNonNull(task);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        storage.append(data);"
+        "content": "    }"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new CommandResult(\"Got it. I\u0027ve added this task:\""
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                + lineSeparator() + ui.INDENT + toAdd"
+        "content": "    @Override"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                + lineSeparator() + \"Now you have \" + tasks.size() + \" tasks in the list.\");"
+        "content": "    public CommandResult execute() throws IOException {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        tasks.add(toAdd);"
       },
       {
         "lineNumber": 31,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        String data \u003d toAdd.stringify();"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (tasks.size() \u003e 1) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            data \u003d lineSeparator() + data;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        storage.append(data);"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return new CommandResult(\"Got it. I\u0027ve added this task:\""
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "                + lineSeparator() + Ui.INDENT + toAdd"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "                + lineSeparator() + \"Now you have \" + tasks.size() + \" tasks in the list.\""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        );"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -1268,7 +1331,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 31
+      "shawnkoh": 41
     }
   },
   {
@@ -1436,210 +1499,210 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.ui.Ui;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a user command."
+        "content": "import static java.util.Objects.requireNonNull;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public abstract class Command {"
+        "content": "/**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": " * Represents a user command."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected TaskList tasks;"
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected Ui ui;"
+        "content": "public abstract class Command {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected Storage storage;"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected boolean isExit;"
+        "content": "    protected TaskList tasks;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    protected Storage storage;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    protected boolean isExit;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Executes the {@link Command}."
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @throws DukeException If the command failed to execute."
+        "content": "     * Executes the {@link Command}."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public abstract CommandResult execute() throws DukeException;"
+        "content": "     * @throws DukeException If the command failed to execute."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    public abstract CommandResult execute() throws DukeException, IOException;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Sets the data to be used by the {@link Command}."
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param tasks List of tasks."
+        "content": "     * Sets the data to be used by the {@link Command}."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param ui UI interface."
+        "content": "     *"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param storage Storage."
+        "content": "     * @param tasks   List of tasks."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     * @param storage Storage."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void setData(TaskList tasks, Ui ui, Storage storage) {"
+        "content": "     */"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.tasks \u003d tasks;"
+        "content": "    public void setData(TaskList tasks, Storage storage) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.ui \u003d ui;"
+        "content": "        this.tasks \u003d requireNonNull(tasks);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.storage \u003d storage;"
+        "content": "        this.storage \u003d requireNonNull(storage);"
       },
       {
         "lineNumber": 37,
@@ -1923,31 +1986,52 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public static final String MESSAGE_USAGE \u003d COMMAND_WORD"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public DeadlineCommand(String description, Date by) {"
+        "content": "            + \": Adds a task with a deadline\" + System.lineSeparator()"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        super(new Deadline(description, by));"
+        "content": "            + \"Usage: \" + COMMAND_WORD + \" \u003cdescription\u003e /by \u003cdueDate\u003e\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 17,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public DeadlineCommand(String description, Date dueDate) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        super(new Deadline(description, dueDate));"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -1955,7 +2039,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 17
+      "shawnkoh": 20
     }
   },
   {
@@ -1981,14 +2065,14 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.exception.DukeException;"
+        "content": "import duke.task.Task;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.task.Task;"
+        "content": "import duke.ui.Ui;"
       },
       {
         "lineNumber": 5,
@@ -2002,7 +2086,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import static java.lang.System.lineSeparator;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 7,
@@ -2016,143 +2100,248 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": "import static java.lang.System.lineSeparator;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a {@link Command} to delete a {@link Task}."
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class DeleteCommand extends Command {"
+        "content": " * Represents a {@link Command} to delete a {@link Task}."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static final String COMMAND_WORD \u003d \"delete\";"
+        "content": "public class DeleteCommand extends Command {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private final int toDelete;"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public static final String COMMAND_WORD \u003d \"delete\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public DeleteCommand(int id) {"
+        "content": "    public static final String MESSAGE_USAGE \u003d COMMAND_WORD"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.toDelete \u003d id;"
+        "content": "            + \": Deletes the task with the specified ID\" + System.lineSeparator()"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "            + \"Usage: \" + COMMAND_WORD + \" \u003cid\u003e\";"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    private final int toDelete;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public CommandResult execute() throws DukeException {"
+        "content": "    /**"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        final Task task \u003d tasks.delete(toDelete);"
+        "content": "     * Creates a {@link Command} that deletes a {@link Task} when executed."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        storage.save(tasks.stringify());"
+        "content": "     *"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new CommandResult(\"Noted. I\u0027ve removed this task:\""
+        "content": "     * @param id the id of the {@link Task} to be deleted."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                + lineSeparator() + ui.INDENT + task"
+        "content": "     */"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                + lineSeparator() + \"Now you have \" + tasks.size() + \" tasks in the list.\");"
+        "content": "    public DeleteCommand(int id) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        assert id \u003e\u003d 0 \u0026\u0026 id \u003c tasks.size();"
       },
       {
         "lineNumber": 28,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        this.toDelete \u003d id;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public CommandResult execute() throws IOException {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (toDelete \u003c 0 || toDelete \u003e\u003d tasks.size()) {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new IncorrectCommand(MESSAGE_USAGE).execute();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        final Task task \u003d tasks.delete(toDelete);"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        storage.save(tasks.stringify());"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return new CommandResult(\"Noted. I\u0027ve removed this task:\""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "                + lineSeparator() + Ui.INDENT + task"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "                + lineSeparator() + \"Now you have \" + tasks.size() + \" tasks in the list.\""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        );"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -2160,7 +2349,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 28
+      "shawnkoh": 43
     }
   },
   {
@@ -2186,14 +2375,14 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.exception.DukeException;"
+        "content": "import duke.task.Task;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.task.Task;"
+        "content": "import duke.ui.Ui;"
       },
       {
         "lineNumber": 5,
@@ -2207,7 +2396,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import static java.lang.System.lineSeparator;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 7,
@@ -2221,42 +2410,42 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": "import static java.lang.System.lineSeparator;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a {@link Command} to mark a {@link Task} as done."
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class DoneCommand extends Command {"
+        "content": " * Represents a {@link Command} to mark a {@link Task} as done."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static final String COMMAND_WORD \u003d \"done\";"
+        "content": "public class DoneCommand extends Command {"
       },
       {
         "lineNumber": 14,
@@ -2270,129 +2459,192 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private int toMarkAsDone;"
+        "content": "    public static final String COMMAND_WORD \u003d \"done\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public static final String MESSAGE_USAGE \u003d COMMAND_WORD"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public DoneCommand(int id) {"
+        "content": "            + \": Marks the task with the specified ID as complete\""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.toMarkAsDone \u003d id;"
+        "content": "            + lineSeparator() + \"Usage: \" + COMMAND_WORD + \" \u003cid\u003e\";"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    private final int toMarkAsDone;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public CommandResult execute() throws DukeException {"
+        "content": "    /**"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "     * Creates a {@link Command} that marks a {@link Task} as complete when executed."
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            Task task \u003d tasks.get(toMarkAsDone);"
+        "content": "     *"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            task.markAsDone();"
+        "content": "     * @param id the id of the task to be marked as complete"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            storage.save(tasks.stringify());"
+        "content": "     */"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return new CommandResult(\"Nice! I\u0027ve marked this task as done:\""
+        "content": "    public DoneCommand(int id) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                    + lineSeparator() + ui.INDENT + task);"
+        "content": "        assert id \u003e\u003d 0 \u0026\u0026 id \u003c tasks.size();"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
+        "content": "        this.toMarkAsDone \u003d id;"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            throw new DukeException(\"Marking task with ID \" + toMarkAsDone + \" failed: Invalid ID\");"
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 33,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public CommandResult execute() throws IOException {"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (toMarkAsDone \u003c 0 || toMarkAsDone \u003e\u003d tasks.size()) {"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new IncorrectCommand(MESSAGE_USAGE).execute();"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        Task task \u003d tasks.get(toMarkAsDone);"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        task.markAsDone();"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        storage.save(tasks.stringify());"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return new CommandResult(\"Nice! I\u0027ve marked this task as done:\" + lineSeparator() + Ui.INDENT + task);"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 42,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -2400,7 +2652,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 33
+      "shawnkoh": 42
     }
   },
   {
@@ -2496,31 +2748,52 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public static final String MESSAGE_USAGE \u003d COMMAND_WORD"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public EventCommand(String description, Date at) {"
+        "content": "            + \": Creates a task with a date\" + System.lineSeparator()"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        super(new Event(description, at));"
+        "content": "            + \"Usage: \" + COMMAND_WORD + \" \u003cdescription\u003e /at \u003cdate\u003e\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 17,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public EventCommand(String description, Date date) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        super(new Event(description, date));"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -2528,7 +2801,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 17
+      "shawnkoh": 20
     }
   },
   {
@@ -2582,63 +2855,63 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import static java.util.Objects.requireNonNull;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class FindCommand extends Command {"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "public class FindCommand extends Command {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static final String COMMAND_WORD \u003d \"find\";"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private final String keyword;"
+        "content": "    public static final String COMMAND_WORD \u003d \"find\";"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public static final String MESSAGE_USAGE \u003d COMMAND_WORD"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public FindCommand(String keyword) {"
+        "content": "            + \": Finds and displays a list of Tasks that match the keyword\""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.keyword \u003d keyword;"
+        "content": "            + lineSeparator() + \"Usage: \" + COMMAND_WORD + \" \u003ckeyword\u003e\";"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    private final String keyword;"
       },
       {
         "lineNumber": 16,
@@ -2652,21 +2925,21 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    public FindCommand(String keyword) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public CommandResult execute() {"
+        "content": "        this.keyword \u003d requireNonNull(keyword);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        TaskList result \u003d tasks.find(keyword);"
+        "content": "    }"
       },
       {
         "lineNumber": 20,
@@ -2680,80 +2953,108 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        if (result.size() \u003d\u003d 0) {"
+        "content": "    @Override"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return new CommandResult(\"There are no matching tasks in your list\");"
+        "content": "    public CommandResult execute() {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } else {"
+        "content": "        TaskList result \u003d tasks.find(keyword);"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            StringBuilder feedback \u003d new StringBuilder(\"Here are the matching tasks in your list:\");"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            for (int i \u003d 1; i \u003c\u003d result.size(); i++) {"
+        "content": "        if (result.size() \u003d\u003d 0) {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                Task task \u003d result.get(i - 1);"
+        "content": "            return new CommandResult(\"There are no matching tasks in your list\");"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                feedback.append(lineSeparator() + i + \". \" + task);"
+        "content": "        } else {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            }"
+        "content": "            StringBuilder feedback \u003d new StringBuilder(\"Here are the matching tasks in your list:\");"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return new CommandResult(feedback.toString());"
+        "content": "            for (int i \u003d 1; i \u003c\u003d result.size(); i++) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "                Task task \u003d result.get(i - 1);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "                feedback.append(lineSeparator() + i + \". \" + task);"
       },
       {
         "lineNumber": 32,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new CommandResult(feedback.toString());"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -2761,11 +3062,514 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 32
+      "shawnkoh": 36
     }
   },
   {
     "path": "src/main/java/duke/command/IncorrectCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "import static java.util.Objects.requireNonNull;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " * Represents a {@link Command} to inform the user that he has entered an incorrect command."
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "public class IncorrectCommand extends Command {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    private final String message;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public IncorrectCommand(String message) {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        this.message \u003d requireNonNull(message);"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public CommandResult execute() {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return new CommandResult(message);"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "shawnkoh": 20
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ListCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "import duke.task.Task;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "import duke.ui.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "import static java.lang.System.lineSeparator;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " * Represents a {@link Command} to display a list of {@link Task}."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "public class ListCommand extends Command {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public static final String COMMAND_WORD \u003d \"list\";"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public CommandResult execute() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (tasks.size() \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new CommandResult(\"There are no tasks in your list\");"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        StringBuilder feedback \u003d new StringBuilder(\"Here are the tasks in your list:\");"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        for (int i \u003d 1; i \u003c\u003d tasks.size(); i++) {"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            Task task \u003d tasks.get(i - 1);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            feedback.append(lineSeparator() + Ui.INDENT + i + \". \" + task);"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return new CommandResult(feedback.toString());"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "shawnkoh": 28
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/ToDoCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "package duke.command;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "import duke.task.ToDo;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "import static java.lang.System.lineSeparator;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " * Represents a {@link Command} to add a {@link ToDo}."
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "public class ToDoCommand extends AddCommand {"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public static final String COMMAND_WORD \u003d \"todo\";"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public static final String MESSAGE_USAGE \u003d COMMAND_WORD"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            + \": Create a new task\" + lineSeparator()"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            + \"Usage: \" + COMMAND_WORD + \" \u003cdescription\u003e\";"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    public ToDoCommand(String description) {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        super(new ToDo(description));"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "shawnkoh": 20
+    }
+  },
+  {
+    "path": "src/main/java/duke/command/UnknownCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -2794,7 +3598,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a {@link Command} to inform the user that he has entered an incorrect command."
+        "content": " * Represents a {@link Command} to inform the user that he has entered an unknown command."
       },
       {
         "lineNumber": 5,
@@ -2808,7 +3612,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class IncorrectCommand extends Command {"
+        "content": "public class UnknownCommand extends Command {"
       },
       {
         "lineNumber": 7,
@@ -2855,318 +3659,6 @@
     ],
     "authorContributionMap": {
       "shawnkoh": 12
-    }
-  },
-  {
-    "path": "src/main/java/duke/command/ListCommand.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "package duke.command;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "import duke.task.Task;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "import static java.lang.System.lineSeparator;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "/**"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": " * Represents a {@link Command} to display a list of {@link Task}."
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": " */"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "public class ListCommand extends Command {"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public static final String COMMAND_WORD \u003d \"list\";"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    @Override"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public CommandResult execute() {"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        if (tasks.size() \u003d\u003d 0) {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            return new CommandResult(\"There are no tasks in your list\");"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        StringBuilder feedback \u003d new StringBuilder(\"Here are the tasks in your list:\");"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        for (int i \u003d 1; i \u003c\u003d tasks.size(); i++) {"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            Task task \u003d tasks.get(i - 1);"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            feedback.append(lineSeparator() + i + \". \" + task);"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        return new CommandResult(feedback.toString());"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "shawnkoh": 27
-    }
-  },
-  {
-    "path": "src/main/java/duke/command/ToDoCommand.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "package duke.command;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "import duke.task.ToDo;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "/**"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": " * Represents a {@link Command} to add a {@link ToDo}."
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": " */"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "public class ToDoCommand extends AddCommand {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public static final String COMMAND_WORD \u003d \"todo\";"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public ToDoCommand(String description) {"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        super(new ToDo(description));"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "shawnkoh": 15
     }
   },
   {
@@ -3341,476 +3833,476 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.exception.DukeException;"
+        "content": "import duke.command.UnknownCommand;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import duke.util.DateUtil;"
+        "content": "import duke.exception.DukeException;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import duke.util.DateUtil;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.util.Date;"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a parser that parses strings and creates commands."
+        "content": "/**"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": " * Represents a parser that parses strings and creates commands."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class Parser {"
+        "content": " */"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Parses the command contained in a {@link String} and returns a {@link Command} that represents it."
+        "content": "    /**"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "     * Parses the command contained in a {@link String} and returns a {@link Command} that represents it."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param fullCommand {@link String} containing the command."
+        "content": "     *"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return {@link Command} representing the command."
+        "content": "     * @param fullCommand {@link String} containing the command."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @throws DukeException if the command has parser errors."
+        "content": "     * @return {@link Command} representing the command."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     * @throws DukeException if the command has parser errors."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static Command parse(String fullCommand) throws DukeException {"
+        "content": "     */"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        String[] arr \u003d fullCommand.trim().split(\" \", 2);"
+        "content": "    public static Command parse(String fullCommand) throws DukeException {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        String commandWord \u003d arr[0];"
+        "content": "        String[] arr \u003d fullCommand.trim().split(\" \", 2);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        final String commandWord \u003d arr[0];"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "        final String args \u003d arr.length \u003e 1 ? arr[1] : null;"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            switch (commandWord) {"
+        "content": ""
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case DeadlineCommand.COMMAND_WORD:"
+        "content": "        switch (commandWord) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareDeadline(arr[1]);"
+        "content": "        case DeadlineCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return prepareDeadline(args);"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case EventCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareEvent(arr[1]);"
+        "content": "        case EventCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return prepareEvent(args);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case ToDoCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareToDo(arr[1]);"
+        "content": "        case ToDoCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return prepareToDo(args);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case DeleteCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareDelete(arr[1]);"
+        "content": "        case DeleteCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return prepareDelete(args);"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case ListCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return new ListCommand();"
+        "content": "        case ListCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return new ListCommand();"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case FindCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareFind(arr[1]);"
+        "content": "        case FindCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return prepareFind(args);"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case DoneCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareDone(arr[1]);"
+        "content": "        case DoneCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return prepareDone(args);"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            case ByeCommand.COMMAND_WORD:"
+        "content": ""
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return new ByeCommand();"
+        "content": "        case ByeCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return new ByeCommand();"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            default:"
+        "content": ""
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                return prepareIncorrect();"
+        "content": "        default:"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            }"
+        "content": "            return new UnknownCommand();"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return prepareIncorrect();"
+        "content": "    }"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    private static Command prepareToDo(String args) {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        if (args \u003d\u003d null) {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareToDo(String args) {"
+        "content": "            return new IncorrectCommand(ToDoCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        String description \u003d args;"
+        "content": "        }"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new ToDoCommand(description);"
+        "content": "        String description \u003d args.trim();"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        return new ToDoCommand(description);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareDeadline(String args) throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "    private static Command prepareDeadline(String args) throws DukeException, IllegalArgumentException {"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            String[] params \u003d args.split(\" /by \");"
+        "content": "        if (args \u003d\u003d null) {"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            String description \u003d params[0];"
+        "content": "            return new IncorrectCommand(DeadlineCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            Date by \u003d DateUtil.parse(params[1]);"
+        "content": "        }"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return new DeadlineCommand(description, by);"
+        "content": "        String[] params \u003d args.trim().split(\" /by \");"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
+        "content": "        if (params.length \u003c 2) {"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            throw new DukeException(\"An error occurred while creating a Deadline: Insufficient parameters\");"
+        "content": "            return new IncorrectCommand(DeadlineCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 81,
@@ -3824,112 +4316,112 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        String description \u003d params[0];"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        Date by \u003d DateUtil.parse(params[1]);"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareEvent(String args) throws DukeException {"
+        "content": "        return new DeadlineCommand(description, by);"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "    }"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            String[] params \u003d args.split(\" /at \");"
+        "content": ""
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            String description \u003d params[0];"
+        "content": "    private static Command prepareEvent(String args) throws DukeException, IllegalArgumentException {"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            Date at \u003d DateUtil.parse(params[1]);"
+        "content": "        if (args \u003d\u003d null) {"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return new EventCommand(description, at);"
+        "content": "            return new IncorrectCommand(EventCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            throw new DukeException(\"An error occurred while creating an Event: Insufficient parameters\");"
+        "content": "        String[] params \u003d args.trim().split(\" /at \");"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "        if (params.length \u003c 2) {"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "            return new IncorrectCommand(EventCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareDelete(String args) {"
+        "content": "        String description \u003d params[0];"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        int id \u003d Integer.parseInt(args) - 1;"
+        "content": "        Date at \u003d DateUtil.parse(params[1]);"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new DeleteCommand(id);"
+        "content": "        return new EventCommand(description, at);"
       },
       {
         "lineNumber": 98,
@@ -3950,87 +4442,276 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareFind(String args) {"
+        "content": "    private static Command prepareDelete(String args) {"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new FindCommand(args);"
+        "content": "        if (args \u003d\u003d null) {"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "            return new IncorrectCommand(DeleteCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareDone(String args) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        int id \u003d Integer.parseInt(args) - 1;"
+        "content": "            int id \u003d parseOneBasedIndex(args);"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new DoneCommand(id);"
+        "content": "            return new DeleteCommand(id);"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "            return new IncorrectCommand(DeleteCommand.MESSAGE_USAGE);"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private static Command prepareIncorrect() {"
+        "content": "        }"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new IncorrectCommand();"
+        "content": "    }"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 112,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    private static Command prepareFind(String args) {"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (args \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new IncorrectCommand(FindCommand.MESSAGE_USAGE);"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        String keyword \u003d args.trim();"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return new FindCommand(keyword);"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    private static Command prepareDone(String args) {"
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (args \u003d\u003d null) {"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new IncorrectCommand(DoneCommand.MESSAGE_USAGE);"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            int id \u003d parseOneBasedIndex(args);"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new DoneCommand(id);"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        } catch (NumberFormatException e) {"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            return new IncorrectCommand(DoneCommand.MESSAGE_USAGE);"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    private static int parseOneBasedIndex(String oneBasedIndex) {"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        oneBasedIndex \u003d oneBasedIndex.trim();"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        if (Integer.parseUnsignedInt(oneBasedIndex) \u003d\u003d 0) {"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "            throw new NumberFormatException(\"oneBasedIndex cannot be 0\");"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return Integer.parseUnsignedInt(oneBasedIndex) - 1;"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 139,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -4038,7 +4719,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 112
+      "shawnkoh": 139
     }
   },
   {
@@ -4281,7 +4962,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
+        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException, IOException {"
       },
       {
         "lineNumber": 35,
@@ -4477,7 +5158,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                    throw new DukeException(\"Invalid parameter specified\");"
+        "content": "                    throw new DukeException(\"An error occurred while loading the Storage file\");"
       },
       {
         "lineNumber": 63,
@@ -4561,290 +5242,206 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            try {"
+        "content": "            FileWriter fw \u003d new FileWriter(file);"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                FileWriter fw \u003d new FileWriter(file);"
+        "content": "            fw.close();"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                fw.close();"
+        "content": "            return new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                throw new DukeException(\"Storage file did not exist\");"
+        "content": "        }"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            } catch (IOException ex) {"
+        "content": "    }"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                throw new DukeException(\"An error occurred when setting up the storage file: \" + ex.getMessage());"
+        "content": ""
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            }"
+        "content": "    /**"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "     * Saves the data into the storage."
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     *"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     * @param data Data to be saved."
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "     * @throws IOException If the data failed to save."
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Saves the data into the storage."
+        "content": "     */"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    public void save(String data) throws IOException {"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param data Data to be saved."
+        "content": "        FileWriter fw \u003d new FileWriter(file);"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @throws DukeException If the data failed to save."
+        "content": "        fw.write(data);"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "        fw.close();"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void save(String data) throws DukeException {"
+        "content": "    }"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            FileWriter fw \u003d new FileWriter(file);"
+        "content": "    /**"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            fw.write(data);"
+        "content": "     * Appends the data into the storage."
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            fw.close();"
+        "content": "     *"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "     * @param data Data to be appended."
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            throw new DukeException(\"An error occurred when saving data to storage\");"
+        "content": "     * @throws IOException If the data failed to be appended."
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "     */"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public void append(String data) throws IOException {"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        FileWriter fw \u003d new FileWriter(file, true);"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "        fw.append(data);"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Appends the data into the storage."
+        "content": "        fw.close();"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * @param data Data to be appended."
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * @throws DukeException If the data failed to be appended."
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public void append(String data) throws DukeException {"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 108,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            FileWriter fw \u003d new FileWriter(file, true);"
-      },
-      {
-        "lineNumber": 109,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            fw.append(data);"
-      },
-      {
-        "lineNumber": 110,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            fw.close();"
-      },
-      {
-        "lineNumber": 111,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 112,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "            throw new DukeException(\"An error occurred while appending data to storage\");"
-      },
-      {
-        "lineNumber": 113,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 114,
-        "author": {
-          "gitId": "shawnkoh"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 115,
+        "lineNumber": 103,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -4852,7 +5449,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 115
+      "shawnkoh": 103
     }
   },
   {
@@ -4906,143 +5503,157 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": "import static java.util.Objects.requireNonNull;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a {@link Task} that has a deadline."
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class Deadline extends Task {"
+        "content": " * Represents a {@link Task} that has a deadline."
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected Date by;"
+        "content": " */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public Deadline(String description, Date by) {"
+        "content": "    protected Date dueDate;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.by \u003d by;"
+        "content": "    public Deadline(String description, Date dueDate) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        this.dueDate \u003d requireNonNull(dueDate);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + DateUtil.format(by) + \")\";"
+        "content": "    @Override"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + DateUtil.format(dueDate) + \")\";"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String stringify() {"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return \"D | \" + super.stringify() + \" | \" + DateUtil.format(by);"
+        "content": "    @Override"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String stringify() {"
       },
       {
         "lineNumber": 27,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return \"D | \" + super.stringify() + \" | \" + DateUtil.format(dueDate);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -5050,7 +5661,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 27
+      "shawnkoh": 29
     }
   },
   {
@@ -5104,143 +5715,157 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": "import static java.util.Objects.requireNonNull;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents an event as a {@link Task}."
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class Event extends Task {"
+        "content": " * Represents an event as a {@link Task}."
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected Date at;"
+        "content": " */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public Event(String description, Date at) {"
+        "content": "    protected Date date;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        super(description);"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.at \u003d at;"
+        "content": "    public Event(String description, Date date) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        this.date \u003d requireNonNull(date);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + DateUtil.format(at) + \")\";"
+        "content": "    @Override"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + DateUtil.format(date) + \")\";"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String stringify() {"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return \"E | \" + super.stringify() + \" | \" + DateUtil.format(at);"
+        "content": "    @Override"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String stringify() {"
       },
       {
         "lineNumber": 27,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return \"E | \" + super.stringify() + \" | \" + DateUtil.format(date);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -5248,7 +5873,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 27
+      "shawnkoh": 29
     }
   },
   {
@@ -5274,353 +5899,367 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": "import static java.util.Objects.requireNonNull;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a task that can be marked as complete."
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class Task {"
+        "content": " * Represents a task that can be marked as complete."
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected String description;"
+        "content": " */"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    protected boolean isDone;"
+        "content": "public class Task {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    protected String description;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public Task(String description) {"
+        "content": "    protected boolean isDone;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.description \u003d description;"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "    public Task(String description) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        this.description \u003d requireNonNull(description);"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        this.isDone \u003d false;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Marks the {@link Task} as complete."
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void markAsDone() {"
+        "content": "     * Marks the {@link Task} as complete."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.isDone \u003d true;"
+        "content": "     */"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public void markAsDone() {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        this.isDone \u003d true;"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns true if the {@link Task} is complete, otherwise returns false."
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return true if the {@link Task} is complete, otherwise returns false."
+        "content": "     * Returns true if the {@link Task} is complete, otherwise returns false."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public boolean isDone() {"
+        "content": "     * @return true if the {@link Task} is complete, otherwise returns false."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return isDone;"
+        "content": "     */"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public boolean isDone() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        return isDone;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns a tick or X symbol."
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return a tick or X symbol."
+        "content": "     * Returns a tick or X symbol."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "     * @return a tick or X symbol."
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); // return tick or X symbols"
+        "content": "     */"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String getStatusIcon() {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); // return tick or X symbols"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @Override"
+        "content": "    }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String toString() {"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
+        "content": "    @Override"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        return \"[\" + getStatusIcon() + \"] \" + description;"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns a stringified version of the {@link Task} that is meant to be used in the {@link duke.storage.Storage}."
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return a stringified version of the {@link Task} that is meant to be used in the {@link duke.storage.Storage}."
+        "content": "     * Returns a stringified version of the {@link Task} that is meant to be used in the {@link duke.storage.Storage}."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String stringify() {"
+        "content": "     * @return a stringified version of the {@link Task} that is meant to be used in the {@link duke.storage.Storage}."
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return (isDone ? \"1\" : \"0\") + \" | \" + description;"
+        "content": "     */"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public String stringify() {"
       },
       {
         "lineNumber": 53,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        return (isDone ? \"1\" : \"0\") + \" | \" + description;"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -5628,7 +6267,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 53
+      "shawnkoh": 55
     }
   },
   {
@@ -5654,577 +6293,542 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.util.List;"
+        "content": "import java.util.stream.Collectors;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.util.stream.Collectors;"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "/**"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": " * Represents a list of {@link Task}s."
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents a list of {@link Task}s."
+        "content": " */"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class TaskList {"
+        "content": "    private List\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private List\u003cTask\u003e tasks;"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public TaskList(List\u003cTask\u003e tasks) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public TaskList() {"
+        "content": "        this.tasks \u003d tasks;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.tasks \u003d new ArrayList\u003c\u003e();"
+        "content": "    }"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public TaskList(List\u003cTask\u003e tasks) {"
+        "content": "     * Adds a {@link Task} to the list."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        this.tasks \u003d tasks;"
+        "content": "     *"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @param task the {@link Task} to be added."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    public void add(Task task) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Adds a {@link Task} to the list."
+        "content": "        tasks.add(task);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param task the {@link Task} to be added."
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void add(Task task) {"
+        "content": "     * Returns the number of {@link Task}s in this list."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        tasks.add(task);"
+        "content": "     *"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @return the number of {@link Task}s in this list."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    public int size() {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns the number of {@link Task}s in this list."
+        "content": "        return tasks.size();"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return the number of {@link Task}s in this list."
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public int size() {"
+        "content": "     * Returns the {@link Task} at the specified position in this list."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return tasks.size();"
+        "content": "     *"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @param id index of the {@link Task} to return"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     * @return the {@link Task} at the specified position in this list"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns the {@link Task} at the specified position in this list."
+        "content": "    public Task get(int id) {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "        return tasks.get(id);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param id index of the {@link Task} to return"
+        "content": "    }"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return the {@link Task} at the specified position in this list"
+        "content": ""
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public Task get(int id) {"
+        "content": "     * Deletes the element at the specified position in this list."
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return tasks.get(id);"
+        "content": "     *"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @param id the index of the {@link Task} to be deleted"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     * @return the {@link Task} that was removed from the list"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Deletes the element at the specified position in this list."
+        "content": "    public Task delete(int id) {"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "        return tasks.remove(id);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param id the index of the {@link Task} to be deleted"
+        "content": "    }"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return the {@link Task} that was removed from the list"
+        "content": ""
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public Task delete(int id) {"
+        "content": "     * Returns a stringified list of every {@link Task} to be used in the {@link duke.storage.Storage}."
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return tasks.remove(id);"
+        "content": "     *"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @return a stringified list of every {@link Task} to be used in the {@link duke.storage.Storage}."
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    public String stringify() {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns a stringified list of every {@link Task} to be used in the {@link duke.storage.Storage}."
+        "content": "        StringBuilder sb \u003d new StringBuilder(tasks.get(0).stringify());"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "        for (int i \u003d 1; i \u003c tasks.size(); i++) {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return a stringified list of every {@link Task} to be used in the {@link duke.storage.Storage}."
+        "content": "            Task task \u003d tasks.get(i);"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "            sb.append(System.lineSeparator());"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public String stringify() {"
+        "content": "            sb.append(task.stringify());"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        StringBuilder sb \u003d new StringBuilder(tasks.get(0).stringify());"
+        "content": "        }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        for (int i \u003d 1; i \u003c tasks.size(); i++) {"
+        "content": "        return sb.toString();"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            Task task \u003d tasks.get(i);"
+        "content": "    }"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            sb.append(System.lineSeparator());"
+        "content": ""
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            sb.append(task.stringify());"
+        "content": "    /**"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "     * Returns a new {@link TaskList} with {@link Task}s that contains the keyword."
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return sb.toString();"
+        "content": "     *"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @param keyword the string to search for."
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     * @return a new {@link TaskList} with the filtered copy."
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Returns a new {@link TaskList} with {@link Task}s that contains the keyword."
+        "content": "    public TaskList find(String keyword) {"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "        return new TaskList(tasks.stream()"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param keyword the string to search for."
+        "content": "            .filter(task -\u003e task.description.contains(keyword))"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return a new {@link TaskList} with the filtered copy."
+        "content": "            .collect(Collectors.toList()));"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public TaskList find(String keyword) {"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        return new TaskList(tasks.stream()"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "                .filter(task -\u003e task.description.contains(keyword))"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "                .collect(Collectors.toList()));"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "shawnkoh"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 85,
+        "lineNumber": 80,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -6232,7 +6836,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 85
+      "shawnkoh": 80
     }
   },
   {
@@ -6407,91 +7011,91 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.io.IOException;"
+        "content": "import javafx.collections.FXCollections;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.util.Collections;"
+        "content": "import javafx.collections.ObservableList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "import javafx.fxml.FXML;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.collections.FXCollections;"
+        "content": "import javafx.fxml.FXMLLoader;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.collections.ObservableList;"
+        "content": "import javafx.geometry.Pos;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.fxml.FXML;"
+        "content": "import javafx.scene.Node;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.fxml.FXMLLoader;"
+        "content": "import javafx.scene.control.Label;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.geometry.Pos;"
+        "content": "import javafx.scene.image.Image;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.Node;"
+        "content": "import javafx.scene.image.ImageView;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.control.Label;"
+        "content": "import javafx.scene.layout.HBox;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.image.Image;"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.image.ImageView;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import javafx.scene.layout.HBox;"
+        "content": "import java.util.Collections;"
       },
       {
         "lineNumber": 16,
@@ -6687,136 +7291,185 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    public static DialogBox getUserDialog(String text, Image img) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Flips the dialog box such that the ImageView is on the left and text on the right."
+        "content": "        return new DialogBox(text, img);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private void flip() {"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        ObservableList\u003cNode\u003e tmp \u003d FXCollections.observableArrayList(this.getChildren());"
+        "content": "    /**"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        Collections.reverse(tmp);"
+        "content": "     * Creates a DialogBox for Duke."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        getChildren().setAll(tmp);"
+        "content": "     *"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        setAlignment(Pos.TOP_LEFT);"
+        "content": "     * @param text the text to display"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * @param img the image to display"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "     * @return Duke\u0027s DialogBox"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static DialogBox getUserDialog(String text, Image img) {"
+        "content": "     */"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return new DialogBox(text, img);"
+        "content": "    public static DialogBox getDukeDialog(String text, Image img) {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        var db \u003d new DialogBox(text, img);"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        db.flip();"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static DialogBox getDukeDialog(String text, Image img) {"
+        "content": "        return db;"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        var db \u003d new DialogBox(text, img);"
+        "content": "    }"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        db.flip();"
+        "content": ""
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return db;"
+        "content": "    /**"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "     * Flips the dialog box such that the ImageView is on the left and text on the right."
       },
       {
         "lineNumber": 62,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    private void flip() {"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        ObservableList\u003cNode\u003e tmp \u003d FXCollections.observableArrayList(this.getChildren());"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        Collections.reverse(tmp);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        getChildren().setAll(tmp);"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        setAlignment(Pos.TOP_LEFT);"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -6824,7 +7477,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 62
+      "shawnkoh": 69
     }
   },
   {
@@ -6913,49 +7566,49 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Controller for MainWindow. Provides the layout for the other controls."
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class MainWindow extends AnchorPane {"
+        "content": " * Controller for MainWindow. Provides the layout for the other controls."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @FXML"
+        "content": "public class MainWindow extends AnchorPane {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private ScrollPane scrollPane;"
+        "content": ""
       },
       {
         "lineNumber": 19,
@@ -6969,7 +7622,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private VBox dialogContainer;"
+        "content": "    private ScrollPane scrollPane;"
       },
       {
         "lineNumber": 21,
@@ -6983,7 +7636,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private TextField userInput;"
+        "content": "    private VBox dialogContainer;"
       },
       {
         "lineNumber": 23,
@@ -6997,21 +7650,21 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private Button sendButton;"
+        "content": "    private TextField userInput;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    @FXML"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private Duke duke;"
+        "content": "    private Button sendButton;"
       },
       {
         "lineNumber": 27,
@@ -7025,185 +7678,199 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private Image userImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
+        "content": "    private Duke duke;"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private Image dukeImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    private Image userImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @FXML"
+        "content": "    private Image dukeImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void initialize() {"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());"
+        "content": "    @FXML"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public void initialize() {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public void setDuke(Duke d) {"
+        "content": "    }"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        duke \u003d d;"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "    public void setDuke(Duke d) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "        duke \u003d d;"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * the dialog container. Clears the user input after processing."
+        "content": "    /**"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    @FXML"
+        "content": "     * the dialog container. Clears the user input after processing."
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    private void handleUserInput() {"
+        "content": "     */"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        String input \u003d userInput.getText();"
+        "content": "    @FXML"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        String response \u003d duke.getResponse(input);"
+        "content": "    private void handleUserInput() throws IOException {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        dialogContainer.getChildren().addAll("
+        "content": "        String input \u003d userInput.getText();"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                DialogBox.getUserDialog(input, userImage),"
+        "content": "        String response \u003d duke.getResponse(input);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "                DialogBox.getDukeDialog(response, dukeImage)"
+        "content": "        dialogContainer.getChildren().addAll("
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        );"
+        "content": "            DialogBox.getUserDialog(input, userImage),"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        userInput.clear();"
+        "content": "            DialogBox.getDukeDialog(response, dukeImage)"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        );"
       },
       {
         "lineNumber": 54,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "        userInput.clear();"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -7211,7 +7878,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 54
+      "shawnkoh": 56
     }
   },
   {
@@ -7237,409 +7904,45 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "import java.util.Scanner;"
+        "content": "/**"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": " * Represents the UI of the {@link duke.Duke} programme."
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "/**"
+        "content": " */"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " * Represents the UI of the {@link duke.Duke} programme."
+        "content": "public class Ui {"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "public class Ui {"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "shawnkoh"
-        },
         "content": "    public static final String INDENT \u003d \"    \";"
       },
       {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    private Scanner sc;"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public Ui() {"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        sc \u003d new Scanner(System.in);"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * Prints out a line."
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public void showLine() {"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        System.out.println(INDENT + \"____________________________________________________________\");"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * Prints out an indented message."
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * @param message the message to be printed out."
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public void showMessage(String message) {"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        System.out.println(INDENT + \" \" + message);"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * Prints out an indented error message."
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * @param error the error message to be printed out."
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public void showError(String error) {"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showLine();"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showMessage(\"☹ OOPS!!! \" + error);"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showLine();"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * Prints out a welcome message."
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public void showWelcome() {"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showLine();"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showMessage(\"Hello! I\u0027m Duke\");"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showMessage(\"What can I do for you?\");"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        showLine();"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * Advances this {@link Scanner} past the current line and returns the command that was skipped."
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     * @return the command that was skipped."
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    public String readCommand() {"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "        return sc.nextLine();"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "shawnkoh"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 61,
+        "lineNumber": 9,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -7647,7 +7950,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 61
+      "shawnkoh": 9
     }
   },
   {
@@ -7743,185 +8046,192 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static SimpleDateFormat formatter \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    public static SimpleDateFormat formatter \u003d new SimpleDateFormat(\"dd/MM/yyyy HHmm\");"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Parses text from a {@link String} to produce a {@link Date}."
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "     * Parses text from a {@link String} to produce a {@link Date}."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param text A {@link String} to be parsed."
+        "content": "     *"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return A {@link Date} parsed from the {@link String}. In case of error, returns null."
+        "content": "     * @param text A {@link String} to be parsed."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @throws DukeException if text is null."
+        "content": "     * @return A {@link Date} parsed from the {@link String}. In case of error, returns null."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     * @throws DukeException if text is null."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static Date parse(String text) throws DukeException {"
+        "content": "     */"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        try {"
+        "content": "    public static Date parse(String text) throws DukeException {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            return formatter.parse(text);"
+        "content": "        try {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        } catch (ParseException e) {"
+        "content": "            return formatter.parse(text);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "            throw new DukeException(e.getMessage());"
+        "content": "        } catch (ParseException e) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        }"
+        "content": "            throw new DukeException(e.getMessage());"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * Formats the given {@link Date} into a date-time string."
+        "content": "    /**"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     *"
+        "content": "     * Formats the given {@link Date} into a date-time string."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @param date the date-time value to be formatted into a date-time string."
+        "content": "     *"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     * @return the formatted date-time string."
+        "content": "     * @param date the date-time value to be formatted into a date-time string."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "     */"
+        "content": "     * @return the formatted date-time string."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    public static String format(Date date) {"
+        "content": "     */"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        return formatter.format(date);"
+        "content": "    public static String format(Date date) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "    }"
+        "content": "        return formatter.format(date);"
       },
       {
         "lineNumber": 39,
+        "author": {
+          "gitId": "shawnkoh"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 40,
         "author": {
           "gitId": "shawnkoh"
         },
@@ -7929,7 +8239,7 @@
       }
     ],
     "authorContributionMap": {
-      "shawnkoh": 39
+      "shawnkoh": 40
     }
   },
   {
@@ -8351,7 +8661,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        assertEquals(deadline.toString(), \"[D][✘] return a book (by: 01/12/2019 1800)\");"
+        "content": "        assertEquals(\"[D][✘] return a book (by: 01/12/2019 1800)\", deadline.toString());"
       },
       {
         "lineNumber": 23,
@@ -8386,7 +8696,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        assertEquals(deadline.stringify(), \"D | 0 | return a book | 01/12/2019 1800\");"
+        "content": "        assertEquals(\"D | 0 | return a book | 01/12/2019 1800\", deadline.stringify());"
       },
       {
         "lineNumber": 28,
@@ -8612,7 +8922,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        assertEquals(task.toString(), \"[✘] return a book\");"
+        "content": "        assertEquals(\"[✘] return a book\", task.toString());"
       },
       {
         "lineNumber": 30,
@@ -8626,7 +8936,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        assertEquals(task.toString(), \"[✓] return a book\");"
+        "content": "        assertEquals(\"[✓] return a book\", task.toString());"
       },
       {
         "lineNumber": 32,
@@ -8661,7 +8971,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        assertEquals(task.stringify(), \"0 | return a book\");"
+        "content": "        assertEquals(\"0 | return a book\", task.stringify());"
       },
       {
         "lineNumber": 37,
@@ -8675,7 +8985,7 @@
         "author": {
           "gitId": "shawnkoh"
         },
-        "content": "        assertEquals(task.stringify(), \"1 | return a book\");"
+        "content": "        assertEquals(\"1 | return a book\", task.stringify());"
       },
       {
         "lineNumber": 39,

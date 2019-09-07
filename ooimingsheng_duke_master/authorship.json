@@ -311,6 +311,1883 @@
     }
   },
   {
+    "path": "config/travis/check-eof-newline.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Checks that all text files end with a newline."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "ret\u003d0"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Preserve filename with spaces by only splitting on newlines."
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "IFS\u003d\u0027"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "\u0027"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "for filename in $(git grep --cached -I -l -e \u0027\u0027 -- \u0027:/\u0027); do"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    if [ \"$(tail -c 1 \"./$filename\")\" !\u003d \u0027\u0027 ]; then"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        line\u003d\"$(wc -l \"./$filename\" | cut -d\u0027 \u0027 -f1)\""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        echo \"ERROR:$filename:$line: no newline at EOF.\""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        ret\u003d1"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    fi"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "done"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "exit $ret"
+      }
+    ],
+    "authorContributionMap": {
+      "ooimingsheng": 18
+    }
+  },
+  {
+    "path": "config/travis/check-line-endings.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Checks for prohibited line endings."
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Prohibited line endings: \\r\\n"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git grep --cached -I -n --no-color -P \u0027\\r$\u0027 -- \u0027:/\u0027 |"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "awk \u0027"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    BEGIN {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        FS \u003d \":\""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        OFS \u003d \":\""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        ret \u003d 0"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    {"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        ret \u003d 1"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        print \"ERROR\", $1, $2, \" prohibited \\\\r\\\\n line ending, use \\\\n instead.\""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    END {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        exit ret"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "\u0027"
+      }
+    ],
+    "authorContributionMap": {
+      "ooimingsheng": 20
+    }
+  },
+  {
+    "path": "config/travis/check-trailing-whitespace.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Checks for trailing whitespace"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git grep --cached -I -n --no-color -P \u0027[ \\t]+$\u0027 -- \u0027:/\u0027 |"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "awk \u0027"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    BEGIN {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        FS \u003d \":\""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        OFS \u003d \":\""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        ret \u003d 0"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        # Only warn for markdown files (*.md) to accomodate text editors"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        # which do not properly handle trailing whitespace."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        # (e.g. GitHub web editor)"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        if ($1 ~ /\\.md$/) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "            severity \u003d \"WARN\""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "            severity \u003d \"ERROR\""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "            ret \u003d 1"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        print severity, $1, $2, \" trailing whitespace.\""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    END {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        exit ret"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "\u0027"
+      }
+    ],
+    "authorContributionMap": {
+      "ooimingsheng": 26
+    }
+  },
+  {
+    "path": "config/travis/deploy_github_pages.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Pushes files generated by Asciidoctor and associated files to gh-pages branch for commits to master branch."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "set -o errexit # exit with nonzero exit code if any line fails"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "if [ -z \"$GITHUB_TOKEN\" ]; then"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "  echo \u0027GITHUB_TOKEN is not set up in Travis. Skipping deploy.\u0027"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "  exit 0"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "fi;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "set -o nounset # exit if variable is unset"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "cd build/docs/html5"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git init"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git config user.name \u0027Deployment Bot (Travis)\u0027"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git config user.email \u0027deploy@travis-ci.org\u0027"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git config credential.helper \u0027store --file\u003d.git/credentials\u0027"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "echo \"https://${GITHUB_TOKEN}:@github.com\" \u003e .git/credentials"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git remote add upstream \"https://github.com/${TRAVIS_REPO_SLUG}.git\""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Reset to gh-pages branch, or create orphan branch if gh-pages does not exist in remote."
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "if git ls-remote --exit-code --heads upstream gh-pages; then"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    git fetch --depth\u003d1 upstream gh-pages"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    git reset upstream/gh-pages"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "elif [ $? -eq 2 ]; then # exit code of git ls-remote is 2 if branch does not exist"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    git checkout --orphan gh-pages"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "else # error occurred"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    exit $?"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Exit if there are no changes to gh-pages files."
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "if changes\u003d$(git status --porcelain) \u0026\u0026 [ -z \"$changes\" ]; then"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    echo \u0027No changes to GitHub Pages files; exiting.\u0027"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    exit 0"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git add -A ."
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git commit -m \"Rebuild pages at ${TRAVIS_COMMIT}\""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "git push --quiet upstream HEAD:gh-pages"
+      }
+    ],
+    "authorContributionMap": {
+      "ooimingsheng": 42
+    }
+  },
+  {
+    "path": "config/travis/run-checks.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "# Runs all check-* scripts, and returns a non-zero exit code if any of them fail."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "dir\u003d$(CDPATH\u003d cd -- \"$(dirname -- \"$0\")\" \u0026\u0026 pwd) \u0026\u0026"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "ret\u003d0 \u0026\u0026"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "for checkscript in \"$dir\"/check-*; do"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    if ! \"$checkscript\"; then"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "        ret\u003d1"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    fi"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "done"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "exit $ret"
+      }
+    ],
+    "authorContributionMap": {
+      "ooimingsheng": 11
+    }
+  },
+  {
+    "path": "data/duke.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "T XXXDIVIDERXXX false XXXDIVIDERXXX 1sda"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "T XXXDIVIDERXXX true XXXDIVIDERXXX asd"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "T XXXDIVIDERXXX true XXXDIVIDERXXX catch"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "T XXXDIVIDERXXX false XXXDIVIDERXXX damn"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "E XXXDIVIDERXXX false XXXDIVIDERXXX wash rat XXXDIVIDERXXX backyard"
+      }
+    ],
+    "authorContributionMap": {
+      "ooimingsheng": 5
+    }
+  },
+  {
+    "path": "docs/README.md",
+    "fileType": "md",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "# User Guide"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Features "
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "### Feature 1"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "List all tasks in the reminder system."
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "## Usage"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `list` - Lists all tasks in the reminder system."
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Type in command list to display a list of all the tasks in the reminder system."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Example of usage: "
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`list`"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Expected outcome:"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Here are the tasks in your list:"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "      1.[T][X] 1sda"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "      2.[T][done] asd"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "      3.[T][done] catch"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "      4.[T][X] damn"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "      5.[E][X] wash rat (at: backyard)`   "
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": " "
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### Feature 2"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Add a task to the reminder system."
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "## Usage"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `todo` - Adds a generic task to the system"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `deadline` - Adds a task with a deadline to the system"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `event` - Adds a task with a venue to the system"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Type in the task type followed by the task description."
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "For deadline and event types, please also type \"/by\" and \"/at\" respectively, followed by "
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "deadline/event venue accordingly."
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "This will add a task of the appropriate event type and description to the reminder system."
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Example of usage 1: "
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`todo wash dog`"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Expected outcome 1:"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Got it. I\u0027ve added this task:`"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`[T][X] wash dog`"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Now you have 5 tasks in the list.`"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Example of usage 2: "
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`deadline wash cat /by Sunday`"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Expected outcome 2:"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Got it. I\u0027ve added this task:`"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`[D][X] wash cat (by: Sunday)`"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Now you have 5 tasks in the list.`"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Example of usage 3: "
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`event wash rat /at backyard`"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Expected outcome 3:"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Got it. I\u0027ve added this task:`"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`[E][X] wash rat (at: backyard)`"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Now you have 5 tasks in the list.`"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### Feature 3"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Marks a task to the reminder system as completed."
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "## Usage"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `done` - Marks a task as completed."
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Type in command and the index of the task that has been completed."
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Example of usage: "
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`done 5`"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Expected outcome:"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Nice! I\u0027ve marked this task as done:"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": " [D][done] wash cat (by: Sunday)`"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### Feature 4"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Removes a task from the reminder system."
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "## Usage"
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `delete` - Removes a task from the reminder system"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Type in command and the index of the task that you want removed from the system."
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Example of usage: "
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`delete 5`"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Expected outcome:"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Noted. I\u0027ve removed this task:"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "[D][done] wash cat (by: Sunday)"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Now you have 5 tasks in the list.`"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### Feature 5"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Finds tasks from the reminder system that contain a particular substring."
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "## Usage"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "### `find` - Finds tasks from the reminder system that contain a particular substring."
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "Type in command and the substring that you want to find in the task description."
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Example of usage: "
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`find ash`"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "Expected outcome:"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "`Here are the tasks in your list:"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "1.[E][X] wash rat (at: backyard)"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "2.[T][X] wash cat`"
+      }
+    ],
+    "authorContributionMap": {
+      "-": 15,
+      "ooimingsheng": 122
+    }
+  },
+  {
     "path": "src/main/java/seedu/duke/ChatFxml/DialogBox.java",
     "fileType": "java",
     "lines": [
@@ -1289,528 +3166,535 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private static final String filePath"
+        "content": "    private static final String filePath \u003d \".\\\\data\\\\duke.txt\";"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            \u003d \"C:\\\\Users\\\\Ooi Ming Sheng\\\\Desktop\\\\CS2103\\\\Individual project\\\\duke\\\\data\\\\duke.txt\";"
+        "content": "    private boolean isSystemRunning;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private boolean isSystemRunning;"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     * Public constructor that returns a duke reminder system with a particular storage filepath."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Public constructor that returns a duke reminder system with a particular storage filepath."
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    public Duke() {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public Duke() {"
+        "content": "        isSystemRunning \u003d true;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        isSystemRunning \u003d true;"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        ui \u003d new Ui();"
+        "content": "        storage \u003d new Storage(filePath);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        storage \u003d new Storage(filePath);"
+        "content": "        try {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        try {"
+        "content": "            tasks \u003d new TaskList(storage.load());"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            tasks \u003d new TaskList(storage.load());"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            ui.showLoadingError();"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            ui.showLoadingError();"
+        "content": "            tasks \u003d new TaskList();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            tasks \u003d new TaskList();"
+        "content": "        }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     * Initiates the duke reminder system and parses commands to update the reminder list."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Initiates the duke reminder system and parses commands to update the reminder list."
+        "content": "     */"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    public void run() {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public void run() {"
+        "content": "        ui.showWelcome();"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        ui.showWelcome();"
+        "content": "        boolean isExit \u003d false;"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        boolean isExit \u003d false;"
+        "content": "        while (!isExit) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        while (!isExit) {"
+        "content": "            try {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            try {"
+        "content": "                String fullCommand \u003d ui.readCommand();"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                String fullCommand \u003d ui.readCommand();"
+        "content": "                ui.showLine();"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                ui.showLine();"
+        "content": "                Command c \u003d Parser.parse(fullCommand);"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                Command c \u003d Parser.parse(fullCommand);"
+        "content": "                c.execute(tasks, ui, storage);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                c.execute(tasks, ui, storage);"
+        "content": "                isExit \u003d c.isExit();"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                isExit \u003d c.isExit();"
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "                ui.showError(e.getMessage());"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                ui.showError(e.getMessage());"
+        "content": "            } catch (Exception e) {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            } finally {"
+        "content": "                ui.showError(\"Your command is meanning occurred.\");"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                ui.showLine();"
+        "content": "            } finally {"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            }"
+        "content": "                ui.showLine();"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        }"
+        "content": "            }"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Get welcome message."
+        "content": "    /**"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * Get welcome message."
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public String getWelcomeMessage() {"
+        "content": "     */"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        return ui.getWelcome();"
+        "content": "    public String getWelcomeMessage() {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "        return ui.getWelcome();"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Parse message."
+        "content": "    /**"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param message inputted to duke system."
+        "content": "     * Parse message."
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * @param message inputted to duke system."
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public String getResponse(String message) {"
+        "content": "     */"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        if (isSystemRunning) {"
+        "content": "    public String getResponse(String message) {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            try {"
+        "content": "        if (isSystemRunning) {"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                Command c \u003d Parser.parse(message);"
+        "content": "            try {"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                c.execute(tasks, ui, storage);"
+        "content": "                Command c \u003d Parser.parse(message);"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                isSystemRunning \u003d !c.isExit();"
+        "content": "                c.execute(tasks, ui, storage);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                return c.getResultOfCommand();"
+        "content": "                isSystemRunning \u003d !c.isExit();"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "                return c.getResultOfCommand();"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                return ui.getError(e.getMessage());"
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            }"
+        "content": "                return ui.getError(e.getMessage());"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        } else {"
+        "content": "            }"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            return \"System has already shut down.\";"
+        "content": "        } else {"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        }"
+        "content": "            return \"System has already shut down.\";"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * The main class to initialize and drive the program."
+        "content": "    /**"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     *"
+        "content": "     * The main class to initialize and drive the program."
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param args parameters recieved from the command line"
+        "content": "     *"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * @param args parameters recieved from the command line"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public static void main(String[] args) {"
+        "content": "     */"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        new Duke().run();"
+        "content": "    public static void main(String[] args) {"
       },
       {
         "lineNumber": 88,
         "author": {
-          "gitId": "-"
+          "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "        new Duke().run();"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "-"
         },
-        "content": "}"
+        "content": "    }"
       },
       {
         "lineNumber": 90,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 91,
         "author": {
           "gitId": "ooimingsheng"
         },
@@ -1819,7 +3703,7 @@
     ],
     "authorContributionMap": {
       "-": 3,
-      "ooimingsheng": 87
+      "ooimingsheng": 88
     }
   },
   {
@@ -2064,234 +3948,227 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.TaskList;"
+        "content": "import seedu.duke.task.*;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.Task;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.Ui;"
+        "content": "import java.security.DigestException;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.Storage;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "public class AddCommand extends Command {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "public class AddCommand extends Command {"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    private String taskDescription;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private String taskDescription;"
+        "content": "    private String taskType;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private String taskType;"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     * Public constructor that returns a command to the system to add a reminder when executed."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Public constructor that returns a command to the system to add a reminder when executed."
+        "content": "     * @param taskDescription the description of the task."
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param taskDescription the description of the task."
+        "content": "     * @param taskType the type of task to be added to the record."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param taskType the type of task to be added to the record."
+        "content": "     */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    public AddCommand(String taskDescription, String taskType) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public AddCommand(String taskDescription, String taskType) {"
+        "content": "        super(false);"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        super(false);"
+        "content": "        this.taskDescription \u003d taskDescription;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        this.taskDescription \u003d taskDescription;"
+        "content": "        this.taskType \u003d taskType;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        this.taskType \u003d taskType;"
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     * Adds a task to the system."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Adds a task to the system."
+        "content": "     * @param tasks the task list system involved in the command execution."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param tasks the task list system involved in the command execution."
+        "content": "     * @param ui the user interface system involved in the command execution."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param ui the user interface system involved in the command execution."
+        "content": "     * @param storage the storage system involved in the command execution."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param storage the storage system involved in the command execution."
+        "content": "     */"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    @Override"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    @Override"
+        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+        "content": "        Task task \u003d tasks.addTask(taskDescription, taskType);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        Task task \u003d taskType !\u003d null ? tasks.addTask(taskDescription, taskType) : tasks.addTask(taskDescription);"
+        "content": "        ui.showAddMessage(task, tasks);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        ui.showAddMessage(task, tasks);"
+        "content": "        super.resultMessage \u003d ui.getAddMessage(task, tasks);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        super.resultMessage \u003d ui.getAddMessage(task, tasks);"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 36,
+        "lineNumber": 35,
         "author": {
           "gitId": "ooimingsheng"
         },
@@ -2299,7 +4176,7 @@
       }
     ],
     "authorContributionMap": {
-      "ooimingsheng": 36
+      "ooimingsheng": 35
     }
   },
   {
@@ -2530,287 +4407,287 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.TaskList;"
+        "content": "import seedu.duke.task.DukeException;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.Ui;"
+        "content": "import seedu.duke.task.TaskList;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import seedu.duke.task.Storage;"
+        "content": "import seedu.duke.task.Ui;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "import seedu.duke.task.Storage;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "public class Command {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "abstract public class Command {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    protected String[] params;"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    protected String action;"
+        "content": "    protected String[] params;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    protected String resultMessage;"
+        "content": "    protected String action;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    protected boolean isExit;"
+        "content": "    protected String resultMessage;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    protected boolean isExit;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Command has a private constructor to prevent the object from being created directly."
+        "content": "    /**"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * Public constructor that returns a command to the system."
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private Command() {"
+        "content": "     * @param isExit whether the system should terminate after the current command."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        resultMessage \u003d \"\";"
+        "content": "     */"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "    protected Command(boolean isExit) {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "        this.isExit \u003d isExit;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Public constructor that returns a command to the system."
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param isExit whether the system should terminate after the current command."
+        "content": "    /**"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * Returns whether the system should terminate after the current command."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    protected Command(boolean isExit) {"
+        "content": "     * @return whether the system should terminate after the current command."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        this.isExit \u003d isExit;"
+        "content": "     */"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "    public boolean isExit() {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "        return isExit;"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Returns whether the system should terminate after the current command."
+        "content": ""
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @return whether the system should terminate after the current command."
+        "content": "    /**"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * Does nothing."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public boolean isExit() {"
+        "content": "     * @param tasks the task list system involved in the command execution."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        return isExit;"
+        "content": "     * @param ui the user interface system involved in the command execution."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "     * @param storage the storage system involved in the command execution."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "    abstract public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException;"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Does nothing."
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param tasks the task list system involved in the command execution."
+        "content": "    /**"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param ui the user interface system involved in the command execution."
+        "content": "     * Returns the result of executing the command or the empty string if the command has not been executed."
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param storage the storage system involved in the command execution."
+        "content": "     */"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    public String getResultOfCommand() {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public void execute(TaskList tasks, Ui ui, Storage storage) {"
+        "content": "        return resultMessage;"
       },
       {
         "lineNumber": 44,
@@ -2824,60 +4701,11 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
-        "content": "     * Returns the result of executing the command or the empty string if the command has not been executed."
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
-        "content": "    public String getResultOfCommand() {"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
-        "content": "        return resultMessage;"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "ooimingsheng"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "ooimingsheng": 52
+      "ooimingsheng": 45
     }
   },
   {
@@ -3092,31 +4920,38 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        Task task \u003d tasks.removeTask(taskNoToBeRemoved);"
+        "content": "        assert taskNoToBeRemoved \u003e\u003d 0 \u0026\u0026 taskNoToBeRemoved \u003c tasks.getTaskList().size();"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        ui.showDeleteMessage(task, tasks);"
+        "content": "        Task task \u003d tasks.removeTask(taskNoToBeRemoved);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        super.resultMessage \u003d ui.getDeleteMessage(task, tasks);"
+        "content": "        ui.showDeleteMessage(task, tasks);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "        super.resultMessage \u003d ui.getDeleteMessage(task, tasks);"
       },
       {
         "lineNumber": 34,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
         "author": {
           "gitId": "ooimingsheng"
         },
@@ -3124,7 +4959,7 @@
       }
     ],
     "authorContributionMap": {
-      "ooimingsheng": 34
+      "ooimingsheng": 35
     }
   },
   {
@@ -3332,31 +5167,38 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        Task task \u003d tasks.checkOffTask(taskNoToBeChecked);"
+        "content": "        assert taskNoToBeChecked \u003e\u003d 0 \u0026\u0026 taskNoToBeChecked \u003c tasks.getTaskList().size();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        ui.showDoneMessage(task);"
+        "content": "        Task task \u003d tasks.checkOffTask(taskNoToBeChecked);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        super.resultMessage \u003d ui.getDoneMessage(task);"
+        "content": "        ui.showDoneMessage(task);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "        super.resultMessage \u003d ui.getDoneMessage(task);"
       },
       {
         "lineNumber": 33,
+        "author": {
+          "gitId": "ooimingsheng"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 34,
         "author": {
           "gitId": "ooimingsheng"
         },
@@ -3364,7 +5206,7 @@
       }
     ],
     "authorContributionMap": {
-      "ooimingsheng": 33
+      "ooimingsheng": 34
     }
   },
   {
@@ -3763,7 +5605,7 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * List all the tasks in the system."
+        "content": "     * Lists: all the tasks in the system."
       },
       {
         "lineNumber": 21,
@@ -4157,7 +5999,7 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a \" + taskType + \" cannot be empty.\");"
+        "content": "                throw new DukeException(\"OOPS!!! The description of a \" + taskType + \" cannot be empty.\");"
       },
       {
         "lineNumber": 45,
@@ -4192,7 +6034,7 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "            throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "            throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 50,
@@ -5926,7 +7768,7 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "public class Task {"
+        "content": "abstract public class Task {"
       },
       {
         "lineNumber": 7,
@@ -6570,7 +8412,7 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "        return (isDone ? \"done\" : \"X\"); //return tick or X symbols"
       },
       {
         "lineNumber": 99,
@@ -6761,378 +8603,378 @@
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "import java.util.List;"
+        "content": "import java.util.HashSet;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "public class TaskList {"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private List\u003cTask\u003e taskList;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    private static final String INDENT \u003d \"  \";"
+        "content": "    private List\u003cTask\u003e taskList;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "    private HashSet\u003cString\u003e taskDescriptionDictionary \u003d new HashSet\u003c\u003e();"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "    private static final String INDENT \u003d \"  \";"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Public constructor that returns a task list system with a list of tasks."
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param taskList the list of tasks the task list system is initialized with."
+        "content": "    /**"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "     * Public constructor that returns a task list system with a list of tasks."
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public TaskList(List\u003cTask\u003e taskList) {"
+        "content": "     * @param taskList the list of tasks the task list system is initialized with."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        this.taskList \u003d taskList;"
+        "content": "     */"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "    public TaskList(List\u003cTask\u003e taskList) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "        this.taskList \u003d taskList;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "        for (Task task : taskList) {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Public constructor that returns a task list system with an empty list of tasks."
+        "content": "            taskDescriptionDictionary.add(task.getDescription());"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "        }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public TaskList() {"
+        "content": "    }"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        this.taskList \u003d new ArrayList\u003c\u003e();"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "     * Public constructor that returns a task list system with an empty list of tasks."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Returns the list of tasks from the task list system."
+        "content": "    public TaskList() {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @return the list of tasks from the task list system."
+        "content": "        this.taskList \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public List\u003cTask\u003e getTaskList() {"
+        "content": ""
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        return taskList;"
+        "content": "    /**"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "     * Returns the list of tasks from the task list system."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "     * @return the list of tasks from the task list system."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Returns the size of the list of tasks from the task list system."
+        "content": "    public List\u003cTask\u003e getTaskList() {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @return the size of the list of tasks from the task list system."
+        "content": "        return taskList;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public int getTaskListSize() {"
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        return taskList.size();"
+        "content": "    /**"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "     * Returns the size of the list of tasks from the task list system."
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "     * @return the size of the list of tasks from the task list system."
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Adds a To Do task to the task list system and returns it."
+        "content": "    public int getTaskListSize() {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param description the description of the task to be added to the task system."
+        "content": "        return taskList.size();"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @return the \"To Do\" task that was added to the task list system."
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public Task addTask(String description) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "        return addTask(description, \"todo\");"
+        "content": "     * Adds a task of stipulated type to the task list system and returns it."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    }"
+        "content": "     * @param description the description of the task to be added to the task system."
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": ""
+        "content": "     * @param taskType the task type of the task to be added to the task system."
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    /**"
+        "content": "     * @return the \"To Do\" task that was added to the task list system."
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * Adds a task of stipulated type to the task list system and returns it."
+        "content": "     */"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param description the description of the task to be added to the task system."
+        "content": "    public Task addTask(String description, String taskType) throws DukeException {"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @param taskType the task type of the task to be added to the task system."
+        "content": "        if (taskDescriptionDictionary.contains(description)) {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     * @return the \"To Do\" task that was added to the task list system."
+        "content": "            throw new DukeException(description + \" is a duplicate task and already inside the task list.\");"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "     */"
+        "content": "        }"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "ooimingsheng"
         },
-        "content": "    public Task addTask(String description, String taskType) {"
+        "content": "        taskDescriptionDictionary.add(description);"
       },
       {
         "lineNumber": 58,

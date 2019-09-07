@@ -311,6 +311,863 @@
     }
   },
   {
+    "path": "config/travis/check-eof-newline.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Checks that all text files end with a newline."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "ret\u003d0"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Preserve filename with spaces by only splitting on newlines."
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "IFS\u003d\u0027"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "\u0027"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "for filename in $(git grep --cached -I -l -e \u0027\u0027 -- \u0027:/\u0027); do"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    if [ \"$(tail -c 1 \"./$filename\")\" !\u003d \u0027\u0027 ]; then"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        line\u003d\"$(wc -l \"./$filename\" | cut -d\u0027 \u0027 -f1)\""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        echo \"ERROR:$filename:$line: no newline at EOF.\""
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        ret\u003d1"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    fi"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "done"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "exit $ret"
+      }
+    ],
+    "authorContributionMap": {
+      "ambervoong": 18
+    }
+  },
+  {
+    "path": "config/travis/check-line-endings.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Checks for prohibited line endings."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Prohibited line endings: \\r\\n"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git grep --cached -I -n --no-color -P \u0027\\r$\u0027 -- \u0027:/\u0027 |"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "awk \u0027"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    BEGIN {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        FS \u003d \":\""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        OFS \u003d \":\""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        ret \u003d 0"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    {"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        ret \u003d 1"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        print \"ERROR\", $1, $2, \" prohibited \\\\r\\\\n line ending, use \\\\n instead.\""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    END {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        exit ret"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "\u0027"
+      }
+    ],
+    "authorContributionMap": {
+      "ambervoong": 19
+    }
+  },
+  {
+    "path": "config/travis/check-trailing-whitespace.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Checks for trailing whitespace"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git grep --cached -I -n --no-color -P \u0027[ \\t]+$\u0027 -- \u0027:/\u0027 |"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "awk \u0027"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    BEGIN {"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        FS \u003d \":\""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        OFS \u003d \":\""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        ret \u003d 0"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        # Only warn for markdown files (*.md) to accomodate text editors"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        # which do not properly handle trailing whitespace."
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        # (e.g. GitHub web editor)"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        if ($1 ~ /\\.md$/) {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "            severity \u003d \"WARN\""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "            severity \u003d \"ERROR\""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "            ret \u003d 1"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        print severity, $1, $2, \" trailing whitespace.\""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    END {"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        exit ret"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "\u0027"
+      }
+    ],
+    "authorContributionMap": {
+      "ambervoong": 26
+    }
+  },
+  {
+    "path": "config/travis/deploy_github_pages.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Pushes files generated by Asciidoctor and associated files to gh-pages branch for commits to master branch."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "set -o errexit # exit with nonzero exit code if any line fails"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "if [ -z \"$GITHUB_TOKEN\" ]; then"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "  echo \u0027GITHUB_TOKEN is not set up in Travis. Skipping deploy.\u0027"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "  exit 0"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "fi;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "set -o nounset # exit if variable is unset"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "cd build/docs/html5"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git init"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git config user.name \u0027Deployment Bot (Travis)\u0027"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git config user.email \u0027deploy@travis-ci.org\u0027"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git config credential.helper \u0027store --file\u003d.git/credentials\u0027"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "echo \"https://${GITHUB_TOKEN}:@github.com\" \u003e .git/credentials"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git remote add upstream \"https://github.com/${TRAVIS_REPO_SLUG}.git\""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Reset to gh-pages branch, or create orphan branch if gh-pages does not exist in remote."
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "if git ls-remote --exit-code --heads upstream gh-pages; then"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    git fetch --depth\u003d1 upstream gh-pages"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    git reset upstream/gh-pages"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "elif [ $? -eq 2 ]; then # exit code of git ls-remote is 2 if branch does not exist"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    git checkout --orphan gh-pages"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "else # error occurred"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    exit $?"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Exit if there are no changes to gh-pages files."
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "if changes\u003d$(git status --porcelain) \u0026\u0026 [ -z \"$changes\" ]; then"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    echo \u0027No changes to GitHub Pages files; exiting.\u0027"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    exit 0"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "fi"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git add -A ."
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git commit -m \"Rebuild pages at ${TRAVIS_COMMIT}\""
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "git push --quiet upstream HEAD:gh-pages"
+      }
+    ],
+    "authorContributionMap": {
+      "ambervoong": 42
+    }
+  },
+  {
+    "path": "config/travis/run-checks.sh",
+    "fileType": "sh",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "#!/bin/sh"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "# Runs all check-* scripts, and returns a non-zero exit code if any of them fail."
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "dir\u003d$(CDPATH\u003d cd -- \"$(dirname -- \"$0\")\" \u0026\u0026 pwd) \u0026\u0026"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "ret\u003d0 \u0026\u0026"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "for checkscript in \"$dir\"/check-*; do"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    if ! \"$checkscript\"; then"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        ret\u003d1"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    fi"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "done"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "exit $ret"
+      }
+    ],
+    "authorContributionMap": {
+      "ambervoong": 11
+    }
+  },
+  {
     "path": "data/tasks.txt",
     "fileType": "txt",
     "lines": [
@@ -4239,7 +5096,7 @@
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "                System.out.println(\"\");"
       },
       {
         "lineNumber": 34,
@@ -4549,84 +5406,84 @@
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "import java.io.*;"
+        "content": "import java.io.BufferedReader;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.io.FileNotFoundException;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "import java.io.FileReader;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "/**"
+        "content": "import java.io.FileWriter;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": " * Represents a storage object."
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": " */"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "public class Storage {"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    private String filepath;"
+        "content": "/**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": " * Represents a storage object."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public Storage(String filepath) {"
+        "content": " */"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        this.filepath \u003d filepath;"
+        "content": "public class Storage {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "    private String filepath;"
       },
       {
         "lineNumber": 21,
@@ -4640,84 +5497,84 @@
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    /**"
+        "content": "    public Storage(String filepath) {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * Loads the user\u0027s stored list."
+        "content": "        this.filepath \u003d filepath;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @return An arraylist containing the user\u0027s stored list."
+        "content": "    }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @throws DukeException if there is an issue with file access."
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
+        "content": "     * Loads the user\u0027s stored list."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        BufferedReader reader;"
+        "content": "     * @return An arraylist containing the user\u0027s stored list."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        ArrayList\u003cTask\u003e storedTasks \u003d new ArrayList\u003c\u003e(100);"
+        "content": "     * @throws DukeException if there is an issue with file access."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        try {"
+        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            String line;"
+        "content": "        BufferedReader reader;"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            reader \u003d new BufferedReader(new FileReader(filepath));"
+        "content": "        ArrayList\u003cTask\u003e storedTasks \u003d new ArrayList\u003c\u003e(100);"
       },
       {
         "lineNumber": 34,
@@ -4731,423 +5588,451 @@
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            while ((line \u003d reader.readLine()) !\u003d null) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                Task task \u003d stringToTask(line);"
+        "content": "            String line;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                storedTasks.add(task);"
+        "content": "            reader \u003d new BufferedReader(new FileReader(filepath));"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            while ((line \u003d reader.readLine()) !\u003d null) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            System.out.println(e.getMessage());"
+        "content": "                Task task \u003d stringToTask(line);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            throw new DukeException(\"IO Exception\");"
+        "content": "                storedTasks.add(task);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } catch (Exception e) {"
+        "content": "            }"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            System.out.println(e.getMessage());"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } // End trycatch."
+        "content": "            System.out.println(e.getMessage());"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        return storedTasks;"
+        "content": "            throw new DukeException(\"IO Exception\");"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "        } catch (Exception e) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "            System.out.println(e.getMessage());"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    /**"
+        "content": "        } // End trycatch."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * Converts the stored string to a task."
+        "content": "        return storedTasks;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @param str A string representing a task."
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @return A task."
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @throws DukeException if the stored data is corrupted."
+        "content": "    /**"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     */"
+        "content": "     * Converts the stored string to a task."
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public Task stringToTask(String str) throws DukeException {"
+        "content": "     * @param str A string representing a task."
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        String[] split \u003d str.split(\"\\\\|\");"
+        "content": "     * @return A task."
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        try {"
+        "content": "     * @throws DukeException if the stored data is corrupted."
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            boolean isDone \u003d (split[0].trim()).equals(\"1\");"
+        "content": "     */"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            switch (split[1].trim()) {"
+        "content": "    public Task stringToTask(String str) throws DukeException {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            case \"T\": // Todo."
+        "content": "        String[] split \u003d str.split(\"\\\\|\");"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                return new Todo(split[2].trim()).setDone(isDone);"
+        "content": "        try {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            case \"D\": // Deadline"
+        "content": "            boolean isDone \u003d (split[0].trim()).equals(\"1\");"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                return new Deadline(split[2].trim(), split[3].trim()).setDone(isDone);"
+        "content": "            switch (split[1].trim()) {"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            case \"E\":"
+        "content": "            case \"T\": // Todo."
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                return new Event(split[2].trim(), split[3].trim()).setDone(isDone);"
+        "content": "                return new Todo(split[2].trim()).setDone(isDone);"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            default:"
+        "content": "            case \"D\": // Deadline"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                throw new DukeException(\"Error in savefile!!\");"
+        "content": "                return new Deadline(split[2].trim(), split[3].trim()).setDone(isDone);"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            } // End switch."
+        "content": "            case \"E\":"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
+        "content": "                return new Event(split[2].trim(), split[3].trim()).setDone(isDone);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            throw new DukeException(\"Error in savefile!!\");"
+        "content": "            default:"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } // End try-catch."
+        "content": "                throw new DukeException(\"Error in savefile!!\");"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "            } // End switch."
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "        } catch (IndexOutOfBoundsException e) {"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    /**"
+        "content": "            throw new DukeException(\"Error in savefile!!\");"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * Writes the user list into a text file."
+        "content": "        } // End try-catch."
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @param tasks An array list containing the user\u0027s list."
+        "content": "    }"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @throws DukeException if writing was unsuccessful."
+        "content": ""
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public void store(ArrayList\u003cTask\u003e tasks) throws DukeException {"
+        "content": "     * Writes the user list into a text file."
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        try {"
+        "content": "     * @param tasks An array list containing the user\u0027s list."
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            FileWriter filewriter \u003d new FileWriter(filepath, false);"
+        "content": "     * @throws DukeException if writing was unsuccessful."
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            filewriter.write(\"\");"
+        "content": "     */"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            filewriter \u003d new FileWriter(filepath, true);"
+        "content": "    public void store(ArrayList\u003cTask\u003e tasks) throws DukeException {"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            for (Task task : tasks) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                filewriter.write(task.toStorage() + \"\\n\");"
+        "content": "            FileWriter filewriter \u003d new FileWriter(filepath, false);"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            } // End for loop"
+        "content": "            filewriter.write(\"\");"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            filewriter.close();"
+        "content": "            filewriter \u003d new FileWriter(filepath, true);"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "            for (Task task : tasks) {"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } catch (FileNotFoundException e) {"
+        "content": "                filewriter.write(task.toStorage() + \"\\n\");"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            throw new DukeException(\"File not found\");"
+        "content": "            } // End for loop"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            filewriter.close();"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "            throw new DukeException(\"IO Exception\");"
+        "content": ""
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        } // End try-catch."
+        "content": "        } catch (FileNotFoundException e) {"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "            throw new DukeException(\"File not found\");"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 95,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "            throw new DukeException(\"IO Exception\");"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        } // End try-catch."
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 99,
         "author": {
           "gitId": "ambervoong"
         },
@@ -5155,7 +6040,7 @@
       }
     ],
     "authorContributionMap": {
-      "ambervoong": 95
+      "ambervoong": 99
     }
   },
   {
@@ -5456,199 +6341,227 @@
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    // Constructor"
+        "content": "    /**"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public Event(String description, String dateTime) {"
+        "content": "     * Constructs an event object."
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        super(description);"
+        "content": "     * @param description Description of the event."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        this.dateTime \u003d dateTime;"
+        "content": "     * @param dateTime Date and time of the event."
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        assert (!dateTime.isEmpty()) : \"You need to input the event date and time\";"
+        "content": "     */"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "    public Event(String description, String dateTime) {"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "        super(description);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    // Trying out using varargs."
+        "content": "        this.dateTime \u003d dateTime;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public Event(String ... strings) {"
+        "content": "        assert (!dateTime.isEmpty()) : \"You need to input the event date and time\";"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        super(strings[0]);"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        this.dateTime \u003d strings[1];"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "    // Trying out using varargs."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "    public Event(String... strings) {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    @Override"
+        "content": "        super(strings[0]);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public String toString() {"
+        "content": "        this.dateTime \u003d strings[1];"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \""
+        "content": "    }"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "                + DateTime.parseDateTime(dateTime) + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": ""
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    /**"
+        "content": "        return \"[E]\" + super.toString() + \" (at: \""
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * Converts the Event object to a String representing it for storage purposes."
+        "content": "                + DateTime.parseDateTime(dateTime) + \")\";"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     * @return"
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    @Override"
+        "content": "    /**"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public String toStorage() {"
+        "content": "     * Converts the Event object to a String representing it for storage purposes."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        int isDoneInt \u003d isDone ? 1 : 0;"
+        "content": "     * @return"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        return String.format(\"%d | E | %s | %s\", isDoneInt, description, dateTime);"
+        "content": "     */"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 39,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    public String toStorage() {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        int isDoneInt \u003d isDone ? 1 : 0;"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        return String.format(\"%d | E | %s | %s\", isDoneInt, description, dateTime);"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
         "author": {
           "gitId": "ambervoong"
         },
@@ -5656,7 +6569,7 @@
       }
     ],
     "authorContributionMap": {
-      "ambervoong": 39
+      "ambervoong": 43
     }
   },
   {
@@ -7307,38 +8220,80 @@
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    public static DialogBox getDukeDialog(String text, Image img) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        var db \u003d new DialogBox(text, img);"
+        "content": "     * Returns a dialog box formatted for Duke outputs."
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        db.flip();"
+        "content": "     * @param text Text Duke outputs."
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "        return db;"
+        "content": "     * @param img Duke\u0027s photo."
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "ambervoong"
         },
-        "content": "    }"
+        "content": "     * @return DialogBox with the correct formatting."
       },
       {
         "lineNumber": 63,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    public static DialogBox getDukeDialog(String text, Image img) {"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        var db \u003d new DialogBox(text, img);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        db.flip();"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "        return db;"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "ambervoong"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
         "author": {
           "gitId": "ambervoong"
         },
@@ -7346,7 +8301,7 @@
       }
     ],
     "authorContributionMap": {
-      "ambervoong": 63
+      "ambervoong": 69
     }
   },
   {
@@ -9313,234 +10268,6 @@
           "gitId": "ambervoong"
         },
         "content": "        assertEquals(2, 2);"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "ambervoong": 15
-    }
-  },
-  {
-    "path": "src/test/java/duke/task/DeadlineTest.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "package duke.task;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "import org.junit.jupiter.api.Test;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "public class DeadlineTest {"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "    @Test"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "    public void event_undoneToString_correctOutput() {"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "        Deadline deadline \u003d new Deadline(\"lunch\", \"11/11/1111 1234\");"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "        assertEquals(\"[D][\\u2718] lunch (by: 11 Nov 1111, 12:34:00 PM)\","
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "                    deadline.toString());"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "ambervoong": 15
-    }
-  },
-  {
-    "path": "src/test/java/duke/task/EventTest.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "package duke.task;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "import org.junit.jupiter.api.Test;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "public class EventTest {"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "    @Test"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "    public void event_undoneToString_correctOutput() {"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "        Event event \u003d new Event(\"lunch\", \"11/11/1111 1234\");"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "        assertEquals(\"[E][\\u2718] lunch (at: 11 Nov 1111, 12:34:00 PM)\","
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": "                event.toString());"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "ambervoong"
-        },
-        "content": ""
       },
       {
         "lineNumber": 14,

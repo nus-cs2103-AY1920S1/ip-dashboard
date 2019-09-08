@@ -1134,28 +1134,28 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import java.time.format.DateTimeFormatter;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import java.util.ArrayList;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "import duke.Parser;"
       },
       {
         "lineNumber": 8,
@@ -1491,7 +1491,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                        + \"The description of a todo cannot be empty.\");"
+        "content": "                        + \"The description of a todo cannot be empty.\\n\");"
       },
       {
         "lineNumber": 56,
@@ -1512,185 +1512,276 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        } else if (commandArr[0].equals(\"deadline\")) {"
+        "content": "        } else if (commandArr[0].equals(\"deadline\") || commandArr[0].equals(\"event\")) {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            // Add a Deadline task"
+        "content": "            String[] fullCommand;"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            String[] fullCommand \u003d commandArr[1].split(\" /by \");"
+        "content": "            if (commandArr[0].equals(\"deadline\")) {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            String description \u003d fullCommand[0];"
+        "content": "                fullCommand \u003d commandArr[1].split(\" /by \");"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            String by \u003d fullCommand[1];"
+        "content": "            } else { // if command equals \"event\""
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            taskLst.add(new Deadline(description,"
+        "content": "                fullCommand \u003d commandArr[1].split(\" /at \");"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    LocalDateTime.parse(by, DateTimeFormatter.ofPattern(\"d/MM/yyyy HHmm\")),"
+        "content": "            }"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    false));"
+        "content": "            if (fullCommand.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        } else if (commandArr[0].equals(\"event\")) {"
+        "content": "                String msg \u003d \"     \\u2639 Either the description of \" + (commandArr[0].equals(\"deadline\")"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            // Add an Event task"
+        "content": "                        ? \"a deadline \" : \"an event \") + \"or its date-time is not provided.\\n\";"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            String[] fullCommand \u003d commandArr[1].split(\" /at \");"
+        "content": "                throw new DukeException(msg);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            String description \u003d fullCommand[0];"
+        "content": "            }"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            String at \u003d fullCommand[1];"
+        "content": "            String description \u003d fullCommand[0];"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            taskLst.add(new Event(description,"
+        "content": "            String userDateTimeString \u003d fullCommand[1];"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    LocalDateTime.parse(at, DateTimeFormatter.ofPattern(\"d/MM/yyyy HHmm\")),"
+        "content": "            LocalDateTime localDateTime \u003d Parser.parseDateTime(userDateTimeString);"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    false));"
+        "content": "            if (localDateTime \u003d\u003d null) {"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        } else {"
+        "content": "                String dateInstruction \u003d \"     Example date formats allowed: 07101997, 07/10/1997, \" +"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            // Invalid command being supplied by the user"
+        "content": "                        \"07 10 1997, 7 October 1997.\\n\";"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            throw new DukeException(\"     \\u2639 OOPS!!! I\u0027m sorry, \""
+        "content": "                String timeInstruction \u003d \"     Example time formats allowed: 8:39AM, 0839.\\n\";"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    + \"but I don\u0027t know what that means :-(\");"
+        "content": "                String dtInstruction \u003d \"     Example date-times allowed: 07/10/1997 0839, 7 October 8:39AM.\\n\";"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "                String msg \u003d \"     \\u2639 You have entered an invalid date-time format!\\n\""
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return String.format(\"     Got it. I\u0027ve added this task:\\n       %s\\n\""
+        "content": "                        + dateInstruction + timeInstruction + dtInstruction;"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                        + \"     Now you have %d tasks in the list.\\n\","
+        "content": "                throw new DukeException(msg);"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            taskLst.get(taskLst.size() - 1), taskLst.size());"
+        "content": "            }"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "            if (commandArr[0].equals(\"deadline\")) {"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "                taskLst.add(new Deadline(description, localDateTime, false));"
       },
       {
         "lineNumber": 84,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            } else { // if command equals \"event\""
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                taskLst.add(new Event(description, localDateTime, false));"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Invalid command being supplied by the user"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            throw new DukeException(\"     \\u2639 OOPS!!! I\u0027m sorry, \""
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                    + \"but I don\u0027t know what that means :-(\\n\");"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        return String.format(\"     Got it. I\u0027ve added this task:\\n       %s\\n\""
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                        + \"     Now you have %d tasks in the list.\\n\","
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            taskLst.get(taskLst.size() - 1), taskLst.size());"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 97,
         "author": {
           "gitId": "bruceskellator"
         },
@@ -1698,11 +1789,897 @@
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 84
+      "bruceskellator": 97
     }
   },
   {
     "path": "src/main/java/commands/Command.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "package commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import tasks.Task;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import exceptions.DukeException;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * Command is the abstract base class for all types of commands that"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * can be given from user input. Concrete command classes that extend"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * from Command include: ListCommand, ExitCommand, AddCommand, DoneCommand"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * and DeleteCommand. Command objects contain an execute method that will"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * carry out the appropriate actions based on the specific type of command given."
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "public abstract class Command {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /** Boolean representing whether this command should trigger termination of the program. */"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    boolean isExit;"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /** String array containing the split text retrieved from user input. */"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    String[] commandArr;"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * Returns true if the taskIndex the user provided corresponds"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * to an existing task in the taskLst, and false otherwise."
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * (taskIndex can assume values from 0 to size of taskLst - 1)"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param taskIndex the index of task user wants to perform operations on."
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param taskLst ArrayList storing all the Tasks."
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @return boolean true if task number is valid, false otherwise."
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    static boolean checkValidTaskNumber(int taskIndex, ArrayList\u003cTask\u003e taskLst) {"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        return taskIndex \u003e\u003d 0 \u0026\u0026 taskIndex \u003c taskLst.size();"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * Returns boolean determining whether program should be terminated"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * after execution of the command."
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @return boolean isExit."
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    public boolean isExit() {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        return isExit;"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * Executes the appropriate set of instructions associated with each command."
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param ui the Ui object dealing with user interaction."
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param storage the Storage object that reads from and writes to the file."
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @return String output reply from Duke."
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @throws DukeException  If there is invalid input."
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        return \"execute Command\";"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "bruceskellator": 63
+    }
+  },
+  {
+    "path": "src/main/java/commands/DeleteCommand.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "package commands;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import duke.TaskList;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import duke.Ui;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import duke.Storage;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import exceptions.DukeException;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "import tasks.Task;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * DeleteCommand is a class that removes the specified"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * task item from the list of tasks. These items"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " * can be ToDo, Event or Deadline tasks."
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "public class DeleteCommand extends Command {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *  Constructor for DeleteCommand."
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *  Boolean isExit is set to false because"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *  program should not terminate after command is executed."
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param commandArr String array containing the split text retrieved from user input."
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    public DeleteCommand(String[] commandArr) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        this.commandArr \u003d commandArr;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        isExit \u003d false;"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * Removes the specified task from the list of tasks."
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * The number of the task to be removed is specified"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * in the user input."
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param ui the Ui object dealing with user interaction."
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @param storage the Storage object that reads from and writes to the file."
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     * @return String output reply from Duke."
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        ArrayList\u003cTask\u003e taskLst \u003d tasks.getTaskLst();"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        if (commandArr.length \u003c\u003d 1) {"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            throw new DukeException(\"     \\u2639 A task number has to be specified.\\n\");"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        int delTaskIndex;"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        delTaskIndex \u003d Integer.parseInt(commandArr[1]) - 1;"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        assert delTaskIndex \u003e\u003d 0 : \"delTaskIndex must be non-negative\";"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        if (Command.checkValidTaskNumber(delTaskIndex, taskLst)) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            Task deletedTask \u003d taskLst.remove(delTaskIndex);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return String.format(\"     Noted. I\u0027ve removed this task:\\n\""
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                            + \"       %s\\n     Now you have %d tasks in the list.\\n\", deletedTask, taskLst.size());"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            String msg \u003d String.format(\"     \\u2639 You have entered an invalid task number!\" +"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                    \" Please enter a number from between 1 to %d\\n\", taskLst.size());"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            throw new DukeException(msg);"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "bruceskellator": 61
+    }
+  },
+  {
+    "path": "src/main/java/commands/DoneCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -1766,1022 +2743,367 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "/**"
+        "content": "import tasks.Task;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * Command is the abstract base class for all types of commands that"
+        "content": ""
       },
       {
         "lineNumber": 11,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " * can be given from user input. Concrete command classes that extend"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " * from Command include: ListCommand, ExitCommand, AddCommand, DoneCommand"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " * and DeleteCommand. Command objects contain an execute method that will"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " * carry out the appropriate actions based on the specific type of command given."
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " */"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "public abstract class Command {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /** Boolean representing whether this command should trigger termination of the program. */"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    protected boolean isExit;"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /** String array containing the split text retrieved from user input. */"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    protected String[] commandArr;"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Returns boolean determining whether program should be terminated"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * after execution of the command."
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @return boolean isExit."
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public boolean isExit() {"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        return isExit;"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Returns String[] containing the split text retrieved from user input."
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @return String[] commandArr."
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public String[] getCommandArr() {"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        return commandArr;"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Executes the appropriate set of instructions associated with each command."
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param ui the Ui object dealing with user interaction."
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param storage the Storage object that reads from and writes to the file."
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @return String output reply from Duke."
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @throws DukeException  If there is invalid input."
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        return \"execute Command\";"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "bruceskellator": 55
-    }
-  },
-  {
-    "path": "src/main/java/commands/DeleteCommand.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "package commands;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "import java.util.ArrayList;"
       },
       {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import duke.TaskList;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import duke.Ui;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import duke.Storage;"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import tasks.Task;"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "/**"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " * DeleteCommand is a class that removes the specified"
-      },
-      {
         "lineNumber": 12,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * task item from the list of tasks. These items"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * can be ToDo, Event or Deadline tasks."
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": " */"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "public class DeleteCommand extends Command {"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *  Constructor for DeleteCommand."
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *  Boolean isExit is set to false because"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *  program should not terminate after command is executed."
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param commandArr String array containing the split text retrieved from user input."
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public DeleteCommand(String[] commandArr) {"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        this.commandArr \u003d commandArr;"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        isExit \u003d false;"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Removes the specified task from the list of tasks."
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * The number of the task to be removed is specified"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * in the user input."
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param ui the Ui object dealing with user interaction."
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param storage the Storage object that reads from and writes to the file."
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @return String output reply from Duke."
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) {"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        ArrayList\u003cTask\u003e taskLst \u003d tasks.getTaskLst();"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        int delTaskIndex \u003d Integer.parseInt(commandArr[1]) - 1;"
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        assert delTaskIndex \u003e\u003d 0 : \"delTaskIndex must be non-negative\";"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        Task deletedTask \u003d taskLst.remove(delTaskIndex);"
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        return String.format(\"     Noted. I\u0027ve removed this task:\\n\""
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "                        + \"       %s\\n     Now you have %d tasks in the list.\\n\","
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "                deletedTask, taskLst.size());"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "}"
-      }
-    ],
-    "authorContributionMap": {
-      "bruceskellator": 49
-    }
-  },
-  {
-    "path": "src/main/java/commands/DoneCommand.java",
-    "fileType": "java",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "package commands;"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import duke.TaskList;"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import duke.Ui;"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import duke.Storage;"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import tasks.Task;"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import java.util.ArrayList;"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "import java.util.Scanner;"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "bruceskellator"
-        },
         "content": "/**"
       },
       {
-        "lineNumber": 11,
+        "lineNumber": 14,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": " * DoneCommand is a class that marks the specified task"
       },
       {
-        "lineNumber": 12,
+        "lineNumber": 15,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": " * item in the list of tasks as done."
       },
       {
-        "lineNumber": 13,
+        "lineNumber": 16,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": " * These items can be ToDo, Event or Deadline tasks."
       },
       {
-        "lineNumber": 14,
+        "lineNumber": 17,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": " */"
       },
       {
-        "lineNumber": 15,
+        "lineNumber": 18,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "public class DoneCommand extends Command {"
       },
       {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Constructor for DoneCommand."
-      },
-      {
         "lineNumber": 19,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Boolean isExit is set to false because"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * program should not terminate after command is executed."
+        "content": "    /**"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "     * Constructor for DoneCommand."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param commandArr String array containing the split text retrieved from user input."
+        "content": "     * Boolean isExit is set to false because"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * program should not terminate after command is executed."
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public DoneCommand(String[] commandArr) {"
+        "content": "     *"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        this.commandArr \u003d commandArr;"
+        "content": "     * @param commandArr String array containing the split text retrieved from user input."
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        isExit \u003d false;"
+        "content": "     */"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "    public DoneCommand(String[] commandArr) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        this.commandArr \u003d commandArr;"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "        isExit \u003d false;"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Marks the specified task as completed."
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * The number of the task to be marked is specified"
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * by the user via the user input."
+        "content": "    /**"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "     * Marks the specified task as completed."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
+        "content": "     * The number of the task to be marked is specified"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param ui the Ui object dealing with user interaction."
+        "content": "     * by the user via the user input."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param storage the Storage object that reads from and writes to the file."
+        "content": "     *"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @return String output reply from Duke."
+        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * @param ui the Ui object dealing with user interaction."
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) {"
+        "content": "     * @param storage the Storage object that reads from and writes to the file."
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        ArrayList\u003cTask\u003e taskLst \u003d tasks.getTaskLst();"
+        "content": "     * @return String output reply from Duke."
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        int taskDoneIndex \u003d Integer.parseInt(commandArr[1]) - 1;"
+        "content": "     */"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        assert taskDoneIndex \u003e\u003d 0 : \"taskDoneIndex must be non-negative\";"
+        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        taskLst.get(taskDoneIndex).setDone();"
+        "content": "        ArrayList\u003cTask\u003e taskLst \u003d tasks.getTaskLst();"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return String.format(\"     Nice! I\u0027ve marked this task as done:\\n       %s\\n\","
+        "content": "        if (commandArr.length \u003c\u003d 1) {"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                taskLst.get(taskDoneIndex));"
+        "content": "            throw new DukeException(\"     \\u2639 A task number has to be specified.\\n\");"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        int taskDoneIndex \u003d Integer.parseInt(commandArr[1]) - 1;"
       },
       {
         "lineNumber": 48,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        assert taskDoneIndex \u003e\u003d 0 : \"taskDoneIndex must be non-negative\";"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        if (Command.checkValidTaskNumber(taskDoneIndex, taskLst)) {"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            taskLst.get(taskDoneIndex).setDone();"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return String.format(\"     Nice! I\u0027ve marked this task as done:\\n       %s\\n\","
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                    taskLst.get(taskDoneIndex));"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            String msg \u003d String.format(\"     \\u2639 You have entered an invalid task number!\" +"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "                    \" Please enter a number from between 1 to %d\\n\", taskLst.size());"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            throw new DukeException(msg);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 61,
         "author": {
           "gitId": "bruceskellator"
         },
@@ -2789,7 +3111,7 @@
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 48
+      "bruceskellator": 61
     }
   },
   {
@@ -3081,7 +3403,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return String.format(\"     Bye. Hope to see you again soon!\\n\");"
+        "content": "        return \"     Bye. Hope to see you again soon!\\n\";"
       },
       {
         "lineNumber": 42,
@@ -3335,241 +3657,262 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * contains keyword as a word."
+        "content": "     * contains the keywords as words."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "     * The order of the keywords is not important to this search. A description"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param description the description (of the task)"
+        "content": "     * is considered a match as long as it contains all the keywords specified,"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param keywords String[] containing the keywords to be matched"
+        "content": "     * regardless of order."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @return boolean value detailing whether a match was found"
+        "content": "     *"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * @param description the description (of the task)"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public static boolean containsKeyWords(String description, String[] keywords) {"
+        "content": "     * @param keywords String[] containing the keywords to be matched"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        ArrayList\u003cString\u003e al \u003d new ArrayList\u003c\u003e(Arrays.asList(keywords));"
+        "content": "     * @return boolean value detailing whether a match was found"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        ArrayList\u003cString\u003e desc \u003d new ArrayList\u003c\u003e(Arrays.asList(description.split(\" \")));"
+        "content": "     */"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return desc.containsAll(al);"
+        "content": "    private static boolean containsKeyWords(String description, String[] keywords) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "        ArrayList\u003cString\u003e al \u003d new ArrayList\u003c\u003e(Arrays.asList(keywords));"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        ArrayList\u003cString\u003e desc \u003d new ArrayList\u003c\u003e(Arrays.asList(description.split(\" \")));"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "        return desc.containsAll(al);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Finds tasks from the list of tasks that"
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * match the keyword specified by the user."
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
+        "content": "     * Finds tasks from the list of tasks that"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param ui the Ui object dealing with user interaction."
+        "content": "     * match the keyword specified by the user."
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param storage the Storage object that reads from and writes to the file."
+        "content": "     *"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @return String output reply from Duke."
+        "content": "     * @param tasks the TaskList object storing all recorded Tasks."
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * @param ui the Ui object dealing with user interaction."
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) {"
+        "content": "     * @param storage the Storage object that reads from and writes to the file."
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String[] keywords \u003d commandArr[1].split(\" \");"
+        "content": "     * @return String output reply from Duke."
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        ArrayList\u003cTask\u003e taskLst \u003d tasks.getTaskLst();"
+        "content": "     */"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String store \u003d \"     Here are the matching tasks in your list:\\n\";"
+        "content": "    public String execute(TaskList tasks, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        for (int i \u003d 0; i \u003c taskLst.size(); i++) {"
+        "content": "        String[] keywords \u003d commandArr[1].split(\" \");"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            if (containsKeyWords(taskLst.get(i).getDescription(), keywords)) {"
+        "content": "        ArrayList\u003cTask\u003e taskLst \u003d tasks.getTaskLst();"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                store +\u003d String.format(\"     %d.%s\\n\","
+        "content": "        StringBuilder store \u003d new StringBuilder(\"     Here are the matching tasks in your list:\\n\");"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                        i + 1, taskLst.get(i));"
+        "content": "        for (int i \u003d 0; i \u003c taskLst.size(); i++) {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            }"
+        "content": "            if (containsKeyWords(taskLst.get(i).getDescription(), keywords)) {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "                store.append(String.format(\"     %d.%s\\n\","
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return store;"
+        "content": "                        i + 1, taskLst.get(i)));"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "            }"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 66,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        return store.toString();"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 69,
         "author": {
           "gitId": "bruceskellator"
         },
@@ -3577,7 +3920,7 @@
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 66
+      "bruceskellator": 69
     }
   },
   {
@@ -3855,7 +4198,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String store\u003d \"     Here are the tasks in your list:\\n\";"
+        "content": "        StringBuilder store\u003d new StringBuilder(\"     Here are the tasks in your list:\\n\");"
       },
       {
         "lineNumber": 40,
@@ -3869,14 +4212,14 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            store +\u003d String.format(\"     %d.%s\\n\","
+        "content": "            store.append(String.format(\"     %d.%s\\n\","
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    i + 1, taskLst.get(i));"
+        "content": "                    i + 1, taskLst.get(i)));"
       },
       {
         "lineNumber": 43,
@@ -3890,7 +4233,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return store;"
+        "content": "        return store.toString();"
       },
       {
         "lineNumber": 45,
@@ -4839,14 +5182,14 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String run(String fullCommand) {"
+        "content": "    private String run(String fullCommand) {"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String reply \u003d \"\";"
+        "content": "        String reply;"
       },
       {
         "lineNumber": 79,
@@ -4874,560 +5217,560 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            assert c \u003d\u003d null : \"Command object cannot be null\";"
+        "content": "            reply \u003d c.execute(tasks, ui, storage);"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            reply \u003d c.execute(tasks, ui, storage);"
+        "content": "            isExit \u003d c.isExit();"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            isExit \u003d c.isExit();"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            reply \u003d e.getMessage();"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            reply \u003d e.getMessage();"
+        "content": "        }"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "        // Save the new task list to the hard disk"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        // Save the new task list to the hard disk"
+        "content": "        if (isExit) {"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        if (isExit) {"
+        "content": "            try {"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            try {"
+        "content": "                storage.save(tasks);"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                storage.save(tasks);"
+        "content": "            } catch (IOException e) {"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "                ui.showSavingError(e.getMessage());"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                ui.showSavingError(e.getMessage());"
+        "content": "            }"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "        assert !reply.isEmpty() : \"Reply should not be empty\";"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        assert !reply.isEmpty() : \"Reply should not be empty\";"
+        "content": "        return ui.showOpeningLine() + reply + ui.showClosingLine();"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return ui.showOpeningLine() + reply + ui.showClosingLine();"
+        "content": "    }"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "    @Override"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    @Override"
+        "content": "    public void start(Stage stage) {"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public void start(Stage stage) {"
+        "content": "        //Step 1. Setting up required components"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        //Step 1. Setting up required components"
+        "content": "        //The container for the content of the chat to scroll."
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        //The container for the content of the chat to scroll."
+        "content": "        scrollPane \u003d new ScrollPane();"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane \u003d new ScrollPane();"
+        "content": "        dialogContainer \u003d new VBox();"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        dialogContainer \u003d new VBox();"
+        "content": "        scrollPane.setContent(dialogContainer);"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane.setContent(dialogContainer);"
+        "content": ""
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        userInput \u003d new TextField();"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        userInput \u003d new TextField();"
+        "content": "        sendButton \u003d new Button(\"Send\");"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        sendButton \u003d new Button(\"Send\");"
+        "content": ""
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        AnchorPane mainLayout \u003d new AnchorPane();"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        AnchorPane mainLayout \u003d new AnchorPane();"
+        "content": "        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);"
+        "content": ""
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        scene \u003d new Scene(mainLayout);"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scene \u003d new Scene(mainLayout);"
+        "content": ""
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        stage.setScene(scene);"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        stage.setScene(scene);"
+        "content": "        stage.show();"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        stage.show();"
+        "content": ""
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        //Step 2. Formatting the window to look as expected"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        //Step 2. Formatting the window to look as expected"
+        "content": "        stage.setTitle(\"Duke\");"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        stage.setTitle(\"Duke\");"
+        "content": "        stage.setResizable(false);"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        stage.setResizable(false);"
+        "content": "        stage.setMinHeight(700.0);"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        stage.setMinHeight(700.0);"
+        "content": "        stage.setMinWidth(600.0);"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        stage.setMinWidth(600.0);"
+        "content": ""
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        mainLayout.setPrefSize(600.0, 700.0);"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        mainLayout.setPrefSize(600.0, 700.0);"
+        "content": ""
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        scrollPane.setPrefSize(585, 635);"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane.setPrefSize(585, 635);"
+        "content": "        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);"
+        "content": "        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);"
+        "content": ""
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        scrollPane.setVvalue(1.0);"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane.setVvalue(1.0);"
+        "content": "        scrollPane.setFitToWidth(true);"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        scrollPane.setFitToWidth(true);"
+        "content": ""
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        // You will need to import `javafx.scene.layout.Region` for this."
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        // You will need to import `javafx.scene.layout.Region` for this."
+        "content": "        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);"
+        "content": ""
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        userInput.setPrefWidth(325.0);"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        userInput.setPrefWidth(325.0);"
+        "content": ""
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        sendButton.setPrefWidth(80.0);"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        sendButton.setPrefWidth(80.0);"
+        "content": ""
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        AnchorPane.setTopAnchor(scrollPane, 1.0);"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        AnchorPane.setTopAnchor(scrollPane, 1.0);"
+        "content": ""
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        AnchorPane.setBottomAnchor(sendButton, 1.0);"
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        AnchorPane.setBottomAnchor(sendButton, 1.0);"
+        "content": "        AnchorPane.setRightAnchor(sendButton, 1.0);"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        AnchorPane.setRightAnchor(sendButton, 1.0);"
+        "content": ""
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        AnchorPane.setLeftAnchor(userInput, 1.0);"
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        AnchorPane.setLeftAnchor(userInput, 1.0);"
+        "content": "        AnchorPane.setBottomAnchor(userInput, 1.0);"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        AnchorPane.setBottomAnchor(userInput, 1.0);"
+        "content": ""
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        //Scroll down to the end every time dialogContainer\u0027s height changes."
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        //Scroll down to the end every time dialogContainer\u0027s height changes."
+        "content": "        dialogContainer.heightProperty().addListener((observable) -\u003e scrollPane.setVvalue(1.0));"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        dialogContainer.heightProperty().addListener((observable) -\u003e scrollPane.setVvalue(1.0));"
+        "content": ""
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        // Output welcome text on the GUI"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        // Output welcome text on the GUI"
+        "content": "        String welcomeText \u003d ui.showWelcome();"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String welcomeText \u003d ui.showWelcome();"
+        "content": "        Label welcomeLabel \u003d new Label(welcomeText);"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        Label welcomeLabel \u003d new Label(welcomeText);"
+        "content": "        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(welcomeLabel, new ImageView(duke)));"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(welcomeLabel, new ImageView(duke)));"
+        "content": "        userInput.clear();"
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        userInput.clear();"
+        "content": ""
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        //Step 3. Add functionality to handle user input."
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        //Step 3. Add functionality to handle user input."
+        "content": "        sendButton.setOnMouseClicked((event) -\u003e handleUserInput());"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        sendButton.setOnMouseClicked((event) -\u003e {"
+        "content": ""
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            handleUserInput();"
+        "content": "        userInput.setOnAction((event) -\u003e handleUserInput());"
       },
       {
         "lineNumber": 161,
         "author": {
-          "gitId": "bruceskellator"
+          "gitId": "-"
         },
-        "content": "        });"
+        "content": "    }"
       },
       {
         "lineNumber": 162,
@@ -5441,157 +5784,122 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        userInput.setOnAction((event) -\u003e {"
+        "content": "    /**"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            handleUserInput();"
+        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        });"
-      },
-      {
-        "lineNumber": 166,
-        "author": {
-          "gitId": "-"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 167,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 168,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 169,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
-      },
-      {
-        "lineNumber": 170,
-        "author": {
-          "gitId": "bruceskellator"
-        },
         "content": "     * the dialog container. Clears the user input after processing."
       },
       {
-        "lineNumber": 171,
+        "lineNumber": 166,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "     */"
       },
       {
-        "lineNumber": 172,
+        "lineNumber": 167,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "    private void handleUserInput() {"
       },
       {
-        "lineNumber": 173,
+        "lineNumber": 168,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        Label userText \u003d new Label(userInput.getText());"
       },
       {
-        "lineNumber": 174,
+        "lineNumber": 169,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        Label dukeText \u003d new Label(run(userInput.getText()));"
       },
       {
-        "lineNumber": 175,
+        "lineNumber": 170,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        dialogContainer.getChildren().addAll("
       },
       {
-        "lineNumber": 176,
+        "lineNumber": 171,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "                DialogBox.getUserDialog(userText, new ImageView(user)),"
       },
       {
-        "lineNumber": 177,
+        "lineNumber": 172,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "                DialogBox.getDukeDialog(dukeText, new ImageView(duke))"
       },
       {
-        "lineNumber": 178,
+        "lineNumber": 173,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        );"
       },
       {
-        "lineNumber": 179,
+        "lineNumber": 174,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        if (userInput.getText().equals(\"bye\")) {"
       },
       {
-        "lineNumber": 180,
+        "lineNumber": 175,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "            Platform.exit();"
       },
       {
-        "lineNumber": 181,
+        "lineNumber": 176,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        } else {"
       },
       {
-        "lineNumber": 182,
+        "lineNumber": 177,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "            userInput.clear();"
       },
       {
-        "lineNumber": 183,
+        "lineNumber": 178,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "        }"
       },
       {
-        "lineNumber": 184,
+        "lineNumber": 179,
         "author": {
           "gitId": "bruceskellator"
         },
         "content": "    }"
       },
       {
-        "lineNumber": 185,
+        "lineNumber": 180,
         "author": {
           "gitId": "-"
         },
@@ -5599,7 +5907,7 @@
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 183,
+      "bruceskellator": 178,
       "-": 2
     }
   },
@@ -5733,77 +6041,77 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.Command;"
+        "content": "import java.time.format.DateTimeParseException;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.AddCommand;"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.DeleteCommand;"
+        "content": "import commands.Command;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.DoneCommand;"
+        "content": "import commands.AddCommand;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.ExitCommand;"
+        "content": "import commands.DeleteCommand;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.ListCommand;"
+        "content": "import commands.DoneCommand;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import commands.FindCommand;"
+        "content": "import commands.ExitCommand;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "import commands.ListCommand;"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import exceptions.DukeException;"
+        "content": "import commands.FindCommand;"
       },
       {
         "lineNumber": 14,
@@ -5817,304 +6125,892 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "/**"
+        "content": "import exceptions.DukeException;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * Parser is a class that handles the parsing of user input."
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * It contains a method parse that instantiates and returns"
+        "content": "/**"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * the appropriate type of Command object associated with the user input."
+        "content": " * Parser is a class that handles the parsing of user input."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " */"
+        "content": " * It contains a method parse that instantiates and returns"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "public class Parser {"
+        "content": " * the appropriate type of Command object associated with the user input."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Returns a Command object that is one of 6 types:"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * AddCommand, DeleteCommand, DoneCommand,"
+        "content": "    /**"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * FindCommand, ExitCommand and ListCommand."
+        "content": "     * Returns a Command object that is one of 6 types:"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * The type of Command object returned is based on the user input:"
+        "content": "     * AddCommand, DeleteCommand, DoneCommand,"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * add [description] [datetime] (datetime only required for Event and Deadline Tasks),"
+        "content": "     * FindCommand, ExitCommand and ListCommand."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * delete [task number], done [task number], find [keyword],"
+        "content": "     * The type of Command object returned is based on the user input:"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * exit, and list commands respectively."
+        "content": "     * add [description] [datetime] (datetime only required for Event and Deadline Tasks),"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "     * delete [task number], done [task number], find [keyword],"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param fullCommand the line of user input."
+        "content": "     * exit, and list commands respectively."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @return a Command object associated with user input."
+        "content": "     *"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @throws DukeException  If there is invalid input."
+        "content": "     * @param fullCommand the line of user input."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * @return a Command object associated with user input."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public static Command parse(String fullCommand) throws DukeException {"
+        "content": "     * @throws DukeException  If there is invalid input."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String[] commandArr \u003d fullCommand.split(\" \", 2);"
+        "content": "     */"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        switch (commandArr[0]) {"
+        "content": "    public static Command parse(String fullCommand) throws DukeException {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"bye\":"
+        "content": "        String[] commandArr \u003d fullCommand.split(\" \", 2);"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            return new ExitCommand(commandArr);"
+        "content": "        switch (commandArr[0]) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"list\":"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            return new ListCommand(commandArr);"
+        "content": "            return new ExitCommand(commandArr);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"delete\":"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            return new DeleteCommand(commandArr);"
+        "content": "            return new ListCommand(commandArr);"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"done\":"
+        "content": "        case \"delete\":"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            return new DoneCommand(commandArr);"
+        "content": "            return new DeleteCommand(commandArr);"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"find\":"
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            return new FindCommand(commandArr);"
+        "content": "            return new DoneCommand(commandArr);"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"todo\":"
+        "content": "        case \"find\":"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"deadline\":"
+        "content": "            return new FindCommand(commandArr);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        case \"event\":"
+        "content": "        case \"todo\":"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            return new AddCommand(commandArr);"
+        "content": "        case \"deadline\":"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        default:"
+        "content": "        case \"event\":"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            throw new DukeException(\"     \\u2639 OOPS!!! I\u0027m sorry, \""
+        "content": "            return new AddCommand(commandArr);"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    + \"but I don\u0027t know what that means :-(\");"
+        "content": "        default:"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "            throw new DukeException(\"     \\u2639 OOPS!!! I\u0027m sorry, \""
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "                    + \"but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 58,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    public static LocalDateTime parseDateTime(String dateTime) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        LocalDateTime localDateTime;"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Try parsing for different date time formats"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // to give the user greater freedom to type dateTimes in"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // a variety of formats"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 07/10/1997 0839"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"d/MM/yyyy HHmm\"));"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 07101997 0839"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"ddMMyyyy HHmm\"));"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 07 10 1997 0839"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"dd MM yyyy HHmm\"));"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 7 October 1997 0839"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"d LLLL yyyy HHmm\"));"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 07/10/1997 8:39AM"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"dd/MM/yyyy h:mma\"));"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 07101997 8:39AM"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"ddMMyyyy h:mma\"));"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 07 10 1997 8:39PM"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"dd MM yyyy h:mma\"));"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        // Parse for format of type: 7 October 1997 8:39PM"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        try {"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            localDateTime \u003d LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(\"d LLLL yyyy h:mma\"));"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            return localDateTime;"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        } catch (DateTimeParseException ignored) {"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // Ignore the exception because date time keyed in by user"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "            // could be considered valid by subsequent parses"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "        return null;"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "bruceskellator"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 142,
         "author": {
           "gitId": "bruceskellator"
         },
@@ -6122,7 +7018,7 @@
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 58
+      "bruceskellator": 142
     }
   },
   {
@@ -6344,7 +7240,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public Storage(String filePath) {"
+        "content": "    Storage(String filePath) {"
       },
       {
         "lineNumber": 32,
@@ -6428,7 +7324,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException, IOException {"
+        "content": "    ArrayList\u003cTask\u003e load() throws DukeException, IOException {"
       },
       {
         "lineNumber": 44,
@@ -6470,7 +7366,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        ArrayList\u003cTask\u003e taskLst \u003d new ArrayList\u003cTask\u003e();"
+        "content": "        ArrayList\u003cTask\u003e taskLst \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 50,
@@ -6512,14 +7408,14 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                taskLst.add(new ToDo(line, s.charAt(4) \u003d\u003d \u00271\u0027 ? true : false));"
+        "content": "                taskLst.add(new ToDo(line, s.charAt(4) \u003d\u003d \u00271\u0027));"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            } else if (s.charAt(0) \u003d\u003d \u0027D\u0027) {"
+        "content": "            } else if (s.charAt(0) \u003d\u003d \u0027D\u0027 || s.charAt(0) \u003d\u003d \u0027E\u0027) {"
       },
       {
         "lineNumber": 57,
@@ -6540,269 +7436,255 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                        taskLst.add(new Deadline(line.substring(0, i - 1),"
+        "content": "                        if (s.charAt(0) \u003d\u003d \u0027D\u0027) {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                            LocalDateTime.parse(line.substring(i + 2),"
+        "content": "                            taskLst.add(new Deadline(line.substring(0, i - 1),"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                                DateTimeFormatter.ofPattern(\"d MMMM yyyy, h:mma\")),"
+        "content": "                                    LocalDateTime.parse(line.substring(i + 2),"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                                    s.charAt(4) \u003d\u003d \u00271\u0027 ? true : false));"
+        "content": "                                            DateTimeFormatter.ofPattern(\"d MMMM yyyy, h:mma\")),"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    }"
+        "content": "                                    s.charAt(4) \u003d\u003d \u00271\u0027));"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                }"
+        "content": "                        } else { // if s.charAt(0) \u003d\u003d \u0027E\u0027"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            } else if (s.charAt(0) \u003d\u003d \u0027E\u0027) {"
+        "content": "                            taskLst.add(new Event(line.substring(0, i - 1),"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                for (int i \u003d 0; i \u003c line.length(); i++) {"
+        "content": "                                    LocalDateTime.parse(line.substring(i + 2),"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    if (line.charAt(i) \u003d\u003d \u0027|\u0027) {"
+        "content": "                                            DateTimeFormatter.ofPattern(\"d MMMM yyyy, h:mma\")),"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                        taskLst.add(new Event(line.substring(0, i - 1),"
+        "content": "                                    s.charAt(4) \u003d\u003d \u00271\u0027));"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                            LocalDateTime.parse(line.substring(i + 2),"
+        "content": "                        }"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                                DateTimeFormatter.ofPattern(\"d MMMM yyyy, h:mma\")),"
+        "content": "                    }"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                                    s.charAt(4) \u003d\u003d \u00271\u0027 ? true : false));"
+        "content": "                }"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                    }"
+        "content": "            } else {"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                }"
+        "content": "                throw new DukeException(\"Invalid file format.\");"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            } else {"
+        "content": "            }"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "                throw new DukeException(\"Invalid file format.\");"
+        "content": "        }"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "        return taskLst;"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return taskLst;"
+        "content": ""
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "     * Saves the updated list of tasks to the same file that was read from."
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "     *"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Saves the updated list of tasks to the same file that was read from."
+        "content": "     * @param tasks the TaskList object that contains the ArrayList of Tasks."
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "     * @throws IOException  if there is an error saving to the file."
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @param tasks the TaskList object that contains the ArrayList of Tasks."
+        "content": "     */"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @throws IOException  if there is an error saving to the file."
+        "content": "    public void save(TaskList tasks) throws IOException {"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "        FileWriter fw \u003d new FileWriter(filePath);"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public void save(TaskList tasks) throws IOException {"
+        "content": "        StringBuilder textToAdd \u003d new StringBuilder();"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        FileWriter fw \u003d new FileWriter(filePath);"
+        "content": "        for (Task task : tasks.getTaskLst()) {"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String textToAdd \u003d \"\";"
+        "content": "            textToAdd.append(task.fileString()).append(\"\\n\");"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        for (Task task : tasks.getTaskLst()) {"
+        "content": "        }"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "            textToAdd +\u003d task.fileString() + \"\\n\";"
+        "content": "        fw.write(textToAdd.toString());"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        }"
+        "content": "        fw.close();"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        fw.write(textToAdd);"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        fw.close();"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "bruceskellator"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 97,
+        "lineNumber": 95,
         "author": {
           "gitId": "bruceskellator"
         },
@@ -6810,7 +7692,7 @@
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 97
+      "bruceskellator": 95
     }
   },
   {
@@ -6941,7 +7823,7 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        this.taskLst \u003d new ArrayList\u003cTask\u003e();"
+        "content": "        this.taskLst \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 19,
@@ -7125,364 +8007,364 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "import java.util.Scanner;"
+        "content": "/**"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": " * Ui class that handles user interaction."
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "/**"
+        "content": " * Stores methods that read the input provided by the user,"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * Ui class that handles user interaction."
+        "content": " * as well as methods that print messages addressed to the user"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * Stores methods that read the input provided by the user,"
+        "content": " * or appropriate responses to user commands."
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * as well as methods that print messages addressed to the user"
+        "content": " */"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " * or appropriate responses to user commands."
+        "content": "public class Ui {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "public class Ui {"
+        "content": "    /** Horizontal line to be used extensively in printed messages and responses. */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "    private String hrzLine \u003d \"    ____________________________________________________________\\n\";"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /** Scanner object that redirects the input to user input. */"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    private Scanner scanner \u003d new Scanner(System.in);"
+        "content": "    /**"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /** Horizontal line to be used extensively in printed messages and responses. */"
+        "content": "     * Prints a welcome message."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    private String hrzLine \u003d \"    ____________________________________________________________\\n\";"
+        "content": "     *"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "     * @return String welcome message."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Prints a welcome message."
+        "content": "    String showWelcome() {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": "        String store \u003d hrzLine;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @return String welcome message."
+        "content": "        store +\u003d \"     Hello! I\u0027m Duke\\n     What can I do for you?\\n\";"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "        store +\u003d String.format(\"%s\\n\", hrzLine);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String showWelcome() {"
+        "content": "        return store;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        String store \u003d hrzLine;"
+        "content": "    }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        store +\u003d \"     Hello! I\u0027m Duke\\n     What can I do for you?\\n\";"
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        store +\u003d String.format(\"%s\\n\", hrzLine);"
+        "content": "    /**"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return store;"
+        "content": "     * Prints the Opening Line."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "    String showOpeningLine() {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "        return hrzLine;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Reads the user input and returns it as a String."
+        "content": "    }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * @return String containing the full line of text retrieved from user input."
+        "content": "    /**"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * Prints the Closing Line."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String readCommand() {"
+        "content": "     */"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return scanner.nextLine();"
+        "content": "    String showClosingLine() {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "        return String.format(\"%s\\n\", hrzLine);"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Prints the Opening Line."
+        "content": "    /**"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "     * Prints the message associated with a exception"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String showOpeningLine() {"
+        "content": "     * that occurred on loading from the file."
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return hrzLine;"
+        "content": "     *"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": "     * @param err String containing the message of the exception."
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "    void showLoadingError(String err) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Prints the Closing Line."
+        "content": "        System.out.println(hrzLine);"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     */"
+        "content": "        System.out.printf(\"     %s\\n\", err);"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public String showClosingLine() {"
+        "content": "        System.out.printf(\"%s\\n\\n\", hrzLine);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        return String.format(\"%s\\n\", hrzLine);"
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
+        "content": "     * Prints the message associated with an exception"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "     * Prints the message associated with an exception."
+        "content": "     * that occurred on saving to the file."
       },
       {
         "lineNumber": 55,
@@ -7510,14 +8392,14 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    public void showError(String err) {"
+        "content": "    public void showSavingError(String err) {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "        System.out.println(err);"
+        "content": "        showLoadingError(err);"
       },
       {
         "lineNumber": 60,
@@ -7538,165 +8420,11 @@
         "author": {
           "gitId": "bruceskellator"
         },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Prints the message associated with a exception"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * that occurred on loading from the file."
-      },
-      {
-        "lineNumber": 65,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 66,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param err String containing the message of the exception."
-      },
-      {
-        "lineNumber": 67,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 68,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public void showLoadingError(String err) {"
-      },
-      {
-        "lineNumber": 69,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        System.out.println(hrzLine);"
-      },
-      {
-        "lineNumber": 70,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        System.out.printf(\"     %s\\n\", err);"
-      },
-      {
-        "lineNumber": 71,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        System.out.printf(\"%s\\n\\n\", hrzLine);"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * Prints the message associated with an exception"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * that occurred on saving to the file."
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     * @param err String containing the message of the exception."
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    public void showSavingError(String err) {"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "        showLoadingError(err);"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "bruceskellator"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "bruceskellator"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "bruceskellator": 84
+      "bruceskellator": 62
     }
   },
   {

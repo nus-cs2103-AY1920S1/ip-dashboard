@@ -339,863 +339,6 @@
     }
   },
   {
-    "path": "config/travis/check-eof-newline.sh",
-    "fileType": "sh",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "#!/bin/sh"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Checks that all text files end with a newline."
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "ret\u003d0"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Preserve filename with spaces by only splitting on newlines."
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "IFS\u003d\u0027"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "\u0027"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "for filename in $(git grep --cached -I -l -e \u0027\u0027 -- \u0027:/\u0027); do"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    if [ \"$(tail -c 1 \"./$filename\")\" !\u003d \u0027\u0027 ]; then"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        line\u003d\"$(wc -l \"./$filename\" | cut -d\u0027 \u0027 -f1)\""
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        echo \"ERROR:$filename:$line: no newline at EOF.\""
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        ret\u003d1"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    fi"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "done"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "exit $ret"
-      }
-    ],
-    "authorContributionMap": {
-      "moziliar": 18
-    }
-  },
-  {
-    "path": "config/travis/check-line-endings.sh",
-    "fileType": "sh",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "#!/bin/sh"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Checks for prohibited line endings."
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Prohibited line endings: \\r\\n"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git grep --cached -I -n --no-color -P \u0027\\r$\u0027 -- \u0027:/\u0027 |"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "awk \u0027"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    BEGIN {"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        FS \u003d \":\""
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        OFS \u003d \":\""
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        ret \u003d 0"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    {"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        ret \u003d 1"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        print \"ERROR\", $1, $2, \" prohibited \\\\r\\\\n line ending, use \\\\n instead.\""
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    END {"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        exit ret"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "\u0027"
-      }
-    ],
-    "authorContributionMap": {
-      "moziliar": 19
-    }
-  },
-  {
-    "path": "config/travis/check-trailing-whitespace.sh",
-    "fileType": "sh",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "#!/bin/sh"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Checks for trailing whitespace"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git grep --cached -I -n --no-color -P \u0027[ \\t]+$\u0027 -- \u0027:/\u0027 |"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "awk \u0027"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    BEGIN {"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        FS \u003d \":\""
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        OFS \u003d \":\""
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        ret \u003d 0"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    {"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        # Only warn for markdown files (*.md) to accomodate text editors"
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        # which do not properly handle trailing whitespace."
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        # (e.g. GitHub web editor)"
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        if ($1 ~ /\\.md$/) {"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "            severity \u003d \"WARN\""
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        } else {"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "            severity \u003d \"ERROR\""
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "            ret \u003d 1"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        print severity, $1, $2, \" trailing whitespace.\""
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    END {"
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        exit ret"
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "\u0027"
-      }
-    ],
-    "authorContributionMap": {
-      "moziliar": 26
-    }
-  },
-  {
-    "path": "config/travis/deploy_github_pages.sh",
-    "fileType": "sh",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "#!/bin/sh"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Pushes files generated by Asciidoctor and associated files to gh-pages branch for commits to master branch."
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "set -o errexit # exit with nonzero exit code if any line fails"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "if [ -z \"$GITHUB_TOKEN\" ]; then"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "  echo \u0027GITHUB_TOKEN is not set up in Travis. Skipping deploy.\u0027"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "  exit 0"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "fi;"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "set -o nounset # exit if variable is unset"
-      },
-      {
-        "lineNumber": 12,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 13,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "cd build/docs/html5"
-      },
-      {
-        "lineNumber": 14,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 15,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git init"
-      },
-      {
-        "lineNumber": 16,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git config user.name \u0027Deployment Bot (Travis)\u0027"
-      },
-      {
-        "lineNumber": 17,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git config user.email \u0027deploy@travis-ci.org\u0027"
-      },
-      {
-        "lineNumber": 18,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 19,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git config credential.helper \u0027store --file\u003d.git/credentials\u0027"
-      },
-      {
-        "lineNumber": 20,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "echo \"https://${GITHUB_TOKEN}:@github.com\" \u003e .git/credentials"
-      },
-      {
-        "lineNumber": 21,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 22,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git remote add upstream \"https://github.com/${TRAVIS_REPO_SLUG}.git\""
-      },
-      {
-        "lineNumber": 23,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 24,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Reset to gh-pages branch, or create orphan branch if gh-pages does not exist in remote."
-      },
-      {
-        "lineNumber": 25,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "if git ls-remote --exit-code --heads upstream gh-pages; then"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    git fetch --depth\u003d1 upstream gh-pages"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    git reset upstream/gh-pages"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "elif [ $? -eq 2 ]; then # exit code of git ls-remote is 2 if branch does not exist"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    git checkout --orphan gh-pages"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "else # error occurred"
-      },
-      {
-        "lineNumber": 31,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    exit $?"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "fi"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Exit if there are no changes to gh-pages files."
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "if changes\u003d$(git status --porcelain) \u0026\u0026 [ -z \"$changes\" ]; then"
-      },
-      {
-        "lineNumber": 36,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    echo \u0027No changes to GitHub Pages files; exiting.\u0027"
-      },
-      {
-        "lineNumber": 37,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    exit 0"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "fi"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git add -A ."
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git commit -m \"Rebuild pages at ${TRAVIS_COMMIT}\""
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "git push --quiet upstream HEAD:gh-pages"
-      }
-    ],
-    "authorContributionMap": {
-      "moziliar": 42
-    }
-  },
-  {
-    "path": "config/travis/run-checks.sh",
-    "fileType": "sh",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "#!/bin/sh"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "# Runs all check-* scripts, and returns a non-zero exit code if any of them fail."
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "dir\u003d$(CDPATH\u003d cd -- \"$(dirname -- \"$0\")\" \u0026\u0026 pwd) \u0026\u0026"
-      },
-      {
-        "lineNumber": 5,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "ret\u003d0 \u0026\u0026"
-      },
-      {
-        "lineNumber": 6,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "for checkscript in \"$dir\"/check-*; do"
-      },
-      {
-        "lineNumber": 7,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    if ! \"$checkscript\"; then"
-      },
-      {
-        "lineNumber": 8,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        ret\u003d1"
-      },
-      {
-        "lineNumber": 9,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    fi"
-      },
-      {
-        "lineNumber": 10,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "done"
-      },
-      {
-        "lineNumber": 11,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "exit $ret"
-      }
-    ],
-    "authorContributionMap": {
-      "moziliar": 11
-    }
-  },
-  {
     "path": "gradlew.bat",
     "fileType": "bat",
     "lines": [
@@ -2026,63 +1169,63 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private Parser parser \u003d new Parser();"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Constructs Duke object with filePath input from which"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Constructs Duke object with filePath input from which"
+        "content": "     * the data of the existing is stored."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * the data of the existing is stored."
+        "content": "     *"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param filePath File path for input."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param filePath File path for input."
+        "content": "     */"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    Duke(String filePath) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    Duke(String filePath) {"
+        "content": "        // Create UI and Storage components"
       },
       {
         "lineNumber": 26,
@@ -2103,318 +1246,332 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            tasks \u003d new TaskList(storage.load());"
+        "content": "        // Try to load the task list from storage; create new one if failed"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            ui.showLoadingError();"
+        "content": "            tasks \u003d new TaskList(storage.load());"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            tasks \u003d new TaskList();"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "            ui.showLoadingError();"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "            tasks \u003d new TaskList();"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Takes in user input, execute the command generated,"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * and returns a response accordingly in String."
+        "content": "    /**"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Takes in user input, execute the command generated,"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param input User input."
+        "content": "     * and returns a response accordingly in String."
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Response to the user."
+        "content": "     *"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @param input User input."
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getResponse(String input) {"
+        "content": "     * @return Response to the user."
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        // Create a parser and reset the message buffer in ui"
+        "content": "     */"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ui.resetMessage();"
+        "content": "    public String getResponse(String input) {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        // Create a parser and reset the message buffer in ui"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        // Try to execute the user input"
+        "content": "        ui.resetMessage();"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            executeOnInput(input);"
+        "content": "        // Try to execute the user input"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            ui.reportError(e);"
+        "content": "            executeOnInput(input);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "            ui.reportError(e);"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return ui.getMessage();"
+        "content": "        }"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        return ui.getMessage();"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Takes in a command and parse it with parser to get the command object"
+        "content": ""
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * and execute it afterwards."
+        "content": "    /**"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Takes in a command and parse it with parser to get the command object"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param input User input."
+        "content": "     * and execute it afterwards."
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @throws DukeException When the input is invalid."
+        "content": "     *"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @param input User input."
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private void executeOnInput(String input) throws DukeException {"
+        "content": "     * @throws DukeException When the input is invalid."
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        // Generate command object with parser and execute the command"
+        "content": "     */"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Command command \u003d parser.parse(input);"
+        "content": "    private void executeOnInput(String input) throws DukeException {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        command.execute(tasks, ui);"
+        "content": "        // Generate command object with parser and execute the command"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        Command command \u003d Parser.parse(input);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        // Save the updated list back to data file"
+        "content": "        command.execute(tasks, ui);"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        storage.save(tasks);"
+        "content": ""
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        // Save the updated list back to data file"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        storage.save(tasks);"
       },
       {
         "lineNumber": 73,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 75,
         "author": {
           "gitId": "moziliar"
         },
@@ -2422,7 +1579,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 73
+      "moziliar": 75
     }
   },
   {
@@ -2674,94 +1831,129 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    @Override"
+        "content": "    /**"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void start(Stage stage) {"
+        "content": "     * Start the Application."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        try {"
+        "content": "     *"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            FXMLLoader fxmlLoader \u003d new FXMLLoader(Main.class.getResource(\"/view/MainWindow.fxml\"));"
+        "content": "     * @param stage Stage component for JavaFX GUI."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            AnchorPane ap \u003d fxmlLoader.load();"
+        "content": "     */"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            Scene scene \u003d new Scene(ap);"
+        "content": "    @Override"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            stage.setScene(scene);"
+        "content": "    public void start(Stage stage) {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().setDuke(duke);"
+        "content": "        try {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            stage.show();"
+        "content": "            FXMLLoader fxmlLoader \u003d new FXMLLoader(Main.class.getResource(\"/view/MainWindow.fxml\"));"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            AnchorPane ap \u003d fxmlLoader.load();"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            Scene scene \u003d new Scene(ap);"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "            stage.setScene(scene);"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().setDuke(duke);"
       },
       {
         "lineNumber": 34,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            stage.show();"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
@@ -2769,7 +1961,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 34
+      "moziliar": 39
     }
   },
   {
@@ -2914,7 +2106,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 21,
@@ -2942,7 +2134,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getDate() {"
+        "content": "    public String getKeyword() {"
       },
       {
         "lineNumber": 25,
@@ -2970,14 +2162,14 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getKeyword() {"
+        "content": "    public void execute(TaskList tasks, Ui ui) {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"error\";"
+        "content": "        ui.reportBye();"
       },
       {
         "lineNumber": 30,
@@ -2991,39 +2183,11 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    public void execute(TaskList tasks, Ui ui) {"
-      },
-      {
-        "lineNumber": 33,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "        ui.reportBye();"
-      },
-      {
-        "lineNumber": 34,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 35,
-        "author": {
-          "gitId": "moziliar"
-        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "moziliar": 35
+      "moziliar": 31
     }
   },
   {
@@ -3070,94 +2234,101 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public interface Command {"
+        "content": "/**"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": " * An interface for command classes."
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTaskType();"
+        "content": " */"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "public interface Command {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public int getIndex();"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public String getTaskType();"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask();"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public int getIndex();"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getDate();"
+        "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public String getDescription();"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getKeyword();"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public String getKeyword();"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void execute(TaskList tasks, Ui ui);"
+        "content": ""
       },
       {
         "lineNumber": 19,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    public void execute(TaskList tasks, Ui ui);"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
@@ -3165,7 +2336,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 19
+      "moziliar": 20
     }
   },
   {
@@ -3219,360 +2390,367 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class DeadlineCommand implements Command {"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String task;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String deadline;"
+        "content": "public class DeadlineCommand implements Command {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    private String description;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    private LocalDateTime deadline;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Generates deadline command based on the input string."
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Processes the input string and store it as task and deadline."
+        "content": "    /**"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Generates deadline command based on the input string."
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param input Input string."
+        "content": "     * Processes the input string and store it as task and deadline."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public DeadlineCommand(String input) {"
+        "content": "     * @param description Description for the deadline."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        String[] processedInput \u003d input.split(\"/by\");"
+        "content": "     * @param deadline Deadline in LocalDateTime."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.task \u003d processedInput[0];"
+        "content": "    public DeadlineCommand(String description, LocalDateTime deadline) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.deadline \u003d processedInput[1];"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        this.deadline \u003d deadline;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns task type."
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Returns task type."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Deadline."
+        "content": "     *"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @return Deadline."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTaskType() {"
+        "content": "     */"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"deadline\";"
+        "content": "    public String getTaskType() {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"deadline\";"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns the deadline."
+        "content": "    /**"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Returns the deadline."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Date of the deadline."
+        "content": "     *"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @return Date of the deadline."
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getDate() {"
+        "content": "     */"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return deadline;"
+        "content": "    public LocalDateTime getDate() {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return deadline;"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public int getIndex() {"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return 0;"
+        "content": "    public int getIndex() {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return 0;"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return task;"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return description;"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getKeyword() {"
+        "content": ""
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"error\";"
+        "content": "    public String getKeyword() {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"error\";"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void execute(TaskList tasks, Ui ui) {"
+        "content": ""
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task addedTodo \u003d tasks.addTask(getTask());"
+        "content": "    public void execute(TaskList tasks, Ui ui) {"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ui.reportAdd(addedTodo, tasks.getNumOfTasks());"
+        "content": "        Task addedDeadline \u003d tasks.addTask(getTaskType(), getDescription(), getDate());"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        ui.reportAdd(addedDeadline, tasks.getNumOfTasks());"
       },
       {
         "lineNumber": 58,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
         "author": {
           "gitId": "moziliar"
         },
@@ -3580,7 +2758,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 58
+      "moziliar": 59
     }
   },
   {
@@ -3844,7 +3022,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 38,
@@ -4231,7 +3409,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 39,
@@ -4401,395 +3579,402 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class EventCommand implements Command {"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String task;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String eventDate;"
+        "content": "public class EventCommand implements Command {"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    private String task;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    private LocalDateTime eventDate;"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Constructs an event command based on the input string,"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * and store it as task description and event date."
+        "content": "    /**"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Constructs an event command based on the input string,"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param input Input string."
+        "content": "     * and store it as description description and event date."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public EventCommand(String input) {"
+        "content": "     * @param description Description for the event."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        String[] processedInput \u003d input.split(\"/by\");"
+        "content": "     * @param eventDate Date in LocalDateTime."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.task \u003d processedInput[0];"
+        "content": "    public EventCommand(String description, LocalDateTime eventDate) {"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.eventDate \u003d processedInput[1];"
+        "content": "        this.task \u003d description;"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        this.eventDate \u003d eventDate;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns task type."
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Returns task type."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Event."
+        "content": "     *"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @return Event."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTaskType() {"
+        "content": "     */"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"event\";"
+        "content": "    public String getTaskType() {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"event\";"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public int getIndex() {"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return 0;"
+        "content": "    public int getIndex() {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return 0;"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns the event description of this event."
+        "content": "    /**"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Returns the event description of this event."
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Description of this event."
+        "content": "     *"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @return Description of this event."
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "     */"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return task;"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return task;"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns the event date of this event."
+        "content": "    /**"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Returns the event date of this event."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Event date."
+        "content": "     *"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @return Event date."
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getDate() {"
+        "content": "     */"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return eventDate;"
+        "content": "    public LocalDateTime getDate() {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return eventDate;"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getKeyword() {"
+        "content": ""
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"error\";"
+        "content": "    public String getKeyword() {"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"error\";"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void execute(TaskList tasks, Ui ui) {"
+        "content": ""
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task addedEvent \u003d tasks.addTask(\"E\", getTask(), getDate());"
+        "content": "    public void execute(TaskList tasks, Ui ui) {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ui.reportAdd(addedEvent, tasks.getNumOfTasks());"
+        "content": "        Task addedEvent \u003d tasks.addTask(getTaskType(), getDescription(), getDate());"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        ui.reportAdd(addedEvent, tasks.getNumOfTasks());"
       },
       {
         "lineNumber": 63,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
         "author": {
           "gitId": "moziliar"
         },
@@ -4797,7 +3982,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 63
+      "moziliar": 64
     }
   },
   {
@@ -4949,7 +4134,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 22,
@@ -5210,7 +4395,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 21,
@@ -5301,7 +4486,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ui.reportList(tasks.generateList());"
+        "content": "        ui.reportList(tasks.generateListInString());"
       },
       {
         "lineNumber": 34,
@@ -5380,325 +4565,318 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String taskType \u003d \"todo\";"
+        "content": "    private String task;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String task;"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Constructs a todo command based on the description."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Constructs a todo command based on the description."
+        "content": "     *"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param task Description of this todo."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param task Description of this todo."
+        "content": "     */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public TodoCommand(String task) {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public TodoCommand(String task) {"
+        "content": "        this.task \u003d task;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.task \u003d task;"
+        "content": "    }"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Returns task type."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns task type."
+        "content": "     *"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @return Todo."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Todo."
+        "content": "     */"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public String getTaskType() {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTaskType() {"
+        "content": "        return \"todo\";"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"todo\";"
+        "content": "    }"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public int getIndex() {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public int getIndex() {"
+        "content": "        return 0;"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return 0;"
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Returns the description of this todo."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns the description of this todo."
+        "content": "     *"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @return Description of this todo."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Description of this todo."
+        "content": "     */"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getTask() {"
+        "content": "        return task;"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return task;"
+        "content": "    }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public String getDate() {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getDate() {"
+        "content": "        return \"error\";"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"error\";"
+        "content": "    }"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public String getKeyword() {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getKeyword() {"
+        "content": "        return \"error\";"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"error\";"
+        "content": "    }"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void execute(TaskList tasks, Ui ui) {"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void execute(TaskList tasks, Ui ui) {"
+        "content": "        Task addedTodo \u003d tasks.addTask(getDescription());"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task addedTodo \u003d tasks.addTask(getTask());"
+        "content": "        ui.reportAdd(addedTodo, tasks.getNumOfTasks());"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ui.reportAdd(addedTodo, tasks.getNumOfTasks());"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "moziliar"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 54,
+        "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
@@ -5706,7 +4884,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 54
+      "moziliar": 53
     }
   },
   {
@@ -5718,32 +4896,11 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "T |loan book"
-      },
-      {
-        "lineNumber": 2,
-        "author": {
-          "gitId": "moziliar"
-        },
         "content": "T |borrow book"
-      },
-      {
-        "lineNumber": 3,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "T |borrow book"
-      },
-      {
-        "lineNumber": 4,
-        "author": {
-          "gitId": "moziliar"
-        },
-        "content": "T |beat dio"
       }
     ],
     "authorContributionMap": {
-      "moziliar": 4
+      "moziliar": 1
     }
   },
   {
@@ -6874,290 +6031,913 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import duke.todo.Deadline;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class Parser {"
+        "content": "import duke.todo.Event;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import duke.todo.Task;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "import duke.todo.Todo;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Parses the input string and generates Command object"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * based on the input task type and relevant details."
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Throws DukeException when the input does not fit into"
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * any type."
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "public class Parser {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param input Input string."
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Command generated."
+        "content": "    public static final String DATE_FORMAT \u003d \"dd/MM/yyyy HHmm\";"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @throws DukeException When input does not fit any types."
+        "content": "    public static final DateTimeFormatter formatter \u003d DateTimeFormatter.ofPattern(DATE_FORMAT);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public static final String ERROR_INVALID_INPUT \u003d \"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\";"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Command parse(String input) throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        String taskType \u003d input.split(\" \")[0];"
+        "content": "    // Private constructor to prevent illegal instantiation of Parser class"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        int index;"
+        "content": "    private Parser() throws DukeException {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        throw new DukeException(\"Unauthorized invocation\");"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        switch (taskType) {"
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"bye\":"
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new ByeCommand();"
+        "content": "    /**"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"done\":"
+        "content": "     * Parses the input string and generates Command object"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            index \u003d Integer.parseInt(input.split(\" \")[1]);"
+        "content": "     * based on the input task type and relevant details."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new DoneCommand(index);"
+        "content": "     * Throws DukeException when the input does not fit into"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"list\":"
+        "content": "     * any type."
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new ListCommand();"
+        "content": "     *"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"delete\":"
+        "content": "     * @param input Input string."
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            index \u003d Integer.parseInt(input.split(\" \")[1]);"
+        "content": "     * @return Command generated."
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new DeleteCommand(index);"
+        "content": "     * @throws DukeException When input does not fit any types."
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"todo\":"
+        "content": "     */"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new TodoCommand(input.substring(5));"
+        "content": "    public static Command parse(String input) throws DukeException {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"deadline\":"
+        "content": "        String taskType \u003d input.split(\" \")[0];"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new DeadlineCommand(input.substring(5));"
+        "content": "        int index;"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"event\":"
+        "content": "        String trimmedInput;"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new EventCommand(input.substring(5));"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"find\":"
+        "content": "        switch (taskType) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            return new FindCommand(input.substring(5));"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        default:"
+        "content": "            return new ByeCommand();"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            throw new DukeException(\"     OOPS!!! I\u0027m sorry, \""
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                    + \"but I don\u0027t know what that means :-(\");"
+        "content": "            index \u003d Integer.parseInt(input.split(\" \")[1]);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "            return new DoneCommand(index);"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 54,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new ListCommand();"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"delete\":"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            index \u003d Integer.parseInt(input.split(\" \")[1]);"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new DeleteCommand(index);"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"todo\":"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new TodoCommand(input.substring(\"todo \".length()));"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"deadline\":"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            trimmedInput \u003d input.substring(\"deadline \".length());"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new DeadlineCommand(parseUserEntryDescription(trimmedInput), parseUserEntryDate(trimmedInput));"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"event\":"
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            trimmedInput \u003d input.substring(\"event \".length());"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new EventCommand(parseUserEntryDescription(trimmedInput), parseUserEntryDate(trimmedInput));"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"find\":"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new FindCommand(input.substring(\"find \".length()));"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            throw new DukeException(ERROR_INVALID_INPUT);"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * Parses the user input and returns the task description."
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @param input User input."
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @return Task description."
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    private static String parseUserEntryDescription(String input) {"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        return input.split(\"/by|/at\")[0];"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * Parses the user input and returns the task date."
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @param input User input."
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @return Task date."
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    private static LocalDateTime parseUserEntryDate(String input) {"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        String rawDate \u003d input.split(\"/by|/at\")[1].trim();"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        return LocalDateTime.parse(rawDate, formatter);"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    public static String parseFileEntryTaskType(String fileEntry) {"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        return fileEntry.split(\"\\\\|\")[0];"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * Parses the file entry and returns the task description."
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @param fileEntry File entry."
+      },
+      {
+        "lineNumber": 102,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @return Task description."
+      },
+      {
+        "lineNumber": 103,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 104,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    public static String parseFileEntryTaskDescription(String fileEntry) {"
+      },
+      {
+        "lineNumber": 105,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        return fileEntry.split(\"\\\\|\")[1];"
+      },
+      {
+        "lineNumber": 106,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 107,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * Parses the file entry and returns the task date."
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @param fileEntry File entry."
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @return Task date."
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    public static LocalDateTime parseFileEntryTaskDate(String fileEntry) {"
+      },
+      {
+        "lineNumber": 115,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        String rawDate \u003d fileEntry.split(\"\\\\|\")[2];"
+      },
+      {
+        "lineNumber": 116,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        return LocalDateTime.parse(rawDate, formatter);"
+      },
+      {
+        "lineNumber": 117,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 118,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 119,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 120,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * Parse the file entry and returns the task contained."
+      },
+      {
+        "lineNumber": 121,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     *"
+      },
+      {
+        "lineNumber": 122,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @param fileEntry File entry."
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @return Task contained in the entry."
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * @throws DukeException When the entry is corrupted."
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    public static Task parseTaskFromFile(String fileEntry) throws DukeException {"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        String taskType \u003d Parser.parseFileEntryTaskType(fileEntry);"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        String taskDescription \u003d parseFileEntryTaskDescription(fileEntry);"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        switch (taskType) {"
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"T\":"
+      },
+      {
+        "lineNumber": 132,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new Todo(taskDescription);"
+      },
+      {
+        "lineNumber": 133,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"D\":"
+      },
+      {
+        "lineNumber": 134,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            LocalDateTime deadline \u003d Parser.parseFileEntryTaskDate(fileEntry);"
+      },
+      {
+        "lineNumber": 135,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new Deadline(taskDescription, deadline);"
+      },
+      {
+        "lineNumber": 136,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        case \"E\":"
+      },
+      {
+        "lineNumber": 137,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            LocalDateTime eventDate \u003d Parser.parseFileEntryTaskDate(fileEntry);"
+      },
+      {
+        "lineNumber": 138,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            return new Event(taskDescription, eventDate);"
+      },
+      {
+        "lineNumber": 139,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 140,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            throw new DukeException(ERROR_INVALID_INPUT);"
+      },
+      {
+        "lineNumber": 141,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 142,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 143,
         "author": {
           "gitId": "moziliar"
         },
@@ -7165,7 +6945,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 54
+      "moziliar": 143
     }
   },
   {
@@ -7233,231 +7013,231 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class Storage {"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private ArrayList\u003cString\u003e fileEntries;"
+        "content": "public class Storage {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private String filePath;"
+        "content": "    private List\u003cString\u003e fileEntries;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    private String filePath;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Storage(String filePath) {"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.fileEntries \u003d processFile(filePath);"
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     * Constructor for Storage class."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * @param filePath File path of the data file."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Processes and returns a list of strings from the input file."
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    public Storage(String filePath) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param filePath File path from user."
+        "content": "        this.fileEntries \u003d parseFromFile(filePath);"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return fileInput Processed file entries."
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public ArrayList\u003cString\u003e processFile(String filePath) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ArrayList\u003cString\u003e fileInput \u003d new ArrayList\u003c\u003e();"
+        "content": "     * Processes and returns a list of strings from the input file."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.filePath \u003d filePath;"
+        "content": "     *"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     * @param filePath File path from user."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        // Try to create the file if it is not found"
+        "content": "     * @return fileInput Processed file entries."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        // and throw IOException if file cannot be created"
+        "content": "     */"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        try {"
+        "content": "    public List\u003cString\u003e parseFromFile(String filePath) {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            File file \u003d new File(filePath);"
+        "content": "        List\u003cString\u003e fileInput \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            if (!file.isFile() \u0026\u0026 !file.createNewFile()) {"
+        "content": "        this.filePath \u003d filePath;"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                throw new IOException(\"Error creating new file \""
+        "content": ""
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                        + file.getAbsolutePath());"
+        "content": "        // Try to create the file if it is not found"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            }"
+        "content": "        // and throw IOException if file cannot be created"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            Scanner fileScanner \u003d new Scanner(file);"
+        "content": "        try {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "            File file \u003d new File(filePath);"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            while (fileScanner.hasNext()) {"
+        "content": ""
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                String nextLine \u003d fileScanner.nextLine();"
+        "content": "            if (!file.isFile() \u0026\u0026 !file.createNewFile()) {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                fileInput.add(nextLine);"
+        "content": "                throw new IOException(\"Error creating new file \" + file.getAbsolutePath());"
       },
       {
         "lineNumber": 42,
@@ -7478,220 +7258,262 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            fileScanner.close();"
+        "content": "            Scanner fileScanner \u003d new Scanner(file);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            while (fileScanner.hasNext()) {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            System.out.println(e);"
+        "content": "                String nextLine \u003d fileScanner.nextLine();"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "                fileInput.add(nextLine);"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "            }"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return fileInput;"
+        "content": ""
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "            fileScanner.close();"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "            System.out.println(e);"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns the stored file entries."
+        "content": "        }"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return fileEntries Processed file entries from the file."
+        "content": "        return fileInput;"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public ArrayList\u003cString\u003e load() {"
+        "content": ""
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return fileEntries;"
+        "content": "    /**"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     * Returns the stored file entries."
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * @return fileEntries Processed file entries from the file."
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Writes back to the data file with the current list formatted."
+        "content": "     */"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    public List\u003cString\u003e load() {"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param tasks Current list of Todos."
+        "content": "        return fileEntries;"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void save(TaskList tasks) {"
+        "content": ""
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        try {"
+        "content": "    /**"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            FileWriter fileWriter \u003d new FileWriter(filePath);"
+        "content": "     * Writes back to the data file with the current list formatted."
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            fileWriter.write(tasks.outputTasks());"
+        "content": "     *"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            fileWriter.close();"
+        "content": "     * @param tasks Current list of Todos."
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "     */"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            System.out.println(\"Something went wrong: \" + e.getMessage());"
+        "content": "    public void save(TaskList tasks) {"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "        try {"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "            FileWriter fileWriter \u003d new FileWriter(filePath);"
       },
       {
         "lineNumber": 75,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            fileWriter.write(tasks.outputTasksInString());"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            fileWriter.close();"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "            System.out.println(\"Something went wrong: \" + e.getMessage());"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 81,
         "author": {
           "gitId": "moziliar"
         },
@@ -7699,7 +7521,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 75
+      "moziliar": 81
     }
   },
   {
@@ -7725,297 +7547,311 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.time.LocalDateTime;"
+        "content": "import duke.parser.Parser;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.time.format.DateTimeFormatter;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class Deadline extends Task {"
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private LocalDateTime deadline;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private DateTimeFormatter formatter;"
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    private LocalDateTime deadline;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    private DateTimeFormatter formatter;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Creates Deadline with the description and deadline input."
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param description Description of the deadline."
+        "content": "     * Creates Deadline with the description and deadline input."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param deadline Date of the deadline."
+        "content": "     *"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @param description Description of the deadline."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Deadline(String description, String deadline) {"
+        "content": "     * @param deadline Date of the deadline."
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        super(description);"
+        "content": "     */"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public Deadline(String description, LocalDateTime deadline) {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.deadline \u003d LocalDateTime.parse(deadline, formatter);"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        this.formatter \u003d DateTimeFormatter.ofPattern(Parser.DATE_FORMAT);"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        this.deadline \u003d deadline;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns a string of the currently deadline with formatting,"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * intended for saving usage."
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Returns a string of the currently deadline with formatting,"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Formatted string of this deadline."
+        "content": "     * intended for saving usage."
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    @Override"
+        "content": "     * @return Formatted string of this deadline."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getFormattedTask() {"
+        "content": "     */"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"D | \" + super.getDescription()"
+        "content": "    @Override"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                + \" /by \" + deadline.toString();"
+        "content": "    public String getFormattedTask() {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"D | \" + super.getDescription()"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "                + \" /by \" + deadline.toString();"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns a string of this deadline for display usage."
+        "content": ""
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Formatted string of this deadline for display."
+        "content": "     * Returns a string of this deadline for display usage."
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    @Override"
+        "content": "     * @return Formatted string of this deadline for display."
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String toString() {"
+        "content": "     */"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"[D]\" + getStatusIcon() + this.getDescription()"
+        "content": "    @Override"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                + \" (by: \" + deadline.format(formatter) + \")\";"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"[D]\" + getStatusIcon() + this.getDescription()"
       },
       {
         "lineNumber": 45,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "                + \" (by: \" + deadline.format(formatter) + \")\";"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
@@ -8023,7 +7859,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 45
+      "moziliar": 47
     }
   },
   {
@@ -8049,290 +7885,304 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.time.LocalDateTime;"
+        "content": "import duke.parser.Parser;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.time.format.DateTimeFormatter;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class Event extends Task {"
+        "content": "import java.time.format.DateTimeFormatter;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private LocalDateTime date;"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private DateTimeFormatter formatter;"
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    private LocalDateTime date;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    private DateTimeFormatter formatter;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Constructs an Event based on the description and the date."
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param description Detail of the event."
+        "content": "     * Constructs an Event based on the description and the eventDate."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param date Date of the event."
+        "content": "     *"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @param description Detail of the event."
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Event(String description, String date) {"
+        "content": "     * @param eventDate Date of the event."
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        super(description);"
+        "content": "     */"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public Event(String description, LocalDateTime eventDate) {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.formatter \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
+        "content": "        super(description);"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.date \u003d LocalDateTime.parse(date, formatter);"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        this.formatter \u003d DateTimeFormatter.ofPattern(Parser.DATE_FORMAT);"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        this.date \u003d eventDate;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns a formatted string of this event."
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Formatted string of this event."
+        "content": "     * Returns a formatted string of this event."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    @Override"
+        "content": "     * @return Formatted string of this event."
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getFormattedTask() {"
+        "content": "     */"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"E | \" + super.getDescription()"
+        "content": "    @Override"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                + \" /at \" + date;"
+        "content": "    public String getFormattedTask() {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"E | \" + super.getDescription()"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "                + \" /at \" + date;"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns a string of this event for display usage."
+        "content": ""
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "    /**"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Formatted string of this event for display."
+        "content": "     * Returns a string of this event for display usage."
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    @Override"
+        "content": "     * @return Formatted string of this event for display."
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String toString() {"
+        "content": "     */"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return \"[E]\" + getStatusIcon() + this.getDescription()"
+        "content": "    @Override"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                + \" (on: \" + date.format(formatter) + \")\";"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return \"[E]\" + getStatusIcon() + this.getDescription()"
       },
       {
         "lineNumber": 44,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "                + \" (on: \" + date.format(formatter) + \")\";"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
@@ -8340,7 +8190,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 44
+      "moziliar": 46
     }
   },
   {
@@ -8704,21 +8554,21 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import duke.parser.Parser;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.lang.StringBuilder;"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import java.util.List;"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 7,
@@ -8732,259 +8582,259 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "import java.util.List;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": " * TaskList class for task list operations and storage."
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": " */"
+        "content": " * TaskList class for task list operations and storage."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "public class TaskList {"
+        "content": " */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    private List\u003cTask\u003e taskList;"
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    private List\u003cTask\u003e taskList;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Constructs a TaskList object after taking in a list of file input."
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Throws DukeException when the input is empty."
+        "content": "     * Constructs a TaskList object after taking in a list of file input."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * Throws DukeException when the input is empty."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param fileInput Input from the data file."
+        "content": "     *"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @throws DukeException When input is empty."
+        "content": "     * @param fileInput Input from the data file."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @throws DukeException When input is empty."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public TaskList(ArrayList\u003cString\u003e fileInput) throws DukeException {"
+        "content": "     */"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        if (fileInput.size() \u003d\u003d 0) {"
+        "content": "    public TaskList(List\u003cString\u003e fileInput) throws DukeException {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            throw new DukeException(\"\");"
+        "content": "        if (fileInput.size() \u003d\u003d 0) {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        } else {"
+        "content": "            throw new DukeException(\"\");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            this.taskList \u003d new ArrayList\u003c\u003e();"
+        "content": "        } else {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "            this.taskList \u003d parseFileInput(fileInput);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            for (String fileEntry : fileInput) {"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                // Split the file entry by delimiter \"|\""
+        "content": "    }"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                String[] processedEntry \u003d fileEntry.split(\"\\\\|\", 3);"
+        "content": ""
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                // Extract task type"
+        "content": "    /**"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                String taskType \u003d processedEntry[0].trim();"
+        "content": "     * Parses the list of file input from data file and returns a list of tasks."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                // Store todo task"
+        "content": "     * @param fileInput Data file entries."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                if (taskType.equals(\"T\")) {"
+        "content": "     * @return List of tasks stored in data file."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                    String taskDescription \u003d processedEntry[1];"
+        "content": "     * @throws DukeException When some entries are corrupted."
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                    this.addTask(taskDescription);"
+        "content": "     */"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                } else { // Store event and deadline tasks"
+        "content": "    private List\u003cTask\u003e parseFileInput(List\u003cString\u003e fileInput) throws DukeException {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                    String taskDescription \u003d processedEntry[1].trim();"
+        "content": "        List\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                    String taskDate \u003d processedEntry[2].trim();"
+        "content": ""
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                    this.addTask(taskType, taskDescription, taskDate);"
+        "content": "        for (String fileEntry : fileInput) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                }"
+        "content": "            tasks.add(Parser.parseTaskFromFile(fileEntry));"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "        return tasks;"
       },
       {
         "lineNumber": 45,
@@ -9208,7 +9058,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String outputTasks() {"
+        "content": "    public String outputTasksInString() {"
       },
       {
         "lineNumber": 77,
@@ -9306,7 +9156,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String generateList() {"
+        "content": "    public String generateListInString() {"
       },
       {
         "lineNumber": 91,
@@ -9341,7 +9191,7 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        output.append(\"    Here are the tasks in your list:\\n\");"
+        "content": "        output.append(\"Here are the tasks in your list:\\n\");"
       },
       {
         "lineNumber": 96,
@@ -9369,885 +9219,906 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(\"    \");"
+        "content": "            output.append(index);"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(index);"
+        "content": "            output.append(\". \");"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(\". \");"
+        "content": "            output.append(currentTask);"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(currentTask);"
+        "content": "            if (i \u003c taskList.size() - 1) {"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            if (i \u003c taskList.size() - 1) {"
+        "content": "                output.append(\u0027\\n\u0027);"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                output.append(\u0027\\n\u0027);"
+        "content": "            }"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "        return output.toString();"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return output.toString();"
+        "content": "    }"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Returns a task based on its index."
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns a task based on its index."
+        "content": "     *"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param index Index of the task."
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param index Index of the task."
+        "content": "     * @return Task with stated index."
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Task with stated index."
+        "content": "     */"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public Task getTask(int index) {"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Task getTask(int index) {"
+        "content": "        return taskList.get(index);"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return taskList.get(index);"
+        "content": "    }"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Returns the number of tasks in the list."
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns the number of tasks in the list."
+        "content": "     *"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @return Number of tasks in the list."
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Number of tasks in the list."
+        "content": "     */"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public int getNumOfTasks() {"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public int getNumOfTasks() {"
+        "content": "        return taskList.size();"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return taskList.size();"
+        "content": "    }"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Finds a task based on the keyword input."
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Finds a task based on the keyword input."
+        "content": "     *"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param keyword Keyword of the task."
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param keyword Keyword of the task."
+        "content": "     * @return Task with the keyword."
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Task with the keyword."
+        "content": "     */"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public String findTask(String keyword) {"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String findTask(String keyword) {"
+        "content": "        ArrayList\u003cTask\u003e tasksFound \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        ArrayList\u003cTask\u003e tasksFound \u003d new ArrayList\u003c\u003e();"
+        "content": ""
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        for (Task task : taskList) {"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        for (Task task : taskList) {"
+        "content": "            if (task.getDescription().contains(keyword)) {"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            if (task.getDescription().contains(keyword)) {"
+        "content": "                tasksFound.add(task);"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                tasksFound.add(task);"
+        "content": "            }"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        StringBuilder output \u003d new StringBuilder();"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        StringBuilder output \u003d new StringBuilder();"
+        "content": "        int index;"
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        int index;"
+        "content": "        Task currentTask;"
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task currentTask;"
+        "content": ""
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        output.append(\"    Here are the matching tasks in your list:\\n\");"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        output.append(\"    Here are the matching tasks in your list:\\n\");"
+        "content": "        for (int i \u003d 0; i \u003c taskList.size(); i++) {"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        for (int i \u003d 0; i \u003c taskList.size(); i++) {"
+        "content": "            currentTask \u003d tasksFound.get(i);"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            currentTask \u003d tasksFound.get(i);"
+        "content": "            index \u003d i + 1;"
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            index \u003d i + 1;"
+        "content": "            output.append(\"    \");"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(\"    \");"
+        "content": "            output.append(index);"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(index);"
+        "content": "            output.append(\". \");"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(\". \");"
+        "content": "            output.append(currentTask);"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            output.append(currentTask);"
+        "content": "            if (i \u003c taskList.size() - 1) {"
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            if (i \u003c taskList.size() - 1) {"
+        "content": "                output.append(\u0027\\n\u0027);"
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "                output.append(\u0027\\n\u0027);"
+        "content": "            }"
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": "        return output.toString();"
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return output.toString();"
+        "content": "    }"
       },
       {
         "lineNumber": 161,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 162,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 163,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Adds a todo task based on the input detail and"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Adds a todo task based on the input detail and"
+        "content": "     * returns the task."
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * returns the task."
+        "content": "     *"
       },
       {
         "lineNumber": 166,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param taskDetail Detail of the task input."
       },
       {
         "lineNumber": 167,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param taskDetail Detail of the task input."
+        "content": "     * @return Task added."
       },
       {
         "lineNumber": 168,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Task added."
+        "content": "     */"
       },
       {
         "lineNumber": 169,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public Task addTask(String taskDetail) {"
       },
       {
         "lineNumber": 170,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Task addTask(String taskDetail) {"
+        "content": "        Task newTask \u003d new Todo(taskDetail);"
       },
       {
         "lineNumber": 171,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task newTask \u003d new Todo(taskDetail);"
+        "content": "        taskList.add(newTask);"
       },
       {
         "lineNumber": 172,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        taskList.add(newTask);"
+        "content": "        return newTask;"
       },
       {
         "lineNumber": 173,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return newTask;"
+        "content": "    }"
       },
       {
         "lineNumber": 174,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 175,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 176,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Adds a task based on the input task type, task detail, and the date where"
       },
       {
         "lineNumber": 177,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Adds a task based on the input task type, task detail, and the date where"
+        "content": "     * the task is due, and returns the task."
       },
       {
         "lineNumber": 178,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * the task is due, and returns the task."
+        "content": "     *"
       },
       {
         "lineNumber": 179,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param taskType Type of the task added."
       },
       {
         "lineNumber": 180,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param taskType Type of the task added."
+        "content": "     * @param taskDetail Detail of the task added."
       },
       {
         "lineNumber": 181,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param taskDetail Detail of the task added."
+        "content": "     * @param taskDate Due date of the task added."
       },
       {
         "lineNumber": 182,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param taskDate Due date of the task added."
+        "content": "     * @return Task added."
       },
       {
         "lineNumber": 183,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Task added."
+        "content": "     */"
       },
       {
         "lineNumber": 184,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public Task addTask(String taskType, String taskDetail, LocalDateTime taskDate) {"
       },
       {
         "lineNumber": 185,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Task addTask(String taskType, String taskDetail, String taskDate) {"
+        "content": "        Task newTask \u003d new Task(\"\");"
       },
       {
         "lineNumber": 186,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task newTask \u003d new Task(\"\");"
+        "content": ""
       },
       {
         "lineNumber": 187,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        switch (taskType) {"
       },
       {
         "lineNumber": 188,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        switch (taskType) {"
+        "content": "        case \"deadline\":"
       },
       {
         "lineNumber": 189,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"D\":"
+        "content": "            newTask \u003d new Deadline(taskDetail, taskDate);"
       },
       {
         "lineNumber": 190,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            newTask \u003d new Deadline(taskDetail, taskDate);"
+        "content": "            break;"
       },
       {
         "lineNumber": 191,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            break;"
+        "content": "        case \"event\":"
       },
       {
         "lineNumber": 192,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        case \"E\":"
+        "content": "            newTask \u003d new Event(taskDetail, taskDate);"
       },
       {
         "lineNumber": 193,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            newTask \u003d new Event(taskDetail, taskDate);"
+        "content": "            break;"
       },
       {
         "lineNumber": 194,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            break;"
+        "content": "        default:"
       },
       {
         "lineNumber": 195,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        default:"
+        "content": "            break;"
       },
       {
         "lineNumber": 196,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "            break;"
+        "content": "        }"
       },
       {
         "lineNumber": 197,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 198,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        taskList.add(newTask);"
       },
       {
         "lineNumber": 199,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        taskList.add(newTask);"
+        "content": "        return newTask;"
       },
       {
         "lineNumber": 200,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return newTask;"
+        "content": "    }"
       },
       {
         "lineNumber": 201,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 202,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void addTask(Task newTask) {"
       },
       {
         "lineNumber": 203,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        taskList.add(newTask);"
       },
       {
         "lineNumber": 204,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Marks a task based on the input index as done."
+        "content": "    }"
       },
       {
         "lineNumber": 205,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 206,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param index Index of the task done."
+        "content": "    /**"
       },
       {
         "lineNumber": 207,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Task done."
+        "content": "     * Marks a task based on the input index as done."
       },
       {
         "lineNumber": 208,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 209,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Task markTaskDone(int index) {"
+        "content": "     * @param index Index of the task done."
       },
       {
         "lineNumber": 210,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task taskDone \u003d taskList.get(index);"
+        "content": "     * @return Task done."
       },
       {
         "lineNumber": 211,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        taskDone.markAsDone();"
+        "content": "     */"
       },
       {
         "lineNumber": 212,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return taskDone;"
+        "content": "    public Task markTaskDone(int index) {"
       },
       {
         "lineNumber": 213,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        Task taskDone \u003d taskList.get(index);"
       },
       {
         "lineNumber": 214,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        taskDone.markAsDone();"
       },
       {
         "lineNumber": 215,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        return taskDone;"
       },
       {
         "lineNumber": 216,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Removes a task based on the input index from the task list."
+        "content": "    }"
       },
       {
         "lineNumber": 217,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 218,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param index Index of the task to be removed."
+        "content": "    /**"
       },
       {
         "lineNumber": 219,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Task removed."
+        "content": "     * Removes a task based on the input index from the task list."
       },
       {
         "lineNumber": 220,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 221,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public Task removeTask(int index) {"
+        "content": "     * @param index Index of the task to be removed."
       },
       {
         "lineNumber": 222,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        Task removedTask \u003d taskList.remove(index - 1);"
+        "content": "     * @return Task removed."
       },
       {
         "lineNumber": 223,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return removedTask;"
+        "content": "     */"
       },
       {
         "lineNumber": 224,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "    public Task removeTask(int index) {"
       },
       {
         "lineNumber": 225,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        Task removedTask \u003d taskList.remove(index - 1);"
+      },
+      {
+        "lineNumber": 226,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        return removedTask;"
+      },
+      {
+        "lineNumber": 227,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 228,
         "author": {
           "gitId": "moziliar"
         },
@@ -10255,7 +10126,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 225
+      "moziliar": 228
     }
   },
   {
@@ -10493,14 +10364,14 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import duke.DukeException;"
+        "content": "import duke.todo.Task;"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "import duke.todo.Task;"
+        "content": "import duke.DukeException;"
       },
       {
         "lineNumber": 5,
@@ -10528,28 +10399,28 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Displays error when loading file."
+        "content": "    /**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * Constructor for class Ui."
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 12,
@@ -10584,640 +10455,696 @@
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void showLoadingError() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"Unable to load file\");"
+        "content": "     * Displays error when loading file."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void showLoadingError() {"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        messageBuffer.append(\"Unable to load file\");"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Prints greeting message."
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void getGreeting() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"Hello! I\u0027m Duke.\\nWhat can I do for you?\");"
+        "content": "     * Prints greeting message."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void getGreeting() {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        messageBuffer.append(\"Hello! I\u0027m Duke.\\nWhat can I do for you?\");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Prints formatted report on the task done."
+        "content": "    }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param task Task done."
+        "content": "    /**"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * Prints formatted report on the task done."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportDone(Task task) {"
+        "content": "     *"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"Nice! I\u0027ve marked this task as done:\\n\");"
+        "content": "     * @param task Task done."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"    \" + task.getStatusIcon());"
+        "content": "     */"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(task.getDescription());"
+        "content": "    public void reportDone(Task task) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        messageBuffer.append(\"Nice! I\u0027ve marked this task as done:\\n\");"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        messageBuffer.append(\"    \" + task.getStatusIcon());"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        messageBuffer.append(task.getDescription());"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Prints formatted report on the task removed."
+        "content": "    }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param task Task removed."
+        "content": "    /**"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param numOfTasks Number of tasks left in the task list."
+        "content": "     * Prints formatted report on the task removed."
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportRemove(Task task, int numOfTasks) {"
+        "content": "     * @param task Task removed."
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"Noted. I\u0027ve removed this task:\\n\");"
+        "content": "     * @param numOfTasks Number of tasks left in the task list."
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"\" + task + \"\\nNow you have \" + numOfTasks);"
+        "content": "     */"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\" task\" + (numOfTasks \u003e 1 ? \"s\" : \"\") + \" in the list.\");"
+        "content": "    public void reportRemove(Task task, int numOfTasks) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        messageBuffer.append(\"Noted. I\u0027ve removed this task:\\n\");"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        messageBuffer.append(\"\" + task + \"\\nNow you have \" + numOfTasks);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        messageBuffer.append(\" task\" + (numOfTasks \u003e 1 ? \"s\" : \"\") + \" in the list.\");"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Prints formatted report on the task added."
+        "content": "    }"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param task Task added."
+        "content": "    /**"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param numOfTasks Number of tasks left in the task list.e"
+        "content": "     * Prints formatted report on the task added."
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     *"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportAdd(Task task, int numOfTasks) {"
+        "content": "     * @param task Task added."
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"    Got it. I\u0027ve added this task:\\n\");"
+        "content": "     * @param numOfTasks Number of tasks left in the task list.e"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"      \" + task);"
+        "content": "     */"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\"\\n    Now you have \" + numOfTasks);"
+        "content": "    public void reportAdd(Task task, int numOfTasks) {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(\" task\" + (numOfTasks \u003e 1 ? \"s\" : \"\") + \" in the list.\");"
+        "content": "        messageBuffer.append(\"Got it. I\u0027ve added this task:\\n\");"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        messageBuffer.append(\"  \" + task);"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "        messageBuffer.append(\"\\nNow you have \" + numOfTasks);"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        messageBuffer.append(\" task\" + (numOfTasks \u003e 1 ? \"s\" : \"\") + \" in the list.\");"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Appends task found to message buffer."
+        "content": "    }"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param taskFound Task found."
+        "content": "    /**"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * Appends task found to message buffer."
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportFound(String taskFound) {"
+        "content": "     *"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(taskFound);"
+        "content": "     * @param taskFound Task found."
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void reportFound(String taskFound) {"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        messageBuffer.append(taskFound);"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Appends goodbye message to message buffer."
+        "content": "    }"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportBye() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        this.messageBuffer.append(\"Bye. Hope to see you again soon!\");"
+        "content": "     * Appends goodbye message to message buffer."
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void reportBye() {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "        this.messageBuffer.append(\"Bye. Hope to see you again soon!\");"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Appends formatted tasks."
+        "content": "    }"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": ""
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @param formattedTasks String of formatted tasks."
+        "content": "    /**"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * Appends formatted tasks."
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportList(String formattedTasks) {"
+        "content": "     *"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(formattedTasks);"
+        "content": "     * @param formattedTasks String of formatted tasks."
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    public void reportList(String formattedTasks) {"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void reportError(DukeException e) {"
+        "content": "        messageBuffer.append(formattedTasks);"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer.append(e.getMessage());"
+        "content": "    }"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Adds error message to output buffer."
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Returns buffered message."
+        "content": "     *"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     *"
+        "content": "     * @param e Error caught."
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * @return Buffered message."
+        "content": "     */"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "    public void reportError(DukeException e) {"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public String getMessage() {"
+        "content": "        messageBuffer.append(e.getMessage());"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        return messageBuffer.toString();"
+        "content": "    }"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "moziliar"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    /**"
+        "content": "     * Returns buffered message."
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     * Resets message buffer."
+        "content": "     *"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "     */"
+        "content": "     * @return Buffered message."
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    public void resetMessage() {"
+        "content": "     */"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "        messageBuffer \u003d new StringBuilder();"
+        "content": "    public String getMessage() {"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "moziliar"
         },
-        "content": "    }"
+        "content": "        return messageBuffer.toString();"
       },
       {
         "lineNumber": 107,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 108,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 109,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 110,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     * Resets output buffer."
+      },
+      {
+        "lineNumber": 111,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 112,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    public void resetMessage() {"
+      },
+      {
+        "lineNumber": 113,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "        messageBuffer \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 114,
+        "author": {
+          "gitId": "moziliar"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 115,
         "author": {
           "gitId": "moziliar"
         },
@@ -11225,7 +11152,7 @@
       }
     ],
     "authorContributionMap": {
-      "moziliar": 107
+      "moziliar": 115
     }
   },
   {

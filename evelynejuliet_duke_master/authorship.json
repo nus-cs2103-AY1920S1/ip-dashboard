@@ -351,7 +351,7 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "    mainClassName \u003d \"duke.Launcher\""
+        "content": "    mainClassName \u003d \"duke.command.Launcher\""
       },
       {
         "lineNumber": 51,
@@ -404,10 +404,17 @@
           "gitId": "evelynejuliet"
         },
         "content": "T|0|anything"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "evelynejuliet"
+        },
+        "content": "T|0|abcdef"
       }
     ],
     "authorContributionMap": {
-      "evelynejuliet": 5
+      "evelynejuliet": 6
     }
   },
   {
@@ -1852,7 +1859,7 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        String s \u003d \"\";"
+        "content": "        String response \u003d \"\";"
       },
       {
         "lineNumber": 32,
@@ -1866,7 +1873,7 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            s \u003d ui.start(new Parser(taskList, ui), input);"
+        "content": "            response \u003d ui.start(new Parser(taskList, ui), input);"
       },
       {
         "lineNumber": 34,
@@ -1901,17 +1908,24 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        return s;"
+        "content": "        assert !response.equals(\"\") : \"Response is not updated\";"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "    }"
+        "content": "        return response;"
       },
       {
         "lineNumber": 40,
+        "author": {
+          "gitId": "evelynejuliet"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 41,
         "author": {
           "gitId": "-"
         },
@@ -1919,7 +1933,7 @@
       }
     ],
     "authorContributionMap": {
-      "evelynejuliet": 38,
+      "evelynejuliet": 39,
       "-": 2
     }
   },
@@ -2377,7 +2391,7 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                    DialogBox.getDukeDialog(\"Hello! I\u0027m duke.command.Duke.\\nWhat can I do for you?\", dukeImage)"
+        "content": "                    DialogBox.getDukeDialog(\"Hello! I\u0027m Duke.\\nWhat can I do for you?\", dukeImage)"
       },
       {
         "lineNumber": 33,
@@ -3053,395 +3067,388 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        Integer num; //number in list which is done"
+        "content": "        Task currTask; //refers to current task in list"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        Task currTask; //refers to current task in list"
+        "content": "        String[] words \u003d line.split(\" \", 2);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        String currEvent;"
+        "content": "        String currEvent \u003d words[0];"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        String desc \u003d \"\"; //current task being added"
+        "content": "        if (line.equals(\"list\")) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        String time \u003d \"\"; //current time of current task being added"
+        "content": "            ui.printList(taskList.list);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        String[] words \u003d line.split(\" \", 2);"
+        "content": "        } else if (words[0].equals(\"done\")) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        currEvent \u003d words[0];"
+        "content": "            Integer num; //number in list which is done"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        if (line.equals(\"list\")) {"
+        "content": "            num \u003d Integer.valueOf(words[1]);"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printList(taskList.list);"
+        "content": "            currTask \u003d taskList.list.get(num - 1);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else if (words[0].equals(\"done\")) {"
+        "content": "            currTask.setStatusIcon(true);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            num \u003d Integer.valueOf(words[1]);"
+        "content": "            ui.printDone(currTask);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            currTask \u003d taskList.list.get(num - 1);"
+        "content": "        } else if (currEvent.equals(\"todo\")) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            currTask.setStatusIcon(true);"
+        "content": "            if (words.length \u003c 2) {"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printDone(currTask);"
+        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a todo cannot be empty.\");"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else if (currEvent.equals(\"todo\")) {"
+        "content": "            }"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            if (words.length \u003c 2) {"
+        "content": "            String desc \u003d words[1];"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a todo cannot be empty.\");"
+        "content": "            currTask \u003d new ToDos(desc);"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            }"
+        "content": "            taskList.add(currTask);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            desc \u003d words[1];"
+        "content": "            ui.printAdd(currTask, taskList);"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            currTask \u003d new ToDos(desc);"
+        "content": "        } else if (currEvent.equals(\"deadline\")) {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            taskList.add(currTask);"
+        "content": "            if (words.length \u003c 2) {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printAdd(currTask, taskList);"
+        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a deadline cannot be empty.\");"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else if (currEvent.equals(\"deadline\")) {"
+        "content": "            }"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            if (words.length \u003c 2) {"
+        "content": "            int before \u003d taskList.getSize();"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a deadline cannot be empty.\");"
+        "content": "            String desc \u003d words[1].split(\" /by \", 2)[0];"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            }"
+        "content": "            String time \u003d words[1].split(\" /by \", 2)[1];"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            desc \u003d words[1].split(\" /by \", 2)[0];"
+        "content": "            currTask \u003d new Deadline(desc, time);"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            time \u003d words[1].split(\" /by \", 2)[1];"
+        "content": "            taskList.add(currTask);"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            currTask \u003d new Deadline(desc, time);"
+        "content": "            assert taskList.getSize() \u003d\u003d (before + 1) : \"taskList size not incremented.\";"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            taskList.add(currTask);"
+        "content": "            ui.printAdd(currTask, taskList);"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printAdd(currTask, taskList);"
+        "content": "        } else if (currEvent.equals(\"event\")) {"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else if (currEvent.equals(\"event\")) {"
+        "content": "            if (words.length \u003c 2) {"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            if (words.length \u003c 2) {"
+        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a event cannot be empty.\");"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                throw new DukeException(\"☹ OOPS!!! The description of a event cannot be empty.\");"
+        "content": "            }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            }"
+        "content": "            String desc \u003d words[1].split(\" /at \", 2)[0];"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            desc \u003d words[1].split(\" /at \", 2)[0];"
+        "content": "            String time \u003d words[1].split(\" /at \", 2)[1];"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            time \u003d words[1].split(\" /at \", 2)[1];"
+        "content": "            currTask \u003d new Event(desc, time);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            currTask \u003d new Event(desc, time);"
+        "content": "            taskList.add(currTask);"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            taskList.add(currTask);"
+        "content": "            ui.printAdd(currTask, taskList);"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printAdd(currTask, taskList);"
+        "content": "        } else if (words[0].equals(\"delete\")) {"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else if (words[0].equals(\"delete\")) {"
+        "content": "            currTask \u003d taskList.delete(words[1]);"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            currTask \u003d taskList.delete(words[1]);"
+        "content": "            ui.printDelete(currTask, taskList);"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printDelete(currTask, taskList);"
+        "content": "        } else if (words[0].equals(\"find\")) {"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else if (words[0].equals(\"find\")) {"
+        "content": "            ArrayList\u003cTask\u003e temp \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ArrayList\u003cTask\u003e temp \u003d new ArrayList\u003c\u003e();"
+        "content": "            for (int i \u003d 0; i \u003c taskList.list.size(); i++) {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            for (int i \u003d 0; i \u003c taskList.list.size(); i++) {"
+        "content": "                String currDesc \u003d taskList.list.get(i).getDesc();"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                String currDesc \u003d taskList.list.get(i).getDesc();"
+        "content": "                if (currDesc.contains(words[1])) {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                if (currDesc.contains(words[1])) {"
+        "content": "                    temp.add(taskList.list.get(i));"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                    temp.add(taskList.list.get(i));"
+        "content": "                }"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "                }"
+        "content": "            }"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            }"
+        "content": "            ui.printFind(temp);"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            ui.printFind(temp);"
+        "content": "        } else {"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        } else {"
+        "content": "            throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            throw new DukeException(\"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "        }"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "evelynejuliet"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 88,
+        "lineNumber": 87,
         "author": {
           "gitId": "evelynejuliet"
         },
@@ -3449,7 +3456,7 @@
       }
     ],
     "authorContributionMap": {
-      "evelynejuliet": 88
+      "evelynejuliet": 87
     }
   },
   {
@@ -4618,11 +4625,39 @@
         "author": {
           "gitId": "evelynejuliet"
         },
+        "content": ""
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "evelynejuliet"
+        },
+        "content": "    public int getSize() {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "evelynejuliet"
+        },
+        "content": "        return list.size();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "evelynejuliet"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "evelynejuliet"
+        },
         "content": "}"
       }
     ],
     "authorContributionMap": {
-      "evelynejuliet": 39
+      "evelynejuliet": 43
     }
   },
   {
@@ -7084,14 +7119,14 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            Deadline deadline \u003d new Deadline(\"borrow book\", \"2/12/2019 1800\");"
+        "content": "            Deadline deadline \u003d new Deadline(\"borrow book\", \"2/12/2019 18:00\");"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            assertEquals(\"[D][\\u2718] borrow book (by: 2/12/2019 1800)\", deadline.toString());"
+        "content": "            assertEquals(\"[D][\\u2718] borrow book (by: 2/12/2019 18:00)\", deadline.toString());"
       },
       {
         "lineNumber": 25,
@@ -7296,14 +7331,14 @@
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            Event event \u003d new Event(\"read book\", \"2/12/2019 1800\");"
+        "content": "            Event event \u003d new Event(\"read book\", \"2/12/2019 18:00\");"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "evelynejuliet"
         },
-        "content": "            assertEquals(\"E|0|read book|2/12/2019 1800\", event.format());"
+        "content": "            assertEquals(\"E|0|read book|2/12/2019 18:00\", event.format());"
       },
       {
         "lineNumber": 25,

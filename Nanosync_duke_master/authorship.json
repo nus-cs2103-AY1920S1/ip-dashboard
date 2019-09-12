@@ -4849,500 +4849,570 @@
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    private static int getIndexFromMatcher(String matcherResult) throws DukeException {"
+        "content": "    private static final Pattern DONE_PATTERN \u003d Pattern.compile(\"done (\\\\d+$)\");"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        int index;"
+        "content": "    private static final Pattern DELETE_PATTERN \u003d Pattern.compile(\"delete (\\\\d+$)\");"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        try {"
+        "content": "    private static final Pattern FIND_PATTERN \u003d Pattern.compile(\"find (.*)\");"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            index \u003d Integer.parseInt(matcherResult);"
+        "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (index \u003c\u003d 0) {"
+        "content": "     * Parses a index. It must be a positive integer."
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new NumberFormatException();"
+        "content": "     *"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "     * @param input Input containing the number"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "     * @return Index"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            index--;"
+        "content": "     * @throws DukeException If the result could not be parsed"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        } catch (NumberFormatException e) {"
+        "content": "     */"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            throw new InvalidInputDukeException(\"Invalid task number entered.\");"
+        "content": "    private static int parseIndex(String input) throws DukeException {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        }"
+        "content": "        int index;"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        return index;"
+        "content": "            index \u003d Integer.parseInt(input);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            if (index \u003c\u003d 0) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    /**"
+        "content": "                throw new NumberFormatException();"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * Parses a given input to generate a Command."
+        "content": "            }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * If the input is unrecognised, null is returned."
+        "content": ""
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     *"
+        "content": "            index--;"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * @param input Input string."
+        "content": "        } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * @return Command to be executed."
+        "content": "            throw new InvalidInputDukeException(\"Invalid task number entered.\");"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * @throws DukeException If input is invalid."
+        "content": "        }"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    public static Command parse(String input) throws DukeException {"
+        "content": "        return index;"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        if (input.isEmpty()) {"
+        "content": "    }"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            throw new UnknownCommandDukeException();"
+        "content": ""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        }"
+        "content": "    /**"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "     * Parses a given input to generate a Command."
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        Matcher matcher;"
+        "content": "     * If the input is unrecognised, null is returned."
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        if (input.equals(\"bye\")) {"
+        "content": "     * @param input Input string."
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new ExitCommand();"
+        "content": "     * @return Command to be executed."
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        } else if (input.equals(\"list\")) {"
+        "content": "     * @throws DukeException If input is invalid."
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new ListCommand();"
+        "content": "     */"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        } else if (input.startsWith(\"done\")) {"
+        "content": "    public static Command parse(String input) throws DukeException {"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            Pattern donePattern \u003d Pattern.compile(\"done (\\\\d+$)\");"
+        "content": "        if (input.isEmpty()) {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            matcher \u003d donePattern.matcher(input);"
+        "content": "            throw new UnknownCommandDukeException();"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (!matcher.matches()) {"
+        "content": ""
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": "        Matcher matcher;"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Usage: done [task number from 1 onwards]\");"
+        "content": "        String[] tokens \u003d input.split(\"\\\\s+\", 2);"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "        switch (tokens[0]) {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new DoneCommand(getIndexFromMatcher(matcher.group(1)));"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        } else if (input.startsWith(\"delete\")) {"
+        "content": "            return new ExitCommand();"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            Pattern deletePattern \u003d Pattern.compile(\"delete (\\\\d+$)\");"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            matcher \u003d deletePattern.matcher(input);"
+        "content": "            return new ListCommand();"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (!matcher.matches()) {"
+        "content": "            matcher \u003d DONE_PATTERN.matcher(input);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": ""
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Usage: delete [task number from 1 onwards]\");"
+        "content": "            if (!matcher.matches()) {"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "                        + \"Usage: done [task number from 1 onwards]\");"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new DeleteCommand(getIndexFromMatcher(matcher.group(1)));"
+        "content": "            }"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        } else if (input.startsWith(\"find\")) {"
+        "content": ""
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            Pattern findPattern \u003d Pattern.compile(\"find (.*)\");"
+        "content": "            return new DoneCommand(parseIndex(matcher.group(1)));"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            matcher \u003d findPattern.matcher(input);"
+        "content": "        case \"delete\":"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            matcher \u003d DELETE_PATTERN.matcher(input);"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (!matcher.matches()) {"
+        "content": ""
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": "            if (!matcher.matches()) {"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Usage: find [keywords]\");"
+        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "                        + \"Usage: delete [task number from 1 onwards]\");"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            }"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new FindCommand(matcher.group(1));"
+        "content": ""
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        } else {"
+        "content": "            return new DeleteCommand(parseIndex(matcher.group(1)));"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            Task task \u003d TaskParser.parse(input);"
+        "content": "        case \"find\":"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new AddCommand(task);"
+        "content": "            matcher \u003d FIND_PATTERN.matcher(input);"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    }"
+        "content": "            if (!matcher.matches()) {"
       },
       {
         "lineNumber": 92,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "                        + \"Usage: find [keywords]\");"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "            return new FindCommand(matcher.group(1));"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 98,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "            Task task \u003d TaskParser.parse(input);"
+      },
+      {
+        "lineNumber": 99,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "            return new AddCommand(task);"
+      },
+      {
+        "lineNumber": 100,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 101,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 102,
         "author": {
           "gitId": "Nanosync"
         },
@@ -5350,7 +5420,7 @@
       }
     ],
     "authorContributionMap": {
-      "Nanosync": 92
+      "Nanosync": 102
     }
   },
   {
@@ -5502,14 +5572,14 @@
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    /** Syntax for date. **/"
+        "content": "    /** Generic syntax error message prefix. **/"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    private static final DateFormat DATE_FORMAT \u003d new SimpleDateFormat(\"d/M/yyyy HHmm\");"
+        "content": "    private static final String SYNTAX_PREFIX \u003d \"Syntax error.\\nFormat: \";"
       },
       {
         "lineNumber": 23,
@@ -5523,14 +5593,14 @@
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    /** Syntax for deadline. **/"
+        "content": "    /** Syntax for date. **/"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    private static final Pattern DEADLINE_PATTERN \u003d Pattern.compile(\"deadline (.*) /by (.*)\");"
+        "content": "    private static final DateFormat DATE_FORMAT \u003d new SimpleDateFormat(\"d/M/yyyy HHmm\");"
       },
       {
         "lineNumber": 26,
@@ -5544,329 +5614,329 @@
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    /** Syntax for event. **/"
+        "content": "    /** Syntax for deadline. **/"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    private static final Pattern EVENT_PATTERN \u003d Pattern.compile(\"event (.*) /at (.*)\");"
+        "content": "    private static final Pattern DEADLINE_PATTERN \u003d Pattern.compile(\"deadline (.*) /by (.*)\");"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "    private static final String DEADLINE_SYNTAX \u003d \"deadline [description] /by [dd/MM/yyyy HHmm]\";"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    /**"
+        "content": "    private static final String DEADLINE_SYNTAX_MSG \u003d SYNTAX_PREFIX + DEADLINE_SYNTAX;"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * Parses a given input to generate a Task."
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * If the input is unrecognised, null is returned."
+        "content": "    /** Syntax for event. **/"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     *"
+        "content": "    private static final Pattern EVENT_PATTERN \u003d Pattern.compile(\"event (.*) /at (.*)\");"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * @param input Input string."
+        "content": "    private static final String EVENT_SYNTAX \u003d \"event [description] /at [dd/MM/yyyy HHmm]\";"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * @return Task object."
+        "content": "    private static final String EVENT_SYNTAX_MSG \u003d SYNTAX_PREFIX + EVENT_SYNTAX;"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     * @throws DukeException If input is invalid."
+        "content": ""
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    public static Task parse(String input) throws DukeException {"
+        "content": "     * Parses a given input to generate a Task."
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        String[] subArgs \u003d input.split(\"\\\\s+\", 2);"
+        "content": "     * If the input is unrecognised, null is returned."
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        Matcher matcher;"
+        "content": "     * @param input Input string."
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        Date date;"
+        "content": "     * @return Task object."
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "     * @throws DukeException If input is invalid."
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        switch (subArgs[0]) {"
+        "content": "     */"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        case \"todo\":"
+        "content": "    public static Task parse(String input) throws DukeException {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (subArgs.length \u003c 2 || subArgs[1].isEmpty()) {"
+        "content": "        String[] subArgs \u003d input.split(\"\\\\s+\", 2);"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Todo description cannot be empty\");"
+        "content": ""
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "        Matcher matcher;"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "        Date date;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new Todo(subArgs[1], false);"
+        "content": ""
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        case \"deadline\":"
+        "content": "        switch (subArgs[0]) {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            matcher \u003d DEADLINE_PATTERN.matcher(input);"
+        "content": "        case \"todo\":"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            if (subArgs.length \u003c 2 || subArgs[1].isEmpty()) {"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (!matcher.matches()) {"
+        "content": "                throw new InvalidInputDukeException(\"Todo description cannot be empty\");"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": "            }"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Deadline should be: deadline [description] /by [dd/MM/yyyy HHmm]\");"
+        "content": ""
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "            return new Todo(subArgs[1], false);"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "        case \"deadline\":"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            try {"
+        "content": "            matcher \u003d DEADLINE_PATTERN.matcher(input);"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                date \u003d DATE_FORMAT.parse(matcher.group(2));"
+        "content": ""
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            } catch (ParseException e) {"
+        "content": "            if (!matcher.matches()) {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": "                throw new InvalidInputDukeException(DEADLINE_SYNTAX_MSG);"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Deadline should be: deadline [description] /by [dd/MM/yyyy HHmm]\");"
+        "content": "            }"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            try {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new Deadline(matcher.group(1), date, false);"
+        "content": "                date \u003d DATE_FORMAT.parse(matcher.group(2));"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        case \"event\":"
+        "content": "            } catch (ParseException e) {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            matcher \u003d EVENT_PATTERN.matcher(input);"
+        "content": "                throw new InvalidInputDukeException(DEADLINE_SYNTAX_MSG);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            }"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            if (!matcher.matches()) {"
+        "content": ""
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": "            return new Deadline(matcher.group(1), date, false);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Event should be: event [description] /at [d/M/yyyy HHmm]\");"
+        "content": "        case \"event\":"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "            matcher \u003d EVENT_PATTERN.matcher(input);"
       },
       {
         "lineNumber": 74,
@@ -5880,87 +5950,108 @@
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            try {"
+        "content": "            if (!matcher.matches()) {"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                date \u003d DATE_FORMAT.parse(matcher.group(2));"
+        "content": "                throw new InvalidInputDukeException(EVENT_SYNTAX_MSG);"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            } catch (ParseException e) {"
+        "content": "            }"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                throw new InvalidInputDukeException(\"Syntax error. \""
+        "content": ""
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "                        + \"Event should be: event [description] /by [dd/MM/yyyy HHmm]\");"
+        "content": "            try {"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            }"
+        "content": "                date \u003d DATE_FORMAT.parse(matcher.group(2));"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": ""
+        "content": "            } catch (ParseException e) {"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            return new Event(matcher.group(1), date, false);"
+        "content": "                throw new InvalidInputDukeException(EVENT_SYNTAX_MSG);"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        default:"
+        "content": "            }"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "            throw new UnknownCommandDukeException();"
+        "content": ""
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "        }"
+        "content": "            return new Event(matcher.group(1), date, false);"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    }"
+        "content": "        default:"
       },
       {
         "lineNumber": 87,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "            throw new UnknownCommandDukeException();"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "Nanosync"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 90,
         "author": {
           "gitId": "Nanosync"
         },
@@ -5968,7 +6059,7 @@
       }
     ],
     "authorContributionMap": {
-      "Nanosync": 87
+      "Nanosync": 90
     }
   },
   {
@@ -7351,7 +7442,7 @@
         "author": {
           "gitId": "Nanosync"
         },
-        "content": "    // Date format used for serialization"
+        "content": "    /** Date format used for serialization. **/"
       },
       {
         "lineNumber": 13,

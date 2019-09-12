@@ -354,21 +354,21 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "D | ✘ | iP submission | 11th of September 2019, 11:59pm"
+        "content": "D | ✘ | OP1 slides | Mon, 16 Sep 2019, 12:00PM"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "E | ✘ | new year | 1st of January 2020, 12am"
+        "content": "E | ✘ | new year | Wed, 1 Jan 2020, 12:00AM"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "D | ✘ | tP user stories | 12th of September 2019, 11am"
+        "content": "D | ✘ | tP milestone | Wed, 18 Sep 2019, 11:59PM"
       }
     ],
     "authorContributionMap": {
@@ -4822,259 +4822,259 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static String intToOrdinal(int i) {"
+        "content": "    private static String parseDateTime(String input) throws DukeException {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        assert i \u003e\u003d 1 \u0026\u0026 i \u003c\u003d 31 : \"Days of the month should be in the range 1 to 31\";"
+        "content": "        DateTimeFormatter inputFormatter \u003d DateTimeFormatter.ofPattern(\"d/MM/yyyy HHmm\");"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (i \u003d\u003d 11 || i \u003d\u003d 12 || i \u003d\u003d 13) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return i + \"th\";"
+        "content": "            LocalDateTime dateTime \u003d LocalDateTime.parse(input, inputFormatter);"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } else {"
+        "content": "            DateTimeFormatter outputFormatter \u003d DateTimeFormatter.ofPattern(\"EEE, d MMM yyyy, h:mma\");"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            switch (i % 10) {"
+        "content": "            return outputFormatter.format(dateTime);"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            case 1:"
+        "content": "        } catch (DateTimeParseException e) {"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return i + \"st\";"
+        "content": "            throw new DukeException(\"Input date and time is not in dd/MM/yyyy HHmm format (24-hour clock) :-(\");"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            case 2:"
+        "content": "        }"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return i + \"nd\";"
+        "content": "    }"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            case 3:"
+        "content": ""
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return i + \"rd\";"
+        "content": "    /**"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            default:"
+        "content": "     * Parses a \u003ccode\u003eTask\u003c/code\u003e from a string array."
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return i + \"th\";"
+        "content": "     *"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "     * @param words The string array to be parsed."
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "     * @return The \u003ccode\u003eTask\u003c/code\u003e that is parsed from the string array."
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "    private static Task parseTask(String[] words) throws DukeException {"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static String timeToAmPm(LocalDateTime dateTime) {"
+        "content": "        if (words[0].equals(\"todo\")) {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        int hour \u003d dateTime.getHour();"
+        "content": "            return new ToDo(subString(words, 1, words.length));"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        int minute \u003d dateTime.getMinute();"
+        "content": "        } else if (words[0].equals(\"deadline\")) {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        assert hour \u003e\u003d 0 \u0026\u0026 hour \u003c\u003d 24 : \"Hour should be in the range 0 to 24\";"
+        "content": "            int i \u003d findIdx(words, \"/by\");"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        assert minute \u003e\u003d0 \u0026\u0026 minute \u003c\u003d60 : \"Minute should be in the range 0 to 60\";"
+        "content": "            String description \u003d subString(words, 1, i);"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        String minuteString \u003d minute \u003d\u003d 0 ? \"\" : \":\" + minute;"
+        "content": "            String by \u003d subString(words, i + 1, words.length);"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (hour \u003d\u003d 0) {"
+        "content": "            String dateTimeString \u003d parseDateTime(by);"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return 12 + minuteString + \"am\";"
+        "content": "            return new Deadline(description, dateTimeString);"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } else if (hour \u003d\u003d 12) {"
+        "content": "        } else {"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return 12 + minuteString + \"pm\";"
+        "content": "            assert words[0].equals(\"event\") : \"Instruction type should be event\";"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } else if (hour \u003c 12) {"
+        "content": "            int i \u003d findIdx(words, \"/at\");"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return hour + minuteString + \"am\";"
+        "content": "            String description \u003d subString(words, 1, i);"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } else {"
+        "content": "            String at \u003d subString(words, i + 1, words.length);"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return hour - 12 + minuteString + \"pm\";"
+        "content": "            String dateTimeString \u003d parseDateTime(at);"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            return new Event(description, dateTimeString);"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static String parseDateTime(String s) throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        DateTimeFormatter f \u003d DateTimeFormatter.ofPattern(\"dd/MM/yyyy HHmm\");"
+        "content": "    private static boolean isValidTaskId(String s) {"
       },
       {
         "lineNumber": 95,
@@ -5088,322 +5088,322 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            LocalDateTime dateTime \u003d LocalDateTime.parse(s, f);"
+        "content": "            int taskId \u003d Integer.parseInt(s);"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            int day \u003d dateTime.getDayOfMonth();"
+        "content": "            return taskId \u003e\u003d 1;"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String monthAllCaps \u003d dateTime.getMonth().toString();"
+        "content": "        } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String monthFirstCap \u003d monthAllCaps.substring(0, 1) + monthAllCaps.substring(1).toLowerCase();"
+        "content": "            return false;"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            int year \u003d dateTime.getYear();"
+        "content": "        }"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return intToOrdinal(day) + \" of \" + monthFirstCap + \" \" + year + \", \" + timeToAmPm(dateTime);"
+        "content": "    }"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } catch (DateTimeParseException e) {"
+        "content": ""
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"Input date and time is not in dd/MM/yyyy HHmm format (24-hour clock) :-(\");"
+        "content": "    /**"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "     * Checks for illegal user input and throws exceptions accordingly."
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "     *"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "     * @param words The string array to be checked."
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Parses a \u003ccode\u003eTask\u003c/code\u003e from a string array."
+        "content": "    private static void checkIllegalInstruction(String[] words) throws DukeException {"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *"
+        "content": "        String fw \u003d words[0];"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param words The string array to be parsed."
+        "content": "        boolean isDoneCommand \u003d fw.equals(\"done\");"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @return The \u003ccode\u003eTask\u003c/code\u003e that is parsed from the string array."
+        "content": "        boolean isTodoCommand \u003d fw.equals(\"todo\");"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "        boolean isDeadlineCommand \u003d fw.equals(\"deadline\");"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static Task parseTask(String[] words) throws DukeException {"
+        "content": "        boolean isEventCommand \u003d fw.equals(\"event\");"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (words[0].equals(\"todo\")) {"
+        "content": "        boolean isDeleteCommand \u003d fw.equals(\"delete\");"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new ToDo(subString(words, 1, words.length));"
+        "content": "        boolean isListCommand \u003d fw.equals(\"list\");"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } else if (words[0].equals(\"deadline\")) {"
+        "content": "        boolean isExitCommand \u003d fw.equals(\"bye\");"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            int i \u003d findIdx(words, \"/by\");"
+        "content": "        boolean isFindCommand \u003d fw.equals(\"find\");"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String description \u003d subString(words, 1, i);"
+        "content": "        boolean isUpdateCommand \u003d fw.equals(\"update\");"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String by \u003d subString(words, i + 1, words.length);"
+        "content": ""
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String dateTimeString \u003d parseDateTime(by);"
+        "content": "        boolean isValidCommand \u003d isDoneCommand || isTodoCommand || isDeadlineCommand || isEventCommand"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new Deadline(description, dateTimeString);"
+        "content": "                                || isDeleteCommand || isListCommand || isExitCommand || isFindCommand"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } else {"
+        "content": "                                || isUpdateCommand;"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            assert words[0].equals(\"event\") : \"Instruction type should be event\";"
+        "content": "        boolean isAddCommand \u003d isTodoCommand || isDeadlineCommand || isEventCommand;"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            int i \u003d findIdx(words, \"/at\");"
+        "content": "        boolean isMissingDetail \u003d words.length \u003c 2;"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String description \u003d subString(words, 1, i);"
+        "content": "        boolean DeadlineMissingTime \u003d isDeadlineCommand \u0026\u0026 findIdx(words, \"/by\") \u003d\u003d -1;"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String at \u003d subString(words, i + 1, words.length);"
+        "content": "        boolean EventMissingTime \u003d isEventCommand \u0026\u0026 findIdx(words, \"/at\") \u003d\u003d -1;"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String dateTimeString \u003d parseDateTime(at);"
+        "content": ""
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new Event(description, dateTimeString);"
+        "content": "        if (!isValidCommand) {"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "        if (isAddCommand \u0026\u0026 isMissingDetail) {"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static boolean isValidTaskId(String s) {"
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The description of a \" + fw + \" cannot be empty.\");"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        try {"
+        "content": "        }"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            int taskId \u003d Integer.parseInt(s);"
+        "content": "        if (DeadlineMissingTime || EventMissingTime) {"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            if (taskId \u003c 1) {"
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The time of a(n) \" + fw + \" cannot be empty.\");"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return false;"
+        "content": "        }"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            } else {"
+        "content": "        if ((isDoneCommand || isDeleteCommand || isUpdateCommand) \u0026\u0026 isMissingDetail) {"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return true;"
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The task number of a(n) \" + fw + \" command cannot be empty.\");"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } catch (NumberFormatException e) {"
+        "content": "        if ((isDoneCommand || isDeleteCommand || isUpdateCommand) \u0026\u0026 !isValidTaskId(words[1])) {"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return false;"
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The task number of the \" + fw + \" command is invalid.\");"
       },
       {
         "lineNumber": 142,
@@ -5417,689 +5417,395 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        if (isUpdateCommand \u0026\u0026 words.length \u003c 4) {"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The update command is missing further details. \""
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
+        "content": "                    + \"It should have 4 components.\");"
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Checks for illegal user input and throws exceptions accordingly."
+        "content": "        }"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *"
+        "content": "        if (isUpdateCommand \u0026\u0026 !(words[2].equals(\"description\") || words[2].equals(\"time\"))) {"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param words The string array to be checked."
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The attribute of an update command can only be\" +"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "                    \" \\\"description\\\" or \\\"time\\\".\");"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static void checkIllegalInstruction(String[] words) throws DukeException {"
+        "content": "        }"
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        String fw \u003d words[0];"
+        "content": "        if (isFindCommand \u0026\u0026 isMissingDetail) {"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isDoneCommand \u003d fw.equals(\"done\");"
+        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The keyword of a \" + fw + \" command cannot be empty.\");"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isTodoCommand \u003d fw.equals(\"todo\");"
+        "content": "        }"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isDeadlineCommand \u003d fw.equals(\"deadline\");"
+        "content": "    }"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isEventCommand \u003d fw.equals(\"event\");"
+        "content": ""
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isDeleteCommand \u003d fw.equals(\"delete\");"
+        "content": "    /**"
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isListCommand \u003d fw.equals(\"list\");"
+        "content": "     * Parses a line of user instruction into respective \u003ccode\u003eCommand\u003c/code\u003e "
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isExitCommand \u003d fw.equals(\"bye\");"
+        "content": "     * types."
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isFindCommand \u003d fw.equals(\"find\");"
+        "content": "     *"
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isUpdateCommand \u003d fw.equals(\"update\");"
+        "content": "     * @param s The string that represents user input."
       },
       {
         "lineNumber": 161,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "     * @return A \u003ccode\u003eCommand\u003c/code\u003e that represents the specific type of"
       },
       {
         "lineNumber": 162,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isValidCommand \u003d isDoneCommand || isTodoCommand || isDeadlineCommand || isEventCommand"
+        "content": "     *          command the user gives."
       },
       {
         "lineNumber": 163,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                                || isDeleteCommand || isListCommand || isExitCommand || isFindCommand"
+        "content": "     */"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                                || isUpdateCommand;"
+        "content": "    public static Command parse(String s) throws DukeException {"
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isAddCommand \u003d isTodoCommand || isDeadlineCommand || isEventCommand;"
+        "content": "        String[] words \u003d s.split(\" \");"
       },
       {
         "lineNumber": 166,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isMissingDetail \u003d words.length \u003c 2;"
+        "content": "        checkIllegalInstruction(words);"
       },
       {
         "lineNumber": 167,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean DeadlineMissingTime \u003d isDeadlineCommand \u0026\u0026 findIdx(words, \"/by\") \u003d\u003d -1;"
+        "content": "        String fw \u003d words[0];"
       },
       {
         "lineNumber": 168,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean EventMissingTime \u003d isEventCommand \u0026\u0026 findIdx(words, \"/at\") \u003d\u003d -1;"
+        "content": "        assert fw.equals(\"bye\") || fw.equals(\"done\") || fw.equals(\"delete\")"
       },
       {
         "lineNumber": 169,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "                || fw.equals(\"list\") || fw.equals(\"find\") || fw.equals(\"todo\")"
       },
       {
         "lineNumber": 170,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (!isValidCommand) {"
+        "content": "                || fw.equals(\"event\") || fw.equals(\"deadline\") || fw.equals(\"update\")"
       },
       {
         "lineNumber": 171,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "                : \"Invalid user input\";"
       },
       {
         "lineNumber": 172,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "        switch (fw) {"
       },
       {
         "lineNumber": 173,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isAddCommand \u0026\u0026 isMissingDetail) {"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 174,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The description of a \" + fw + \" cannot be empty.\");"
+        "content": "            return new ExitCommand();"
       },
       {
         "lineNumber": 175,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 176,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (DeadlineMissingTime || EventMissingTime) {"
+        "content": "            return new DoneCommand(Integer.parseInt(words[1]));"
       },
       {
         "lineNumber": 177,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The time of a(n) \" + fw + \" cannot be empty.\");"
+        "content": "        case \"delete\":"
       },
       {
         "lineNumber": 178,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            return new DeleteCommand(Integer.parseInt(words[1]));"
       },
       {
         "lineNumber": 179,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if ((isDoneCommand || isDeleteCommand || isUpdateCommand) \u0026\u0026 isMissingDetail) {"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 180,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The task number of a(n) \" + fw + \" command cannot be empty.\");"
+        "content": "            return new ListCommand();"
       },
       {
         "lineNumber": 181,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "        case \"find\":"
       },
       {
         "lineNumber": 182,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if ((isDoneCommand || isDeleteCommand || isUpdateCommand) \u0026\u0026 !isValidTaskId(words[1])) {"
+        "content": "            return new FindCommand(words[1]);"
       },
       {
         "lineNumber": 183,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The task number of the \" + fw + \" command is invalid.\");"
+        "content": "        case \"update\":"
       },
       {
         "lineNumber": 184,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            String newValue \u003d subString(words, 3, words.length);"
       },
       {
         "lineNumber": 185,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isUpdateCommand \u0026\u0026 words.length \u003c 4) {"
+        "content": "            if (words[2].equals(\"description\")) {"
       },
       {
         "lineNumber": 186,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The update command is missing further details. \""
+        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], newValue);"
       },
       {
         "lineNumber": 187,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    + \"It should have 4 components.\");"
+        "content": "            } else {"
       },
       {
         "lineNumber": 188,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "                assert words[2].equals(\"time\") : \"Invalid attribute type for an update command\";"
       },
       {
         "lineNumber": 189,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isUpdateCommand \u0026\u0026 !(words[2].equals(\"description\") || words[2].equals(\"time\"))) {"
+        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], parseDateTime(newValue));"
       },
       {
         "lineNumber": 190,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The attribute of an update command can only be\" +"
+        "content": "            }"
       },
       {
         "lineNumber": 191,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    \" \\\"description\\\" or \\\"time\\\".\");"
+        "content": "        default:"
       },
       {
         "lineNumber": 192,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            assert fw.equals(\"todo\") || fw.equals(\"event\") || fw.equals(\"deadline\")"
       },
       {
         "lineNumber": 193,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isFindCommand \u0026\u0026 isMissingDetail) {"
+        "content": "                    : \"First word should be todo / deadline / event\";"
       },
       {
         "lineNumber": 194,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\" \\u2639  OOPS!!! The keyword of a \" + fw + \" command cannot be empty.\");"
+        "content": "            Task t \u003d parseTask(words);"
       },
       {
         "lineNumber": 195,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            return new AddCommand(t);"
       },
       {
         "lineNumber": 196,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 197,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 198,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 199,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * Parses a line of user instruction into respective \u003ccode\u003eCommand\u003c/code\u003e "
-      },
-      {
-        "lineNumber": 200,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * types."
-      },
-      {
-        "lineNumber": 201,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 202,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * @param s The string that represents user input."
-      },
-      {
-        "lineNumber": 203,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * @return A \u003ccode\u003eCommand\u003c/code\u003e that represents the specific type of"
-      },
-      {
-        "lineNumber": 204,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     *          command the user gives."
-      },
-      {
-        "lineNumber": 205,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 206,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "    public static Command parse(String s) throws DukeException {"
-      },
-      {
-        "lineNumber": 207,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        String[] words \u003d s.split(\" \");"
-      },
-      {
-        "lineNumber": 208,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        checkIllegalInstruction(words);"
-      },
-      {
-        "lineNumber": 209,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        String fw \u003d words[0];"
-      },
-      {
-        "lineNumber": 210,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        assert fw.equals(\"bye\") || fw.equals(\"done\") || fw.equals(\"delete\")"
-      },
-      {
-        "lineNumber": 211,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                || fw.equals(\"list\") || fw.equals(\"find\") || fw.equals(\"todo\")"
-      },
-      {
-        "lineNumber": 212,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                || fw.equals(\"event\") || fw.equals(\"deadline\") || fw.equals(\"update\")"
-      },
-      {
-        "lineNumber": 213,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                : \"Invalid user input\";"
-      },
-      {
-        "lineNumber": 214,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        switch (fw) {"
-      },
-      {
-        "lineNumber": 215,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        case \"bye\":"
-      },
-      {
-        "lineNumber": 216,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            return new ExitCommand();"
-      },
-      {
-        "lineNumber": 217,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        case \"done\":"
-      },
-      {
-        "lineNumber": 218,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            return new DoneCommand(Integer.parseInt(words[1]));"
-      },
-      {
-        "lineNumber": 219,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        case \"delete\":"
-      },
-      {
-        "lineNumber": 220,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            return new DeleteCommand(Integer.parseInt(words[1]));"
-      },
-      {
-        "lineNumber": 221,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        case \"list\":"
-      },
-      {
-        "lineNumber": 222,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            return new ListCommand();"
-      },
-      {
-        "lineNumber": 223,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        case \"find\":"
-      },
-      {
-        "lineNumber": 224,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            return new FindCommand(words[1]);"
-      },
-      {
-        "lineNumber": 225,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        case \"update\":"
-      },
-      {
-        "lineNumber": 226,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            String newValue \u003d subString(words, 3, words.length);"
-      },
-      {
-        "lineNumber": 227,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            if (words[2].equals(\"description\")) {"
-      },
-      {
-        "lineNumber": 228,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], newValue);"
-      },
-      {
-        "lineNumber": 229,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            } else {"
-      },
-      {
-        "lineNumber": 230,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                assert words[2].equals(\"time\") : \"Invalid attribute type for an update command\";"
-      },
-      {
-        "lineNumber": 231,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], parseDateTime(newValue));"
-      },
-      {
-        "lineNumber": 232,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 233,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        default:"
-      },
-      {
-        "lineNumber": 234,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            assert fw.equals(\"todo\") || fw.equals(\"event\") || fw.equals(\"deadline\")"
-      },
-      {
-        "lineNumber": 235,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                    : \"First word should be todo / deadline / event\";"
-      },
-      {
-        "lineNumber": 236,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            Task t \u003d parseTask(words);"
-      },
-      {
-        "lineNumber": 237,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            return new AddCommand(t);"
-      },
-      {
-        "lineNumber": 238,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 239,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 240,
-        "author": {
-          "gitId": "anqichen9856"
-        },
         "content": "}"
       },
       {
-        "lineNumber": 241,
+        "lineNumber": 199,
         "author": {
           "gitId": "anqichen9856"
         },
@@ -6107,7 +5813,7 @@
       }
     ],
     "authorContributionMap": {
-      "anqichen9856": 241
+      "anqichen9856": 199
     }
   },
   {
@@ -7444,7 +7150,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                ((Deadline) t).updateBy(newValue);"
+        "content": "                ((Deadline) t).updateDueTime(newValue);"
       },
       {
         "lineNumber": 90,
@@ -7458,7 +7164,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                ((Event) t).updateAt(newValue);"
+        "content": "                ((Event) t).updateOccurTime(newValue);"
       },
       {
         "lineNumber": 92,
@@ -10620,7 +10326,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private String by;"
+        "content": "    private String dueTime;"
       },
       {
         "lineNumber": 10,
@@ -10683,7 +10389,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param by A string that specifies the deadline of the "
+        "content": "     * @param dueTime A string that specifies the deadline of the"
       },
       {
         "lineNumber": 19,
@@ -10704,7 +10410,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public Deadline(String description, String by) {"
+        "content": "    public Deadline(String description, String dueTime) {"
       },
       {
         "lineNumber": 22,
@@ -10718,7 +10424,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        this.by \u003d by;"
+        "content": "        this.dueTime \u003d dueTime;"
       },
       {
         "lineNumber": 24,
@@ -10739,14 +10445,14 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public void updateBy(String newBy) {"
+        "content": "    public void updateDueTime(String newDueTime) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        this.by \u003d newBy;"
+        "content": "        this.dueTime \u003d newDueTime;"
       },
       {
         "lineNumber": 28,
@@ -10816,7 +10522,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        return \"D | \" + this.getStatusIcon() + \" | \" + this.getDescription() + \" | \" + this.by;"
+        "content": "        return \"D | \" + this.getStatusIcon() + \" | \" + this.getDescription() + \" | \" + this.dueTime;"
       },
       {
         "lineNumber": 38,
@@ -10900,7 +10606,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        return \"[D]\" + super.toString() + \" (by: \" + by + \")\";"
+        "content": "        return \"[D]\" + super.toString() + \" (by: \" + dueTime + \")\";"
       },
       {
         "lineNumber": 50,
@@ -10986,7 +10692,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private String at;"
+        "content": "    private String occurTime;"
       },
       {
         "lineNumber": 10,
@@ -11049,7 +10755,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param at A string that specifies the time of the "
+        "content": "     * @param occurTime A string that specifies the time of the"
       },
       {
         "lineNumber": 19,
@@ -11070,7 +10776,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public Event(String description, String at) {"
+        "content": "    public Event(String description, String occurTime) {"
       },
       {
         "lineNumber": 22,
@@ -11084,7 +10790,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        this.at \u003d at;"
+        "content": "        this.occurTime \u003d occurTime;"
       },
       {
         "lineNumber": 24,
@@ -11105,14 +10811,14 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public void updateAt(String newAt) {"
+        "content": "    public void updateOccurTime(String newOccurTime) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        this.at \u003d newAt;"
+        "content": "        this.occurTime \u003d newOccurTime;"
       },
       {
         "lineNumber": 28,
@@ -11182,7 +10888,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        return \"E | \" + this.getStatusIcon() + \" | \" + this.getDescription() + \" | \" + this.at;"
+        "content": "        return \"E | \" + this.getStatusIcon() + \" | \" + this.getDescription() + \" | \" + this.occurTime;"
       },
       {
         "lineNumber": 38,
@@ -11266,7 +10972,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + occurTime + \")\";"
       },
       {
         "lineNumber": 50,

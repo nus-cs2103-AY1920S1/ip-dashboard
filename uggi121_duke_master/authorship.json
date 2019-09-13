@@ -6227,7 +6227,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Validates the date-time string entered by the user."
+        "content": "     * Validates the date-time string entered by the user and returns an array with start, end times."
       },
       {
         "lineNumber": 22,
@@ -6248,7 +6248,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return Boolean output."
+        "content": "     * @return Array of start time, along with end time for event."
       },
       {
         "lineNumber": 25,
@@ -6269,7 +6269,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public boolean validateDate(String date, boolean hasEndTime) throws InvalidDateDukeException {"
+        "content": "    public LocalDateTime[] getAndValidateDates(String date, boolean hasEndTime) throws InvalidDateDukeException {"
       },
       {
         "lineNumber": 28,
@@ -6290,7 +6290,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return false;"
+        "content": "            throw new InvalidDateDukeException(INVALID_DATE_MSG);"
       },
       {
         "lineNumber": 31,
@@ -6318,7 +6318,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return hasValidSemantics(dateParams, hasEndTime, month);"
+        "content": "            return getValidDate(dateParams, hasEndTime, month);"
       },
       {
         "lineNumber": 35,
@@ -6549,7 +6549,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private boolean hasValidSemantics(ArrayList\u003cString\u003e dateParams, boolean hasEndTime, Month month)"
+        "content": "    private LocalDateTime[] getValidDate(ArrayList\u003cString\u003e dateParams, boolean hasEndTime, Month month)"
       },
       {
         "lineNumber": 68,
@@ -6591,7 +6591,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                return hasValidEventDateSemantics(integerDateParams, month, integerEndTimeParams);"
+        "content": "                return getValidEventDates(integerDateParams, month, integerEndTimeParams);"
       },
       {
         "lineNumber": 74,
@@ -6605,7 +6605,7 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                return hasValidDeadlineDateSemantics(integerDateParams, month);"
+        "content": "                return getValidDeadlineDate(integerDateParams, month);"
       },
       {
         "lineNumber": 76,
@@ -6892,213 +6892,227 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private boolean hasValidDeadlineDateSemantics(ArrayList\u003cInteger\u003e intParams, Month month) {"
+        "content": "    private LocalDateTime[] getValidDeadlineDate(ArrayList\u003cInteger\u003e intParams, Month month)"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        try {"
+        "content": "            throws InvalidDateDukeException {"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            LocalDateTime dateTime \u003d LocalDateTime.of(intParams.get(1),"
+        "content": "        try {"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    month, intParams.get(0), intParams.get(2), intParams.get(3));"
+        "content": "            LocalDateTime dateTime \u003d LocalDateTime.of(intParams.get(1),"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return true;"
+        "content": "                    month, intParams.get(0), intParams.get(2), intParams.get(3));"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        } catch (DateTimeException e) {"
+        "content": "            return new LocalDateTime[] {dateTime};"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return false;"
+        "content": "        } catch (DateTimeException e) {"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "            throw new InvalidDateDukeException(\"Invalid date semantics!\");"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private boolean hasValidEventDateSemantics(ArrayList\u003cInteger\u003e intParams, Month month, ArrayList\u003cInteger\u003e endParams) {"
+        "content": ""
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        try {"
+        "content": "    private LocalDateTime[] getValidEventDates(ArrayList\u003cInteger\u003e intParams, Month month, ArrayList\u003cInteger\u003e endParams)"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            int year \u003d intParams.get(1);"
+        "content": "            throws InvalidDateDukeException {"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            int day \u003d intParams.get(0);"
+        "content": "        try {"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            LocalDateTime dateTimeStart \u003d LocalDateTime.of(year, month, day,"
+        "content": "            int year \u003d intParams.get(1);"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    intParams.get(2), intParams.get(3));"
+        "content": "            int day \u003d intParams.get(0);"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            LocalDateTime dateTimeEnd \u003d LocalDateTime.of(year, month, day,"
+        "content": "            LocalDateTime dateTimeStart \u003d LocalDateTime.of(year, month, day,"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    endParams.get(0), endParams.get(1));"
+        "content": "                    intParams.get(2), intParams.get(3));"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            if (areInvalidStartEndTimes(dateTimeStart, dateTimeEnd)) {"
+        "content": "            LocalDateTime dateTimeEnd \u003d LocalDateTime.of(year, month, day,"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                return false;"
+        "content": "                    endParams.get(0), endParams.get(1));"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            }"
+        "content": "            if (areInvalidStartEndTimes(dateTimeStart, dateTimeEnd)) {"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return true;"
+        "content": "                throw new InvalidDateDukeException(\"Invalid date semantics!\");"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        } catch (DateTimeException e) {"
+        "content": "            }"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return false;"
+        "content": "            return new LocalDateTime[] {dateTimeStart, dateTimeEnd};"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "        } catch (DateTimeException e) {"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "            throw new InvalidDateDukeException(\"Invalid date semantics!\");"
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private boolean areInvalidStartEndTimes(LocalDateTime start, LocalDateTime end) {"
+        "content": "    }"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return start.isAfter(end) || start.isEqual(end);"
+        "content": ""
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    private boolean areInvalidStartEndTimes(LocalDateTime start, LocalDateTime end) {"
       },
       {
         "lineNumber": 146,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return start.isAfter(end) || start.isEqual(end);"
+      },
+      {
+        "lineNumber": 147,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 148,
         "author": {
           "gitId": "uggi121"
         },
@@ -7106,7 +7120,1145 @@
       }
     ],
     "authorContributionMap": {
-      "uggi121": 146
+      "uggi121": 148
+    }
+  },
+  {
+    "path": "src/main/java/duke/date/EventConflictChecker.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "package duke.date;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "import duke.task.Event;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "import java.util.ArrayList;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": " * Checks if events are scheduled at conflicting times."
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "public class EventConflictChecker {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private static final String DATE_CONFLICT \u003d \"Error! This event clashes with an existing event.\";"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private static ArrayList\u003cInterval\u003e bookedIntervals \u003d new ArrayList\u003c\u003e();"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Adds an interval to be blocked so that future events can\u0027t clash."
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param event Event whose interval is to be added."
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @throws InvalidDateDukeException If the event\u0027s time slot clashes."
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public static void addInterval(Event event) throws InvalidDateDukeException {"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        Interval interval \u003d makeIntervalFromEvent(event);"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isInvalidInterval \u003d isConflicting(interval);"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        if (isInvalidInterval) {"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            throw new InvalidDateDukeException(DATE_CONFLICT);"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        bookedIntervals.add(interval);"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private static boolean isConflicting(Interval newInterval) {"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        for (Interval interval : bookedIntervals) {"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            if (interval.isOverlapping(newInterval)) {"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "                return true;"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return false;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private static Interval makeIntervalFromEvent(Event event) {"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        LocalDateTime startTime \u003d event.getStartTime();"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        LocalDateTime endTime \u003d event.getEndTime();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        Interval newInterval \u003d new Interval(startTime, endTime);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return newInterval;"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Deletes the time-slot corresponding to the input event, effectively freeing it."
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param event Event whose time slot is to be freed."
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public static void deleteInterval(Event event) {"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        Interval interval \u003d makeIntervalFromEvent(event);"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        removeInterval(interval);"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private static void removeInterval(Interval interval) {"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        for (Interval i : bookedIntervals) {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            if (i.equals(interval)) {"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "                bookedIntervals.remove(i);"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "                break;"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uggi121": 63
+    }
+  },
+  {
+    "path": "src/main/java/duke/date/Interval.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "package duke.date;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "import java.time.LocalDateTime;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": " * Represents a time interval with a demarcated start and end time."
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "class Interval {"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private LocalDateTime startTime;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private LocalDateTime endTime;"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Constructs a time interval."
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param startTime Starting time of the interval."
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param endTime Ending time of the interval."
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    Interval(LocalDateTime startTime, LocalDateTime endTime) {"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        setStartTime(startTime);"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        setEndTime(endTime);"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Sets the start time of the interval."
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param startTime The starting time."
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    void setStartTime(LocalDateTime startTime) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        this.startTime \u003d startTime;"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Sets the end time of the interval."
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param endTime The ending time."
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    void setEndTime(LocalDateTime endTime) {"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        this.endTime \u003d endTime;"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Gets the starting time of the interval."
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @return Etarting time."
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    LocalDateTime getStartTime() {"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return startTime;"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Gets the ending time of the interval."
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @return Ending time."
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    LocalDateTime getEndTime() {"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return endTime;"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Checks if the input interval overlaps with the current interval."
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @param interval Interval to check for overlap."
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @return True if there is overlap, false otherwise."
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    boolean isOverlapping(Interval interval) {"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return !isNonOverlapping(interval);"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 64,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private boolean isNonOverlapping(Interval interval) {"
+      },
+      {
+        "lineNumber": 65,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isBefore \u003d isBeforeInterval(interval);"
+      },
+      {
+        "lineNumber": 66,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isAfter \u003d isAfterInterval(interval);"
+      },
+      {
+        "lineNumber": 67,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return isBefore || isAfter;"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private boolean isBeforeInterval(Interval interval) {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isCurrentEndBeforeEndTime \u003d this.endTime.isBefore(interval.getEndTime());"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isCurrentEndBeforeStartTime \u003d this.endTime.isBefore(interval.getStartTime());"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isCurrentEndEqualToStartTime \u003d this.endTime.isEqual(interval.getStartTime());"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return isCurrentEndBeforeEndTime"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "                \u0026\u0026 (isCurrentEndBeforeStartTime || isCurrentEndEqualToStartTime);"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    private boolean isAfterInterval(Interval interval) {"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isCurrentStartAfterStartTime \u003d this.startTime.isAfter((interval.getStartTime()));"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isCurrentStartAfterEndTime \u003d this.startTime.isAfter(interval.getEndTime());"
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        boolean isCurrentStartEqualToEndTime \u003d this.startTime.isEqual(interval.getEndTime());"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return isCurrentStartAfterStartTime"
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "                \u0026\u0026 (isCurrentStartAfterEndTime || isCurrentStartEqualToEndTime);"
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public boolean equals(Object obj) {"
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        if (this \u003d\u003d obj) {"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            return true;"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        } else if (obj instanceof Interval) {"
+      },
+      {
+        "lineNumber": 91,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            Interval i \u003d (Interval) obj;"
+      },
+      {
+        "lineNumber": 92,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            return i.endTime.isEqual(endTime) \u0026\u0026 i.startTime.isEqual(startTime);"
+      },
+      {
+        "lineNumber": 93,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 94,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "            return false;"
+      },
+      {
+        "lineNumber": 95,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 96,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 97,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "uggi121": 97
     }
   },
   {
@@ -9305,42 +10457,42 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "/**"
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "uggi121"
         },
-        "content": " * Represents a deadline. Consists of a description which the user intends to perform by a certain deadline."
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "uggi121"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "public class Deadline extends Task {"
+        "content": " * Represents a deadline. Consists of a description which the user intends to perform by a certain deadline."
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": " */"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    protected String by;"
+        "content": "public class Deadline extends Task {"
       },
       {
         "lineNumber": 12,
@@ -9354,283 +10506,304 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    protected String by;"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Constructor for a task of type deadline."
+        "content": "    private LocalDateTime dateTime;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param description Task to be done."
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param by Deadline."
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidTaskDukeException If the task description is invalid."
+        "content": "     * Constructor for a task of type deadline."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidDateDukeException If the deadline (date) is invalid."
+        "content": "     * @param description Task to be done."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "     * @param by Deadline."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public Deadline(String description, String by) throws InvalidTaskDukeException, InvalidDateDukeException {"
+        "content": "     * @throws InvalidTaskDukeException If the task description is invalid."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        super(description);"
+        "content": "     * @throws InvalidDateDukeException If the deadline (date) is invalid."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        setBy(by);"
+        "content": "     */"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    public Deadline(String description, String by) throws InvalidTaskDukeException, InvalidDateDukeException {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        super(description);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "        setBy(by);"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Sets the date to the entered date if possible."
+        "content": "    }"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param by Date represented as a string."
+        "content": ""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidDateDukeException If the date is invalid."
+        "content": "    /**"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "     * Sets the date to the entered date if possible."
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void setBy(String by) throws InvalidDateDukeException {"
+        "content": "     * @param by Date represented as a string."
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        DateValidator v \u003d new DateValidator();"
+        "content": "     * @throws InvalidDateDukeException If the date is invalid."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        boolean isValid \u003d v.validateDate(by, false);"
+        "content": "     */"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        if (!isValid) {"
+        "content": "    public void setBy(String by) throws InvalidDateDukeException {"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            throw new InvalidDateDukeException(\"Invalid date format! Please ensure your date sticks to this format:\\n\""
+        "content": "        DateValidator v \u003d new DateValidator();"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    + \"    Deadlines : \\\"DD/MM/YYYY HHMM\\\"\\n\""
+        "content": "        LocalDateTime[] date \u003d v.getAndValidateDates(by, false);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    + \"    Events : \\\"DD/MM/YYYY HHMM-HHMM\\\"\");"
+        "content": "        this.dateTime \u003d date[0];"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "        this.by \u003d by;"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        this.by \u003d by;"
+        "content": "    }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    public LocalDateTime getDateTime() {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "        return dateTime;"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns the deadline for the task."
+        "content": "    }"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return Deadline."
+        "content": ""
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String getTime() {"
+        "content": "     * Returns the deadline for the task."
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return by;"
+        "content": "     * @return Deadline."
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    public String getTime() {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @Override"
+        "content": "        return by;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return \"[Deadline] \" + super.toString() + \" (by: \" + by + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    @Override"
       },
       {
         "lineNumber": 53,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return \"[Deadline] \" + super.toString() + \" (by: \" + by + \")\";"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 56,
         "author": {
           "gitId": "uggi121"
         },
@@ -9638,7 +10811,7 @@
       }
     ],
     "authorContributionMap": {
-      "uggi121": 53
+      "uggi121": 56
     }
   },
   {
@@ -9671,346 +10844,423 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "import duke.date.InvalidDateDukeException;"
+        "content": "import duke.date.EventConflictChecker;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "import duke.date.InvalidDateDukeException;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "uggi121"
         },
-        "content": " * Represents an event that is held from a start time to an end time."
+        "content": "import java.time.LocalDateTime;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "uggi121"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "public class Event extends Task {"
+        "content": "/**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": " * Represents an event that is held from a start time to an end time."
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    protected String at;"
+        "content": " */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "public class Event extends Task {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Constructor for the event class."
+        "content": "    protected String at;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param description Description of the event"
+        "content": "    private LocalDateTime startTime;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param at Time duration of the event."
+        "content": "    private LocalDateTime endTime;"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidTaskDukeException If the description is invalid"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidDateDukeException If the date-time is invalid"
+        "content": "    /**"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "     * Constructor for the event class."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public Event(String description, String at) throws InvalidTaskDukeException, InvalidDateDukeException {"
+        "content": "     * @param description Description of the event"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        super(description);"
+        "content": "     * @param at Time duration of the event."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        setAt(at);"
+        "content": "     * @throws InvalidTaskDukeException If the description is invalid"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     * @throws InvalidDateDukeException If the date-time is invalid"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    public Event(String description, String at) throws InvalidTaskDukeException, InvalidDateDukeException {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Set the time of the event, if possible."
+        "content": "        super(description);"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param at The time of the event"
+        "content": "        setAt(at);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidDateDukeException If the date is invalid."
+        "content": "    }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void setAt(String at) throws InvalidDateDukeException {"
+        "content": "    /**"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        DateValidator v \u003d new DateValidator();"
+        "content": "     * Set the time of the event, if possible."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        boolean isValid \u003d v.validateDate(at, true);"
+        "content": "     * @param at The time of the event"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        if (!isValid) {"
+        "content": "     * @throws InvalidDateDukeException If the date is invalid."
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            throw new InvalidDateDukeException(\"Invalid date format! Please ensure your date sticks to this format:\\n\""
+        "content": "     */"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    + \"    Deadlines : \\\"DD/MM/YYYY HHMM\\\"\\n\""
+        "content": "    public void setAt(String at) throws InvalidDateDukeException {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    + \"    Events : \\\"DD/MM/YYYY HHMM-HHMM\\\"\");"
+        "content": "        DateValidator v \u003d new DateValidator();"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "        LocalDateTime[] dates \u003d v.getAndValidateDates(at, true);"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        this.at \u003d at;"
+        "content": "        this.startTime \u003d dates[0];"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        this.endTime \u003d dates[1];"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        EventConflictChecker.addInterval(this);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "        this.at \u003d at;"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns the time slot of the event."
+        "content": "    }"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return"
+        "content": ""
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "    public LocalDateTime getStartTime() {"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String getTime() {"
+        "content": "        return startTime;"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return at;"
+        "content": "    }"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    public LocalDateTime getEndTime() {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @Override"
+        "content": "        return endTime;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String toString() {"
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return \"[Event] \" + super.toString() + \" (at: \" + at + \")\";"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 53,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Returns the time slot of the event."
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @return"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public String getTime() {"
+      },
+      {
+        "lineNumber": 57,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return at;"
+      },
+      {
+        "lineNumber": 58,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 59,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 60,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 61,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 62,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return \"[Event] \" + super.toString() + \" (at: \" + at + \")\";"
+      },
+      {
+        "lineNumber": 63,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 64,
         "author": {
           "gitId": "uggi121"
         },
@@ -10018,7 +11268,7 @@
       }
     ],
     "authorContributionMap": {
-      "uggi121": 53
+      "uggi121": 64
     }
   },
   {
@@ -10598,395 +11848,423 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    protected static final String INVALID_DATE_MSG \u003d \"Invalid date format! \""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "            + \"Please ensure your date sticks to this format:\\n\""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Constructor for an abstract task."
+        "content": "            + \"    Deadlines : \\\"DD/MM/YYYY HHMM\\\"\\n\""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param description Description of the task."
+        "content": "            + \"    Events : \\\"DD/MM/YYYY HHMM-HHMM\\\"\";"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidTaskDukeException If the task is invalid."
+        "content": ""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public Task(String description) throws InvalidTaskDukeException {"
+        "content": "     * Constructor for an abstract task."
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        this.description \u003d description;"
+        "content": "     * @param description Description of the task."
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        if (description.isBlank()) {"
+        "content": "     * @throws InvalidTaskDukeException If the task is invalid."
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            throw new InvalidTaskDukeException(\"Description cannot be empty! Please enter a valid description.\");"
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "    public Task(String description) throws InvalidTaskDukeException {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        this.isDone \u003d false;"
+        "content": "        this.description \u003d description;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        if (description.isBlank()) {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "            throw new InvalidTaskDukeException(\"Description cannot be empty! Please enter a valid description.\");"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "        }"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns a tick if the task is complete, cross otherwise."
+        "content": "        this.isDone \u003d false;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return Status symbol indicating completion."
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
+        "content": "     * Returns a tick if the task is complete, cross otherwise."
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     * @return Status symbol indicating completion."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    public String getStatusIcon() {"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns the description of the task."
+        "content": "        return (isDone ? \"\\u2713\" : \"\\u2718\"); //return tick or X symbols"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return Description."
+        "content": "    }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String getDescription() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return this.description;"
+        "content": "     * Returns the description of the task."
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     * @return Description."
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    public String getDescription() {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Sets the task\u0027s completion flag"
+        "content": "        return this.description;"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param isDone Boolean to be set."
+        "content": "    }"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void setDone(boolean isDone) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        this.isDone \u003d isDone;"
+        "content": "     * Sets the task\u0027s completion flag"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     * @param isDone Boolean to be set."
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    public void setDone(boolean isDone) {"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns the completion flag of the task."
+        "content": "        this.isDone \u003d isDone;"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return Boolean"
+        "content": "    }"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public boolean getIsDone() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return isDone;"
+        "content": "     * Returns the completion flag of the task."
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     * @return Boolean"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    public boolean getIsDone() {"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns the time associated with the task."
+        "content": "        return isDone;"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return String representing time."
+        "content": "    }"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public abstract String getTime();"
+        "content": "    /**"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     * Returns the time associated with the task."
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @Override"
+        "content": "     * @return String representing time."
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String toString() {"
+        "content": "     */"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return \"[\" + getStatusIcon() + \"]\" + \" \" + description;"
+        "content": "    public abstract String getTime();"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 67,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return \"[\" + getStatusIcon() + \"]\" + \" \" + description;"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 71,
         "author": {
           "gitId": "uggi121"
         },
@@ -10994,7 +12272,7 @@
       }
     ],
     "authorContributionMap": {
-      "uggi121": 67
+      "uggi121": 71
     }
   },
   {
@@ -11225,784 +12503,784 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "import duke.task.InvalidTaskDukeException;"
+        "content": "import duke.date.EventConflictChecker;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "import duke.task.Task;"
+        "content": "import duke.task.Event;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "import duke.task.InvalidTaskDukeException;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "import java.lang.reflect.Array;"
+        "content": "import duke.task.Task;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "import java.util.ArrayList;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "import java.lang.reflect.Array;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "/**"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "uggi121"
         },
-        "content": " * Deals with storing, adding, deleting, finding of tasks. Stores their state of completion."
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "uggi121"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "public class TaskList {"
+        "content": " * Deals with storing, adding, deleting, finding of tasks. Stores their state of completion."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private static ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private static final String EMPTY_LIST_MSG \u003d \"Oops! The list is empty.\";"
+        "content": "public class TaskList {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    private static ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    private static final String EMPTY_LIST_MSG \u003d \"Oops! The list is empty.\";"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Removes the task corresponding to the task ID from the list."
+        "content": ""
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param id ID of the task to be removed."
+        "content": "    /**"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return A message confirming task removal along with the removed task."
+        "content": "     * Removes the task corresponding to the task ID from the list."
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidDeleteDukeException If the task ID is invalid."
+        "content": "     * @param id ID of the task to be removed."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "     * @return A message confirming task removal along with the removed task."
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String removeTaskFromList(int id) throws InvalidDeleteDukeException {"
+        "content": "     * @throws InvalidDeleteDukeException If the task ID is invalid."
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            Task t \u003d tasks.remove(id - 1);"
+        "content": "    public String removeTaskFromList(int id) throws InvalidDeleteDukeException {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return getRemoveTaskMessage(t);"
+        "content": "        try {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        } catch (IndexOutOfBoundsException e) {"
+        "content": "            Task t \u003d tasks.remove(id - 1);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            throw new InvalidDeleteDukeException(\"Invalid \\\"delete\\\" command. Please enter a valid task ID.\");"
+        "content": "            updateIntervals(t);"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "            return getRemoveTaskMessage(t);"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        } catch (IndexOutOfBoundsException e) {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "            throw new InvalidDeleteDukeException(\"Invalid \\\"delete\\\" command. Please enter a valid task ID.\");"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private String getRemoveTaskMessage(Task t) {"
+        "content": "        }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return \"Nice! I\u0027ve removed this task from the list:\\n\""
+        "content": "    }"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                + \"  \" + t.toString() + \"\\n\""
+        "content": ""
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                + \"Now you have \" + tasks.size() + \" tasks in the list.\";"
+        "content": "    private void updateIntervals(Task task) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        if (task instanceof Event) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "            EventConflictChecker.deleteInterval((Event) task);"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Gets text confirmation after a task has been marked as done."
+        "content": "        }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param listOfTaskIds IDs of tasks to be marked done."
+        "content": "    }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return String"
+        "content": ""
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws IndexOutOfBoundsException If ID/IDs are invalid."
+        "content": "    private String getRemoveTaskMessage(Task t) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "        return \"Nice! I\u0027ve removed this task from the list:\\n\""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String getDoneUpdates(ArrayList\u003cInteger\u003e listOfTaskIds) throws IndexOutOfBoundsException {"
+        "content": "                + \"  \" + t.toString() + \"\\n\""
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        StringBuilder finalOutput \u003d initializeFinalOutput(listOfTaskIds);"
+        "content": "                + \"Now you have \" + tasks.size() + \" tasks in the list.\";"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        developFinalOutput(finalOutput, listOfTaskIds);"
+        "content": "    }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return finalOutput.toString();"
+        "content": "    /**"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     * Gets text confirmation after a task has been marked as done."
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     * @param listOfTaskIds IDs of tasks to be marked done."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private StringBuilder initializeFinalOutput(ArrayList\u003cInteger\u003e listOfTaskIds) {"
+        "content": "     * @return String"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        StringBuilder finalOutput \u003d listOfTaskIds.size() \u003d\u003d 1"
+        "content": "     * @throws IndexOutOfBoundsException If ID/IDs are invalid."
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                ? new StringBuilder(\"Nice! I\u0027ve marked this task as done:\\n\")"
+        "content": "     */"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                : new StringBuilder(\"Nice! I\u0027ve marked these tasks as done:\\n\");"
+        "content": "    public String getDoneUpdates(ArrayList\u003cInteger\u003e listOfTaskIds) throws IndexOutOfBoundsException {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return finalOutput;"
+        "content": "        StringBuilder finalOutput \u003d initializeFinalOutput(listOfTaskIds);"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        developFinalOutput(finalOutput, listOfTaskIds);"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        return finalOutput.toString();"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private void developFinalOutput(StringBuilder finalOutput, ArrayList\u003cInteger\u003e listOfTaskIds) {"
+        "content": "    }"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        for (int i \u003d 0; i \u003c listOfTaskIds.size(); i++) {"
+        "content": ""
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            Task t \u003d tasks.get(listOfTaskIds.get(i) - 1);"
+        "content": "    private StringBuilder initializeFinalOutput(ArrayList\u003cInteger\u003e listOfTaskIds) {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            t.setDone(true);"
+        "content": "        StringBuilder finalOutput \u003d listOfTaskIds.size() \u003d\u003d 1"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            finalOutput.append(\"  \" + t.toString());"
+        "content": "                ? new StringBuilder(\"Nice! I\u0027ve marked this task as done:\\n\")"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            if (i !\u003d listOfTaskIds.size() - 1) {"
+        "content": "                : new StringBuilder(\"Nice! I\u0027ve marked these tasks as done:\\n\");"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                finalOutput.append(\"\\n\");"
+        "content": "        return finalOutput;"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            }"
+        "content": "    }"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    private void developFinalOutput(StringBuilder finalOutput, ArrayList\u003cInteger\u003e listOfTaskIds) {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        for (int i \u003d 0; i \u003c listOfTaskIds.size(); i++) {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "            Task t \u003d tasks.get(listOfTaskIds.get(i) - 1);"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Adds a task to the list."
+        "content": "            t.setDone(true);"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param task The task to be added."
+        "content": "            updateIntervals(t);"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return A confirmation along with the new task\u0027s description."
+        "content": "            finalOutput.append(\"  \" + t.toString());"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @throws InvalidTaskDukeException If the task is invalid."
+        "content": "            if (i !\u003d listOfTaskIds.size() - 1) {"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "                finalOutput.append(\"\\n\");"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String addTask(Task task) {"
+        "content": "            }"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        tasks.add(task);"
+        "content": "        }"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return getAddTaskMessage();"
+        "content": "    }"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private String getAddTaskMessage() {"
+        "content": "     * Adds a task to the list."
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return \"Nice! I\u0027ve added this task to the list:\\n\""
+        "content": "     * @param task The task to be added."
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                + \"  \" + tasks.get(tasks.size() - 1).toString() + \"\\n\""
+        "content": "     * @return A confirmation along with the new task\u0027s description."
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                + \"Now you have \" + tasks.size() + \" tasks in the list.\";"
+        "content": "     * @throws InvalidTaskDukeException If the task is invalid."
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "     */"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "    public String addTask(Task task) {"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "        tasks.add(task);"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Returns a list of the tasks, ordered by ID"
+        "content": "        return getAddTaskMessage();"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return String representing ordered list."
+        "content": "    }"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String getListOfTasks() {"
+        "content": "    private String getAddTaskMessage() {"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        String finalOutput \u003d getFinalListOfTasks();"
+        "content": "        return \"Nice! I\u0027ve added this task to the list:\\n\""
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        if (finalOutput.isBlank()) {"
+        "content": "                + \"  \" + tasks.get(tasks.size() - 1).toString() + \"\\n\""
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            return EMPTY_LIST_MSG;"
+        "content": "                + \"Now you have \" + tasks.size() + \" tasks in the list.\";"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return finalOutput;"
+        "content": ""
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "     * Returns a list of the tasks, ordered by ID"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private String getFinalListOfTasks() {"
+        "content": "     * @return String representing ordered list."
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        StringBuilder output \u003d new StringBuilder();"
+        "content": "     */"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
+        "content": "    public String getListOfTasks() {"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            output.append((i + 1) + \". \" + tasks.get(i));"
+        "content": "        String finalOutput \u003d getFinalListOfTasks();"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            if (i !\u003d tasks.size() - 1) {"
+        "content": "        if (finalOutput.isBlank()) {"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                output.append(\"\\n\");"
+        "content": "            return EMPTY_LIST_MSG;"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "        return finalOutput;"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        String finalOutput \u003d output.toString();"
+        "content": "    }"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return finalOutput;"
+        "content": ""
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "    private String getFinalListOfTasks() {"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        StringBuilder output \u003d new StringBuilder();"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Finds the tasks whose descriptions match the input string."
+        "content": "            output.append((i + 1) + \". \" + tasks.get(i));"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param descriptionToMatch Description to search for."
+        "content": "            if (i !\u003d tasks.size() - 1) {"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return String representing found tasks."
+        "content": "                output.append(\"\\n\");"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "            }"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public String findTasks(String descriptionToMatch) {"
+        "content": "        }"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        String findResults \u003d getFindResult(descriptionToMatch);"
+        "content": "        String finalOutput \u003d output.toString();"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return findResults;"
+        "content": "        return finalOutput;"
       },
       {
         "lineNumber": 116,
@@ -12023,220 +13301,290 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    private String getFindResult(String descriptionToMatch) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        StringBuilder result \u003d new StringBuilder();"
+        "content": "     * Finds the tasks whose descriptions match the input string."
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        boolean taskExists \u003d false;"
+        "content": "     * @param descriptionToMatch Description to search for."
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
+        "content": "     * @return String representing found tasks."
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            if (tasks.get(i).getDescription().toLowerCase().contains(descriptionToMatch.toLowerCase())) {"
+        "content": "     */"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                if (taskExists) {"
+        "content": "    public String findTasks(String descriptionToMatch) {"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    result.append(\"\\n\");"
+        "content": "        String findResults \u003d getFindResult(descriptionToMatch);"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                }"
+        "content": "        return findResults;"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                result.append((i + 1) + \". \" + tasks.get(i).toString());"
+        "content": "    }"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                taskExists \u003d true;"
+        "content": ""
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            }"
+        "content": "    private String getFindResult(String descriptionToMatch) {"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "        StringBuilder result \u003d new StringBuilder();"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return result.toString();"
+        "content": "        boolean taskExists \u003d false;"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        for (int i \u003d 0; i \u003c tasks.size(); i++) {"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "            if (tasks.get(i).getDescription().toLowerCase().contains(descriptionToMatch.toLowerCase())) {"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "                if (taskExists) {"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Adds all tasks to the current list."
+        "content": "                    result.append(\"\\n\");"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @param tasks Tasks to be added."
+        "content": "                }"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "                result.append((i + 1) + \". \" + tasks.get(i).toString());"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void addAllTasks(ArrayList\u003cTask\u003e tasks) {"
+        "content": "                taskExists \u003d true;"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        this.tasks.addAll(tasks);"
+        "content": "            }"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "        return result.toString();"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * Gets the list of tasks."
+        "content": ""
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     * @return List of tasks."
+        "content": "    /**"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "     */"
+        "content": "     * Adds all tasks to the current list."
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @SuppressWarnings(\"unchecked\")"
+        "content": "     * @param tasks Tasks to be added."
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public ArrayList\u003cTask\u003e getTasks() {"
+        "content": "     */"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        return (ArrayList\u003cTask\u003e) tasks.clone();"
+        "content": "    public void addAllTasks(ArrayList\u003cTask\u003e tasks) {"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        this.tasks.addAll(tasks);"
       },
       {
         "lineNumber": 149,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 150,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 151,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 152,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * Gets the list of tasks."
+      },
+      {
+        "lineNumber": 153,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     * @return List of tasks."
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    @SuppressWarnings(\"unchecked\")"
+      },
+      {
+        "lineNumber": 156,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    public ArrayList\u003cTask\u003e getTasks() {"
+      },
+      {
+        "lineNumber": 157,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        return (ArrayList\u003cTask\u003e) tasks.clone();"
+      },
+      {
+        "lineNumber": 158,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 159,
         "author": {
           "gitId": "uggi121"
         },
@@ -12244,7 +13592,7 @@
       }
     ],
     "authorContributionMap": {
-      "uggi121": 149
+      "uggi121": 159
     }
   },
   {
@@ -13032,304 +14380,332 @@
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @Test"
+        "content": "    /**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void validateDate_validDatesDeadline_trueReturned() {"
+        "content": "     * REDUNDANT"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        try {"
+        "content": "     *"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            DateValidator v \u003d new DateValidator();"
+        "content": "    @Test"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"11/01/2000 1800\", false));"
+        "content": "    public void validateDate_validDatesDeadline_trueReturned() {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"15/03/2019 0815\", false));"
+        "content": "        try {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"12/12/2024 0000\", false));"
+        "content": "            DateValidator v \u003d new DateValidator();"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"11/11/2005 2000\", false));"
+        "content": "            assertEquals(true, v.validateDate(\"11/01/2000 1800\", false));"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        } catch (InvalidDateDukeException e) {"
+        "content": "            assertEquals(true, v.validateDate(\"15/03/2019 0815\", false));"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            fail();"
+        "content": "            assertEquals(true, v.validateDate(\"12/12/2024 0000\", false));"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "            assertEquals(true, v.validateDate(\"11/11/2005 2000\", false));"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        } catch (InvalidDateDukeException e) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "            fail();"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @Test"
+        "content": "        }"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void validateDate_invalidDateFormatDeadline_falseReturned() {"
+        "content": "    }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            DateValidator v \u003d new DateValidator();"
+        "content": "    @Test"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(false, v.validateDate(\"11/01/20001800\", false));"
+        "content": "    public void validateDate_invalidDateFormatDeadline_falseReturned() {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(false, v.validateDate(\"15/03/2019 0815-0830\", false));"
+        "content": "        try {"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(false, v.validateDate(\"12/12/2024 2500\", false));"
+        "content": "            DateValidator v \u003d new DateValidator();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(false, v.validateDate(\"11/14/2005 2060\", false));"
+        "content": "            assertEquals(false, v.validateDate(\"11/01/20001800\", false));"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(false, v.validateDate(\"11/11/2005 2060\", false));"
+        "content": "            assertEquals(false, v.validateDate(\"15/03/2019 0815-0830\", false));"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        } catch (InvalidDateDukeException e) {"
+        "content": "            assertEquals(false, v.validateDate(\"12/12/2024 2500\", false));"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(\"Invalid date format! Please ensure your date sticks to this format:\\n\""
+        "content": "            assertEquals(false, v.validateDate(\"11/14/2005 2060\", false));"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    + \"    Deadlines : \\\"DD/MM/YYYY HHMM\\\"\\n\""
+        "content": "            assertEquals(false, v.validateDate(\"11/11/2005 2060\", false));"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "                    + \"    Events : \\\"DD/MM/YYYY HHMM-HHMM\\\"\", e.getMessage());"
+        "content": "        } catch (InvalidDateDukeException e) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "            assertEquals(\"Invalid date format! Please ensure your date sticks to this format:\\n\""
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "                    + \"    Deadlines : \\\"DD/MM/YYYY HHMM\\\"\\n\""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "                    + \"    Events : \\\"DD/MM/YYYY HHMM-HHMM\\\"\", e.getMessage());"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    @Test"
+        "content": "        }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    public void validateDate_validDatesEvent_trueReturned() {"
+        "content": "    }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        try {"
+        "content": ""
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            DateValidator v \u003d new DateValidator();"
+        "content": "    @Test"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"11/01/2000 1800-2000\", true));"
+        "content": "    public void validateDate_validDatesEvent_trueReturned() {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"15/03/2019 0815-0830\", true));"
+        "content": "        try {"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"12/12/2024 2300-2359\", true));"
+        "content": "            DateValidator v \u003d new DateValidator();"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"11/11/2005 2000-2115\", true));"
+        "content": "            assertEquals(true, v.validateDate(\"11/01/2000 1800-2000\", true));"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            assertEquals(true, v.validateDate(\"11/10/1982 0000-0615\", true));"
+        "content": "            assertEquals(true, v.validateDate(\"15/03/2019 0815-0830\", true));"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        } catch (InvalidDateDukeException e) {"
+        "content": "            assertEquals(true, v.validateDate(\"12/12/2024 2300-2359\", true));"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "            fail();"
+        "content": "            assertEquals(true, v.validateDate(\"11/11/2005 2000-2115\", true));"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "        }"
+        "content": "            assertEquals(true, v.validateDate(\"11/10/1982 0000-0615\", true));"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "uggi121"
         },
-        "content": "    }"
+        "content": "        } catch (InvalidDateDukeException e) {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "uggi121"
         },
-        "content": ""
+        "content": "            fail();"
       },
       {
         "lineNumber": 53,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 55,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": "    */"
+      },
+      {
+        "lineNumber": 56,
+        "author": {
+          "gitId": "uggi121"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 57,
         "author": {
           "gitId": "uggi121"
         },
@@ -13337,7 +14713,7 @@
       }
     ],
     "authorContributionMap": {
-      "uggi121": 53
+      "uggi121": 57
     }
   },
   {

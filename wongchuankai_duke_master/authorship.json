@@ -440,7 +440,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return (\"      Bye. Hope to see you again soon!\");"
+        "content": "        return (\"      Bye :) Hope to see you again soon!\\n\" + ui.showLine());"
       },
       {
         "lineNumber": 24,
@@ -489,7 +489,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override "
+        "content": ""
       },
       {
         "lineNumber": 31,
@@ -568,7 +568,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "public class Command {"
+        "content": "public abstract class Command {"
       },
       {
         "lineNumber": 5,
@@ -708,52 +708,17 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": "    public abstract String execute(TaskList task, Ui ui, Storage storage) throws DukeException,AssertionError;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return \"☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\";"
+        "content": ""
       },
       {
         "lineNumber": 26,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    "
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    public boolean isExit() {"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        return false;"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -761,7 +726,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 31
+      "wongchuankai": 26
     }
   },
   {
@@ -808,7 +773,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    protected String by;"
+        "content": "    private String by;"
       },
       {
         "lineNumber": 7,
@@ -1139,276 +1104,248 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) {"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException,AssertionError {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String output \u003d \"\";"
+        "content": "        String[] deadlinetask \u003d command.split(\"deadline \");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "        assert deadlinetask.length \u003e 0 : \" Must input deadline task\";"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String[] deadlinetask \u003d command.split(\"deadline \");"
+        "content": "        if (deadlinetask.length \u003d\u003d 0) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            assert deadlinetask.length \u003e 0 : \" Must input deadline task\";"
+        "content": "            throw new DukeException(\" ☹ OOPS!!! The description of a Deadline cannot be empty.\");"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (deadlinetask.length \u003d\u003d 0) {"
+        "content": "        }"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                throw new DukeException(\" ☹ OOPS!!! The description of a Deadline cannot be empty.\");"
+        "content": "        String deadlineString \u003d deadlinetask[1];"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        String[] deadlinearr \u003d deadlineString.split(\" /by \");"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String deadlineString \u003d deadlinetask[1];"
+        "content": "        if (deadlinearr.length \u003c 2) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String[] deadlinearr \u003d deadlineString.split(\" /by \");"
+        "content": "            String wrongformat \u003d \" ☹ OOPS!!! Wrong format. Must be deadline desc /by time(format: DD/MM/YYYY 24:00)\";"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Got it. I\u0027ve added this task:\\n\");"
+        "content": "            throw new DukeException(wrongformat);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String[] date \u003d deadlinearr[1].split(\"/\");"
+        "content": "        }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String[] tm \u003d date[2].split(\" \");"
+        "content": "        String output \u003d \"     Got it. I\u0027ve added this task:\\n\";"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int day \u003d Integer.parseInt(date[0]);"
+        "content": "        String[] date \u003d deadlinearr[1].split(\"/\");"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int month \u003d Integer.parseInt(date[1]);"
+        "content": "        String[] tm \u003d date[2].split(\" \");"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int year \u003d Integer.parseInt(tm[0]);"
+        "content": "        int day \u003d Integer.parseInt(date[0]);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String time \u003d tm[1];"
+        "content": "        int month \u003d Integer.parseInt(date[1]);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Time t \u003d new Time(day, month, year, time);"
+        "content": "        int year \u003d Integer.parseInt(tm[0]);"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Deadline deadline \u003d new Deadline(deadlinearr[0], t.toString());"
+        "content": "        String time \u003d tm[1];"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            task.addTask(deadline);"
+        "content": "        Time t \u003d new Time(day, month, year, time);"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            assert deadline !\u003d null;"
+        "content": "        Deadline deadline \u003d new Deadline(deadlinearr[0], t.toString());"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int numberOfTask \u003d task.getCount();"
+        "content": "        task.addTask(deadline);"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"       \" + deadline.toString() + \"\\n\");"
+        "content": "        int numberOfTask \u003d task.getCount();"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Now you have \" + numberOfTask + \" tasks in the list.\\n\");"
+        "content": "        output +\u003d (\"       \" + deadline.toString() + \"\\n\");"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int checkdone \u003d deadline.isDone ? 1 : 0;"
+        "content": "        output +\u003d (\"     Now you have \" + numberOfTask + \" tasks in the list.\\n\");"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "        int checkdone \u003d deadline.isDone ? 1 : 0;"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                String text \u003d checkdone + \"/deadline/\" + deadline.description + \"/\" + deadline.by;"
+        "content": "        try {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.appendToFile(text + System.lineSeparator());"
+        "content": "            String text \u003d checkdone + \"/deadline/\" + deadline.description + \"/\" + deadline.getBy();"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "            storage.appendToFile(text + System.lineSeparator());"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                System.out.println(e);"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "            return \"WRITING ERROR\";"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return e.toString();"
+        "content": "        return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (AssertionError e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        return output;"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": ""
       },
       {
-        "lineNumber": 65,
+        "lineNumber": 61,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -1416,7 +1353,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 65
+      "wongchuankai": 61
     }
   },
   {
@@ -1610,7 +1547,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException,AssertionError {"
       },
       {
         "lineNumber": 28,
@@ -1631,248 +1568,199 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "        assert deletearr.length \u003e 1 : \" Please input the task number you want to delete\";"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            assert deletearr.length \u003e 1 : \" Please input the task number you want to delete\";"
+        "content": "        if (deletearr.length \u003d\u003d 1 || deletearr.length \u003e 2) {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (deletearr.length \u003d\u003d 1 || deletearr.length \u003e 2) {"
+        "content": "            throw new DukeException(\" ☹ OOPS!!! Please input the task that you want to delete.\");"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                throw new DukeException(\" ☹ OOPS!!! Please input the task that you want to delete.\");"
+        "content": "        }"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        if (deletearr[1].equals(\"all\")) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (deletearr[1].equals(\"all\")) {"
+        "content": "            try {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                try {"
+        "content": "                storage.deleteWrite(-1);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    storage.deleteWrite(-1);"
+        "content": "            } catch (IOException e) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                } catch (IOException e) {"
+        "content": "                return \"ERROR\";"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    return \"ERROR\";"
+        "content": "            }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                }"
+        "content": "            output +\u003d \"     Noted. I\u0027ve removed all tasks.\\n\";"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                output +\u003d \"     Noted. I\u0027ve removed all tasks.\\n\";"
+        "content": "            output +\u003d \"     Now you have 0 task in the list.\\n\";"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                output +\u003d \"     Now you have 0 task in the list.\\n\";"
+        "content": "            task.deleteAll();"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                task.deleteAll();"
+        "content": "            return output;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                return output;"
+        "content": "        }"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        int number \u003d Integer.parseInt(deletearr[1]) - 1;"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int number \u003d Integer.parseInt(deletearr[1]) - 1;"
+        "content": "        Task deletetask \u003d task.getTaskList().get(number);"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Task deletetask \u003d task.getTaskList().get(number);"
+        "content": "        output +\u003d (\"     Noted. I\u0027ve removed this task:\\n\");"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Noted. I\u0027ve removed this task:\\n\");"
+        "content": "        output +\u003d (\"       \" + deletetask.toString() + \"\\n\");"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"       \" + deletetask.toString() + \"\\n\");"
+        "content": "        task.deleteTask(number);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            task.deleteTask(number);"
+        "content": "        output +\u003d (\"     Now you have \" + task.getCount() + \" tasks in the list.\\n\");"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Now you have \" + task.getCount() + \" tasks in the list.\\n\");"
+        "content": "        try {"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "            storage.deleteWrite(number);"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.deleteWrite(number);"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "            return \"WRITING ERROR\";"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                System.out.println(e);"
+        "content": "        }"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return output;"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } catch (AssertionError e) {"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 64,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 65,
+        "lineNumber": 58,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -1880,7 +1768,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 65
+      "wongchuankai": 58
     }
   },
   {
@@ -2559,7 +2447,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException,AssertionError {"
       },
       {
         "lineNumber": 29,
@@ -2664,115 +2552,66 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "            storage.writeDone(no, donetask);"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.writeDone(no, donetask);"
+        "content": "            return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "        }  catch (IOException e) {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                System.out.println(e);"
+        "content": "            return \"WRITING ERROR\";"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        }   catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return output;"
+        "content": "            return \"Format is Done_\u003cInteger\u003e. Cannot be alphabets.\";"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (AssertionError e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return e.toString();"
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            //throw new DukeException(\"     ☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } catch (NumberFormatException e) {"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return \"Format is Done_\u003cInteger\u003e. Cannot be alphabets.\";"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": ""
       },
       {
-        "lineNumber": 59,
+        "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -2780,7 +2619,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 59
+      "wongchuankai": 52
     }
   },
   {
@@ -3009,427 +2848,427 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Scene scene;"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "     * Initialises necessary classes and variables."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Initialises necessary classes and variables."
+        "content": "     */"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "    private Storage storage;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Storage storage;"
+        "content": "    private TaskList tasks;"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private TaskList tasks;"
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Ui ui;"
+        "content": "    public Ui getUi() {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        return ui;"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    // ..."
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Image user \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Image duke \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    // ..."
+        "content": ""
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    // ..."
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "    private Image user \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Read the stored data in the file and executes it."
+        "content": "    private Image duke \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     *"
+        "content": "    // ..."
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public Duke() {"
+        "content": "    /**"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        ui \u003d new Ui();"
+        "content": "     * Read the stored data in the file and executes it."
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        storage \u003d new Storage(\"Tasklist.txt\");"
+        "content": "     *"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            tasks \u003d new TaskList(storage.load());"
+        "content": "    public Duke() {"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "        ui \u003d new Ui();"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            ui.showLoadingError();"
+        "content": "        storage \u003d new Storage(\"Tasklist.txt\");"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            tasks \u003d new TaskList();"
+        "content": "        try {"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            tasks \u003d new TaskList(storage.load());"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            ui.showLoadingError();"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            tasks \u003d new TaskList();"
+        "content": "            ui.showLoadingError();"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "            tasks \u003d new TaskList();"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "            ui.showLoadingError();"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "            tasks \u003d new TaskList();"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     *  Runs the program until termination."
+        "content": "        }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void run() {"
+        "content": ""
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        //ui.showWelcome();"
+        "content": "    /**"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        boolean isExit \u003d false;"
+        "content": "     * Main method which runs the program."
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        /*while (!isExit) {"
+        "content": "     * @param args null"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
-      },
-      {
-        "lineNumber": 72,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                String fullCommand \u003d ui.readCommand();"
-      },
-      {
-        "lineNumber": 73,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                ui.showLine(); // show the divider line (\"_______\")"
-      },
-      {
-        "lineNumber": 74,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                Command c \u003d new Parser().parse(fullCommand);"
-      },
-      {
-        "lineNumber": 75,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                c.execute(tasks, ui, storage);"
-      },
-      {
-        "lineNumber": 76,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                isExit \u003d c.isExit();"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                ui.showError(e.getMessage());"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            } finally {"
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                ui.showLine();"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "      */"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * Main method which runs the program."
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * @param args null"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "     */"
       },
       {
-        "lineNumber": 90,
+        "lineNumber": 72,
         "author": {
           "gitId": "-"
         },
         "content": "    public static void main(String[] args) {"
       },
       {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    public void start(Stage stage) {"
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        Label helloWorld \u003d new Label(\"Hello World!\"); // Creating a new Label control"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        Scene scene \u003d new Scene(helloWorld); // Setting the scene to be our Label"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 81,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        stage.setScene(scene); // Setting the stage to show our screen"
+      },
+      {
+        "lineNumber": 82,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        stage.show(); // Render the stage."
+      },
+      {
+        "lineNumber": 83,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        //The container for the content of the chat to scroll."
+      },
+      {
+        "lineNumber": 84,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        scrollPane \u003d new ScrollPane();"
+      },
+      {
+        "lineNumber": 85,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        dialogContainer \u003d new VBox();"
+      },
+      {
+        "lineNumber": 86,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        scrollPane.setContent(dialogContainer);"
+      },
+      {
+        "lineNumber": 87,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 88,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        userInput \u003d new TextField();"
+      },
+      {
+        "lineNumber": 89,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        sendButton \u003d new Button(\"Send\");"
+      },
+      {
+        "lineNumber": 90,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
         "lineNumber": 91,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        //new Duke().run();"
+        "content": "        AnchorPane mainLayout \u003d new AnchorPane();"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);"
       },
       {
         "lineNumber": 93,
@@ -3443,140 +3282,140 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override"
+        "content": "        scene \u003d new Scene(mainLayout);"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void start(Stage stage) {"
+        "content": ""
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        stage.setScene(scene);"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        Label helloWorld \u003d new Label(\"Hello World!\"); // Creating a new Label control"
+        "content": "        stage.show();"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        Scene scene \u003d new Scene(helloWorld); // Setting the scene to be our Label"
+        "content": ""
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        // more code to be added here later"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.setScene(scene); // Setting the stage to show our screen"
+        "content": "        //Step 2. Formatting the window to look as expected"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.show(); // Render the stage."
+        "content": "        stage.setTitle(\"Duke\");"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        //The container for the content of the chat to scroll."
+        "content": "        stage.setResizable(false);"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane \u003d new ScrollPane();"
+        "content": "        stage.setMinHeight(600.0);"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        dialogContainer \u003d new VBox();"
+        "content": "        stage.setMinWidth(400.0);"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.setContent(dialogContainer);"
+        "content": ""
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        mainLayout.setPrefSize(400.0, 600.0);"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        userInput \u003d new TextField();"
+        "content": ""
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        sendButton \u003d new Button(\"Send\");"
+        "content": "        scrollPane.setPrefSize(385, 535);"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        AnchorPane mainLayout \u003d new AnchorPane();"
+        "content": "        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);"
+        "content": ""
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        scrollPane.setVvalue(1.0);"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scene \u003d new Scene(mainLayout);"
+        "content": "        scrollPane.setFitToWidth(true);"
       },
       {
         "lineNumber": 114,
@@ -3590,14 +3429,14 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.setScene(scene);"
+        "content": "        // You will need to import `javafx.scene.layout.Region` for this."
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.show();"
+        "content": "        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);"
       },
       {
         "lineNumber": 117,
@@ -3611,56 +3450,56 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        // more code to be added here later"
+        "content": "        userInput.setPrefWidth(325.0);"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        //Step 2. Formatting the window to look as expected"
+        "content": ""
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.setTitle(\"Duke\");"
+        "content": "        sendButton.setPrefWidth(55.0);"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.setResizable(false);"
+        "content": ""
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.setMinHeight(600.0);"
+        "content": "        AnchorPane.setTopAnchor(scrollPane, 1.0);"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        stage.setMinWidth(400.0);"
+        "content": ""
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        AnchorPane.setBottomAnchor(sendButton, 1.0);"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        mainLayout.setPrefSize(400.0, 600.0);"
+        "content": "        AnchorPane.setRightAnchor(sendButton, 1.0);"
       },
       {
         "lineNumber": 126,
@@ -3674,280 +3513,280 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.setPrefSize(385, 535);"
+        "content": "        AnchorPane.setLeftAnchor(userInput, 1.0);"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);"
+        "content": "        AnchorPane.setBottomAnchor(userInput, 1.0);"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);"
+        "content": ""
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        // more code to be added here later"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.setVvalue(1.0);"
+        "content": "        //Step 3. Add functionality to handle user input."
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.setFitToWidth(true);"
+        "content": "        sendButton.setOnMouseClicked((event) -\u003e {"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "            handleUserInput();"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        // You will need to import `javafx.scene.layout.Region` for this."
+        "content": "        });"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);"
+        "content": ""
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        userInput.setOnAction((event) -\u003e {"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        userInput.setPrefWidth(325.0);"
+        "content": "            handleUserInput();"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        });"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        sendButton.setPrefWidth(55.0);"
+        "content": "        //Scroll down to the end every time dialogContainer\u0027s height changes."
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        AnchorPane.setTopAnchor(scrollPane, 1.0);"
+        "content": ""
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        AnchorPane.setBottomAnchor(sendButton, 1.0);"
+        "content": "     * Iteration 1:"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        AnchorPane.setRightAnchor(sendButton, 1.0);"
+        "content": "     * Creates a label with the specified text and adds it to the dialog container."
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     * @param text String containing text to add"
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        AnchorPane.setLeftAnchor(userInput, 1.0);"
+        "content": "     * @return a label with the specified text that has word wrap enabled."
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        AnchorPane.setBottomAnchor(userInput, 1.0);"
+        "content": "     */"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    private Node getDialogLabel(String text) {"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        // more code to be added here later"
+        "content": "        // You will need to import `javafx.scene.control.Label`."
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        //Step 3. Add functionality to handle user input."
+        "content": "        Label textToAdd \u003d new Label(text);"
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        sendButton.setOnMouseClicked((event) -\u003e {"
+        "content": "        textToAdd.setWrapText(true);"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": ""
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                handleUserInput();"
+        "content": "        return textToAdd;"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                e.printStackTrace();"
+        "content": ""
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "    /**"
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        });"
+        "content": "     * Iteration 2:"
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        userInput.setOnAction((event) -\u003e {"
+        "content": "     * the dialog container. Clears the user input after processing."
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "     */"
       },
       {
         "lineNumber": 161,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                handleUserInput();"
+        "content": "    private void handleUserInput() {"
       },
       {
         "lineNumber": 162,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "        dialogContainer.getChildren().addAll("
       },
       {
         "lineNumber": 163,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                e.printStackTrace();"
+        "content": "                DialogBox.getUserDialog(userInput.getText(), user),"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "                DialogBox.getDukeDialog(getResponse(userInput.getText()), duke)"
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        });"
+        "content": "        );"
       },
       {
         "lineNumber": 166,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        //Scroll down to the end every time dialogContainer\u0027s height changes."
+        "content": "        userInput.clear();"
       },
       {
         "lineNumber": 167,
@@ -3975,276 +3814,101 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Iteration 1:"
+        "content": "     * You should have your own function to generate a response to user input."
       },
       {
         "lineNumber": 171,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Creates a label with the specified text and adds it to the dialog container."
+        "content": "     * Replace this stub with your completed method."
       },
       {
         "lineNumber": 172,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @param text String containing text to add"
+        "content": "     */"
       },
       {
         "lineNumber": 173,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @return a label with the specified text that has word wrap enabled."
+        "content": "    String getResponse(String input) {"
       },
       {
         "lineNumber": 174,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "        Duke duke \u003d new Duke();"
       },
       {
         "lineNumber": 175,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Node getDialogLabel(String text) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 176,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        // You will need to import `javafx.scene.control.Label`."
+        "content": "            return new Parser().parse(input).execute(duke.tasks, duke.ui, duke.storage);"
       },
       {
         "lineNumber": 177,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        Label textToAdd \u003d new Label(text);"
+        "content": "        } catch (AssertionError e) {"
       },
       {
         "lineNumber": 178,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        textToAdd.setWrapText(true);"
+        "content": "            return e.toString() + ui.showLine();"
       },
       {
         "lineNumber": 179,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 180,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return textToAdd;"
+        "content": "            return e.toString() + ui.showLine();"
       },
       {
         "lineNumber": 181,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 182,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 183,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 184,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * Iteration 2:"
-      },
-      {
-        "lineNumber": 185,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
-      },
-      {
-        "lineNumber": 186,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * the dialog container. Clears the user input after processing."
-      },
-      {
-        "lineNumber": 187,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 188,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    private void handleUserInput() throws DukeException {"
-      },
-      {
-        "lineNumber": 189,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        dialogContainer.getChildren().addAll("
-      },
-      {
-        "lineNumber": 190,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                DialogBox.getUserDialog(userInput.getText(), user),"
-      },
-      {
-        "lineNumber": 191,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                DialogBox.getDukeDialog(getResponse(userInput.getText()), duke)"
-      },
-      {
-        "lineNumber": 192,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        );"
-      },
-      {
-        "lineNumber": 193,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        userInput.clear();"
-      },
-      {
-        "lineNumber": 194,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 195,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 196,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 197,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * You should have your own function to generate a response to user input."
-      },
-      {
-        "lineNumber": 198,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * Replace this stub with your completed method."
-      },
-      {
-        "lineNumber": 199,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 200,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    String getResponse(String input) throws DukeException {"
-      },
-      {
-        "lineNumber": 201,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        Duke duke \u003d new Duke();"
-      },
-      {
-        "lineNumber": 202,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        if (!input.contains(\"bye\")) {"
-      },
-      {
-        "lineNumber": 203,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return new Parser().parse(input).execute(duke.tasks,duke.ui,duke.storage);"
-      },
-      {
-        "lineNumber": 204,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } else {"
-      },
-      {
-        "lineNumber": 205,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return \"Good Bye!!!\";"
-      },
-      {
-        "lineNumber": 206,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 207,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 208,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 209,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -4252,7 +3916,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 208,
+      "wongchuankai": 183,
       "-": 1
     }
   },
@@ -4300,31 +3964,80 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public DukeException(String message) {"
+        "content": "    private String message;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        super((message));"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "    public DukeException(String message) {"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        super(message);"
       },
       {
         "lineNumber": 10,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        this.message \u003d message;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        return message;"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 17,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -4332,7 +4045,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 10
+      "wongchuankai": 17
     }
   },
   {
@@ -4379,150 +4092,143 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    private String at;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String getAt() {"
+        "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return at;"
+        "content": "    /**"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "     * Event constructor with description and at as string."
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     * @param description description of tasks"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    protected String at;"
+        "content": "     * @param at refers to location/venue/places"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "    public Event(String description, String at) {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Event constructor with description and at as string."
+        "content": "        super(description);"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @param description description of tasks"
+        "content": "        this.at \u003d at;"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @param at refers to location/venue/places"
+        "content": "    }"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public Event(String description, String at) {"
+        "content": "    public String getAt() {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        super(description);"
+        "content": "        return at;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        this.at \u003d at;"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    @Override"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override"
+        "content": "    public String toString() {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String toString() {"
+        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return \"[E]\" + super.toString() + \" (at: \" + at + \")\";"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 27,
+        "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -4530,7 +4236,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 27
+      "wongchuankai": 26
     }
   },
   {
@@ -4724,14 +4430,14 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException, AssertionError {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String output \u003d \"\";"
+        "content": ""
       },
       {
         "lineNumber": 29,
@@ -4745,192 +4451,178 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "        assert eventtask.length \u003e 0 : \" Must input event task\";"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            assert eventtask.length \u003e 0 : \" Must input event task\";"
+        "content": "        if (eventtask.length \u003d\u003d 0) {"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (eventtask.length \u003d\u003d 0) {"
+        "content": "            throw new DukeException(\" ☹ OOPS!!! The description of an Event cannot be empty.\");"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                throw new DukeException(\" ☹ OOPS!!! The description of an Event cannot be empty.\");"
+        "content": "        }"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        String eventString \u003d eventtask[1];"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String eventString \u003d eventtask[1];"
+        "content": "        String[] eventarr \u003d eventString.split(\" /at \");"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String[] eventarr \u003d eventString.split(\" /at \");"
+        "content": "        if (eventarr.length \u003c 2) {"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Got it. I\u0027ve added this task:\\n\");"
+        "content": "            throw new DukeException(\" ☹ OOPS!!! Wrong format. Must be event desc /at place\");"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Event event \u003d new Event(eventarr[0], eventarr[1]);"
+        "content": "        }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            task.addTask(event);"
+        "content": "        String output \u003d \"\";"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int numberOfTask \u003d task.getCount();"
+        "content": "        output +\u003d (\"     Got it. I\u0027ve added this task:\\n\");"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"       \" + event.toString() + \"\\n\");"
+        "content": "        Event event \u003d new Event(eventarr[0], eventarr[1]);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Now you have \" + numberOfTask + \" tasks in the list.\\n\");"
+        "content": "        task.addTask(event);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int checkdone \u003d event.isDone ? 1 : 0;"
+        "content": "        int numberOfTask \u003d task.getCount();"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "        output +\u003d (\"       \" + event.toString() + \"\\n\");"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.appendToFile(checkdone + \"/event/\" + event.description + \"/\" + event.at + System.lineSeparator());"
+        "content": "        output +\u003d (\"     Now you have \" + numberOfTask + \" tasks in the list.\\n\");"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "        int checkdone \u003d event.isDone ? 1 : 0;"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                System.out.println(e);"
+        "content": "        try {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "            String text \u003d checkdone + \"/event/\" + event.description + \"/\" + event.getAt() + System.lineSeparator();"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return output;"
+        "content": "            storage.appendToFile(text);"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (AssertionError e) {"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return e.toString();"
+        "content": "            return \"WRITING ERROR\";"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return e.toString();"
+        "content": "        return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 57,
+        "lineNumber": 55,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -4938,7 +4630,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 57
+      "wongchuankai": 55
     }
   },
   {
@@ -5132,248 +4824,178 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task,Ui ui,Storage storage) {"
+        "content": "    public String execute(TaskList task,Ui ui,Storage storage) throws DukeException, AssertionError {"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String output \u003d \"\";"
+        "content": "        String[] strarr \u003d command.split(\" \");"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        ArrayList\u003cTask\u003e tasklist \u003d task.getTaskList();"
+        "content": "        assert strarr.length \u003e 1 : \" Please input keywords to find\";"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String[] strarr \u003d command.split(\" \");"
+        "content": "        if (strarr.length \u003d\u003d 1) {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "            throw new DukeException(\" Please input keywords to find\");"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            assert strarr.length \u003e 1 : \" Please input keywords to find\";"
+        "content": "        }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (strarr.length \u003d\u003d 1) {"
+        "content": "        String output \u003d \"\";"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                throw new DukeException(\" Please input keywords to find\");"
+        "content": "        String search \u003d strarr[1];"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        output +\u003d (\"     Here are the matching tasks in your list:\\n\");"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String search \u003d strarr[1];"
+        "content": "        boolean none \u003d true;"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     Here are the matching tasks in your list:\\n\");"
+        "content": "        ArrayList\u003cTask\u003e tasklist \u003d task.getTaskList();"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        for (int i \u003d 0; i \u003c tasklist.size(); i++) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            boolean none \u003d true;"
+        "content": "            Task t \u003d tasklist.get(i);"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "            boolean check \u003d t.getDescription().contains(search);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            for (int i \u003d 0; i \u003c tasklist.size(); i++) {"
+        "content": "            if (check) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                Task t \u003d tasklist.get(i);"
+        "content": "                none \u003d false;"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                boolean check \u003d t.getDescription().contains(search);"
+        "content": "                output +\u003d (\"     \" + (i + 1) + \".\" + t.toString() + \"\\n\");"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                if (check) {"
+        "content": "            }"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    none \u003d false;"
+        "content": "        }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    output +\u003d (\"     \" + (i + 1) + \".\" + t.toString() + \"\\n\");"
+        "content": ""
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                }"
+        "content": "        if (none) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "            output +\u003d (\"     Cannot Find any matching task in the list.\\n\");"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (none) {"
+        "content": "        return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                output +\u003d (\"     Cannot Find any matching task in the list.\\n\");"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return output;"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } catch (AssertionError e) {"
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 62,
+        "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -5381,7 +5003,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 62
+      "wongchuankai": 52
     }
   },
   {
@@ -5605,94 +5227,87 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @throws DukeException if any of raw values are invalid"
+        "content": "     */"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "    @Override"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": "        String output \u003d \"\";"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String output \u003d \"\";"
+        "content": "        output +\u003d (\"     Here are the tasks in your list:\\n\");"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        output +\u003d (\"     Here are the tasks in your list:\\n\");"
+        "content": "        for (int i \u003d 0; i \u003c task.getCount(); i++) {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        for (int i \u003d 0; i \u003c task.getCount(); i++) {"
+        "content": "            int number \u003d i + 1;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int number \u003d i + 1;"
+        "content": "            output +\u003d (\"     \" + number + \".\" + task.getTaskList().get(i) + \"\\n\");"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output +\u003d (\"     \" + number + \".\" + task.getTaskList().get(i) + \"\\n\");"
+        "content": "        }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "        return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return output;"
+        "content": "    }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 32,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    "
       },
       {
-        "lineNumber": 33,
+        "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -5700,7 +5315,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 33
+      "wongchuankai": 32
     }
   },
   {
@@ -5719,98 +5334,98 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "import java.util.zip.GZIPInputStream;"
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import javafx.application.Application;"
+        "content": ""
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import javafx.fxml.FXMLLoader;"
+        "content": "import javafx.animation.PauseTransition;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import javafx.scene.Scene;"
+        "content": "import javafx.application.Application;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import javafx.scene.layout.AnchorPane;"
+        "content": "import javafx.fxml.FXMLLoader;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import javafx.stage.Stage;"
+        "content": "import javafx.scene.Scene;"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "import javafx.scene.layout.AnchorPane;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "/**"
+        "content": "import javafx.stage.Stage;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": " * A GUI for Duke using FXML."
+        "content": "import javafx.util.Duration;"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "public class Main extends Application {"
+        "content": "/**"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": " * A GUI for Duke using FXML."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Duke duke \u003d new Duke();"
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private MainWindow mainWindow;"
+        "content": "public class Main extends Application {"
       },
       {
         "lineNumber": 16,
@@ -5824,157 +5439,241 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override"
+        "content": "    private static Stage stage;"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void start(Stage stage) {"
+        "content": "    private Duke duke \u003d new Duke();"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "    private MainWindow mainWindow;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            FXMLLoader fxmlLoader \u003d new FXMLLoader(Main.class.getResource(\"/view/MainWindow.fxml\"));"
+        "content": ""
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            AnchorPane ap \u003d fxmlLoader.load();"
+        "content": "    @Override"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Scene scene \u003d new Scene(ap);"
+        "content": "    public void start(Stage stage) {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            stage.setScene(scene);"
+        "content": "        try {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().setDuke(duke);"
+        "content": "            this.stage \u003d stage;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            stage.show();"
+        "content": "            FXMLLoader fxmlLoader \u003d new FXMLLoader(Main.class.getResource(\"/view/MainWindow.fxml\"));"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            AnchorPane ap \u003d fxmlLoader.load();"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            Scene scene \u003d new Scene(ap);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "            stage.setScene(scene);"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().setDuke(duke);"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "            fxmlLoader.\u003cMainWindow\u003egetController().showWelcome(duke.getUi().showWelcome());"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "            stage.show();"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Runs duke by checking for input and displaying errors."
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "            e.printStackTrace();"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void run() throws DukeException {"
+        "content": "        }"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        duke \u003d new Duke();"
+        "content": "    }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        mainWindow.init(duke);"
+        "content": ""
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        mainWindow.showWelcome();"
+        "content": "    /**"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "     * Runs duke by checking for input and displaying errors."
       },
       {
         "lineNumber": 39,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    public void run() throws DukeException {"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        duke \u003d new Duke();"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        mainWindow.init(duke);"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        mainWindow.showWelcome(\"TEST\");"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "   public static void exitApp() {"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "       PauseTransition exitDelay \u003d new PauseTransition(Duration.seconds(4));"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "       exitDelay.setOnFinished(event -\u003e stage.close());"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "       exitDelay.play();"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "   }"
+      },
+      {
+        "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -5982,7 +5681,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 39
+      "wongchuankai": 51
     }
   },
   {
@@ -6043,49 +5742,49 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "/**"
+        "content": "import javafx.animation.PauseTransition;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": " * Controller for MainWindow. Provides the layout for the other controls."
+        "content": "import javafx.util.Duration;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": " */"
+        "content": "/**"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": " * Controller for MainWindow. Provides the layout for the other controls."
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "public class MainWindow extends AnchorPane {"
+        "content": " */"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @FXML"
+        "content": ""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private ScrollPane scrollPane;"
+        "content": "public class MainWindow extends AnchorPane {"
       },
       {
         "lineNumber": 15,
@@ -6099,7 +5798,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private VBox dialogContainer;"
+        "content": "    private ScrollPane scrollPane;"
       },
       {
         "lineNumber": 17,
@@ -6113,7 +5812,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private TextField userInput;"
+        "content": "    private VBox dialogContainer;"
       },
       {
         "lineNumber": 19,
@@ -6127,332 +5826,381 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Button sendButton;"
+        "content": "    private TextField userInput;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    @FXML"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Duke duke;"
+        "content": "    private Button sendButton;"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Ui ui;"
+        "content": ""
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Image userImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
+        "content": "    private Duke duke;"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private Image dukeImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
+        "content": "    private Ui ui;"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    private Image userImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaUser.png\"));"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @FXML"
+        "content": "    private Image dukeImage \u003d new Image(this.getClass().getResourceAsStream(\"/images/DaDuke.png\"));"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void initialize() {"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());"
+        "content": "    @FXML"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "    public void initialize() {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void setDuke(Duke d) {"
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        duke \u003d d;"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "    public void setDuke(Duke d) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        duke \u003d d;"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void init(Duke d) {"
+        "content": "    }"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        this.duke \u003d d;"
+        "content": ""
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        this.ui \u003d new Ui();"
+        "content": "    public void init(Duke d) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        this.duke \u003d d;"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        this.ui \u003d new Ui();"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * the dialog container. Clears the user input after processing."
+        "content": "    /**"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "     * Creates two dialog boxes, one echoing user input and the other containing Duke\u0027s reply and then appends them to"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @FXML"
+        "content": "     * the dialog container. Clears the user input after processing."
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private void handleUserInput() throws DukeException {"
+        "content": "     */"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String input \u003d userInput.getText();"
+        "content": "    @FXML"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String response \u003d duke.getResponse(input);"
+        "content": "    private void handleUserInput() {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        dialogContainer.getChildren().addAll("
+        "content": "        String input \u003d userInput.getText();"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                DialogBox.getUserDialog(input, userImage),"
+        "content": "        String response \u003d duke.getResponse(input);"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                DialogBox.getDukeDialog(response, dukeImage)"
+        "content": "        dialogContainer.getChildren().addAll("
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        );"
+        "content": "                DialogBox.getUserDialog(input, userImage),"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        userInput.clear();"
+        "content": "                DialogBox.getDukeDialog(response, dukeImage)"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        );"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        userInput.clear();"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void outputError(Exception e) {"
+        "content": "        if (input.equals(\"bye\") || input.equals(\"exit\")) {"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        output(e.getMessage());"
+        "content": "            userInput.setEditable(false);"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "            sendButton.setDisable(true);"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "            Main.exitApp();"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private void output(String message) {"
+        "content": "        }"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        dialogContainer.getChildren().add(DialogBox.getDukeDialog(message, dukeImage));"
+        "content": "    }"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    public void outputError(Exception e) {"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void showWelcome() {"
+        "content": "        output(e.getMessage());"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        output(ui.showWelcome());"
+        "content": "    }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 67,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    private void output(String message) {"
+      },
+      {
+        "lineNumber": 68,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(message, dukeImage));"
+      },
+      {
+        "lineNumber": 69,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    public void showWelcome(String message) {"
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        output(message);"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 74,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -6460,7 +6208,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 67
+      "wongchuankai": 74
     }
   },
   {
@@ -6619,7 +6367,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } else if (command.startsWith(\"bye\")) {"
+        "content": "        } else if (command.startsWith(\"bye\") || command.startsWith(\"exit\")) {"
       },
       {
         "lineNumber": 23,
@@ -6752,7 +6500,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Sort c \u003d new Sort(command);"
+        "content": "            SortCommand c \u003d new SortCommand(command);"
       },
       {
         "lineNumber": 42,
@@ -6766,38 +6514,45 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } else { WrongCommand c \u003d new WrongCommand(command);"
+        "content": "        } else {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return c;"
+        "content": "            WrongCommand c \u003d new WrongCommand(command);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "            return c;"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 48,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 49,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -6805,11 +6560,11 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 48
+      "wongchuankai": 49
     }
   },
   {
-    "path": "src/main/java/Sort.java",
+    "path": "src/main/java/SortCommand.java",
     "fileType": "java",
     "lines": [
       {
@@ -6824,360 +6579,304 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import java.util.Collections;"
+        "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import java.util.Comparator;"
+        "content": "public class SortCommand extends Command {"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import java.util.ArrayList;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    String command;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "public class Sort extends Command{"
+        "content": ""
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    String command;"
+        "content": "     * Command constructor using string user input."
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "     * @param command user String input"
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Command constructor using string user input."
+        "content": "     */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     *"
+        "content": "    public SortCommand(String command) {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @param command user String input"
+        "content": "        super(command);"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "        this.command \u003d command;"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public Sort(String command) {"
+        "content": "    }"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        super(command);"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        this.command \u003d command;"
+        "content": "    @Override"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        String[] getSortingOrder \u003d command.split(\" \");"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override"
+        "content": "        String desc \u003d \"     Here are the tasks in your list:\\n\";"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String[] getSortingOrder \u003d command.split(\" \");"
+        "content": "        if (getSortingOrder.length \u003d\u003d 1) {"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        if (getSortingOrder[1].equals(\"1\") || getSortingOrder[1].equals(\"desc\")) {"
+        "content": "            throw new DukeException(\" sort according to 1(desc) or 2(type)\");"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String desc \u003d \"     Here are the tasks in your list:\\n\";"
+        "content": "        }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            desc +\u003d \"     Sorted according to desc of task.\\n\";"
+        "content": "        try {"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            task.SortByDescription();"
+        "content": "            if (getSortingOrder[1].equals(\"1\") || getSortingOrder[1].equals(\"desc\")) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "                desc +\u003d \"     Sorted according to desc of task.\\n\";"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.WriteToStorage(task);"
+        "content": "                task.sortByDescription();"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "            } else if (getSortingOrder[1].equals(\"2\") || getSortingOrder[1].equals(\"type\")) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                return \"ERROR\";"
+        "content": "                desc +\u003d \"     Sorted according to type of task.\\n\";"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "                task.sortByType();"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            for (int i \u003d 1; i \u003c\u003d task.getCount(); i++) {"
+        "content": "            } else {"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                desc +\u003d \"     \" + i + \".\" + task.getTaskList().get(i - 1) + \"\\n\";"
+        "content": "                String error \u003d \"     Input the correct command.\\n     sort 1/2 only\\n     or sort desc/type only\\n\";"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "                return error;"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return desc;"
+        "content": "            }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        } else if (getSortingOrder[1].equals(\"2\") || getSortingOrder[1].equals(\"type\")) {"
+        "content": "            storage.writeToStorage(task);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String desc \u003d \"     Here are the tasks in your list:\\n\";"
+        "content": "            for (int i \u003d 1; i \u003c\u003d task.getCount(); i++) {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            desc +\u003d \"     Sorted according to type of task.\\n\";"
+        "content": "                desc +\u003d \"     \" + i + \".\" + task.getTaskList().get(i - 1) + \"\\n\";"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            task.SortByType();"
+        "content": "            }"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "            return desc + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.WriteToStorage(task);"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "            return \"WRITING ERROR\";"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                return \"ERROR\";"
+        "content": "        }"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            for (int i \u003d 1; i \u003c\u003d task.getCount(); i++) {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "                desc +\u003d \"     \" + i + \".\" + task.getTaskList().get(i - 1) + \"\\n\";"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return desc;"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        } else {"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return \"     Please Input the correct command.\\n     sort\u003cSPACE\u003e1/2 only\\n     or sort\u003cSPACE\u003edesc/type only\";"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 53,
+        "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -7185,7 +6884,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 53
+      "wongchuankai": 45
     }
   },
   {
@@ -8086,7 +7785,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        if (linenumber \u003e\u003d0) {"
+        "content": "        if (linenumber \u003e\u003d 0) {"
       },
       {
         "lineNumber": 129,
@@ -8212,206 +7911,241 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void WriteToStorage(TaskList taskList) throws IOException {"
+        "content": "    /**"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String write \u003d\"\";"
+        "content": "     * write the correct format of each task to storage according to the type of task."
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        for(int i \u003d 0; i \u003c taskList.getTaskList().size(); i++) {"
+        "content": "     * @param taskList task list"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            Task task \u003d taskList.getTaskList().get(i);"
+        "content": "     * @throws IOException for writing error"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (task instanceof ToDo) {"
+        "content": "     */"
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                boolean checkdone \u003d task.isDone;"
+        "content": "    public void writeToStorage(TaskList taskList) throws IOException {"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                if (checkdone) {"
+        "content": "        String write \u003d \"\";"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    write +\u003d \"1/todo/\" + task.getDescription() + \"\\n\";"
+        "content": "        for (int i \u003d 0; i \u003c taskList.getTaskList().size(); i++) {"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                } else {"
+        "content": "            Task task \u003d taskList.getTaskList().get(i);"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    write +\u003d \"0/todo/\" + task.getDescription() + \"\\n\";"
+        "content": "            if (task instanceof ToDo) {"
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                }"
+        "content": "                boolean checkdone \u003d task.isDone;"
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } else if (task instanceof Deadline) {"
+        "content": "                if (checkdone) {"
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                boolean checkdone \u003d task.isDone;"
+        "content": "                    write +\u003d \"1/todo/\" + task.getDescription() + \"\\n\";"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                if (checkdone) {"
+        "content": "                } else {"
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    write +\u003d \"1/deadline/\"+task.getDescription() + \"/\" + ((Deadline) task).getBy() + \"\\n\";"
+        "content": "                    write +\u003d \"0/todo/\" + task.getDescription() + \"\\n\";"
       },
       {
         "lineNumber": 161,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                } else {"
+        "content": "                }"
       },
       {
         "lineNumber": 162,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    write +\u003d \"0/deadline/\"+task.getDescription() + \"/\" + ((Deadline) task).getBy() + \"\\n\";"
+        "content": "            } else if (task instanceof Deadline) {"
       },
       {
         "lineNumber": 163,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                }"
+        "content": "                boolean checkdone \u003d task.isDone;"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } else {"
+        "content": "                if (checkdone) {"
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                boolean checkdone \u003d task.isDone;"
+        "content": "                    write +\u003d \"1/deadline/\" + task.getDescription() + \"/\" + ((Deadline) task).getBy() + \"\\n\";"
       },
       {
         "lineNumber": 166,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                if (checkdone) {"
+        "content": "                } else {"
       },
       {
         "lineNumber": 167,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    write +\u003d \"1/event/\"+task.getDescription() + \"/\" + ((Event) task).getAt() + \"\\n\";"
+        "content": "                    write +\u003d \"0/deadline/\" + task.getDescription() + \"/\" + ((Deadline) task).getBy() + \"\\n\";"
       },
       {
         "lineNumber": 168,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                } else {"
+        "content": "                }"
       },
       {
         "lineNumber": 169,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                    write +\u003d \"0/event/\"+task.getDescription() + \"/\" + ((Event) task).getAt() + \"\\n\";"
+        "content": "            } else {"
       },
       {
         "lineNumber": 170,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                }"
+        "content": "                boolean checkdone \u003d task.isDone;"
       },
       {
         "lineNumber": 171,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "                if (checkdone) {"
       },
       {
         "lineNumber": 172,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "                    write +\u003d \"1/event/\" + task.getDescription() + \"/\" + ((Event) task).getAt() + \"\\n\";"
       },
       {
         "lineNumber": 173,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        writeToFile(write);"
+        "content": "                } else {"
       },
       {
         "lineNumber": 174,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "                    write +\u003d \"0/event/\" + task.getDescription() + \"/\" + ((Event) task).getAt() + \"\\n\";"
       },
       {
         "lineNumber": 175,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "                }"
+      },
+      {
+        "lineNumber": 176,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 177,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 178,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "        writeToFile(write);"
+      },
+      {
+        "lineNumber": 179,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 180,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -8419,7 +8153,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 175
+      "wongchuankai": 180
     }
   },
   {
@@ -9112,367 +8846,360 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public void deleteAll() {tasklist \u003d new ArrayList\u003c\u003e(); }"
+        "content": "    public void deleteAll() {"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        tasklist \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String SortByDescription() {"
+        "content": "    }"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        Collections.sort(getTaskList(),COMPARE_BY_DESCRIPTION);"
+        "content": ""
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String desc \u003d \"\";"
+        "content": "    /**"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        for(int i \u003d 0; i \u003c getTaskList().size(); i++) {"
+        "content": "     * sort the task in the list according to description alphabetically."
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            desc +\u003d getTaskList().get(i).toString() +\"\\n\";"
+        "content": "     * @return"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "     */"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return desc;"
+        "content": "    public String sortByDescription() {"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "        Collections.sort(getTaskList(), compareByDescription);"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        String desc \u003d \"\";"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String SortByType() {"
+        "content": "        for (int i \u003d 0; i \u003c getTaskList().size(); i++) {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        Collections.sort(getTaskList(),COMPARE_BY_TYPE);"
+        "content": "            desc +\u003d getTaskList().get(i).toString() + \"\\n\";"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String desc \u003d \"\";"
+        "content": "        }"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        for(int i \u003d 0; i \u003c getTaskList().size(); i++) {"
+        "content": "        return desc;"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            desc +\u003d getTaskList().get(i).toString() +\"\\n\";"
+        "content": "    }"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return desc;"
+        "content": "    /**"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "     * sort the task in the list according to type. Todo task first followed by Event task and finally, Deadline task."
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     * @return"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public Comparator\u003cTask\u003e COMPARE_BY_DESCRIPTION \u003d new Comparator\u003cTask\u003e() {"
+        "content": "    public String sortByType() {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        @Override"
+        "content": "        Collections.sort(getTaskList(),compareByType);"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        public int compare(Task o1, Task o2) {"
+        "content": "        String desc \u003d \"\";"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return o1.getDescription().compareTo(o2.getDescription());"
+        "content": "        for (int i \u003d 0; i \u003c getTaskList().size(); i++) {"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
+        "content": "            desc +\u003d getTaskList().get(i).toString() + \"\\n\";"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    };"
+        "content": "        }"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        return desc;"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public Comparator\u003cTask\u003e COMPARE_BY_TYPE \u003d new Comparator\u003cTask\u003e() {"
+        "content": "    }"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        @Override"
+        "content": ""
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        public int compare(Task o1, Task o2) {"
+        "content": "    public Comparator\u003cTask\u003e compareByDescription \u003d (o1, o2) -\u003e o1.getDescription().compareTo(o2.getDescription());"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String TAG1;"
+        "content": ""
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            String TAG2;"
+        "content": "    public Comparator\u003cTask\u003e compareByType \u003d (o1, o2) -\u003e {"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (o1 instanceof ToDo) {"
+        "content": "        String tag1;"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                TAG1 \u003d \"1\";"
+        "content": "        String tag2;"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        if (o1 instanceof ToDo) {"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            else if (o1 instanceof  Event) {"
+        "content": "            tag1 \u003d \"1\";"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                TAG1 \u003d \"2\";"
+        "content": "        } else if (o1 instanceof  Event) {"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } else {"
+        "content": "            tag1 \u003d \"2\";"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                TAG1 \u003d \"3\";"
+        "content": "        } else {"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "            tag1 \u003d \"3\";"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (o2 instanceof ToDo) {"
+        "content": "        }"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                TAG2 \u003d \"1\";"
+        "content": "        if (o2 instanceof ToDo) {"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "            tag2 \u003d \"1\";"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            else if (o2 instanceof  Event) {"
+        "content": "        } else if (o2 instanceof  Event) {"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                TAG2 \u003d \"2\";"
+        "content": "            tag2 \u003d \"2\";"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } else {"
+        "content": "        } else {"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                TAG2 \u003d \"3\";"
+        "content": "            tag2 \u003d \"3\";"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        }"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return TAG1.compareTo(TAG2);"
+        "content": "        return tag1.compareTo(tag2);"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    };"
       },
       {
-        "lineNumber": 107,
+        "lineNumber": 106,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -9480,7 +9207,44 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 107
+      "wongchuankai": 106
+    }
+  },
+  {
+    "path": "src/main/java/Tasklist.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "0/todo/1"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "0/todo/1"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "0/event/e/s"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "wongchuankai"
+        },
+        "content": "0/deadline/homework/24th of February 2019, 11.00pm"
+      }
+    ],
+    "authorContributionMap": {
+      "wongchuankai": 4
     }
   },
   {
@@ -9802,7 +9566,7 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) {"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException,AssertionError {"
       },
       {
         "lineNumber": 27,
@@ -9823,185 +9587,136 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        try {"
+        "content": "        assert todotask.length \u003e 0 : \" Must input todo task\";"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            assert todotask.length \u003e 0:\" Must input todo task\";"
+        "content": "        if (todotask.length \u003d\u003d 0) {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            if (todotask.length \u003d\u003d 0) {"
+        "content": "            throw new DukeException(\" ☹ OOPS!!! The description of a todo cannot be empty.\");"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                throw new DukeException(\" ☹ OOPS!!! The description of a todo cannot be empty.\");"
+        "content": "        }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        output \u003d output + (\"     Got it. I\u0027ve added this task:\\n\");"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output \u003d output + (\"     Got it. I\u0027ve added this task:\\n\");"
+        "content": "        ToDo newToDoTask \u003d new ToDo(todotask[1]);"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            ToDo newToDoTask \u003d new ToDo(todotask[1]);"
+        "content": "        task.addTask(newToDoTask);"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            task.addTask(newToDoTask);"
+        "content": "        int numberOfTask \u003d task.getCount();"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int numberOfTask \u003d task.getCount();"
+        "content": "        output \u003d output + (\"        \" + newToDoTask.toString()) + \"\\n\";"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output \u003d output + (\"        \" + newToDoTask.toString()) + \"\\n\";"
+        "content": "        output \u003d output + (\"     Now you have \" + numberOfTask + \" tasks in the list.\\n\");"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            output \u003d output + (\"     Now you have \" + numberOfTask + \" tasks in the list.\\n\");"
+        "content": "        int checkdone \u003d newToDoTask.isDone ? 1 : 0;"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            int checkdone \u003d newToDoTask.isDone ? 1 : 0;"
+        "content": "        try {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            try {"
+        "content": "            String textToAppend \u003d checkdone + \"/todo/\" + newToDoTask.description + System.lineSeparator();"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                String textToAppend \u003d checkdone + \"/todo/\" + newToDoTask.description + System.lineSeparator();"
+        "content": "            storage.appendToFile(textToAppend);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                storage.appendToFile(textToAppend);"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            } catch (IOException e) {"
+        "content": "            return \"WRITING ERROR\";"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                System.out.println(e);"
+        "content": "        }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            }"
+        "content": "        return output + \"\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "            return output;"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }catch (AssertionError e) {"
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "            return e.toString();"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 55,
+        "lineNumber": 48,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -10009,7 +9724,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 55
+      "wongchuankai": 48
     }
   },
   {
@@ -10021,444 +9736,255 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "import java.util.Scanner;"
+        "content": "/**"
       },
       {
         "lineNumber": 2,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": " * Text Ui of the application."
       },
       {
         "lineNumber": 3,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "/**"
+        "content": " */"
       },
       {
         "lineNumber": 4,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": " * Text Ui of the application."
+        "content": "public class Ui {"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "public class Ui {"
+        "content": "    /** UI interface divider lines.**/"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    private static final String DIVIDER_LINES \u003d \"    ____________________________________________\";"
       },
       {
         "lineNumber": 8,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private final Scanner input;"
+        "content": ""
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    "
+        "content": "    /**"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /** UI interface divider lines.**/"
+        "content": "     * Generates and print the welcome message upon the start of the application."
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    private static final String DIVIDER_LINES \u003d \"    ____________________________________________________________\";"
+        "content": "     */"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "    public String showWelcome() {"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public Ui() {"
+        "content": "        String logo \u003d \" ____        _        \\n\""
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        this.input \u003d new Scanner(System.in);"
+        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Generates and print the welcome message upon the start of the application."
+        "content": "        logo +\u003d (\"Hello! I\u0027m Duke\\n\");"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "        logo +\u003d (\"What can I do for you?\\n\");"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "        return logo;"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String showWelcome() {"
+        "content": "    }"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        String logo \u003d \" ____        _        \\n\""
+        "content": ""
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                + \"|  _ \\\\ _   _| | _____ \\n\""
+        "content": "    /**"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                + \"| | | | | | | |/ / _ \\\\\\n\""
+        "content": "     * show the divider lines."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                + \"| |_| | |_| |   \u003c  __/\\n\""
+        "content": "     */"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "                + \"|____/ \\\\__,_|_|\\\\_\\\\___|\\n\";"
+        "content": "    public String showLine() {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        logo \u003d (\"Hello from\\n\" + logo);"
+        "content": "        return (DIVIDER_LINES);"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        logo \u003d (\"Hello! I\u0027m Duke\");"
+        "content": "    }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        logo \u003d (\"What can I do for you?\");"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return logo;"
+        "content": "    /**"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
+        "content": "     * show loading error."
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    /**"
+        "content": "    public String showLoadingError() {"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * Read user input."
+        "content": "        return (\"Loading Error. New tasklist will be created\");"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @return"
+        "content": "    }"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": ""
       },
       {
         "lineNumber": 37,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    public String readCommand() {"
-      },
-      {
-        "lineNumber": 38,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        String command \u003d input.nextLine();"
-      },
-      {
-        "lineNumber": 39,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        return command;"
-      },
-      {
-        "lineNumber": 40,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 41,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 42,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 43,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * show the divider lines."
-      },
-      {
-        "lineNumber": 44,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 45,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    public String showLine() {"
-      },
-      {
-        "lineNumber": 46,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        return (DIVIDER_LINES);"
-      },
-      {
-        "lineNumber": 47,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 48,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 49,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 50,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * show loading error."
-      },
-      {
-        "lineNumber": 51,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 52,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    public String showLoadingError() {"
-      },
-      {
-        "lineNumber": 53,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        return (\"Loading Error. New tasklist will be created\");"
-      },
-      {
-        "lineNumber": 54,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 55,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 56,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 57,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * shows any error if there is thrown."
-      },
-      {
-        "lineNumber": 58,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     * @param message error message"
-      },
-      {
-        "lineNumber": 59,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 60,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    public String showError(String message) {"
-      },
-      {
-        "lineNumber": 61,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "        return (message);"
-      },
-      {
-        "lineNumber": 62,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 63,
-        "author": {
-          "gitId": "wongchuankai"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 64,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -10466,7 +9992,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 64
+      "wongchuankai": 37
     }
   },
   {
@@ -10639,52 +10165,45 @@
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     * @throws DukeException if any of raw values are invalid"
+        "content": "     */"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "     */"
+        "content": "    @Override"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    @Override"
+        "content": "    public String execute(TaskList task, Ui ui, Storage storage) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    public String execute(TaskList task, Ui ui, Storage storage) throws DukeException {"
+        "content": "        return \"     ☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\\n\" + ui.showLine();"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "        return \"     ☹ OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\";"
+        "content": "    }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "wongchuankai"
         },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 30,
-        "author": {
-          "gitId": "wongchuankai"
-        },
         "content": ""
       },
       {
-        "lineNumber": 31,
+        "lineNumber": 30,
         "author": {
           "gitId": "wongchuankai"
         },
@@ -10692,7 +10211,7 @@
       }
     ],
     "authorContributionMap": {
-      "wongchuankai": 31
+      "wongchuankai": 30
     }
   },
   {

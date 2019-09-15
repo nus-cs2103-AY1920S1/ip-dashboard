@@ -3017,45 +3017,17 @@
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        String response \u003d \"Here are the tasks in your list:\";"
+        "content": "        return ui.showList(taskList);"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        for (int i \u003d 0; i \u003c taskList.getSize(); i++) {"
-      },
-      {
-        "lineNumber": 26,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "            response \u003d response.concat(\"\\n\" + (i + 1) + \". \" + taskList.getTask(i));"
-      },
-      {
-        "lineNumber": 27,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 28,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "        return response;"
-      },
-      {
-        "lineNumber": 29,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 30,
+        "lineNumber": 26,
         "author": {
           "gitId": "Sam-limyr"
         },
@@ -3063,7 +3035,7 @@
       }
     ],
     "authorContributionMap": {
-      "Sam-limyr": 30
+      "Sam-limyr": 26
     }
   },
   {
@@ -6326,262 +6298,192 @@
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        Command command;"
+        "content": "        String instruction \u003d Parser.parseInstruction(input);"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        String instruction \u003d Parser.parseInstruction(input);"
+        "content": "        switch (instruction) {"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        switch (instruction) {"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"bye\":"
+        "content": "            Duke.isExitRunLoop \u003d true;"
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new ByeCommand();"
+        "content": "            return new ByeCommand();"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            Duke.isExitRunLoop \u003d true;"
+        "content": "        case \"list\":"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
+        "content": "            return new ListCommand();"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"list\":"
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new ListCommand();"
+        "content": "            return new DoneCommand(Parser.parseIndex(input));"
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
+        "content": "        case \"delete\":"
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"done\":"
+        "content": "            return new DeleteCommand(Parser.parseIndex(input));"
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new DoneCommand(Parser.parseIndex(input));"
+        "content": "        case \"find\":"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
+        "content": "            return new FindCommand(Parser.parseSearchPhrase(input));"
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"delete\":"
+        "content": "        case \"todo\":"
       },
       {
         "lineNumber": 161,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new DeleteCommand(Parser.parseIndex(input));"
+        "content": "            return new ToDoCommand(Parser.parseToDoDescription(input));"
       },
       {
         "lineNumber": 162,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
+        "content": "        case \"deadline\":"
       },
       {
         "lineNumber": 163,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"find\":"
+        "content": "            String deadlineTaskContent \u003d Parser.parseNonToDoContent(input);"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new FindCommand(Parser.parseSearchPhrase(input));"
+        "content": "            return new DeadlineCommand(Parser.parseNonToDoDescription(deadlineTaskContent),"
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
+        "content": "                    Parser.parseNonToDoTime(deadlineTaskContent));"
       },
       {
         "lineNumber": 166,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"todo\":"
+        "content": "        case \"event\":"
       },
       {
         "lineNumber": 167,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new ToDoCommand(Parser.parseToDoDescription(input));"
+        "content": "            String eventTaskContent \u003d Parser.parseNonToDoContent(input);"
       },
       {
         "lineNumber": 168,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
+        "content": "            return new EventCommand(Parser.parseNonToDoDescription(eventTaskContent),"
       },
       {
         "lineNumber": 169,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        case \"deadline\":"
+        "content": "                    Parser.parseNonToDoTime(eventTaskContent));"
       },
       {
         "lineNumber": 170,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            String deadlineTaskContent \u003d Parser.parseNonToDoContent(input);"
+        "content": "        default:"
       },
       {
         "lineNumber": 171,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            command \u003d new DeadlineCommand(Parser.parseNonToDoDescription(deadlineTaskContent),"
+        "content": "            throw new InvalidInstructionException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 172,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "                    Parser.parseNonToDoTime(deadlineTaskContent));"
+        "content": "        }"
       },
       {
         "lineNumber": 173,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 174,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "        case \"event\":"
-      },
-      {
-        "lineNumber": 175,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "            String eventTaskContent \u003d Parser.parseNonToDoContent(input);"
-      },
-      {
-        "lineNumber": 176,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "            command \u003d new EventCommand(Parser.parseNonToDoDescription(eventTaskContent),"
-      },
-      {
-        "lineNumber": 177,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "                    Parser.parseNonToDoTime(eventTaskContent));"
-      },
-      {
-        "lineNumber": 178,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "            break;"
-      },
-      {
-        "lineNumber": 179,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "        default:"
-      },
-      {
-        "lineNumber": 180,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "            throw new InvalidInstructionException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
-      },
-      {
-        "lineNumber": 181,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 182,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
-        "content": "        return command;"
-      },
-      {
-        "lineNumber": 183,
-        "author": {
-          "gitId": "Sam-limyr"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 184,
+        "lineNumber": 174,
         "author": {
           "gitId": "Sam-limyr"
         },
@@ -6589,7 +6491,7 @@
       }
     ],
     "authorContributionMap": {
-      "Sam-limyr": 184
+      "Sam-limyr": 174
     }
   },
   {
@@ -8131,73 +8033,129 @@
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": ""
+        "content": "    "
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "    public String showAfterAddingTask(Task currentTask, int currentSize) {"
+        "content": "    public String showList(TaskList taskList) {"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        return \"Got it. I\u0027ve added this task:\\n  \" + currentTask.toString() + \"\\nNow you have \" + currentSize"
+        "content": "        String response \u003d \"Here are the tasks in your list:\";"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "                + \" tasks in the list.\";"
+        "content": "        for (int i \u003d 0; i \u003c taskList.getSize(); i++) {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "    }"
+        "content": "            response \u003d response.concat(\"\\n\" + (i + 1) + \". \" + taskList.getTask(i));"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "    "
+        "content": "        }"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "    public String showAfterDeletingTask(Task currentTask, int currentSize) {"
+        "content": "        return response;"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "        return \"Got it. I\u0027ve removed this task:\\n  \" + currentTask.toString() + \"\\nNow you have \" + currentSize"
+        "content": "    }"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "                + \" tasks in the list.\";"
+        "content": ""
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "Sam-limyr"
         },
-        "content": "    }"
+        "content": "    public String showAfterAddingTask(Task currentTask, int currentSize) {"
       },
       {
         "lineNumber": 73,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "        return \"Got it. I\u0027ve added this task:\\n  \" + currentTask.toString() + \"\\nNow you have \" + currentSize"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "                + \" tasks in the list.\";"
+      },
+      {
+        "lineNumber": 75,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 76,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "    "
+      },
+      {
+        "lineNumber": 77,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "    public String showAfterDeletingTask(Task currentTask, int currentSize) {"
+      },
+      {
+        "lineNumber": 78,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "        return \"Got it. I\u0027ve removed this task:\\n  \" + currentTask.toString() + \"\\nNow you have \" + currentSize"
+      },
+      {
+        "lineNumber": 79,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "                + \" tasks in the list.\";"
+      },
+      {
+        "lineNumber": 80,
+        "author": {
+          "gitId": "Sam-limyr"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 81,
         "author": {
           "gitId": "Sam-limyr"
         },
@@ -8205,7 +8163,7 @@
       }
     ],
     "authorContributionMap": {
-      "Sam-limyr": 73
+      "Sam-limyr": 81
     }
   },
   {

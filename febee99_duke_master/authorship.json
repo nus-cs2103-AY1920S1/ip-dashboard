@@ -7087,7 +7087,7 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "    private static String[] getNameAndDate(String fullCommand) throws DukeException {"
+        "content": "    static String[] getNameAndDate(String fullCommand) throws DukeException {"
       },
       {
         "lineNumber": 79,
@@ -7213,7 +7213,7 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "    private static String[] parseToDoDetails(String taskType, String nameAndDate) throws DukeException {"
+        "content": "    static String[] parseToDoDetails(String taskType, String nameAndDate) throws DukeException {"
       },
       {
         "lineNumber": 97,
@@ -7269,7 +7269,7 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "    private static String[] parseDeadlineDetails(String taskType, String nameAndDate) throws DukeException {"
+        "content": "    static String[] parseDeadlineDetails(String taskType, String nameAndDate) throws DukeException {"
       },
       {
         "lineNumber": 105,
@@ -11502,7 +11502,7 @@
     }
   },
   {
-    "path": "src/test/java/duke/command/AddCommandTest.java",
+    "path": "src/test/java/duke/parser/ParserTest.java",
     "fileType": "java",
     "lines": [
       {
@@ -11510,7 +11510,7 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "package duke.command;"
+        "content": "package duke.parser;"
       },
       {
         "lineNumber": 2,
@@ -11531,21 +11531,21 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "import duke.parser.Parser;"
+        "content": "import org.junit.jupiter.api.Test;"
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "febee99"
         },
-        "content": "import org.junit.jupiter.api.Test;"
+        "content": ""
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "import static org.junit.jupiter.api.Assertions.assertArrayEquals;"
       },
       {
         "lineNumber": 7,
@@ -11559,21 +11559,21 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "import static org.junit.jupiter.api.Assertions.fail;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "febee99"
         },
-        "content": "public class AddCommandTest {"
+        "content": ""
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "public class ParserTest {"
       },
       {
         "lineNumber": 11,
@@ -11587,119 +11587,119 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "    // Test to-do Formats"
+        "content": "    @Test"
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "    public void getNameAndDate_ToDo_parsedCorrectly() {"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_normalToDo_parsedCorrectly() {"
+        "content": "        try {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "            assertArrayEquals(new String[]{\"assignment 1\"},"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            assertEquals(\"Make the bed\","
+        "content": "                Parser.getNameAndDate(\"todo assignment 1\"));"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "febee99"
         },
-        "content": "                    ((AddCommand) Parser.parse(\"todo Make the bed\")).parseDescription());"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            fail();"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            System.err.println(e);"
+        "content": "        }"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    @Test"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "    public void getNameAndDate_ToDo_exceptionThrown() {"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_emptyToDo_exceptionThrown() {"
+        "content": "        try {"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "            Parser.getNameAndDate(\"todo \");"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            ((AddCommand) Parser.parse(\"todo\")).parseDescription();"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            String expected \u003d \u0027\\u2639\u0027 + \" OOPS!!! The description of a todo cannot be empty.\""
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            String expected \u003d \"☹ OOPS!!! The description of a todo cannot be empty\";"
+        "content": "                + \" Please try again with the following format...\\ne.g. todo make bed\";"
       },
       {
         "lineNumber": 29,
@@ -11734,336 +11734,336 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    @Test"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    // Test Deadline Formats"
+        "content": "    public void getNameAndDate_Deadline_parsedCorrectly() {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "        try {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_emptyDeadline_exceptionThrown() {"
+        "content": "            assertArrayEquals(new String[]{\"Make the bed \", \" tomorrow\"},"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "                    Parser.getNameAndDate(\"deadline Make the bed /by tomorrow\"));"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            ((AddCommand) Parser.parse(\"deadline\")).parseDescription(\"/by\");"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            fail();"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            String expected \u003d \"☹ OOPS!!! The description of a deadline cannot be empty\";"
+        "content": "        }"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            assertEquals(expected, e.getMessage());"
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": "    @Test"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    public void getNameAndDate_Deadline_exceptionThrown() {"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    // Test Event Formats"
+        "content": "        try {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "            Parser.getNameAndDate(\"deadline \");"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_normalEvent_parsedCorrectly() {"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "            String expected \u003d \u0027\\u2639\u0027 + \" OOPS!!! The description of a deadline cannot be empty.\""
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            assertEquals(\"Make the bed \","
+        "content": "                    + \" Please try again with the following format...\\ne.g. deadline assignment 3 /by 11/12/2019 1500\";"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "febee99"
         },
-        "content": "                    ((AddCommand) Parser.parse(\"event Make the bed /at 2/2/2019\")).parseDescription(\"/at\"));"
+        "content": "            assertEquals(expected, e.getMessage());"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "        }"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            System.err.println(e);"
+        "content": "    }"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": "    @Test"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    public void getNameAndDate_Event_parsedCorrectly() {"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "        try {"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_emptyEvent_exceptionThrown() {"
+        "content": "            assertArrayEquals(new String[]{\"Gala dinner \", \" today - tomorrow\"},"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "                    Parser.getNameAndDate(\"event Gala dinner /at today - tomorrow\"));"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            ((AddCommand) Parser.parse(\"event\")).parseDescription(\"/at\");"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "            fail();"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            String expected \u003d \"☹ OOPS!!! The description of a event cannot be empty\";"
+        "content": "        }"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            assertEquals(expected, e.getMessage());"
+        "content": "    }"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": "    @Test"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    public void getNameAndDate_Event_exceptionThrown() {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "        try {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_incorrectEvent_exceptionThrown() {"
+        "content": "            Parser.getNameAndDate(\"event \");"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            ((AddCommand) Parser.parse(\"event Make the bed\")).parseDescription(\"/at\");"
+        "content": "            String expected \u003d \u0027\\u2639\u0027 + \" OOPS!!! The description of a event cannot be empty.\""
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        } catch (DukeException e) {"
+        "content": "                    + \" Please try again with the following format...\""
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            String expected \u003d \"☹ OOPS!!! Incorrect format. \\nPlease try again with the format below: \\n\""
+        "content": "                    + \"\\ne.g. event assignment 3 /at 11/12/2019 1500 - 12/12/2019 2000\";"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "febee99"
         },
-        "content": "                    + \"event ($task_name) /at ($date/day)\";"
+        "content": "            assertEquals(expected, e.getMessage());"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            assertEquals(expected, e.getMessage());"
+        "content": "        }"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    @Test"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "    public void parseToDoDetails_parsedCorrectly() {"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void parseDescription_incompleteEvent_exceptionThrown() {"
+        "content": "        try {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        try {"
+        "content": "            assertArrayEquals(new String[]{\"Make the bed\"},"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            ((AddCommand) Parser.parse(\"event Make the bed /at\")).parseDescription(\"/at\");"
+        "content": "                    Parser.parseToDoDetails(\"todo\", \"Make the bed\"));"
       },
       {
         "lineNumber": 81,
@@ -12077,185 +12077,38 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "            String expected \u003d \"☹ OOPS!!! Incorrect format. \\nPlease try again with the format below: \\n\""
+        "content": "            fail();"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "febee99"
         },
-        "content": "                    + \"event ($task_name) /at ($date/day)\";"
+        "content": "        }"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "febee99"
         },
-        "content": "            assertEquals(expected, e.getMessage());"
+        "content": "    }"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 87,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    // Test Parsing of Dates for Deadlines and Events"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    @Test"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    public void parseDate_AcceptedDateFormat_parsedCorrectly() {"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "            assertEquals(\"Sat, 2 Feb 2019, 08:00 PM\","
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "                    ((AddCommand) Parser.parse(\"deadline Make the bed /by 2/2/2019 2000\")).parseDate());"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "        } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "            System.err.println(e);"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    @Test"
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    public void parseDate_StringDateFormat_parsedCorrectly() {"
-      },
-      {
-        "lineNumber": 101,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 102,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "            assertEquals(\"2/2/2019 8pm\","
-      },
-      {
-        "lineNumber": 103,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "                    ((AddCommand) Parser.parse(\"deadline Make the bed /by 2/2/2019 8pm\")).parseDate());"
-      },
-      {
-        "lineNumber": 104,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "        } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 105,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "            System.err.println(e);"
-      },
-      {
-        "lineNumber": 106,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 107,
-        "author": {
-          "gitId": "febee99"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 108,
         "author": {
           "gitId": "febee99"
         },
@@ -12263,7 +12116,7 @@
       }
     ],
     "authorContributionMap": {
-      "febee99": 108
+      "febee99": 87
     }
   },
   {
@@ -12303,21 +12156,21 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
+        "content": "import java.text.SimpleDateFormat;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "import java.util.Calendar;"
       },
       {
         "lineNumber": 7,
         "author": {
           "gitId": "febee99"
         },
-        "content": "public class DeadlineTest {"
+        "content": "import java.util.Date;"
       },
       {
         "lineNumber": 8,
@@ -12331,94 +12184,178 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "import static org.junit.jupiter.api.Assertions.assertEquals;"
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void toString_normalDeadline_convertedCorrectly() {"
+        "content": ""
       },
       {
         "lineNumber": 11,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        assertEquals(\"[D][✘] Quiz 1 (by: tomorrow)\","
+        "content": "public class DeadlineTest {"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "febee99"
         },
-        "content": "                new Deadline(\"Quiz 1\", \"tomorrow\").toString());"
+        "content": ""
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": "    @Test"
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "    public void toString_normalDeadline_convertedCorrectly() {"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "        Calendar cal \u003d Calendar.getInstance();"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    @Test"
+        "content": "        cal.setTime(new Date());"
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    public void toStore_normalDeadline_convertedCorrectly() {"
+        "content": "        cal.add(Calendar.DAY_OF_YEAR, 1);"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "febee99"
         },
-        "content": "        assertEquals(\"D|0|Quiz 1|tomorrow\","
+        "content": "        Date tomorrow \u003d cal.getTime();"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "febee99"
         },
-        "content": "                new Deadline(\"Quiz 1\", \"tomorrow\").toStore());"
+        "content": "        assertEquals(\"[D][\" + \u0027\\u2718\u0027 + \"] Quiz 1\\n(by: \""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "febee99"
         },
-        "content": "    }"
+        "content": "                + new SimpleDateFormat(\"EEE, d MMM yyyy, hh:mm a\").format(tomorrow) + \")\","
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "febee99"
         },
-        "content": ""
+        "content": "                new Deadline(\"Quiz 1\", tomorrow).toString());"
       },
       {
         "lineNumber": 22,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "    @Test"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "    public void toStore_normalDeadline_convertedCorrectly() {"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "        Calendar cal \u003d Calendar.getInstance();"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "        cal.setTime(new Date());"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "        cal.add(Calendar.DAY_OF_YEAR, 1);"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "        Date tomorrow \u003d cal.getTime();"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "        assertEquals(\"D|0|Quiz 1|\" + new SimpleDateFormat(\"EEE, d MMM yyyy, hh:mm a\").format(tomorrow),"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "                new Deadline(\"Quiz 1\", tomorrow).toStore());"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "febee99"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
         "author": {
           "gitId": "febee99"
         },
@@ -12426,7 +12363,7 @@
       }
     ],
     "authorContributionMap": {
-      "febee99": 22
+      "febee99": 34
     }
   },
   {
@@ -12508,7 +12445,7 @@
         "author": {
           "gitId": "febee99"
         },
-        "content": "        assertEquals(\"[T][✘] Quiz 1\", new ToDo(\"Quiz 1\").toString());"
+        "content": "        assertEquals(\"[T][\" + \u0027\\u2718\u0027 + \"] Quiz 1\", new ToDo(\"Quiz 1\").toString());"
       },
       {
         "lineNumber": 12,

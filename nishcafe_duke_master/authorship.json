@@ -2506,22 +2506,6 @@
     }
   },
   {
-    "path": "src/main/java/data/duke.txt",
-    "fileType": "txt",
-    "lines": [
-      {
-        "lineNumber": 1,
-        "author": {
-          "gitId": "nishcafe"
-        },
-        "content": ""
-      }
-    ],
-    "authorContributionMap": {
-      "nishcafe": 1
-    }
-  },
-  {
     "path": "src/main/java/task/Deadline.java",
     "fileType": "java",
     "lines": [
@@ -3052,7 +3036,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String getStatusIcon() {"
+        "content": "    protected String getStatusIcon() {"
       },
       {
         "lineNumber": 19,
@@ -3914,7 +3898,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            assert command.isEmpty() : \"Command cannot be empty\";"
+        "content": "            assert command.isEmpty() : \"Input cannot be empty\";"
       },
       {
         "lineNumber": 28,
@@ -3956,14 +3940,14 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    dukeText \u003d this.ui.bye();"
+        "content": "                    this.storage.close(this.commands);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    this.storage.close(this.commands);"
+        "content": "                    dukeText \u003d this.ui.bye();"
       },
       {
         "lineNumber": 35,
@@ -3977,7 +3961,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    dukeText \u003d this.ui.list() + \"\\n\" + this.commands.list();"
+        "content": "                    dukeText \u003d this.ui.list(this.commands);"
       },
       {
         "lineNumber": 37,
@@ -3991,591 +3975,661 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    try {"
+        "content": "                    dukeText \u003d parseDone(inputArr);"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        int index \u003d Integer.parseInt(inputArr[1]) - 1;"
+        "content": "                } else if (userCommand.equals(\"deadline\")) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        try {"
+        "content": "                    dukeText \u003d parseTask(command, \"d\");"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            Task doneTask \u003d this.commands.done(index);"
+        "content": "                } else if (userCommand.equals(\"event\")) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            dukeText \u003d this.ui.done(doneTask);"
+        "content": "                    dukeText \u003d parseTask(command, \"e\");"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            storage.done(doneTask, index + 1);"
+        "content": "                } else if (userCommand.equals(\"todo\")) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        } catch (IndexOutOfBoundsException e) {"
+        "content": "                    dukeText \u003d parseTask(command, \"t\");"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            throw new DukeException(\"OOPS!!! Index for done does not exist in the list.\");"
+        "content": "                } else if (userCommand.equals(\"delete\")) {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        }"
+        "content": "                    dukeText \u003d parseDelete(inputArr);"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "                } else if (userCommand.equals(\"find\")) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        throw new DukeException(\"OOPS!!! Index for done cannot be empty.\");"
+        "content": "                    dukeText \u003d parseFind(inputArr);"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "                } else {"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (userCommand.equals(\"deadline\")) {"
+        "content": "                    throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    try {"
+        "content": "                }"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        String dL \u003d command.split(\" \", 2)[1];"
+        "content": "            } catch (DukeException e) {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        try {"
+        "content": "                dukeText \u003d e.getMessage();"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            String[] taskDeadLine \u003d dL.split(\" /by \");"
+        "content": "            }"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            String taskD \u003d taskDeadLine[0];"
+        "content": ""
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            String by \u003d taskDeadLine[1];"
+        "content": "            return dukeText;"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            Task tt \u003d new Deadline(taskD, new DateTime(by));"
+        "content": ""
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            this.commands.add(tt);"
+        "content": "    }"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            dukeText \u003d this.ui.addTask(tt, this.commands.size());"
+        "content": ""
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            storage.save(tt);"
+        "content": "    private String parseTask(String command, String type) throws DukeException {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            throw new DukeException(\"OOPS!!! The format for deadline is wrong. Please follow: \u003cdescription\u003e /by \u003ctime\u003e\");"
+        "content": "            String taskString \u003d command.split(\" \", 2)[1];"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        }"
+        "content": "            String delimiter \u003d \"\";"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "            Task tt \u003d null;"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        throw new DukeException(\"OOPS!!! The description of deadline cannot be empty.\");"
+        "content": "            if (type.equals(\"e\")) {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "                delimiter \u003d \" /at \";"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (userCommand.equals(\"event\")) {"
+        "content": "            } else if (type.equals(\"d\")) {"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    try {"
+        "content": "                delimiter \u003d \" /by \";"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        String eEvent \u003d command.split(\" \", 2)[1];"
+        "content": "            } else {"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        try {"
+        "content": "                tt \u003d new Todo(taskString);"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            String[] taskEvent \u003d eEvent.split(\" /at \");"
+        "content": "            }"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            String taskE \u003d taskEvent[0];"
+        "content": "            try {"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            String at \u003d taskEvent[1];"
+        "content": "                String[] taskArr \u003d taskString.split(delimiter);"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            Task ee \u003d new Event(taskE, new DateTime(at));"
+        "content": "                String des \u003d taskArr[0];"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            this.commands.add(ee);"
+        "content": "                String dateTime \u003d taskArr[1];"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            dukeText \u003d this.ui.addTask(ee, this.commands.size());"
+        "content": "                if (type.equals(\"e\")) {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            storage.save(ee);"
+        "content": "                    tt \u003d new Event(des, new DateTime(dateTime));"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "                } else if (type.equals(\u0027d\u0027)) {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            throw new DukeException(\"OOPS!!! The format for event is wrong. Please follow: \u003cdescription\u003e /at \u003ctime\u003e\");"
+        "content": "                    tt \u003d new Deadline(des, new DateTime(dateTime));"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        }"
+        "content": "                }"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "                this.commands.add(tt);"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        throw new DukeException(\"OOPS!!! The description of event cannot be empty.\");"
+        "content": "                storage.save(tt);"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "                return this.ui.addTask(tt, this.commands.size());"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (userCommand.equals(\"todo\")) {"
+        "content": "            } catch (ArrayIndexOutOfBoundsException e) {"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    try {"
+        "content": "                String messageError \u003d type.equals(\"d\") ? \"OOPS!!! The format for deadline is wrong. Please follow: \u003cdescription\u003e /by \u003ctime\u003e\""
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        String todoT \u003d command.split(\" \", 2)[1];"
+        "content": "                                                       : type.equals(\"e\") ? \"OOPS!!! The format for event is wrong. Please follow: \u003cdescription\u003e /at \u003ctime\u003e\""
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        Task t \u003d new Todo(todoT);"
+        "content": "                                                                          : \"OOPS!!! The description of a todo cannot be empty.\";"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        this.commands.add(t);"
+        "content": "                throw new DukeException(messageError);"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        dukeText \u003d this.ui.addTask(t, this.commands.size());"
+        "content": "            }"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        storage.save(t);"
+        "content": "        } catch (ArrayIndexOutOfBoundsException e){"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "            throw new DukeException(\"OOPS!! Description for the task cannot be empty.\");"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        throw new DukeException(\"OOPS!!! The description of a todo cannot be empty.\");"
+        "content": "        }"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "    }"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (userCommand.equals(\"delete\")) {"
+        "content": ""
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    try {"
+        "content": "    private String parseDelete(String[] inputArr) throws DukeException {"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        int i \u003d Integer.parseInt(inputArr[1]) - 1;"
+        "content": "        try {"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        assert i \u003c\u003d commands.size() : \"Index for delete is out of bounds\";"
+        "content": "            int i \u003d Integer.parseInt(inputArr[1]) - 1;"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        try {"
+        "content": "            assert i \u003c\u003d commands.size() : \"Index for delete is out of bounds\";"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            Task tt \u003d this.commands.delete(i);"
+        "content": "            try {"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            dukeText \u003d this.ui.delete(tt, this.commands.size());"
+        "content": "                Task tt \u003d this.commands.delete(i);"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            storage.delete(i + 1);"
+        "content": "                storage.delete(i + 1);"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        } catch (IndexOutOfBoundsException e) {"
+        "content": "                return this.ui.delete(tt, this.commands.size());"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                            throw new DukeException(\"OOPS!!! Index for delete does not exist in the list.\");"
+        "content": "            } catch (IndexOutOfBoundsException e) {"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        }"
+        "content": "                throw new DukeException(\"OOPS!!! Index for delete does not exist in the list.\");"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    } catch (ArrayIndexOutOfBoundsException e) {"
+        "content": "            }"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        throw new DukeException(\"OOPS!!! Index for delete cannot be empty.\");"
+        "content": "        } catch (ArrayIndexOutOfBoundsException e) {"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "            throw new DukeException(\"OOPS!!! Index for delete cannot be empty.\");"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (userCommand.equals(\"find\")) {"
+        "content": "        }"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    assert inputArr.length \u003e 1 : \"Missing word to find\";"
+        "content": "    }"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    String word \u003d inputArr[1];"
+        "content": ""
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    dukeText \u003d this.ui.find() + \"\\n\" + this.commands.find(word);"
+        "content": "    private String parseFind(String[] inputArr) {"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else {"
+        "content": "        assert inputArr.length \u003c 2 : \"Missing word to find\";"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "        String word \u003d inputArr[1];"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                }"
+        "content": "        return this.ui.find() + \"\\n\" + this.commands.find(word);"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            } catch (DukeException e) {"
+        "content": "    }"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                dukeText \u003d e.getMessage();"
+        "content": ""
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            }"
+        "content": "    private String parseDone(String[] inputArr) throws DukeException {"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "        try {"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            return dukeText;"
+        "content": "            int index \u003d Integer.parseInt(inputArr[1]) - 1;"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "            try {"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "                Task doneTask \u003d this.commands.done(index);"
       },
       {
         "lineNumber": 122,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "                this.storage.done(doneTask, index + 1);"
+      },
+      {
+        "lineNumber": 123,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "                return this.ui.done(doneTask);"
+      },
+      {
+        "lineNumber": 124,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "            } catch (IndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 125,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "                throw new DukeException(\"OOPS!!! Index for done does not exist in the list.\");"
+      },
+      {
+        "lineNumber": 126,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 127,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "        } catch (ArrayIndexOutOfBoundsException e) {"
+      },
+      {
+        "lineNumber": 128,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! Index for done cannot be empty.\");"
+      },
+      {
+        "lineNumber": 129,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 130,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 131,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 132,
         "author": {
           "gitId": "nishcafe"
         },
@@ -4583,7 +4637,7 @@
       }
     ],
     "authorContributionMap": {
-      "nishcafe": 122
+      "nishcafe": 132
     }
   },
   {
@@ -4784,934 +4838,976 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            e.printStackTrace();"
+        "content": "//            e.printStackTrace();"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "            System.out.println(\"Error occurred creating new storage object.\");"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Loads tasks from the .txt file"
+        "content": "    /**"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param commands"
+        "content": "     * Loads tasks from the .txt file"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @return the updated array list of tasks"
+        "content": "     * @param commands"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "     * @return the updated array list of tasks"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public ArrayList\u003cTask\u003e load(ArrayList\u003cTask\u003e commands) {"
+        "content": "     */"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        try {"
+        "content": "    public ArrayList\u003cTask\u003e load(ArrayList\u003cTask\u003e commands) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileReader fr \u003d new FileReader(this.filePath);"
+        "content": "        try {"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
+        "content": "            FileReader fr \u003d new FileReader(this.filePath);"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            String x;"
+        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            int counter \u003d 1;"
+        "content": "            String x;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            while((x \u003d br.readLine()) !\u003d null) {"
+        "content": "            int counter \u003d 1;"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                if (counter \u003d\u003d 1) {"
+        "content": "            while((x \u003d br.readLine()) !\u003d null) {"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    System.out.println(\"Here are the tasks in your list:\");"
+        "content": "                if (counter \u003d\u003d 1) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                }"
+        "content": "                    System.out.println(\"Here are the tasks in your list:\");"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                String[] data \u003d x.split(\"/\");"
+        "content": "                }"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                if (data[0].equals(\"T\")) {"
+        "content": "                String[] data \u003d x.split(\"/\");"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    Todo t \u003d new Todo(data[2]);"
+        "content": "                if (data[0].equals(\"T\")) {"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    if (data[1].equals(\"1\")) {"
+        "content": "                    Todo t \u003d new Todo(data[2]);"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        t.markAsDone();"
+        "content": "                    if (data[1].equals(\"1\")) {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "                        t.markAsDone();"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    commands.add(t);"
+        "content": "                    }"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    System.out.println(counter + \". \" + t);"
+        "content": "                    commands.add(t);"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    counter++;"
+        "content": "                    System.out.println(counter + \". \" + t);"
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (data[0].equals(\"D\")) {"
+        "content": "                    counter++;"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    Deadline d \u003d new Deadline(data[2], new DateTime(data[3]));"
+        "content": "                } else if (data[0].equals(\"D\")) {"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    if (data[1].equals(\"1\")) {"
+        "content": "                    Deadline d \u003d new Deadline(data[2], new DateTime(data[3]));"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        d.markAsDone();"
+        "content": "                    if (data[1].equals(\"1\")) {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "                        d.markAsDone();"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    commands.add(d);"
+        "content": "                    }"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    System.out.println(counter + \". \" + d);"
+        "content": "                    commands.add(d);"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    counter++;"
+        "content": "                    System.out.println(counter + \". \" + d);"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else if (data[0].equals(\"E\")){"
+        "content": "                    counter++;"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    Event e \u003d new Event(data[2], new DateTime(data[3]));"
+        "content": "                } else if (data[0].equals(\"E\")){"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    if (data[1].equals(\"1\")) {"
+        "content": "                    Event e \u003d new Event(data[2], new DateTime(data[3]));"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                        e.markAsDone();"
+        "content": "                    if (data[1].equals(\"1\")) {"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    }"
+        "content": "                        e.markAsDone();"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    commands.add(e);"
+        "content": "                    }"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    System.out.println(counter + \". \" + e);"
+        "content": "                    commands.add(e);"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    counter++;"
+        "content": "                    System.out.println(counter + \". \" + e);"
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                }"
+        "content": "                    counter++;"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            }"
+        "content": "                }"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            }"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            e.printStackTrace();"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "//            e.printStackTrace();"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "            System.out.println(\"Error occurred loading tasks from file\");"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return commands;"
+        "content": "        }"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "        return commands;"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": "    }"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Saves the latest task in the .txt file"
+        "content": ""
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param Task t"
+        "content": "    /**"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "     * Saves the latest task in the .txt file"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public void save(Task t) {"
+        "content": "     * @param Task t"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            this.fw.append(t.storageString() + System.lineSeparator());"
+        "content": "     protected void save(Task t) {"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            this.fw.append(t.storageString() + System.lineSeparator());"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "//            e.printStackTrace();"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "            System.out.println(\"Error occurred saving task to file.\");"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public void delete(int i) {"
+        "content": "        }"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        try {"
+        "content": "    }"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileReader fr \u003d new FileReader(filePath);"
+        "content": ""
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
+        "content": "    protected void delete(int i) {"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileWriter ff \u003d new FileWriter(\"src/main/java/data/temp.txt\", true);"
+        "content": "        try {"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            int j \u003d 1;"
+        "content": "            FileReader fr \u003d new FileReader(filePath);"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            String x;"
+        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            while ((x \u003d br.readLine()) !\u003d null) {"
+        "content": "            FileWriter ff \u003d new FileWriter(\"src/main/java/data/temp.txt\", true);"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                if (i !\u003d j) {"
+        "content": "            int j \u003d 1;"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    ff.write(x + System.lineSeparator());"
+        "content": "            String x;"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    ff.flush();"
+        "content": "            while ((x \u003d br.readLine()) !\u003d null) {"
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                }"
+        "content": "                if (i !\u003d j) {"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                j++;"
+        "content": "                    ff.write(x + System.lineSeparator());"
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            }"
+        "content": "                    ff.flush();"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            ff.close();"
+        "content": "                }"
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            Files.copy(Paths.get(\"src/main/java/data/temp.txt\"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);"
+        "content": "                j++;"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            Files.delete(Paths.get(\"src/main/java/data/temp.txt\"));"
+        "content": "            }"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            ff.close();"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            Files.copy(Paths.get(\"src/main/java/data/temp.txt\"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "            Files.delete(Paths.get(\"src/main/java/data/temp.txt\"));"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "//            e.printStackTrace();"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": "            System.out.println(\"Error occurred deleting task in file\");"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Changes the status of task from not done to done"
+        "content": "        }"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param t"
+        "content": "    }"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param index"
+        "content": ""
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public void done(Task t, int index) {"
+        "content": "     * Changes the status of task from not done to done"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        try {"
+        "content": "     * @param t"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileReader fr \u003d new FileReader(filePath);"
+        "content": "     * @param index"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
+        "content": "     */"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileWriter ff \u003d new FileWriter(\"src/main/java/data/temp.txt\", true);"
+        "content": "    protected void done(Task t, int index) {"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            String x;"
+        "content": "        try {"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            int i \u003d 1;"
+        "content": "            FileReader fr \u003d new FileReader(filePath);"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            while ((x \u003d br.readLine()) !\u003d null) {"
+        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                if (i \u003d\u003d index) {"
+        "content": "            FileWriter ff \u003d new FileWriter(\"src/main/java/data/temp.txt\", true);"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    ff.write(t.storageString() + System.lineSeparator());"
+        "content": "            String x;"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                } else {"
+        "content": "            int i \u003d 1;"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    ff.write(x + System.lineSeparator());"
+        "content": "            while ((x \u003d br.readLine()) !\u003d null) {"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                }"
+        "content": "                if (i \u003d\u003d index) {"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                i++;"
+        "content": "                    ff.write(t.storageString() + System.lineSeparator());"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            }"
+        "content": "                } else {"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            ff.close();"
+        "content": "                    ff.write(x + System.lineSeparator());"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            Files.copy(Paths.get(\"src/main/java/data/temp.txt\"), Paths.get(\"src/main/java/data/duke.txt\"), StandardCopyOption.REPLACE_EXISTING);"
+        "content": "                }"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            Files.delete(Paths.get(\"src/main/java/data/temp.txt\"));"
+        "content": "                i++;"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "            }"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            ff.close();"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "            Files.copy(Paths.get(\"src/main/java/data/temp.txt\"), Paths.get(\"src/main/java/data/duke.txt\"), StandardCopyOption.REPLACE_EXISTING);"
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "            Files.delete(Paths.get(\"src/main/java/data/temp.txt\"));"
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public void close(TaskList tasks) {"
+        "content": "//            e.printStackTrace();"
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        try {"
+        "content": "            System.out.println(\"Error occurred updating status of task.\");"
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileReader fr \u003d new FileReader(filePath);"
+        "content": "        }"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
+        "content": "    }"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            FileWriter ff \u003d new FileWriter(\"src/main/java/data/temp.txt\", true);"
+        "content": ""
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            String x;"
+        "content": "    public void close(TaskList tasks) {"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            for (Task t : tasks.commands) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    ff.write(t.storageString() + System.lineSeparator());"
+        "content": "            FileReader fr \u003d new FileReader(filePath);"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                    ff.flush();"
+        "content": "            BufferedReader br \u003d new BufferedReader(fr);"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            }"
+        "content": "            FileWriter ff \u003d new FileWriter(\"src/main/java/data/temp.txt\", true);"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            ff.close();"
+        "content": "            String x;"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            Files.copy(Paths.get(\"src/main/java/data/temp.txt\"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);"
+        "content": "            for (Task t : tasks.getList()) {"
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            Files.delete(Paths.get(\"src/main/java/data/temp.txt\"));"
+        "content": "                    ff.write(t.storageString() + System.lineSeparator());"
       },
       {
         "lineNumber": 157,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        } catch (IOException e) {"
+        "content": "                    ff.flush();"
       },
       {
         "lineNumber": 158,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            e.printStackTrace();"
+        "content": "            }"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "            ff.close();"
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "            Files.copy(Paths.get(\"src/main/java/data/temp.txt\"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);"
       },
       {
         "lineNumber": 161,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "            Files.delete(Paths.get(\"src/main/java/data/temp.txt\"));"
+      },
+      {
+        "lineNumber": 162,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "        } catch (IOException e) {"
+      },
+      {
+        "lineNumber": 163,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "//            e.printStackTrace();"
+      },
+      {
+        "lineNumber": 164,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "            System.out.println(\"Error occurred saving tasks to textfile.\");"
+      },
+      {
+        "lineNumber": 165,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 166,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 167,
         "author": {
           "gitId": "nishcafe"
         },
@@ -5719,7 +5815,7 @@
       }
     ],
     "authorContributionMap": {
-      "nishcafe": 161
+      "nishcafe": 167
     }
   },
   {
@@ -5780,7 +5876,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public ArrayList\u003cTask\u003e commands;"
+        "content": "    private ArrayList\u003cTask\u003e commands;"
       },
       {
         "lineNumber": 9,
@@ -5822,7 +5918,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public int size() {"
+        "content": "    protected int size() {"
       },
       {
         "lineNumber": 15,
@@ -5850,248 +5946,255 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String list() {"
+        "content": "    protected ArrayList\u003cTask\u003e getList() {"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        int count \u003d 1;"
+        "content": "//        int count \u003d 1;"
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        String str \u003d \"\";"
+        "content": "//        String str \u003d \"\";"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        for (Task s : this.commands) {"
+        "content": "//        for (Task s : this.commands) {"
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            str \u003d str + count + \". \" + s + \"\\n\";"
+        "content": "//            str \u003d str + count + \". \" + s + \"\\n\";"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            count++;"
+        "content": "//            count++;"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "//        }"
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return str;"
+        "content": "//        return str;"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        return this.commands;"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public Task done(int index) {"
+        "content": ""
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        Task doneTask \u003d this.commands.get(index);"
+        "content": "    protected Task done(int index) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        doneTask.markAsDone();"
+        "content": "        Task doneTask \u003d this.commands.get(index);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return doneTask;"
+        "content": "        doneTask.markAsDone();"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        return doneTask;"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public void add(Task t) {"
+        "content": ""
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        this.commands.add(t);"
+        "content": "    protected void add(Task t) {"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        this.commands.add(t);"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public Task delete(int index) {"
+        "content": ""
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return this.commands.remove(index);"
+        "content": "    protected Task delete(int index) {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        return this.commands.remove(index);"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String find(String word) {"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        int count \u003d 1;"
+        "content": "    protected String find(String word) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        String res \u003d \"\";"
+        "content": "        int count \u003d 1;"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        for (Task ttt : this.commands) {"
+        "content": "        String res \u003d \"\";"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            if (ttt.toString().contains(word)) {"
+        "content": "        for (Task ttt : this.commands) {"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                res +\u003d count + \". \" + ttt + \"\\n\";"
+        "content": "            if (ttt.toString().contains(word)) {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                count++;"
+        "content": "                res +\u003d count + \". \" + ttt + \"\\n\";"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "            }"
+        "content": "                count++;"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        }"
+        "content": "            }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return res;"
+        "content": "        }"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        return res;"
       },
       {
         "lineNumber": 53,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 54,
         "author": {
           "gitId": "nishcafe"
         },
@@ -6099,7 +6202,7 @@
       }
     ],
     "authorContributionMap": {
-      "nishcafe": 53
+      "nishcafe": 54
     }
   },
   {
@@ -6174,7 +6277,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String hi() {"
+        "content": "    protected String hi() {"
       },
       {
         "lineNumber": 11,
@@ -6230,7 +6333,7 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String bye() {"
+        "content": "    protected String bye() {"
       },
       {
         "lineNumber": 19,
@@ -6286,70 +6389,70 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String list() {"
+        "content": "    protected String list(TaskList tasks) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "        int count \u003d 1;"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return \"Here are the tasks in your list:\";"
+        "content": "        String str \u003d \"Here are the tasks in your list:\\n\";"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "        for (Task t : tasks.getList()) {"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "            str \u003d str + count + \". \" + t + \"\\n\";"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": "            count++;"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Handles the UI for \"done\" command"
+        "content": "        }"
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param t"
+        "content": "        return str;"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "//        return \"Here are the tasks in your list:\\n\";"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String done(Task t) {"
+        "content": "    }"
       },
       {
         "lineNumber": 36,
@@ -6363,56 +6466,56 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return \"Nice! I\u0027ve marked this task as done:\\n  \" + t;"
+        "content": "    /**"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "     * Handles the UI for \"done\" command"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "     * @param t"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Handles the UI for \"todo\", \"deadline\" and \"event\" tasks"
+        "content": "    protected String done(Task t) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param t"
+        "content": ""
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param size"
+        "content": "        return \"Nice! I\u0027ve marked this task as done:\\n  \" + t;"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 45,
@@ -6426,164 +6529,206 @@
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String addTask(Task t, int size) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return \"Got it. I\u0027ve added this task:\\n  \" + t"
+        "content": "     * Handles the UI for \"todo\", \"deadline\" and \"event\" tasks"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                + \"\\nNow you have \" + size + \" tasks in the list.\";"
+        "content": "     * @param t"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "     * @param size"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "     */"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Handles the UI for \"delete\" command"
+        "content": "    protected String addTask(Task t, int size) {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param t"
+        "content": "        return \"Got it. I\u0027ve added this task:\\n  \" + t"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * @param size"
+        "content": "                + \"\\nNow you have \" + size + \" tasks in the list.\";"
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "    }"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String delete(Task t, int size) {"
+        "content": ""
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return \"Noted. I\u0027ve removed this task:\\n  \" + t +"
+        "content": "    /**"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "                \"\\nNow you have \" + size + \" tasks in the list.\";"
+        "content": "     * Handles the UI for \"delete\" command"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "     * @param t"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "     * @param size"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     * Handles the UI for \"find\" command"
+        "content": "    protected String delete(Task t, int size) {"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "     */"
+        "content": "        return \"Noted. I\u0027ve removed this task:\\n  \" + t +"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    public String find() {"
+        "content": "                \"\\nNow you have \" + size + \" tasks in the list.\";"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "        return \"Here are the matching tasks in your list:\";"
+        "content": ""
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": "    }"
+        "content": "    /**"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "nishcafe"
         },
-        "content": ""
+        "content": "     * Handles the UI for \"find\" command"
       },
       {
         "lineNumber": 69,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 70,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "    protected String find() {"
+      },
+      {
+        "lineNumber": 71,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 72,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "        return \"Here are the matching tasks in your list:\";"
+      },
+      {
+        "lineNumber": 73,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 74,
+        "author": {
+          "gitId": "nishcafe"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 75,
         "author": {
           "gitId": "nishcafe"
         },
@@ -6591,7 +6736,7 @@
       }
     ],
     "authorContributionMap": {
-      "nishcafe": 69
+      "nishcafe": 75
     }
   },
   {

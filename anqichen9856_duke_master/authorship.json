@@ -295,7 +295,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    mainClassName \u003d \"duke.Duke\""
+        "content": "    mainClassName \u003d \"duke.gui.Launcher\""
       },
       {
         "lineNumber": 43,
@@ -7359,7 +7359,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Parses a \u003ccode\u003eTask\u003c/code\u003e from a string array."
+        "content": "     * Parses a \u003ccode\u003eTask\u003c/code\u003e from a string array that represents user instruction."
       },
       {
         "lineNumber": 79,
@@ -7401,7 +7401,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static Task parseTask(String[] words) throws DukeException {"
+        "content": "    private static Task parseTaskFromInstruction(String[] words) throws DukeException {"
       },
       {
         "lineNumber": 85,
@@ -7541,371 +7541,371 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Checks if an inputted task id is valid (i.e. an integer larger than or equal to 1)."
+        "content": "     * Parses a \u003ccode\u003eTask\u003c/code\u003e from a string array that represents one line from the locally stored file."
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param s The string that represents the task id inputted by user."
+        "content": "     *"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @return A boolean that indicates whether this task id is valid."
+        "content": "     * @param words The string array to be parsed."
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "     * @return The \u003ccode\u003eTask\u003c/code\u003e that is parsed from the string array."
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static boolean isValidTaskId(String s) {"
+        "content": "     * @throws DukeException If an exception occurs during parsing."
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        try {"
+        "content": "     */"
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            int taskId \u003d Integer.parseInt(s);"
+        "content": "    public static Task parseTaskFromFile(String[] words) throws DukeException {"
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return taskId \u003e\u003d 1;"
+        "content": "        Task t;"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } catch (NumberFormatException e) {"
+        "content": "        switch (words[0]) {"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return false;"
+        "content": "        case \"T\":"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            t \u003d new NormalTask(words[2]);"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "            break;"
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "        case \"D\":"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
+        "content": "            t \u003d new Deadline(words[2], words[3]);"
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Checks for invalid user input and throws exceptions accordingly."
+        "content": "            break;"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *"
+        "content": "        case \"E\":"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param words The string array to be checked."
+        "content": "            t \u003d new Event(words[2], words[3]);"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @throws DukeException If the inputted instruction is invalid."
+        "content": "            break;"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "        default:"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private static void checkInvalidInstruction(String[] words) throws DukeException {"
+        "content": "            throw new DukeException(\"Unable to parse task.\");"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        String fw \u003d words[0];"
+        "content": "        }"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isDoneCommand \u003d fw.equals(\"done\");"
+        "content": "        boolean isDone \u003d words[1].equals(\"O\");"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isDeleteCommand \u003d fw.equals(\"delete\");"
+        "content": "        if (isDone) {"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isUpdateCommand \u003d fw.equals(\"update\");"
+        "content": "            t.markAsDone();"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "        }"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if ((isDoneCommand || isDeleteCommand || isUpdateCommand)) {"
+        "content": "        return t;"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            if (words.length \u003c 2) {"
+        "content": "    }"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                throw new DukeException(\"OOPS!!! The task number of the \\\"\" + fw"
+        "content": ""
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                        + \"\\\" command cannot be empty.\");"
+        "content": "    /**"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "     * Checks if an inputted task id is valid (i.e. an integer larger than or equal to 1)."
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            if (!isValidTaskId(words[1])) {"
+        "content": "     * @param s The string that represents the task id inputted by user."
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                throw new DukeException(\"OOPS!!! The task does not exist :-(\");"
+        "content": "     * @return A boolean that indicates whether this task id is valid."
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "     */"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "    private static boolean isValidTaskId(String s) {"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isUpdateCommand \u0026\u0026 words.length \u003c 4) {"
+        "content": "        try {"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"OOPS!!! The \\\"update\\\" command is missing further details. \""
+        "content": "            int taskId \u003d Integer.parseInt(s);"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    + \"It should have 4 components.\");"
+        "content": "            return taskId \u003e\u003d 1;"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "        } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isUpdateCommand \u0026\u0026 !(words[2].equals(\"description\") || words[2].equals(\"time\"))) {"
+        "content": "            return false;"
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"OOPS!!! The attribute of an \\\"update\\\" command can only be\""
+        "content": "        }"
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    + \" \\\"description\\\" or \\\"time\\\".\");"
+        "content": "    }"
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isDeadlineCommand \u003d fw.equals(\"deadline\");"
+        "content": "     * Checks for invalid user input and throws exceptions accordingly."
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        boolean isEventCommand \u003d fw.equals(\"event\");"
+        "content": "     *"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "     * @param words The string array to be checked."
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isDeadlineCommand \u0026\u0026 findIdx(words, \"/by\") \u003d\u003d -1) {"
+        "content": "     * @throws DukeException If the inputted instruction is invalid."
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"OOPS!!! The time of a deadline cannot be empty.\");"
+        "content": "     */"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "    private static void checkInvalidInstruction(String[] words) throws DukeException {"
       },
       {
         "lineNumber": 153,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        if (isEventCommand \u0026\u0026 findIdx(words, \"/at\") \u003d\u003d -1) {"
+        "content": "        String fw \u003d words[0];"
       },
       {
         "lineNumber": 154,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"OOPS!!! The time of an event cannot be empty.\");"
+        "content": "        boolean isDoneCommand \u003d fw.equals(\"done\");"
       },
       {
         "lineNumber": 155,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "        boolean isDeleteCommand \u003d fw.equals(\"delete\");"
       },
       {
         "lineNumber": 156,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        boolean isUpdateCommand \u003d fw.equals(\"update\");"
       },
       {
         "lineNumber": 157,
@@ -7919,332 +7919,535 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
+        "content": "        if ((isDoneCommand || isDeleteCommand || isUpdateCommand)) {"
       },
       {
         "lineNumber": 159,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Parses a line of user instruction into respective \u003ccode\u003eCommand\u003c/code\u003e "
+        "content": "            if (words.length \u003c 2) {"
       },
       {
         "lineNumber": 160,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * types."
+        "content": "                throw new DukeException(\"OOPS!!! The task number of the \\\"\" + fw"
       },
       {
         "lineNumber": 161,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *"
+        "content": "                        + \"\\\" command cannot be empty.\");"
       },
       {
         "lineNumber": 162,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param instruction The string that represents user input."
+        "content": "            }"
       },
       {
         "lineNumber": 163,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @return A \u003ccode\u003eCommand\u003c/code\u003e that represents the specific type of"
+        "content": "            if (!isValidTaskId(words[1])) {"
       },
       {
         "lineNumber": 164,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *          command the user gives."
+        "content": "                throw new DukeException(\"OOPS!!! The task does not exist :-(\");"
       },
       {
         "lineNumber": 165,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @throws DukeException If the inputted instruction is invalid."
+        "content": "            }"
       },
       {
         "lineNumber": 166,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "        }"
       },
       {
         "lineNumber": 167,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public static Command parse(String instruction) throws DukeException {"
+        "content": "        if (isUpdateCommand \u0026\u0026 words.length \u003c 4) {"
       },
       {
         "lineNumber": 168,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        String[] words \u003d instruction.split(\" \");"
+        "content": "            throw new DukeException(\"OOPS!!! The \\\"update\\\" command is missing further details. \""
       },
       {
         "lineNumber": 169,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        checkInvalidInstruction(words);"
+        "content": "                    + \"It should have 4 components.\");"
       },
       {
         "lineNumber": 170,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        String fw \u003d words[0];"
+        "content": "        }"
       },
       {
         "lineNumber": 171,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        switch (fw) {"
+        "content": "        if (isUpdateCommand \u0026\u0026 !(words[2].equals(\"description\") || words[2].equals(\"time\"))) {"
       },
       {
         "lineNumber": 172,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"bye\":"
+        "content": "            throw new DukeException(\"OOPS!!! The attribute of an \\\"update\\\" command can only be\""
       },
       {
         "lineNumber": 173,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new ExitCommand();"
+        "content": "                    + \" \\\"description\\\" or \\\"time\\\".\");"
       },
       {
         "lineNumber": 174,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"done\":"
+        "content": "        }"
       },
       {
         "lineNumber": 175,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new DoneCommand(Integer.parseInt(words[1]));"
+        "content": ""
       },
       {
         "lineNumber": 176,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"delete\":"
+        "content": "        boolean isDeadlineCommand \u003d fw.equals(\"deadline\");"
       },
       {
         "lineNumber": 177,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new DeleteCommand(Integer.parseInt(words[1]));"
+        "content": "        boolean isEventCommand \u003d fw.equals(\"event\");"
       },
       {
         "lineNumber": 178,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"list\":"
+        "content": ""
       },
       {
         "lineNumber": 179,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new ListCommand();"
+        "content": "        if (isDeadlineCommand \u0026\u0026 findIdx(words, \"/by\") \u003d\u003d -1) {"
       },
       {
         "lineNumber": 180,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"find\":"
+        "content": "            throw new DukeException(\"OOPS!!! The time of a deadline cannot be empty.\");"
       },
       {
         "lineNumber": 181,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            if (words.length \u003c 2) {"
+        "content": "        }"
       },
       {
         "lineNumber": 182,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                throw new DukeException(\"OOPS!!! The keyword of a \\\"find\\\" command cannot be empty.\");"
+        "content": "        if (isEventCommand \u0026\u0026 findIdx(words, \"/at\") \u003d\u003d -1) {"
       },
       {
         "lineNumber": 183,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "            throw new DukeException(\"OOPS!!! The time of an event cannot be empty.\");"
       },
       {
         "lineNumber": 184,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new FindCommand(words[1]);"
+        "content": "        }"
       },
       {
         "lineNumber": 185,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"update\":"
+        "content": "    }"
       },
       {
         "lineNumber": 186,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            String newValue \u003d subString(words, 3, words.length);"
+        "content": ""
       },
       {
         "lineNumber": 187,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            if (words[2].equals(\"description\")) {"
+        "content": "    /**"
       },
       {
         "lineNumber": 188,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], newValue);"
+        "content": "     * Parses a line of user instruction into respective \u003ccode\u003eCommand\u003c/code\u003e "
       },
       {
         "lineNumber": 189,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            } else {"
+        "content": "     * types."
       },
       {
         "lineNumber": 190,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                assert words[2].equals(\"time\") : \"Invalid attribute type for an update command\";"
+        "content": "     *"
       },
       {
         "lineNumber": 191,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], formatDateTime(newValue));"
+        "content": "     * @param instruction The string that represents user input."
       },
       {
         "lineNumber": 192,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "     * @return A \u003ccode\u003eCommand\u003c/code\u003e that represents the specific type of"
       },
       {
         "lineNumber": 193,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        case \"deadline\": case \"event\": case \"todo\":"
+        "content": "     *          command the user gives."
       },
       {
         "lineNumber": 194,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            if (words.length \u003c 2) {"
+        "content": "     * @throws DukeException If the inputted instruction is invalid."
       },
       {
         "lineNumber": 195,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                throw new DukeException(\"OOPS!!! The description of a task cannot be empty.\");"
+        "content": "     */"
       },
       {
         "lineNumber": 196,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": "    public static Command parse(String instruction) throws DukeException {"
       },
       {
         "lineNumber": 197,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            Task t \u003d parseTask(words);"
+        "content": "        String[] words \u003d instruction.split(\" \");"
       },
       {
         "lineNumber": 198,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return new AddCommand(t);"
+        "content": "        checkInvalidInstruction(words);"
       },
       {
         "lineNumber": 199,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        default:"
+        "content": "        String fw \u003d words[0];"
       },
       {
         "lineNumber": 200,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means...\\n\""
+        "content": "        switch (fw) {"
       },
       {
         "lineNumber": 201,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    + \"The first word of your instruction seems to be an invalid command :-(\");"
+        "content": "        case \"bye\":"
       },
       {
         "lineNumber": 202,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "            return new ExitCommand();"
       },
       {
         "lineNumber": 203,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        case \"done\":"
       },
       {
         "lineNumber": 204,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "}"
+        "content": "            return new DoneCommand(Integer.parseInt(words[1]));"
       },
       {
         "lineNumber": 205,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        case \"delete\":"
+      },
+      {
+        "lineNumber": 206,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            return new DeleteCommand(Integer.parseInt(words[1]));"
+      },
+      {
+        "lineNumber": 207,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        case \"list\":"
+      },
+      {
+        "lineNumber": 208,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            return new ListCommand();"
+      },
+      {
+        "lineNumber": 209,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        case \"find\":"
+      },
+      {
+        "lineNumber": 210,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            if (words.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 211,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "                throw new DukeException(\"OOPS!!! The keyword of a \\\"find\\\" command cannot be empty.\");"
+      },
+      {
+        "lineNumber": 212,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 213,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            return new FindCommand(words[1]);"
+      },
+      {
+        "lineNumber": 214,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        case \"update\":"
+      },
+      {
+        "lineNumber": 215,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            String newValue \u003d subString(words, 3, words.length);"
+      },
+      {
+        "lineNumber": 216,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            if (words[2].equals(\"description\")) {"
+      },
+      {
+        "lineNumber": 217,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], newValue);"
+      },
+      {
+        "lineNumber": 218,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 219,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "                assert words[2].equals(\"time\") : \"Invalid attribute type for an update command\";"
+      },
+      {
+        "lineNumber": 220,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "                return new UpdateCommand(Integer.parseInt(words[1]), words[2], formatDateTime(newValue));"
+      },
+      {
+        "lineNumber": 221,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 222,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        case \"deadline\": case \"event\": case \"todo\":"
+      },
+      {
+        "lineNumber": 223,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            if (words.length \u003c 2) {"
+      },
+      {
+        "lineNumber": 224,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "                throw new DukeException(\"OOPS!!! The description of a task cannot be empty.\");"
+      },
+      {
+        "lineNumber": 225,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 226,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            Task t \u003d parseTaskFromInstruction(words);"
+      },
+      {
+        "lineNumber": 227,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            return new AddCommand(t);"
+      },
+      {
+        "lineNumber": 228,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        default:"
+      },
+      {
+        "lineNumber": 229,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "            throw new DukeException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means...\\n\""
+      },
+      {
+        "lineNumber": 230,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "                    + \"The first word of your instruction seems to be an invalid command :-(\");"
+      },
+      {
+        "lineNumber": 231,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 232,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 233,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "}"
+      },
+      {
+        "lineNumber": 234,
         "author": {
           "gitId": "anqichen9856"
         },
@@ -8252,7 +8455,7 @@
       }
     ],
     "authorContributionMap": {
-      "anqichen9856": 205
+      "anqichen9856": 234
     }
   },
   {
@@ -8285,21 +8488,21 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import duke.task.NormalTask;"
+        "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import duke.task.Deadline;"
+        "content": "import java.util.ArrayList;"
       },
       {
         "lineNumber": 6,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import duke.task.Event;"
+        "content": "import java.util.Scanner;"
       },
       {
         "lineNumber": 7,
@@ -8313,14 +8516,14 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import java.util.ArrayList;"
+        "content": "import java.io.FileWriter;"
       },
       {
         "lineNumber": 9,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import java.util.Scanner;"
+        "content": "import java.io.IOException;"
       },
       {
         "lineNumber": 10,
@@ -8334,633 +8537,458 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import java.io.File;"
+        "content": "/**"
       },
       {
         "lineNumber": 12,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import java.io.FileNotFoundException;"
+        "content": " * Represents a \u003ccode\u003eStorage\u003c/code\u003e class that deals with loading tasks from "
       },
       {
         "lineNumber": 13,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import java.io.FileWriter;"
+        "content": " * a file and saving tasks in the file."
       },
       {
         "lineNumber": 14,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "import java.io.IOException;"
+        "content": " */"
       },
       {
         "lineNumber": 15,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "public class Storage {"
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "/**"
+        "content": ""
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": " * Represents a \u003ccode\u003eStorage\u003c/code\u003e class that deals with loading tasks from "
+        "content": "    /** A string that represents the file path in local hard disk. */"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": " * a file and saving tasks in the file."
+        "content": "    private String filePath;"
       },
       {
         "lineNumber": 19,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": " */"
+        "content": ""
       },
       {
         "lineNumber": 20,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "public class Storage {"
+        "content": "    /**"
       },
       {
         "lineNumber": 21,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "     * Constructs a \u003ccode\u003eStorage\u003c/code\u003e object with a specific file path."
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /** A string that represents the file path in local hard disk. */"
+        "content": "     *"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    private String filePath;"
+        "content": "     * @param filePath A string that represents the path of the file to be"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "     *          loaded and modified."
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
+        "content": "     */"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Constructs a \u003ccode\u003eStorage\u003c/code\u003e object with a specific file path."
+        "content": "    public Storage(String filePath) {"
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *"
+        "content": "        this.filePath \u003d filePath;"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @param filePath A string that represents the path of the file to be"
+        "content": "    }"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *          loaded and modified."
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "    /**"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public Storage(String filePath) {"
+        "content": "     * Loads tasks from the file into a \u003ccode\u003eArrayList\u003c/code\u003e of "
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        this.filePath \u003d filePath;"
+        "content": "     * \u003ccode\u003eTask\u003c/code\u003e."
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "     *"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": ""
+        "content": "     * @return A \u003ccode\u003eArrayList\u003c/code\u003e of tasks as recorded in the file."
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    /**"
+        "content": "     * @throws DukeException If file is not found."
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * Loads tasks from the file into a \u003ccode\u003eArrayList\u003c/code\u003e of "
+        "content": "     */"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * \u003ccode\u003eTask\u003c/code\u003e."
+        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     *"
+        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @return A \u003ccode\u003eArrayList\u003c/code\u003e of tasks as recorded in the file."
+        "content": "        try {"
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     * @throws DukeException If file is not found."
+        "content": "            Scanner fileScanner \u003d new Scanner(this.getClass().getResourceAsStream(\"/data/tasks.txt\"));"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "     */"
+        "content": "            while (fileScanner.hasNext()) {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    public ArrayList\u003cTask\u003e load() throws DukeException {"
+        "content": "                String nextLine \u003d fileScanner.nextLine();"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        File duke \u003d new File(filePath);"
+        "content": "                String[] words \u003d nextLine.split(\" \\\\| \");"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        ArrayList\u003cTask\u003e tasks \u003d new ArrayList\u003c\u003e();"
+        "content": "                Task t \u003d Parser.parseTaskFromFile(words);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        try {"
+        "content": "                tasks.add(t);"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            Scanner fileScanner \u003d new Scanner(duke);"
+        "content": "            }"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            while (fileScanner.hasNext()) {"
+        "content": "            return tasks;"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                String nextLine \u003d fileScanner.nextLine();"
+        "content": "        } catch (NullPointerException | DukeException e) {"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                String[] words \u003d nextLine.split(\" \\\\| \");"
+        "content": "            throw new DukeException(\"Loading failed.\");"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                if (words[0].equals(\"T\")) {"
+        "content": "        }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    Task t \u003d new NormalTask(words[2]);"
+        "content": "    }"
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    if (words[1].equals(\"O\")) {"
+        "content": ""
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                        t.markAsDone();"
+        "content": "    /**"
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    }"
+        "content": "     * Saves tasks from a \u003ccode\u003eTaskList\u003c/code\u003e to the local file."
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    tasks.add(t);"
+        "content": "     *"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                }"
+        "content": "     * @param tasks The \u003ccode\u003eTaskList\u003c/code\u003e storing tasks."
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                if (words[0].equals(\"D\")) {"
+        "content": "     * @throws DukeException If writing to the local file failed."
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    Task t \u003d new Deadline(words[2], words[3]);"
+        "content": "     */"
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    if (words[1].equals(\"O\")) {"
+        "content": "    public void save(TaskList tasks) throws DukeException {"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                        t.markAsDone();"
+        "content": "        try {"
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    }"
+        "content": "            FileWriter fw \u003d new FileWriter(filePath);"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    tasks.add(t);"
+        "content": "            for (Task t : tasks.getList()) {"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                } "
+        "content": "                fw.write(t.format() + System.lineSeparator());"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                if (words[0].equals(\"E\")) {"
+        "content": "            }"
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    Task t \u003d new Event(words[2], words[3]);"
+        "content": "            fw.close();"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    if (words[1].equals(\"O\")) {"
+        "content": "        } catch (IOException e) {"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                        t.markAsDone();"
+        "content": "            throw new DukeException(\"Failed to save tasks :-(\");"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    }"
+        "content": "        }"
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    tasks.add(t);"
+        "content": "    }"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                }"
+        "content": "}"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            }"
+        "content": ""
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            return tasks;"
+        "content": ""
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        } catch (FileNotFoundException e) {"
+        "content": ""
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            throw new DukeException(\"Load failed\");"
+        "content": ""
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 76,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 77,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 78,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "    /**"
-      },
-      {
-        "lineNumber": 79,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * Saves tasks from a \u003ccode\u003eTaskList\u003c/code\u003e to the local file."
-      },
-      {
-        "lineNumber": 80,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     *"
-      },
-      {
-        "lineNumber": 81,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * @param tasks The \u003ccode\u003eTaskList\u003c/code\u003e storing tasks."
-      },
-      {
-        "lineNumber": 82,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     * @throws DukeException If writing to the local file failed."
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "     */"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "    public void save(TaskList tasks) throws DukeException {"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        try {"
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            FileWriter fw \u003d new FileWriter(filePath);"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            for (Task t : tasks.getList()) {"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "                fw.write(t.format() + System.lineSeparator());"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 90,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            fw.close();"
-      },
-      {
-        "lineNumber": 91,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        } catch (IOException e) {"
-      },
-      {
-        "lineNumber": 92,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "            throw new DukeException(\"Failed to save tasks :-(\");"
-      },
-      {
-        "lineNumber": 93,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 94,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "    }"
-      },
-      {
-        "lineNumber": 95,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": "}"
-      },
-      {
-        "lineNumber": 96,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 97,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 98,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 99,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 100,
-        "author": {
-          "gitId": "anqichen9856"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 101,
         "author": {
           "gitId": "anqichen9856"
         },
@@ -8968,7 +8996,7 @@
       }
     ],
     "authorContributionMap": {
-      "anqichen9856": 101
+      "anqichen9856": 76
     }
   },
   {
@@ -14196,7 +14224,7 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": " * Represents an event that occurs at a specific time. The \u003ccode\u003eEvente\u003c/code\u003e "
+        "content": " * Represents an event that occurs at a specific time. The \u003ccode\u003eEvent\u003c/code\u003e"
       },
       {
         "lineNumber": 5,
@@ -15447,6 +15475,57 @@
     }
   },
   {
+    "path": "src/main/resources/data/tasks.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "T | O | read books"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "E | X | happy new year | Wed, 1 Jan 2020, 12:00AM"
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "D | O | project submission | Thu, 19 Sep 2019, 11:59PM"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "E | X | movie | Wed, 2 Oct 2019, 7:00PM"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "E | X | dinner | Mon, 23 Sep 2019, 5:45PM"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "T | X | return books"
+      }
+    ],
+    "authorContributionMap": {
+      "anqichen9856": 6
+    }
+  },
+  {
     "path": "src/main/resources/view/DialogBox.fxml",
     "fileType": "fxml",
     "lines": [
@@ -16005,31 +16084,38 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "            assertEquals(\" ☹  OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\","
+        "content": "            assertEquals(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means...\\n\""
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                    e.getMessage());"
+        "content": "                            + \"The first word of your instruction seems to be an invalid command :-(\","
       },
       {
         "lineNumber": 17,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        }"
+        "content": "                    e.getMessage());"
       },
       {
         "lineNumber": 18,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "    }"
+        "content": "        }"
       },
       {
         "lineNumber": 19,
+        "author": {
+          "gitId": "anqichen9856"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
         "author": {
           "gitId": "anqichen9856"
         },
@@ -16037,7 +16123,7 @@
       }
     ],
     "authorContributionMap": {
-      "anqichen9856": 19
+      "anqichen9856": 20
     }
   },
   {
@@ -16105,14 +16191,14 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        assertEquals(\"[D][✘] individual project (by: 28/08/2019 2359)\","
+        "content": "        assertEquals(\"[D][X] individual project (by: Wed, 28 Aug 2019, 11:59PM)\","
       },
       {
         "lineNumber": 10,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                new Deadline(\"individual project\", \"28/08/2019 2359\").toString());"
+        "content": "                new Deadline(\"individual project\", \"Wed, 28 Aug 2019, 11:59PM\").toString());"
       },
       {
         "lineNumber": 11,
@@ -16147,14 +16233,14 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        assertEquals(\"D | ✘ | individual project | 28/08/2019 2359\","
+        "content": "        assertEquals(\"D | X | individual project | Wed, 28 Aug 2019, 11:59PM\","
       },
       {
         "lineNumber": 16,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                new Deadline(\"individual project\", \"28/08/2019 2359\").format());"
+        "content": "                new Deadline(\"individual project\", \"Wed, 28 Aug 2019, 11:59PM\").format());"
       },
       {
         "lineNumber": 17,
@@ -16189,14 +16275,14 @@
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "        assertEquals(\"✘\","
+        "content": "        assertEquals(\"X\","
       },
       {
         "lineNumber": 22,
         "author": {
           "gitId": "anqichen9856"
         },
-        "content": "                new Deadline(\"individual project\", \"28/08/2019 2359\").getStatusIcon());"
+        "content": "                new Deadline(\"individual project\", \"Wed, 28 Aug 2019, 11:59PM\").getStatusIcon());"
       },
       {
         "lineNumber": 23,

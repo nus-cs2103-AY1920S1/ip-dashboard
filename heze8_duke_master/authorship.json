@@ -5335,479 +5335,430 @@
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private final static String GLOSSARY_FILEPATH \u003d \"/data/words.txt\";"
+        "content": "    final static String HOME \u003d System.getProperty(\"user.home\");"
       },
       {
         "lineNumber": 23,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private final static List\u003cString\u003e CORPUS \u003d new ArrayList\u003cString\u003e("
+        "content": "    final static String GLOSSARY_FILEPATH \u003d HOME + File.separator + \"data\" + File.separator + \"words.txt\";"
       },
       {
         "lineNumber": 24,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            List.of(\"find\", \"bye\", \"list\", \"done\", \"delete\", \"todo\", \"event\", \"deadline\"));"
+        "content": "    private final static List\u003cString\u003e CORPUS \u003d new ArrayList\u003cString\u003e("
       },
       {
         "lineNumber": 25,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "            List.of(\"find\", \"bye\", \"list\", \"done\", \"delete\", \"todo\", \"event\", \"deadline\"));"
       },
       {
         "lineNumber": 26,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private HashSet\u003cString\u003e wordList;"
+        "content": ""
       },
       {
         "lineNumber": 27,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private DataStorage dataStorage;"
+        "content": "    private HashSet\u003cString\u003e wordList;"
       },
       {
         "lineNumber": 28,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "    private DataStorage dataStorage;"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    public WordDictionary() throws IOException, DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        wordList \u003d new HashSet\u003c\u003e();"
+        "content": "    public WordDictionary() throws IOException, DukeException {"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        wordList \u003d new HashSet\u003c\u003e();"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        File parentDir \u003d new File(\"/data\");"
+        "content": ""
       },
       {
         "lineNumber": 33,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        if (!parentDir.exists()) {"
+        "content": "        File file \u003d new File(GLOSSARY_FILEPATH);"
       },
       {
         "lineNumber": 34,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            parentDir.mkdir();"
+        "content": "        if (!file.exists()) {"
       },
       {
         "lineNumber": 35,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        }"
+        "content": "            File parent \u003d file.getParentFile();"
       },
       {
         "lineNumber": 36,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        File file \u003d new File(GLOSSARY_FILEPATH);"
+        "content": "            parent.mkdirs();"
       },
       {
         "lineNumber": 37,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        if (!file.exists()) {"
+        "content": "            initializeWordList(file);"
       },
       {
         "lineNumber": 38,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            initializeWordList(file);"
+        "content": "        }"
       },
       {
         "lineNumber": 39,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        }"
+        "content": ""
       },
       {
         "lineNumber": 40,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        BufferedReader br \u003d new BufferedReader(new FileReader(file));"
       },
       {
         "lineNumber": 41,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        BufferedReader br \u003d new BufferedReader(new FileReader(file));"
+        "content": "        try {"
       },
       {
         "lineNumber": 42,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        try {"
+        "content": "            String line;"
       },
       {
         "lineNumber": 43,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            String line;"
+        "content": "            while ((line \u003d br.readLine()) !\u003d null) {"
       },
       {
         "lineNumber": 44,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            while ((line \u003d br.readLine()) !\u003d null) {"
+        "content": "                wordList.add(line);"
       },
       {
         "lineNumber": 45,
         "author": {
           "gitId": "heze8"
         },
-        "content": "                wordList.add(line);"
+        "content": "            }"
       },
       {
         "lineNumber": 46,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            }"
+        "content": "            loadFromList();"
       },
       {
         "lineNumber": 47,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            loadFromList();"
+        "content": "        } finally {"
       },
       {
         "lineNumber": 48,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        } finally {"
+        "content": "            br.close();"
       },
       {
         "lineNumber": 49,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            br.close();"
+        "content": "        }"
       },
       {
         "lineNumber": 50,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        }"
+        "content": "    }"
       },
       {
         "lineNumber": 51,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    }"
+        "content": ""
       },
       {
         "lineNumber": 52,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "    private void initializeWordList(File file) throws IOException {"
       },
       {
         "lineNumber": 53,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private void initializeWordList(File file) throws IOException {"
+        "content": ""
       },
       {
         "lineNumber": 54,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Charset utf8 \u003d StandardCharsets.UTF_8;"
+        "content": ""
       },
       {
         "lineNumber": 55,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Path parentDir \u003d Paths.get(GLOSSARY_FILEPATH).getParent();"
+        "content": "        file.createNewFile();"
       },
       {
         "lineNumber": 56,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Files.createDirectories(parentDir);"
+        "content": ""
       },
       {
         "lineNumber": 57,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        Files.write(Paths.get(GLOSSARY_FILEPATH), CORPUS);"
       },
       {
         "lineNumber": 58,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        file.createNewFile();"
+        "content": ""
       },
       {
         "lineNumber": 59,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 60,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        FileWriter fw \u003d new FileWriter(file);"
+        "content": ""
       },
       {
         "lineNumber": 61,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        Files.write(Paths.get(GLOSSARY_FILEPATH), CORPUS);"
+        "content": "    public HashSet\u003cString\u003e getWordList() {"
       },
       {
         "lineNumber": 62,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        for (String s : CORPUS) {"
+        "content": "        return wordList;"
       },
       {
         "lineNumber": 63,
         "author": {
           "gitId": "heze8"
         },
-        "content": "////            fw.write(s);"
+        "content": "    }"
       },
       {
         "lineNumber": 64,
         "author": {
           "gitId": "heze8"
         },
-        "content": "////        }"
+        "content": ""
       },
       {
         "lineNumber": 65,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Files.write(Paths.get(GLOSSARY_FILEPATH), CORPUS);"
+        "content": "    public void updateWordList() throws DukeException {"
       },
       {
         "lineNumber": 66,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    }"
+        "content": "        loadFromList();"
       },
       {
         "lineNumber": 67,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 68,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    public HashSet\u003cString\u003e getWordList() {"
+        "content": ""
       },
       {
         "lineNumber": 69,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        return wordList;"
+        "content": "    private void loadFromList() throws DukeException {"
       },
       {
         "lineNumber": 70,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    }"
+        "content": "        dataStorage \u003d new DataStorage();"
       },
       {
         "lineNumber": 71,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        ArrayList\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 72,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    public void updateWordList() throws DukeException {"
+        "content": ""
       },
       {
         "lineNumber": 73,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        loadFromList();"
+        "content": "        try {"
       },
       {
         "lineNumber": 74,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    }"
+        "content": "            tasks \u003d dataStorage.load();"
       },
       {
         "lineNumber": 75,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        } catch (DukeException e) {"
       },
       {
         "lineNumber": 76,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private void loadFromList() throws DukeException {"
+        "content": "            throw new DukeException(\"Unable to load data from storage for spell check dictionary :(\");"
       },
       {
         "lineNumber": 77,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        dataStorage \u003d new DataStorage();"
+        "content": "        }"
       },
       {
         "lineNumber": 78,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        ArrayList\u003cTask\u003e tasks;"
+        "content": ""
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        for (Task t : tasks) {"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        try {"
+        "content": "            wordList.add(t.getName());"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            tasks \u003d dataStorage.load();"
+        "content": "        }"
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        } catch (DukeException e) {"
-      },
-      {
-        "lineNumber": 83,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "            throw new DukeException(\"Unable to load data from storage for spell check dictionary :(\");"
-      },
-      {
-        "lineNumber": 84,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 85,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": ""
-      },
-      {
-        "lineNumber": 86,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "        for (Task t : tasks) {"
-      },
-      {
-        "lineNumber": 87,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "            wordList.add(t.getName());"
-      },
-      {
-        "lineNumber": 88,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 89,
-        "author": {
-          "gitId": "heze8"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 90,
+        "lineNumber": 83,
         "author": {
           "gitId": "heze8"
         },
@@ -5815,7 +5766,7 @@
       }
     ],
     "authorContributionMap": {
-      "heze8": 90
+      "heze8": 83
     }
   },
   {
@@ -6475,21 +6426,21 @@
         "author": {
           "gitId": "heze8"
         },
-        "content": "    final static String FILE_PATH \u003d \"/data/save.txt\";"
+        "content": "    final static String HOME \u003d System.getProperty(\"user.home\");"
       },
       {
         "lineNumber": 29,
         "author": {
           "gitId": "heze8"
         },
-        "content": "    private ArrayList\u003cTask\u003e tasks;"
+        "content": "    final static String FILE_PATH \u003d HOME + File.separator + \"data\" + File.separator + \"save.txt\";"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "    private ArrayList\u003cTask\u003e tasks;"
       },
       {
         "lineNumber": 31,
@@ -7133,199 +7084,143 @@
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Charset utf8 \u003d StandardCharsets.UTF_8;"
+        "content": "        File file \u003d new File(FILE_PATH);"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Path path \u003d Paths.get(FILE_PATH);"
+        "content": "        if (!file.exists()) {"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Path parentDir \u003d path.getParent();"
+        "content": "            File parent \u003d file.getParentFile();"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Files.createDirectories(parentDir);"
+        "content": "            parent.mkdirs();"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        Files.write(path, Collections.singleton(\"\"), utf8);"
+        "content": "            file.createNewFile();"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "heze8"
         },
-        "content": "//        File file \u003d new File(FILE_PATH);"
+        "content": "        }"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        File parentDir \u003d new File(\"/data\");"
+        "content": ""
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        if (!parentDir.exists()) {"
+        "content": "        BufferedReader br \u003d new BufferedReader(new FileReader(file));"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            parentDir.mkdir();"
+        "content": ""
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        }"
+        "content": "        try {"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        File file \u003d new File(FILE_PATH);"
+        "content": "            String line;"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        if (!file.exists()) {"
+        "content": "            while ((line \u003d br.readLine()) !\u003d null) {"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            file.createNewFile();"
+        "content": "                if (!line.isEmpty()) {"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        }"
+        "content": "                    tasks.add(parseString(line));"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "                }"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        BufferedReader br \u003d new BufferedReader(new FileReader(file));"
+        "content": "            }"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "heze8"
         },
-        "content": ""
+        "content": "        } finally {"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "heze8"
         },
-        "content": "        try {"
+        "content": "            br.close();"
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            String line;"
+        "content": "        }"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "heze8"
         },
-        "content": "            while ((line \u003d br.readLine()) !\u003d null) {"
-      },
-      {
-        "lineNumber": 142,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "                if (!line.isEmpty()) {"
-      },
-      {
-        "lineNumber": 143,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "                    tasks.add(parseString(line));"
-      },
-      {
-        "lineNumber": 144,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "                }"
-      },
-      {
-        "lineNumber": 145,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "            }"
-      },
-      {
-        "lineNumber": 146,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "        } finally {"
-      },
-      {
-        "lineNumber": 147,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "            br.close();"
-      },
-      {
-        "lineNumber": 148,
-        "author": {
-          "gitId": "heze8"
-        },
-        "content": "        }"
-      },
-      {
-        "lineNumber": 149,
-        "author": {
-          "gitId": "heze8"
-        },
         "content": "    }"
       },
       {
-        "lineNumber": 150,
+        "lineNumber": 142,
         "author": {
           "gitId": "heze8"
         },
@@ -7333,7 +7228,7 @@
       }
     ],
     "authorContributionMap": {
-      "heze8": 150
+      "heze8": 142
     }
   },
   {

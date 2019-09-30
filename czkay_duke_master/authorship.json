@@ -2857,7 +2857,7 @@
         "author": {
           "gitId": "czkay"
         },
-        "content": "        tasks.createReminders();"
+        "content": "        tasks.updateReminders();"
       },
       {
         "lineNumber": 30,
@@ -3253,7 +3253,7 @@
         "author": {
           "gitId": "czkay"
         },
-        "content": "        tasks.createReminders();"
+        "content": "        tasks.updateReminders();"
       },
       {
         "lineNumber": 32,
@@ -3966,31 +3966,38 @@
         "author": {
           "gitId": "czkay"
         },
-        "content": "        storage.update(tasks);"
+        "content": "        tasks.updateReminders();"
       },
       {
         "lineNumber": 30,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        return String.format(\"Nice! I\u0027ve marked this task as done:\\n%s\", tasks.get(targetIndex));"
+        "content": "        storage.update(tasks);"
       },
       {
         "lineNumber": 31,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    }"
+        "content": "        return String.format(\"Nice! I\u0027ve marked this task as done:\\n%s\", tasks.get(targetIndex));"
       },
       {
         "lineNumber": 32,
         "author": {
           "gitId": "czkay"
         },
-        "content": ""
+        "content": "    }"
       },
       {
         "lineNumber": 33,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 34,
         "author": {
           "gitId": "czkay"
         },
@@ -3998,7 +4005,7 @@
       }
     ],
     "authorContributionMap": {
-      "czkay": 33
+      "czkay": 34
     }
   },
   {
@@ -4917,528 +4924,598 @@
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d Optional.of(new MarkAsDoneCommand(Integer.parseInt(parameters[1]) - 1));"
+        "content": "            try {"
       },
       {
         "lineNumber": 79,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            break;"
+        "content": "                command \u003d Optional.of(new MarkAsDoneCommand(Integer.parseInt(parameters[1]) - 1));"
       },
       {
         "lineNumber": 80,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        case \"delete\":"
+        "content": "            } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 81,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d Optional.of(new DeleteTaskCommand(Integer.parseInt(parameters[1]) - 1));"
+        "content": "                throw new InvalidInputException("
       },
       {
         "lineNumber": 82,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            break;"
+        "content": "                        \"Please input an integer that corresponds to the completed task\u0027s index!\");"
       },
       {
         "lineNumber": 83,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        case \"find\":"
+        "content": "            }"
       },
       {
         "lineNumber": 84,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d Optional.of(new FindTaskCommand(parameters[1]));"
+        "content": "            break;"
       },
       {
         "lineNumber": 85,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            break;"
+        "content": "        case \"delete\":"
       },
       {
         "lineNumber": 86,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        case \"todo\":"
+        "content": "            try {"
       },
       {
         "lineNumber": 87,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d Optional.of(new AddTaskCommand(new Todo(parameters[1])));"
+        "content": "                command \u003d Optional.of(new DeleteTaskCommand(Integer.parseInt(parameters[1]) - 1));"
       },
       {
         "lineNumber": 88,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            break;"
+        "content": "            } catch (NumberFormatException e) {"
       },
       {
         "lineNumber": 89,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        default:"
+        "content": "                throw new InvalidInputException("
       },
       {
         "lineNumber": 90,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d Optional.empty();"
+        "content": "                        \"Please input an integer that corresponds to the to-be-deleted task\u0027s index!\");"
       },
       {
         "lineNumber": 91,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        }"
+        "content": "            }"
       },
       {
         "lineNumber": 92,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        return command;"
+        "content": "            break;"
       },
       {
         "lineNumber": 93,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    }"
+        "content": "        case \"find\":"
       },
       {
         "lineNumber": 94,
         "author": {
           "gitId": "czkay"
         },
-        "content": ""
+        "content": "            command \u003d Optional.of(new FindTaskCommand(parameters[1]));"
       },
       {
         "lineNumber": 95,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    /**"
+        "content": "            break;"
       },
       {
         "lineNumber": 96,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * Attempts to find within the user input, a Command that takes in three parameters."
+        "content": "        case \"todo\":"
       },
       {
         "lineNumber": 97,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     *"
+        "content": "            command \u003d Optional.of(new AddTaskCommand(new Todo(parameters[1])));"
       },
       {
         "lineNumber": 98,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * @param parameters The potential parameters from the user input."
+        "content": "            break;"
       },
       {
         "lineNumber": 99,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * @return A Command that takes in three parameters."
+        "content": "        default:"
       },
       {
         "lineNumber": 100,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * @throws DukeException If the parameters are invalid."
+        "content": "            command \u003d Optional.empty();"
       },
       {
         "lineNumber": 101,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     */"
+        "content": "        }"
       },
       {
         "lineNumber": 102,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    private static Command findThreeParameterCommand(String[] parameters) throws DukeException {"
+        "content": "        return command;"
       },
       {
         "lineNumber": 103,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        String action \u003d parameters[0];"
+        "content": "    }"
       },
       {
         "lineNumber": 104,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        Command command;"
+        "content": ""
       },
       {
         "lineNumber": 105,
         "author": {
           "gitId": "czkay"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 106,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        assert parameters.length \u003e 1 : \"Number of parameters must be more than 1.\";"
+        "content": "     * Attempts to find within the user input, a Command that takes in three parameters."
       },
       {
         "lineNumber": 107,
         "author": {
           "gitId": "czkay"
         },
-        "content": ""
+        "content": "     *"
       },
       {
         "lineNumber": 108,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        switch (action) {"
+        "content": "     * @param parameters The potential parameters from the user input."
       },
       {
         "lineNumber": 109,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        case \"deadline\":"
+        "content": "     * @return A Command that takes in three parameters."
       },
       {
         "lineNumber": 110,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            String[] description;"
+        "content": "     * @throws DukeException If the parameters are invalid."
       },
       {
         "lineNumber": 111,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            description \u003d parameters[1].split(\" /by \");"
+        "content": "     */"
       },
       {
         "lineNumber": 112,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            if (description.length \u003d\u003d 1) {"
+        "content": "    private static Command findThreeParameterCommand(String[] parameters) throws DukeException {"
       },
       {
         "lineNumber": 113,
         "author": {
           "gitId": "czkay"
         },
-        "content": "                throw new EmptyDescriptionException(\"OOPS!!! You missed out the time of the deadline task.\");"
+        "content": "        String action \u003d parameters[0];"
       },
       {
         "lineNumber": 114,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            }"
+        "content": "        Command command;"
       },
       {
         "lineNumber": 115,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d new AddTaskCommand(new Deadline(description[0], description[1]));"
+        "content": ""
       },
       {
         "lineNumber": 116,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            break;"
+        "content": "        assert parameters.length \u003e 1 : \"Number of parameters must be more than 1.\";"
       },
       {
         "lineNumber": 117,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        case \"event\":"
+        "content": ""
       },
       {
         "lineNumber": 118,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            description \u003d parameters[1].split(\" /at \");"
+        "content": "        switch (action) {"
       },
       {
         "lineNumber": 119,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            if (description.length \u003d\u003d 1) {"
+        "content": "        case \"deadline\":"
       },
       {
         "lineNumber": 120,
         "author": {
           "gitId": "czkay"
         },
-        "content": "                throw new EmptyDescriptionException(\"OOPS!!! You missed out the time of the event task.\");"
+        "content": "            String[] description;"
       },
       {
         "lineNumber": 121,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            }"
+        "content": "            description \u003d parameters[1].split(\" /by \");"
       },
       {
         "lineNumber": 122,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d new AddTaskCommand(new Event(description[0], description[1]));"
+        "content": "            if (description.length \u003d\u003d 1) {"
       },
       {
         "lineNumber": 123,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            break;"
+        "content": "                throw new EmptyDescriptionException(\"OOPS!!! You missed out the time of the deadline task.\");"
       },
       {
         "lineNumber": 124,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        default:"
+        "content": "            }"
       },
       {
         "lineNumber": 125,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            throw new InvalidInputException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
+        "content": "            command \u003d new AddTaskCommand(new Deadline(description[0], description[1]));"
       },
       {
         "lineNumber": 126,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        }"
+        "content": "            break;"
       },
       {
         "lineNumber": 127,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        return command;"
+        "content": "        case \"event\":"
       },
       {
         "lineNumber": 128,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    }"
+        "content": "            description \u003d parameters[1].split(\" /at \");"
       },
       {
         "lineNumber": 129,
         "author": {
           "gitId": "czkay"
         },
-        "content": ""
+        "content": "            if (description.length \u003d\u003d 1) {"
       },
       {
         "lineNumber": 130,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    /**"
+        "content": "                throw new EmptyDescriptionException(\"OOPS!!! You missed out the time of the event task.\");"
       },
       {
         "lineNumber": 131,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * Parses the user command."
+        "content": "            }"
       },
       {
         "lineNumber": 132,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     *"
+        "content": "            command \u003d new AddTaskCommand(new Event(description[0], description[1]));"
       },
       {
         "lineNumber": 133,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * @param userInput The raw input given by the user."
+        "content": "            break;"
       },
       {
         "lineNumber": 134,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * @return A Command that varies based on the user input."
+        "content": "        default:"
       },
       {
         "lineNumber": 135,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     * @throws DukeException If the user input is invalid."
+        "content": "            throw new InvalidInputException(\"OOPS!!! I\u0027m sorry, but I don\u0027t know what that means :-(\");"
       },
       {
         "lineNumber": 136,
         "author": {
           "gitId": "czkay"
         },
-        "content": "     */"
+        "content": "        }"
       },
       {
         "lineNumber": 137,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    public static Command parse(String userInput) throws DukeException {"
+        "content": "        return command;"
       },
       {
         "lineNumber": 138,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        String[] parameters \u003d userInput.split(\" \", 2);"
+        "content": "    }"
       },
       {
         "lineNumber": 139,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        assert parameters.length \u003e 0 : \"There must be at least 1 potential parameter in the input.\";"
+        "content": ""
       },
       {
         "lineNumber": 140,
         "author": {
           "gitId": "czkay"
         },
-        "content": ""
+        "content": "    /**"
       },
       {
         "lineNumber": 141,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        Optional\u003cCommand\u003e command \u003d Parser.findOneParameterCommand(parameters);"
+        "content": "     * Parses the user command."
       },
       {
         "lineNumber": 142,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        if (command.isEmpty()) {"
+        "content": "     *"
       },
       {
         "lineNumber": 143,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            command \u003d Parser.findTwoParameterCommand(parameters);"
+        "content": "     * @param userInput The raw input given by the user."
       },
       {
         "lineNumber": 144,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            if (command.isEmpty()) {"
+        "content": "     * @return A Command that varies based on the user input."
       },
       {
         "lineNumber": 145,
         "author": {
           "gitId": "czkay"
         },
-        "content": "                return Parser.findThreeParameterCommand(parameters);"
+        "content": "     * @throws DukeException If the user input is invalid."
       },
       {
         "lineNumber": 146,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            } else {"
+        "content": "     */"
       },
       {
         "lineNumber": 147,
         "author": {
           "gitId": "czkay"
         },
-        "content": "                return command.get();"
+        "content": "    public static Command parse(String userInput) throws DukeException {"
       },
       {
         "lineNumber": 148,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            }"
+        "content": "        String[] parameters \u003d userInput.split(\" \", 2);"
       },
       {
         "lineNumber": 149,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        } else {"
+        "content": "        assert parameters.length \u003e 0 : \"There must be at least 1 potential parameter in the input.\";"
       },
       {
         "lineNumber": 150,
         "author": {
           "gitId": "czkay"
         },
-        "content": "            return command.get();"
+        "content": ""
       },
       {
         "lineNumber": 151,
         "author": {
           "gitId": "czkay"
         },
-        "content": "        }"
+        "content": "        Optional\u003cCommand\u003e command \u003d Parser.findOneParameterCommand(parameters);"
       },
       {
         "lineNumber": 152,
         "author": {
           "gitId": "czkay"
         },
-        "content": "    }"
+        "content": "        if (command.isEmpty()) {"
       },
       {
         "lineNumber": 153,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "            command \u003d Parser.findTwoParameterCommand(parameters);"
+      },
+      {
+        "lineNumber": 154,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "            if (command.isEmpty()) {"
+      },
+      {
+        "lineNumber": 155,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "                return Parser.findThreeParameterCommand(parameters);"
+      },
+      {
+        "lineNumber": 156,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "            } else {"
+      },
+      {
+        "lineNumber": 157,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "                return command.get();"
+      },
+      {
+        "lineNumber": 158,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "            }"
+      },
+      {
+        "lineNumber": 159,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "        } else {"
+      },
+      {
+        "lineNumber": 160,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "            return command.get();"
+      },
+      {
+        "lineNumber": 161,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "        }"
+      },
+      {
+        "lineNumber": 162,
+        "author": {
+          "gitId": "czkay"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 163,
         "author": {
           "gitId": "czkay"
         },
@@ -5446,7 +5523,7 @@
       }
     ],
     "authorContributionMap": {
-      "czkay": 153
+      "czkay": 163
     }
   },
   {
@@ -5640,7 +5717,7 @@
         "author": {
           "gitId": "czkay"
         },
-        "content": "            tasks.createReminders();"
+        "content": "            tasks.updateReminders();"
       },
       {
         "lineNumber": 28,
@@ -6825,7 +6902,7 @@
         "author": {
           "gitId": "czkay"
         },
-        "content": "    public void createReminders() {"
+        "content": "    public void updateReminders() {"
       },
       {
         "lineNumber": 126,
